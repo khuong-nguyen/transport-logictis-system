@@ -25,6 +25,8 @@ class CreateBookingContainerDetailsTable extends Migration
             $table->decimal('weight');
             $table->decimal('vgm');
             $table->decimal('measure');
+            $table->string('st', 30);
+            $table->string('rf', 30);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->timestamps();
