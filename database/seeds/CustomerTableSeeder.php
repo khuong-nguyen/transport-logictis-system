@@ -5,7 +5,7 @@ class CustomerTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('container')->insert([
+        DB::table('customer')->insert([
             'customer_legal_english_name' => 'My Friend Co.',
             'customer_language_name' => 'Ban Toi',
             'customer_address' => '74/4 Tran Hung Dao P2, Q5',
