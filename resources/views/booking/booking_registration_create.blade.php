@@ -11,13 +11,10 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">@lang('sidebar.booking_registration')</div>
-
                 <div class="card-body">
-                    <form action="/booking/registration{{ $booking ?? ''}}" method="post">
+                    <form action="/booking/registration{{ isset($booking) ? '/'.$booking->id :''}}" method="post">
                         @csrf
-                        @if(isset($booking))
-                            @method('PUT')
-                        @endif
+                        @if(isset($booking))  @method('PUT') @endif
                         <div class="row">
                             <div class="col">
                                 <div class="nav-tabs-boxed form-group">
@@ -35,10 +32,12 @@
                                                                 <label class="col-form-label required" for="booking_no">BKG No</label>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <input class="form-control" name="booking[booking_no]" id="booking_no" type="text">
+                                                                <input class="form-control @if($errors->has('booking.booking_no')) is-invalid @endif" name="booking[booking_no]" id="booking_no" type="text"
+                                                                       value="{{ old('booking.booking_no') ?? $booking->booking_no ?? '' }}" required>
+                                                                @error('booking.booking_no')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                             </div>
                                                             <div class="col-md-2">
-                                                                <label class="col-form-label required" for="virtual_booking_no">Virtual BKG No</label>
+                                                                <label class="col-form-label required"  for="virtual_booking_no">Virtual BKG No</label>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <input class="form-control" id="virtual_booking_no" type="text" name="virtual_booking_no">
@@ -46,63 +45,79 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-2">
-                                                                <label class="col-form-label" for="tvvd">T/VVD:</label>
+                                                                <label class="col-form-label required" for="tvvd">T/VVD:</label>
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" id="tvvd" type="text" name="booking[tvvd]">
+                                                                <input class="form-control @if($errors->has('booking.tvvd')) is-invalid @endif" id="tvvd" type="text" name="booking[tvvd]" required value="{{ old('booking.tvvd') ?? $booking->tvvd ?? '' }}">
+                                                                @error('booking.tvvd')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-2">
-                                                                <label class="col-form-label" for="por_1">POR</label>
+                                                                <label class="col-form-label required" for="por_1">POR</label>
                                                             </div>
-                                                            <div class="col-md-1 form-group">
-                                                                <input class="form-control" id="por_1" type="text" name="booking[por_1]">
+                                                            <div class="col-md-2 form-group">
+                                                                <input class="form-control @if($errors->has('booking.por_1')) is-invalid @endif" id="por_1" type="text" name="booking[por_1]" value="{{ old('booking.por_1') ?? $booking->por_1 ?? '' }}">
+                                                                @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-1 form-group">
-                                                                <input class="form-control" id="por_2" type="text" name="booking[por_2]">
+                                                            <div class="col-md-2 form-group">
+                                                                <input class="form-control @if($errors->has('booking.por_2')) is-invalid @endif" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}">
+                                                                @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-2 ">
-                                                                <label class="col-form-label" for="pol_1">POL</label>
+                                                            <div class="col-md-1"></div>
+                                                           <!-- <div class="col-md-2 "> -->
+                                                                <label class="col-form-label required" for="pol_1">POL</label>
+                                                            <!--</div>-->
+                                                            <div class="col-md-2 form-group">
+                                                                <input class="form-control  @if($errors->has('booking.pol_1')) is-invalid @endif" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}">
+                                                                @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-1 form-group">
-                                                                <input class="form-control" id="pol_1" type="text" name="booking[pol_1]">
+                                                            <div class="col-md-2 form-group">
+                                                                <input class="form-control" id="pol_2" type="text" name="booking[pol_2]" value="{{ old('booking.pol_2') ?? $booking->pol_2 ?? '' }}">
                                                             </div>
-                                                            <div class="col-md-1 form-group">
-                                                                <input class="form-control" id="pol_2" type="text" name="booking[pol_2]">
+
+
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <div class="col-md-2">
+                                                                <label class="col-form-label required" for="pod_1">POD</label>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <label class="col-form-label" for="text-input">R/D Term</label>
+                                                            <div class="col-md-2 form-group">
+                                                                <input class="form-control @if($errors->has('booking.pod_1')) is-invalid @endif" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}">
+                                                                @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
+                                                            <div class="col-md-2 form-group">
+                                                                <input class="form-control" id="pod_2" type="text" name="booking[pod_2]" value="{{ old('booking.pod_2') ?? $booking->pod_2 ?? '' }}">
+                                                            </div>
+                                                            <div class="col-md-1">
+
+                                                            </div>
+                                                            <!-- <div class="col-md-2 "> -->
+                                                                <label class="col-form-label required" for="del_1">DEL</label>
+                                                            <!--</div> -->
+                                                            <div class="col-md-2 form-group">
+                                                                <input class="form-control @if($errors->has('booking.del_1')) is-invalid @endif" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}">
+                                                                @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                            </div>
+                                                            <div class="col-md-2 form-group">
+                                                                <input class="form-control" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}">
+                                                            </div>
+
 
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-2">
-                                                                <label class="col-form-label" for="pod_1">POD</label>
-                                                            </div>
-                                                            <div class="col-md-1 form-group">
-                                                                <input class="form-control" id="pod_1" type="text" name="booking[pod_1]">
-                                                            </div>
-                                                            <div class="col-md-1 form-group">
-                                                                <input class="form-control" id="pod_2" type="text" name="booking[pod_2]">
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <label class="col-form-label" for="del_1">DEL</label>
-                                                            </div>
-                                                            <div class="col-md-1 form-group">
-                                                                <input class="form-control" id="del_1" type="text" name="booking[del_1]">
-                                                            </div>
-                                                            <div class="col-md-1 form-group">
-                                                                <input class="form-control" id="del_2" type="text" name="booking[del_2]">
+                                                                <label class="col-form-label required" for="text-input">R/D Term</label>
                                                             </div>
                                                             <div class="col-md-2 form-group">
-                                                                <input class="form-control" id="r_d_term_1" type="text" name="booking[r_d_term_1]">
+                                                                <input class="form-control @if($errors->has('booking.r_d_term_1')) is-invalid @endif" id="r_d_term_1" type="text" name="booking[r_d_term_1]" value="{{ old('booking.r_d_term_1') ?? $booking->r_d_term_1 ?? '' }}">
+                                                                @error('booking.r_d_term_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
                                                             <div class="col-md-2 form-group">
-                                                                <input class="form-control" id="r_d_term_2" type="text" name="booking[r_d_term_2]">
+                                                                <input class="form-control" id="r_d_term_2" type="text" name="booking[r_d_term_2]" value="{{ old('booking.r_d_term_2') ?? $booking->r_d_term_2 ?? '' }}">
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-4">
@@ -112,11 +127,14 @@
                                                             </div>
 
                                                             <div class="col-md-5 form-group">
-                                                                <input class="form-control" id="b_l_no" type="text" name="booking[b_l_no]">
+                                                                <input class="form-control @if($errors->has('booking.b_l_no')) is-invalid @endif" id="b_l_no" type="text" name="booking[b_l_no]"
+                                                                       value="{{old('booking.b_l_no') ?? $booking->b_l_no ?? ''}}"
+                                                                >
+                                                                @error('booking.b_l_no')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                             </div>
 
                                                             <div class="custom-control custom-checkbox col-md-2">
-                                                                <input class="custom-control-input" id="si" type="checkbox" value="0" name="booking[si]">
+                                                                <input class="custom-control-input" id="si" type="checkbox" value="0" name="booking[si]" >
                                                                 <label class="custom-control-label" for="si">SI</label>
                                                             </div>
 
@@ -131,15 +149,15 @@
                                                             </div>
 
                                                             <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="SHBR[country]" disabled>
+                                                                <input class="form-control" type="text" name="SHBR[country]" disabled >
                                                             </div>
 
                                                             <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="SHBR[code]" disabled>
+                                                                <input class="form-control" type="text" name="SHBR[code]" disabled >
                                                             </div>
 
                                                             <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="SHBR[full]" disabled>
+                                                                <input class="form-control" type="text" name="SHBR[full]" disabled >
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -179,14 +197,18 @@
                                                     </div>
                                                 </div>
                                                 <div class="row col-md-12">
-                                                    <div class="col-md-3"></div>
-                                                    <div class="col-md-3"></div>
-                                                    <div class="col-md-3"></div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-4">
                                                         <div class="row">
-                                                            <div class="col-md-4">  <label class="col-form-label" for="cmdt_1">CMDT</label></div>
-                                                            <div class="col-md-4 form-group"><input class="form-control" id="cmdt_1" type="text" name="booking[cmdt_1]"></div>
-                                                            <div class="col-md-4 form-group"><input class="form-control" id="cmdt_2" type="text" name="booking[cmdt_2]"></div>
+                                                            <div class="col-md-4">  <label class="col-form-label required" for="cmdt_1">CMDT</label></div>
+                                                            <div class="col-md-4 form-group">
+                                                                <input class="form-control @if($errors->has('booking.booking_no')) is-invalid @endif" id="cmdt_1" type="text" name="booking[cmdt_1]" value="{{old('booking.cmdt_1') ?? $booking->cmdt_1 ?? ''}} " >
+                                                                @error('booking.booking_no')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                            </div>
+                                                            <div class="col-md-4 form-group">
+                                                                <input class="form-control" id="cmdt_2" type="text" name="booking[cmdt_2]" value="{{old('booking.cmdt_2') ?? $booking->cmdt_2 ?? ''}}" >
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -199,14 +221,14 @@
                                                             <label class="col-md-12 col-form-label" for="TotalVol">Total Vol</label>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <input class="form-control" id="TotalVol" type="text" name="TotalVol" disabled>
+                                                            <input class="form-control" id="TotalVol" type="text" value="0" name="TotalVol" disabled >
                                                         </div>
                                                         <div class="col-md-2"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row col-md-12 ">
                                                         <div class="col-md-5">
-                                                            <table class="table table-responsive-sm table-bordered">
+                                                            <table class="table table-responsive-sm table-bordered" id="container_table">
                                                                 <thead>
                                                                 <tr>
                                                                     <th>TP/SZ</th>
@@ -218,18 +240,15 @@
                                                                 </thead>
                                                                 <tbody>
                                                                 <tr>
-                                                                    <td>D2</td>
-                                                                    <td>30.00</td>
-                                                                    <td>0.00</td>
-                                                                    <td>0.00</td>
-                                                                    <td>Del</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>D2</td>
-                                                                    <td>30.00</td>
-                                                                    <td>0.00</td>
-                                                                    <td>0.00</td>
-                                                                    <td>Del</td>
+                                                                    <td>
+                                                                        <select class="form-control select2" id="select1" style="width: 100%;" name="select1"></select>
+                                                                    </td>
+                                                                    <td><input type="text" class="form-control" id="container_vol"></td>
+                                                                    <td><input type="text" class="form-control" id="container_eq_sub"></td>
+                                                                    <td><input type="text" class="form-control" id="container_soc"></td>
+                                                                    <td>
+                                                                        <button class="btn btn-sm btn-primary" id="add_container" type="button">Add</button>
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
@@ -241,30 +260,30 @@
                                                                         <label class="custom-control-label" for="fh">Fh</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-4 form-group">
-                                                                    <button class="btn btn-block btn-primary" type="button">Add row</button>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-7">
                                                             <div class="form-group row">
                                                                 <div class="col-md-2">
-                                                                    <label class="col-form-label" for="weight">Weight</label>
+                                                                    <label class="col-form-label required form-group" for="weight">Weight</label>
                                                                 </div>
                                                                 <div class="col-md-2 form-group">
-                                                                    <input class="form-control" id="weight" type="text" name="booking[weight]">
+                                                                    <input class="form-control @if($errors->has('booking.weight')) is-invalid @endif" id="weight" type="text" name="booking[weight]" value="{{old('booking.weight') ?? $booking->weight ?? ''}}">
+                                                                    @error('booking.weight')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                 </div>
                                                                 <div class="col-md-2 form-group">
-                                                                    <input class="form-control" type="number" name="booking[unit]" min="0">
+                                                                    <input class="form-control @if($errors->has('booking.unit')) is-invalid @endif" type="number" name="booking[unit]" min="0" value="{{old('booking.unit') ?? $booking->unit ?? ''}}">
+                                                                    @error('booking.unit')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                 </div>
                                                                 <div class="col-md-2 ">
-                                                                    <label class="col-form-label" for="lofc_1">L.OFC/Rep.:</label>
+                                                                    <label class="col-form-label required" for="lofc_1">L.OFC/Rep.:</label>
                                                                 </div>
                                                                 <div class="col-md-2 form-group">
-                                                                    <input class="form-control" id="lofc_1" type="text" name="booking[lofc_1]">
+                                                                    <input class="form-control @if($errors->has('booking.lofc_1')) is-invalid @endif" id="lofc_1" type="text" name="booking[lofc_1]" value="{{old('booking.lofc_1') ?? $booking->lofc_1 ?? ''}}">
+                                                                    @error('booking.lofc_1')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                 </div>
                                                                 <div class="col-md-2 form-group">
-                                                                    <input class="form-control" type="text" name="booking[lofc_2]">
+                                                                    <input class="form-control" type="text" name="booking[lofc_2]"  value="{{old('booking.lofc_2') ?? $booking->lofc_2 ?? ''}}">
                                                                 </div>
 
                                                             </div>
@@ -279,9 +298,10 @@
                                                             <label class="col-md-12 col-form-label" for="text-input">Planned Delvery Schedule</label>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label" for="sailling_due_date">Sailling Due Date</label>
+                                                            <label class="col-md-6 col-form-label required" for="sailling_due_date">Sailling Due Date</label>
                                                             <div class="col-md-6 input-group date">
-                                                                <input class="form-control" id="sailling_due_date" type="text" name="booking[sailling_due_date]">
+                                                                <input class="form-control @if($errors->has('booking.sailling_due_date')) is-invalid @endif " id="sailling_due_date" required type="text" name="booking[sailling_due_date]">
+                                                                @error('booking.sailling_due_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                             </div>
                                                         </div>
                                                     </div>
@@ -292,11 +312,11 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-6 col-form-label" for="pick_up_cy">M'Ty Pick up CY </label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="pick_up_cy" type="text" name="booking[pick_up_cy]">
+                                                                <input class="form-control " id="pick_up_cy" type="text" name="booking[pick_up_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label" for="pick_up_dt">M'Ty Pick up DT </label>
+                                                            <label class="col-md-6 col-form-label @if($errors->has('booking.sailling_due_date')) is-invalid @endif" for="pick_up_dt">M'Ty Pick up DT </label>
                                                             <div class="col-md-6">
                                                                 <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]">
                                                             </div>
@@ -304,7 +324,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-6 col-form-label" for="full_return_cy">Full Return CY</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="full_return_cy" type="text" name="booking[full_return_cy]">
+                                                                <input class="form-control" id="full_return_cy" type="text" name="booking[full_return_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
                                                             </div>
                                                         </div>
 
@@ -316,19 +336,19 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-6 col-form-label" for="bkg_contact_name">Contact Name</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="bkg_contact_name" type="text" name="booking['bkg_contact_name']">
+                                                                <input class="form-control" id="bkg_contact_name" type="text" name="booking['bkg_contact_name']" value="{{old('booking.bkg_contact_name') ?? $booking->bkg_contact_name ?? ''}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-md-6 col-form-label" for="bkg_contact_email">E-mail </label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="bkg_contact_email" type="text" name="booking[bkg_contact_email]">
+                                                                <input class="form-control" id="bkg_contact_email" type="text" name="booking[bkg_contact_email]" value="{{old('booking.bkg_contact_email') ?? $booking->bkg_contact_email ?? ''}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-md-6 col-form-label" for="bkg_contact_tel">Tel.</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="bkg_contact_tel" type="text" name="booking[bkg_contact_tel]">
+                                                                <input class="form-control" id="bkg_contact_tel" type="text" name="booking[bkg_contact_tel]" value="{{old('booking.bkg_contact_tel') ?? $booking->bkg_contact_tel ?? ''}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -354,14 +374,14 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-2 col-form-label" for="ext_remark">Ext Remark</label>
                                                             <div class="col-md-9">
-                                                                <textarea class="form-control" id="ext_remark" name="booking[ext_remark]" rows="9" placeholder="Content.."></textarea>                                                            </div>
+                                                                <textarea class="form-control" id="ext_remark" name="booking[ext_remark]" rows="9" placeholder="Content..">{{old('booking.ext_remark') ?? $booking->ext_remark ?? ''}}</textarea>                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
                                                             <label class="col-md-2 col-form-label" for="int_remark"> Int Remark</label>
                                                             <div class="col-md-10">
-                                                                <textarea class="form-control" id="int_remark" name="booking[int_remark]" rows="9" placeholder="Content.."></textarea>                                                            </div>
+                                                                <textarea class="form-control" id="int_remark" name="booking[int_remark]" rows="9" placeholder="Content..">{{old('booking.int_remark') ?? $booking->int_remark ?? ''}}</textarea>                                                            </div>
                                                         </div>
                                                     </div>
                                             </div>
@@ -374,31 +394,33 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Shiper</label>
+                                                                        <input type="hidden" value="" id="shipper_id" name="booking[shipper_id]">
+                                                                        <label class="col-form-label" for="shiper_country">Shiper</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="shiper_country" type="text" name="shiper_country">
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="shiper_code" type="text" name="shiper_code">
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <button type="button" class="btn btn-primary">Search</button>                                                                </div>
-                                                                    </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Name</label>
-                                                                    </div>
-                                                                    <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <button type="button" class="btn btn-primary" id="shiper_search">Search</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Address</label>
+                                                                        <label class="col-form-label" for="customer_legal_english_name">Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="customer_legal_english_name" type="text" name="shiper[customer_legal_english_name]" disabled>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="customer_address">Address</label>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <input class="form-control" id="customer_address" type="text" name="shiper[customer_address]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -407,29 +429,29 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">City/Stage</label>
+                                                                        <label class="col-form-label" for="city">City/Stage</label>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="city" type="text" name="shiper[city]" disabled>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="location_code" type="text" name="shiper[location_code]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Country</label>
+                                                                        <label class="col-form-label" for="country_code">Country</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="country_code" type="text" name="shiper[country_code]" disabled>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Zip Code</label>
+                                                                        <label class="col-form-label" for="zip_code">Zip Code</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="zip_code" type="text" name="shiper[zip_code]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -441,7 +463,7 @@
                                                                         <label class="col-form-label" for="text-input">Street/P.O  Box</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="text-input" type="text" name="text-input" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -450,10 +472,10 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Fax</label>
+                                                                        <label class="col-form-label" for="fax">Fax</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="fax" type="text" name="shiper[fax]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -463,7 +485,7 @@
                                                                         <label class="col-form-label" for="text-input">Email</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="text-input" type="text" name="text-input" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -472,10 +494,10 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Tel</label>
+                                                                        <label class="col-form-label" for="tel">Tel</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="tel" type="text" name="shiper[tel]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -486,32 +508,33 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
+                                                                        <input type="hidden" value="" name="booking[consignee_id]" id="consignee_id">
                                                                         <label class="col-form-label" for="text-input">Consignee</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_country" type="text" name="consignee_country">
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_code" type="text" name="consignee_code">
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <button type="button" class="btn btn-primary">Search</button>
+                                                                        <button type="button" class="btn btn-primary" id="consignee_search">Search</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Name</label>
+                                                                        <label class="col-form-label" for="consignee_name">Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_customer_legal_english_name" type="text" name="consignee[customer_legal_english_name]" disabled>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Address</label>
+                                                                        <label class="col-form-label" for="consignee_customer_address">Address</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_customer_address" type="text" name="consignee[customer_address]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -521,41 +544,29 @@
                                                             <div class="col-md-6">
                                                                 <div class="row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">City/Stage</label>
+                                                                        <label class="col-form-label" for="consignee_city">City/Stage</label>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_city" type="text" name="consignee[city]" disabled>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_location_code" type="text" name="consignee[location_code]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Country</label>
+                                                                        <label class="col-form-label" for="consignee_country_code">Country</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_country_code" type="text" name="consignee[country_code]" disabled>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Zip Code</label>
+                                                                        <label class="col-form-label" for="consignee_zip_code">Zip Code</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <div class="col-md-6">
-                                                                <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Street/P.O  Box</label>
-                                                                    </div>
-                                                                    <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_zip_code" type="text" name="consignee[zip_code]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -564,10 +575,22 @@
                                                             <div class="col-md-6">
                                                                 <div class="row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Fax</label>
+                                                                        <label class="col-form-label" for="consignee_street">Street/P.O  Box</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_street" type="text" name="consignee[street]" disabled>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="consignee_fax">Fax</label>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <input class="form-control" id="consignee_fax" type="text" name="consignee[fax]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -577,7 +600,7 @@
                                                                         <label class="col-form-label" for="text-input">Email</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="text-input" type="text" name="text-input" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -586,10 +609,10 @@
                                                             <div class="col-md-6">
                                                                 <div class="row">
                                                                     <div class="col-md-3">
-                                                                        <label class=col-form-label" for="text-input">Tel</label>
+                                                                        <label class=col-form-label" for="consignee_tel">Tel</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" placeholder="Text">
+                                                                        <input class="form-control" id="consignee_tel" type="text" name="consignee[tel]" disabled>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -601,18 +624,18 @@
                                                     <div class="card-body border">
                                                         <div class="form-group row">
                                                             <div class="col-md-3">
-                                                                <label class="col-form-label" for="forwarder">Forwarder</label>
+                                                                <label class="col-form-label" for="forwarder_country">Forwarder</label>
                                                             </div>
                                                             <div class="col-md-9">
                                                                 <div class="form-row row">
                                                                     <div class="col-sm-4">
-                                                                        <input class="form-control" id="forwarder" type="text" name="forwarder[country]">
+                                                                        <input class="form-control" id="forwarder_country" type="text" name="forwarder[country]">
                                                                     </div>
                                                                     <div class="col-sm-4">
-                                                                        <input class="form-control" id="text-input" type="text" name="forwarder[code]">
+                                                                        <input class="form-control" id="forwarder_code" type="text" name="forwarder[code]">
                                                                     </div>
                                                                     <div class="col-md-4">
-                                                                        <button type="button" class="btn btn-primary">Search</button>
+                                                                        <button type="button" class="btn btn-primary" id="forwarder_search">Search</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -668,14 +691,101 @@
         $(function () {
             $('#sailling_due_date').datetimepicker({
                 viewMode: 'days',
-                format: 'DD/MM/YYYY',
+                format: 'YYYY-MM-DD',
                 date: new Date()
             });
             $('#pick_up_dt').datetimepicker({
                 viewMode: 'days',
-                format: 'DD/MM/YYYY',
+                format: 'YYYY-MM-DD',
                 date: new Date()
             });
+
+            $('#select1').select2({
+                placeholder: "Select a state",
+                ajax: {
+                    url: "/api/container/code",
+                    dataType: "json",
+                    delay: 200,
+                    data: function (params) {
+                        return {
+                            search: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $("#add_container").click(function(){
+                var selected = $("#select1 option:selected").val();
+                var vol = $('#container_vol').val();
+                if (selected){
+                    $('#container_table tr:last').after('<tr>'+
+                        '<td>' + '<input type="hidden" value="'+selected+'">'+
+                        '<label class="col-form-label">'+$("#select1 option:selected" ).text()+'</label>' +
+                        '</td>\n' +
+                        '<td><input type="number" min="0" class="form-control" name="container['+selected+'][vol]"  value="'+vol+'"></td>\n' +
+                        '<td><input type="text" class="form-control" name="container['+selected+'][vol]" value="'+$('#container_eq_sub').val()+'"></td>\n' +
+                        '<td><input type="text" class="form-control" name="container['+selected+'][vol]" value="'+$('#container_soc').val()+'"></td>\n' +
+                        '<td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onClick="remove(this)">Delete</button></td>'
+                        +'</tr>');
+                    $('#container_vol').val(0);
+                    $('#container_eq_sub').val('');
+                    $('#container_soc').val('')
+
+                    var total = parseFloat($('#TotalVol').val());
+                    total += parseFloat(vol);
+                    $('#TotalVol').val(total);
+
+                }else {
+                }
+            });
+
+            $('#shiper_search').click(function (){
+                $.ajax({
+                    url: "/api/customer/code",
+                    dataType: "json",
+                    method: 'get',
+                    data: {
+                        country: $('#shiper_country').val(),
+                        code: $('#shiper_code').val()
+                    },
+                    success: function (result) {
+                        $('#shipper_id').val(result.id);
+                        $.each(result, function (key, value) {
+                            $('#'+key).val(value);
+                        })
+                    }
+                });
+            })
+
+            $('#consignee_search').click(function (){
+                $.ajax({
+                    url: "/api/customer/code",
+                    dataType: "json",
+                    method: 'get',
+                    data: {
+                        country: $('#consignee_country').val(),
+                        code: $('#consignee_code').val()
+                    },
+                    success: function (result) {
+                        $('#consignee_id').val(result.id);
+                        $.each(result, function (key, value) {
+                            $('#consignee_'+key).val(value);
+                        })
+                    }
+                });
+            })
+
         });
+        function remove(elem){
+            $(elem).parent('td').parent('tr').remove();
+        }
     </script>
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/select2.full.min.js') }}"></script>
 @endsection

@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['namespace' => 'Api'], function($lang=null) {
+    Route::get('/container/code', 'ContainerApiController@search');
+    Route::get('/customer/code', 'CustomerApiController@search');
+});
