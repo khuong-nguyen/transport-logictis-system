@@ -3,6 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\CustomerRepository;
+use App\Repositories\BookingRepository;
+use App\Repositories\Eloquent\EloquentCustomerRepository;
+use App\Repositories\Eloquent\EloquentBookingRepository;
+use App\Customer;
+use App\Booking;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +19,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            CustomerRepository::class,
+            function () {
+                return  new EloquentCustomerRepository(new Customer());
+            }
+        );
+
+        $this->app->bind(
+            BookingRepository::class,
+            function () {
+                return new EloquentBookingRepository(new Booking());
+            }
+        );
     }
 
     /**

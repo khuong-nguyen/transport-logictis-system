@@ -12,27 +12,33 @@
     <title>Logistics - @yield('title')</title>
 
     <!-- Styles -->
+    <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bootstrap/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('coreui/css/coreui.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
 
 </head>
 <body class="c-app">
 
-    @include('layout.sidebar')
-    <div class="c-wrapper c-fixed-components">
-        @include('layout.header')
-        <div class="c-body">
-            <main class="c-main">
-                <div class="container-fluid">
-                    <div class="fade-in">
-                        @yield('content')
-                    </div>
+@include('layout.sidebar')
+<div class="c-wrapper c-fixed-components">
+    @include('layout.header')
+    <div class="c-body">
+        <main class="c-main">
+            <div class="container-fluid">
+                <div class="fade-in">
+                    @yield('content')
                 </div>
-            </main>
-        </div>
-    @include('layout.footer')
+            </div>
+        </main>
     </div>
+    @include('layout.footer')
+</div>
 
 <!-- Scripts -->
+<script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('bootstrap/js/moment.min.js') }}"></script>
+<script src="{{ asset('bootstrap/js/bootstrap-datetimepicker.min.js') }}"></script>
 <script src="{{ asset('coreui/js/coreui.bundle.min.js') }}"></script>
 </body>
 </html>
