@@ -27,7 +27,7 @@ class CreateBookingContainerDetailsTable extends Migration
             $table->decimal('vgm');
             $table->decimal('measure');
             $table->string('st', 30); //[MT,OP,OC,VL,IC,ID]
-            $table->integer('rf', 30)->nullable();
+            $table->boolean('rf')->default(false);
             $table->boolean('scheduled')->default(false);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
