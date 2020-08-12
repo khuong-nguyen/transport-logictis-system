@@ -54,6 +54,7 @@ class CreateBookingTable extends Migration
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('approved_by')->nullable();
+            $table->string('schedule_status')->default('EMPTY');//[EMPTY,PARTIAL,FULL]
             $table->timestamps();
         });
     }
