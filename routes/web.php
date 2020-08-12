@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::group([
+//    'prefix' => '{locale?}',
+//    'where' => ['locale' => '[a-zA-Z]{2}'],
+//    'middleware' => 'language'], function($lang=null) {
+//});
+
+Route::get('/', 'DashboardController@home');
+Route::group(['prefix' => 'booking','namespace' => 'Booking'],function (){
+    Route::get('/registration', 'BookingRegistrationController@create');
+    Route::post('/registration', 'BookingRegistrationController@store');
+    Route::get('/registration/{id}', 'BookingRegistrationController@edit');
+    Route::put('/registration/{id}', 'BookingRegistrationController@update');
 });
