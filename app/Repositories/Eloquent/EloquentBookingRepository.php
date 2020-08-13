@@ -28,15 +28,18 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
 
     /**
      * @param string|null $string
-     * @return array
+     * @return array|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
     public function search(?string $string)
     {
-        $query = $this->model->query();
-        if ($string != ''){
-            $query->where('booking_no', "{$string}");
+
+        if ($string != '')
+        {
+            return $this->model->with(['containerBookings' => function($q) {
+                $q->with('details', 'container');
+            }])->where('booking_no', "{$string}")->first();
         }
-        return $query->first();
+        return [];
 
     }
 }

@@ -41,10 +41,16 @@ class BookingContainerRegistrationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $search = '';
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $bookingContainerDetails = $this->bookingRepository->search($search,'');
+            $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails:[];
+        }
         $container = $this->bookingRepository->all();
-        return view('transport.booking_container_registration_create',compact('container'));
+        return view('transport.booking_container_registration_create',compact('bookingContainerDetails', 'container', 'search'));
     }
 
     /**

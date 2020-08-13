@@ -41,4 +41,16 @@ class BookingContainerDetail extends Model
         'booking_status' => 'boolean',
         'si' => 'boolean'
     ];
+
+    public function container() {
+        $this->hasOne(Container::class);
+    }
+
+    public function containerBooking() {
+        $this->hasOne(ContainerBooking::class);
+    }
+
+    public function booking() {
+        $this->hasOne(Booking::class);
+    }
 }
