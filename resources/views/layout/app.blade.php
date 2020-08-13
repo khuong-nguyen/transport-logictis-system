@@ -34,11 +34,13 @@
     </div>
     @include('layout.footer')
 </div>
-
+<!-- Style -->
+<link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
 <!-- Scripts -->
 <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('bootstrap/js/moment.min.js') }}"></script>
 <script src="{{ asset('bootstrap/js/bootstrap-datetimepicker.min.js') }}"></script>
 <script src="{{ asset('coreui/js/coreui.bundle.min.js') }}"></script>
+<script src="{{ asset('js/toastr.min.js') }}"></script>
 </body>
 </html>

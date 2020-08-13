@@ -25,4 +25,18 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
         }
         return $categories->paginate($request->get('per_page', 10));
     }
+
+    /**
+     * @param string|null $string
+     * @return array
+     */
+    public function search(?string $string)
+    {
+        $query = $this->model->query();
+        if ($string != ''){
+            $query->where('booking_no', "{$string}");
+        }
+        return $query->first();
+
+    }
 }

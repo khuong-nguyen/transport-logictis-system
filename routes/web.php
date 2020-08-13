@@ -25,4 +25,10 @@ Route::group(['prefix' => 'booking','namespace' => 'Booking'],function (){
     Route::post('/registration', 'BookingRegistrationController@store');
     Route::get('/registration/{id}', 'BookingRegistrationController@edit');
     Route::put('/registration/{id}', 'BookingRegistrationController@update');
+    Route::group(['prefix' => 'transport'],function (){
+        Route::get('/registration', 'BookingContainerRegistrationController@create');
+        Route::post('/registration', 'BookingRegistrationController@store');
+        Route::get('/registration/{id}', 'BookingRegistrationController@edit');
+        Route::put('/registration/{id}', 'BookingRegistrationController@update');
+    });
 });
