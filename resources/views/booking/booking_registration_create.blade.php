@@ -152,15 +152,15 @@
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" type="text"  value="{{ $shipper->country_code ?? ''}}" name="SHBR[country]" readonly >
+                                                                <input class="form-control" id="SHBR_country_code" type="text"  value="{{ $shipper->country_code ?? ''}}" name="SHBR[country]" readonly >
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" readonly >
+                                                                <input class="form-control" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" readonly >
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" readonly >
+                                                                <input class="form-control" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" readonly >
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -169,15 +169,15 @@
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" type="text" value="{{ $forwarder->country_code ?? ''}}" name="FWDR[country]" readonly>
+                                                                <input class="form-control" id="FWDR_country_code" type="text" value="{{ $forwarder->country_code ?? ''}}" name="FWDR[country]" readonly>
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" readonly>
+                                                                <input class="form-control" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" readonly>
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]" readonly>
+                                                                <input class="form-control" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -186,15 +186,15 @@
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" type="text" value="{{ $consignee->country_code ?? ''}}" name="CNEE[country]" readonly>
+                                                                <input class="form-control" id="CNEE_country_code" type="text" value="{{ $consignee->country_code ?? ''}}" name="CNEE[country]" readonly>
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" readonly>
+                                                                <input class="form-control" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" readonly>
                                                             </div>
 
                                                             <div class="col-md-3">
-                                                                <input class="form-control" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]" readonly>
+                                                                <input class="form-control" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -224,7 +224,7 @@
                                                             <label class="col-md-12 col-form-label" for="TotalVol">Total Vol</label>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <input class="form-control" id="TotalVol" type="text" value="{{ $containers->sum('vol') }}" name="TotalVol" readonly >
+                                                            <input class="form-control" id="TotalVol" type="text" value="{{ isset($containers) ?$containers->sum('vol'):0 }}" name="TotalVol" readonly >
                                                         </div>
                                                         <div class="col-md-2"></div>
                                                     </div>
@@ -262,7 +262,7 @@
                                                                     @foreach($containers as $container)
                                                                         <tr><td><input type="hidden" value="{{$container->id}}" id="container_id_{{$container->container_id}}" name="container[{{$container->container_id}}][id]">
                                                                                 <label class="col-form-label">{{$container->container->container_code}}</label></td>
-                                                                            <td><input type="number" min="0" class="form-control" id="container_vol_9" name="container[{{$container->container_id}}][vol]" value="{{$container->vol}}"></td>
+                                                                            <td><input type="number" min="0" class="form-control" id="container_vol_{{$container->container_id}}" name="container[{{$container->container_id}}][vol]" value="{{$container->vol}}"></td>
                                                                             <td><input type="number" class="form-control" name="container[{{$container->container_id}}][eq_sub]" value="{{$container->eq_sub}}"></td>
                                                                             <td><input type="number" class="form-control" name="container[{{$container->container_id}}][soc]" value="{{$container->soc}}"></td>
                                                                             <td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onclick="remove(this,{{$container->container_id}})">Delete</button></td></tr>
@@ -783,6 +783,9 @@
                         $.each(result, function (key, value) {
                             $('#'+key).val(value);
                         })
+                        $('#SHBR_country_code').val(result.country_code)
+                        $('#SHBR_customer_code').val(result.customer_code)
+                        $('#SHBR_customer_legal_english_name').val(result.customer_legal_english_name)
                     }
                 });
             })
@@ -801,6 +804,9 @@
                         $.each(result, function (key, value) {
                             $('#consignee_'+key).val(value);
                         })
+                        $('#CNEE_country_code').val(result.country_code)
+                        $('#CNEE_customer_code').val(result.customer_code)
+                        $('#CNEE_customer_legal_english_name').val(result.customer_legal_english_name)
                     }
                 });
             })
@@ -817,6 +823,9 @@
                     success: function (result) {
                         $('#forwarder_id').val(result.id);
                         $('#forwarder_customer_address').val(result.customer_address);
+                        $('#FWDR_country_code').val(result.country_code)
+                        $('#FWDR_customer_code').val(result.customer_code)
+                        $('#FWDR_customer_legal_english_name').val(result.customer_legal_english_name)
                     }
                 });
             })
@@ -825,7 +834,9 @@
         function remove(elem,id){
             var vol = $('#container_vol_'+id).val();
             var total = parseFloat($('#TotalVol').val());
+            console.log(total,vol);
             total -= parseFloat(vol);
+            console.log(total);
             $('#TotalVol').val(total);
             containerId.splice(containerId.indexOf(id), 1);
             $(elem).parent('td').parent('tr').remove();
