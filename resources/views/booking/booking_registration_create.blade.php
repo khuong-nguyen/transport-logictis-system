@@ -6,6 +6,9 @@
             content:"*";
             color:red;
         }
+        .error-messages {
+            color: red;
+            font-size: 12px; }
     </style>
     <div class="row">
         <div class="col">
@@ -26,7 +29,7 @@
                                         <div class="tab-pane active" id="tab1" role="tabpanel" aria-labelledby="bkg_tab">
                                             <div class="form-row">
                                                 <div class="row col-md-12">
-                                                    <div class="form-group col-md-8">
+                                                    <div class="col-md-8">
                                                         <div class="form-group row">
                                                             <div class="col-md-2">
                                                                 <label class="col-form-label required" for="booking_no">BKG No</label>
@@ -57,11 +60,11 @@
                                                             <div class="col-md-2">
                                                                 <label class="col-form-label required" for="por_1">POR</label>
                                                             </div>
-                                                            <div class="col-md-2 form-group">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control @if($errors->has('booking.por_1')) is-invalid @endif" id="por_1" type="text" name="booking[por_1]" value="{{ old('booking.por_1') ?? $booking->por_1 ?? '' }}">
                                                                 @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-2 form-group">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control @if($errors->has('booking.por_2')) is-invalid @endif" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}">
                                                                 @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
@@ -69,11 +72,11 @@
                                                            <!-- <div class="col-md-2 "> -->
                                                                 <label class="col-form-label required" for="pol_1">POL</label>
                                                             <!--</div>-->
-                                                            <div class="col-md-2 form-group">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control  @if($errors->has('booking.pol_1')) is-invalid @endif" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}">
                                                                 @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-2 form-group">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control" id="pol_2" type="text" name="booking[pol_2]" value="{{ old('booking.pol_2') ?? $booking->pol_2 ?? '' }}">
                                                             </div>
 
@@ -84,11 +87,11 @@
                                                             <div class="col-md-2">
                                                                 <label class="col-form-label required" for="pod_1">POD</label>
                                                             </div>
-                                                            <div class="col-md-2 form-group">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control @if($errors->has('booking.pod_1')) is-invalid @endif" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}">
                                                                 @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-2 form-group">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control" id="pod_2" type="text" name="booking[pod_2]" value="{{ old('booking.pod_2') ?? $booking->pod_2 ?? '' }}">
                                                             </div>
                                                             <div class="col-md-1">
@@ -97,11 +100,11 @@
                                                             <!-- <div class="col-md-2 "> -->
                                                                 <label class="col-form-label required" for="del_1">DEL</label>
                                                             <!--</div> -->
-                                                            <div class="col-md-2 form-group">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control @if($errors->has('booking.del_1')) is-invalid @endif" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}">
                                                                 @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-2 form-group">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}">
                                                             </div>
 
@@ -120,13 +123,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-md-4">
+                                                    <div class="col-md-4">
                                                         <div class="form-group row">
                                                             <div class="col-md-3">
                                                                 <label class="col-form-label required" for="b_l_no">B/L No</label>
                                                             </div>
 
-                                                            <div class="col-md-5 form-group">
+                                                            <div class="col-md-5">
                                                                 <input class="form-control @if($errors->has('booking.b_l_no')) is-invalid @endif" id="b_l_no" type="text" name="booking[b_l_no]"
                                                                        value="{{old('booking.b_l_no') ?? $booking->b_l_no ?? ''}}"
                                                                 >
@@ -134,12 +137,12 @@
                                                             </div>
 
                                                             <div class="custom-control custom-checkbox col-md-2">
-                                                                <input class="custom-control-input" id="si" type="checkbox" value="0" name="booking[si]" >
+                                                                <input class="custom-control-input" id="si" @if(old('booking.si') == 1 || (isset($booking) && $booking->si ==1)) checked @endif type="checkbox" value="0" name="booking[si]" >
                                                                 <label class="custom-control-label" for="si">SI</label>
                                                             </div>
 
                                                             <div class="custom-control custom-checkbox col-md-2">
-                                                                <input class="custom-control-input" id="brd" type="checkbox" value="0" name="booking[brd]">
+                                                                <input class="custom-control-input" id="brd" @if(old('booking.brd') == 1 || (isset($booking) && $booking->brd ==1)) checked @endif type="checkbox" value="0" name="booking[brd]">
                                                                 <label class="custom-control-label" for="brd">BRD</label>
                                                             </div>
                                                         </div>
@@ -148,16 +151,16 @@
                                                                 <label class="col-form-label">SHBR</label>
                                                             </div>
 
-                                                            <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="SHBR[country]" disabled >
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" id="SHBR_country_code" type="text"  value="{{ $shipper->country_code ?? ''}}" name="SHBR[country]" readonly >
                                                             </div>
 
-                                                            <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="SHBR[code]" disabled >
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" readonly >
                                                             </div>
 
-                                                            <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="SHBR[full]" disabled >
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" readonly >
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -165,16 +168,16 @@
                                                                 <label class="col-form-label" >FWDR</label>
                                                             </div>
 
-                                                            <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="FWDR[country]" disabled>
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" id="FWDR_country_code" type="text" value="{{ $forwarder->country_code ?? ''}}" name="FWDR[country]" readonly>
                                                             </div>
 
-                                                            <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="FWDR[code]" disabled>
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" readonly>
                                                             </div>
 
-                                                            <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="FWDR[full]" disabled>
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -182,16 +185,16 @@
                                                                 <label class="col-form-label" >CNEE</label>
                                                             </div>
 
-                                                            <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="CNEE[country]" disabled>
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" id="CNEE_country_code" type="text" value="{{ $consignee->country_code ?? ''}}" name="CNEE[country]" readonly>
                                                             </div>
 
-                                                            <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="CNEE[code]" disabled>
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" readonly>
                                                             </div>
 
-                                                            <div class="col-md-3 form-group">
-                                                                <input class="form-control" type="text" name="CNEE[full]" disabled>
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -203,8 +206,8 @@
                                                         <div class="row">
                                                             <div class="col-md-4">  <label class="col-form-label required" for="cmdt_1">CMDT</label></div>
                                                             <div class="col-md-4 form-group">
-                                                                <input class="form-control @if($errors->has('booking.booking_no')) is-invalid @endif" id="cmdt_1" type="text" name="booking[cmdt_1]" value="{{old('booking.cmdt_1') ?? $booking->cmdt_1 ?? ''}} " >
-                                                                @error('booking.booking_no')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                                <input class="form-control @if($errors->has('booking.cmdt_1')) is-invalid @endif" id="cmdt_1" type="text" name="booking[cmdt_1]" value="{{old('booking.cmdt_1') ?? $booking->cmdt_1 ?? ''}} " >
+                                                                @error('booking.cmdt_1')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                             </div>
                                                             <div class="col-md-4 form-group">
                                                                 <input class="form-control" id="cmdt_2" type="text" name="booking[cmdt_2]" value="{{old('booking.cmdt_2') ?? $booking->cmdt_2 ?? ''}}" >
@@ -221,7 +224,7 @@
                                                             <label class="col-md-12 col-form-label" for="TotalVol">Total Vol</label>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <input class="form-control" id="TotalVol" type="text" value="0" name="TotalVol" disabled >
+                                                            <input class="form-control" id="TotalVol" type="text" value="{{ isset($containers) ?$containers->sum('vol'):0 }}" name="TotalVol" readonly >
                                                         </div>
                                                         <div class="col-md-2"></div>
                                                     </div>
@@ -239,6 +242,11 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                <tr id="container_error" class="d-none">
+                                                                    <td colspan="5">
+                                                                        <span class="error-messages">The TP/SZ has already been taken</span>
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td>
                                                                         <select class="form-control select2" id="select1" style="width: 100%;" name="select1"></select>
@@ -250,13 +258,23 @@
                                                                         <button class="btn btn-sm btn-primary" id="add_container" type="button">Add</button>
                                                                     </td>
                                                                 </tr>
+                                                                @if(isset($booking) && isset($containers))
+                                                                    @foreach($containers as $container)
+                                                                        <tr><td><input type="hidden" value="{{$container->id}}" id="container_id_{{$container->container_id}}" name="container[{{$container->container_id}}][id]">
+                                                                                <label class="col-form-label">{{$container->container->container_code}}</label></td>
+                                                                            <td><input type="number" min="0" class="form-control" id="container_vol_{{$container->container_id}}" name="container[{{$container->container_id}}][vol]" value="{{$container->vol}}"></td>
+                                                                            <td><input type="number" class="form-control" name="container[{{$container->container_id}}][eq_sub]" value="{{$container->eq_sub}}"></td>
+                                                                            <td><input type="number" class="form-control" name="container[{{$container->container_id}}][soc]" value="{{$container->soc}}"></td>
+                                                                            <td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onclick="remove(this,{{$container->container_id}})">Delete</button></td></tr>
+                                                                    @endforeach
+                                                                @endif
                                                                 </tbody>
                                                             </table>
                                                             <div class="form-group row">
                                                                 <div class="col-md-4"></div>
                                                                 <div class="col-md-4 form-group">
                                                                     <div class="custom-control custom-checkbox col-md-2">
-                                                                        <input class="custom-control-input" id="fh" type="checkbox" value="0" name="booking[fh]">
+                                                                        <input class="custom-control-input" id="fh" @if(old('booking.fh') == 1 || (isset($booking) && $booking->fh ==1) )checked @endif type="checkbox" value="0" name="booking[fh]">
                                                                         <label class="custom-control-label" for="fh">Fh</label>
                                                                     </div>
                                                                 </div>
@@ -272,7 +290,7 @@
                                                                     @error('booking.weight')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                 </div>
                                                                 <div class="col-md-2 form-group">
-                                                                    <input class="form-control @if($errors->has('booking.unit')) is-invalid @endif" type="number" name="booking[unit]" min="0" value="{{old('booking.unit') ?? $booking->unit ?? ''}}">
+                                                                    <input class="form-control @if($errors->has('booking.unit')) is-invalid @endif" type="text" name="booking[unit]" value="{{old('booking.unit') ?? $booking->unit ?? ''}}">
                                                                     @error('booking.unit')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                 </div>
                                                                 <div class="col-md-2 ">
@@ -342,7 +360,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-6 col-form-label" for="bkg_contact_email">E-mail </label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="bkg_contact_email" type="text" name="booking[bkg_contact_email]" value="{{old('booking.bkg_contact_email') ?? $booking->bkg_contact_email ?? ''}}">
+                                                                <input class="form-control" id="bkg_contact_email" type="email" name="booking[bkg_contact_email]" value="{{old('booking.bkg_contact_email') ?? $booking->bkg_contact_email ?? ''}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -356,13 +374,13 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-6 col-form-label" for="BOFC">B.OFC</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="BOFC" type="text" disabled name="BOFC">
+                                                                <input class="form-control" id="BOFC" type="text" readonly name="BOFC">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-md-6 col-form-label" for="BStaff">B.Staff</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="BStaff" type="text" name="BStaff" disabled>
+                                                                <input class="form-control" id="BStaff" type="text" name="BStaff" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -374,14 +392,16 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-2 col-form-label" for="ext_remark">Ext Remark</label>
                                                             <div class="col-md-9">
-                                                                <textarea class="form-control" id="ext_remark" name="booking[ext_remark]" rows="9" placeholder="Content..">{{old('booking.ext_remark') ?? $booking->ext_remark ?? ''}}</textarea>                                                            </div>
+                                                                <textarea class="form-control" id="ext_remark" name="booking[ext_remark]" rows="9" placeholder="Content..">{{old('booking.ext_remark') ?? $booking->ext_remark ?? ''}}</textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
                                                             <label class="col-md-2 col-form-label" for="int_remark"> Int Remark</label>
                                                             <div class="col-md-10">
-                                                                <textarea class="form-control" id="int_remark" name="booking[int_remark]" rows="9" placeholder="Content..">{{old('booking.int_remark') ?? $booking->int_remark ?? ''}}</textarea>                                                            </div>
+                                                                <textarea class="form-control" id="int_remark" name="booking[int_remark]" rows="9" placeholder="Content..">{{old('booking.int_remark') ?? $booking->int_remark ?? ''}}</textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
                                             </div>
@@ -394,17 +414,17 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <input type="hidden" value="" id="shipper_id" name="booking[shipper_id]">
-                                                                        <label class="col-form-label" for="shiper_country">Shiper</label>
+                                                                        <input type="hidden" value="{{$booking->shipper_id ?? ''}}" id="shipper_id" name="booking[shipper_id]">
+                                                                        <label class="col-form-label" for="shipper_country">Shipper</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="shiper_country" type="text" name="shiper_country">
+                                                                        <input class="form-control" id="shipper_country" value="{{old('shipper_country') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_country" @if(isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="shiper_code" type="text" name="shiper_code">
+                                                                        <input class="form-control" id="shipper_code" value="{{old('shipper_code') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_code" @if(isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <button type="button" class="btn btn-primary" id="shiper_search">Search</button>
+                                                                        <button type="button" class="btn btn-primary" id="shipper_search" @if(isset($booking)) disabled @endif>Search</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -412,7 +432,7 @@
                                                                         <label class="col-form-label" for="customer_legal_english_name">Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="customer_legal_english_name" type="text" name="shiper[customer_legal_english_name]" disabled>
+                                                                        <input class="form-control" id="customer_legal_english_name" value="{{old('shipper.customer_legal_english_name') ?? $shipper->customer_legal_english_name ?? ''}}" type="text" name="shipper[customer_legal_english_name]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -420,7 +440,7 @@
                                                                         <label class="col-form-label" for="customer_address">Address</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="customer_address" type="text" name="shiper[customer_address]" disabled>
+                                                                        <input class="form-control" id="customer_address" value="{{old('shipper.customer_address') ?? $shipper->customer_address ?? ''}}" type="text" name="shipper[customer_address]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -432,10 +452,10 @@
                                                                         <label class="col-form-label" for="city">City/Stage</label>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <input class="form-control" id="city" type="text" name="shiper[city]" disabled>
+                                                                        <input class="form-control" id="city" value="{{old('shipper.city') ?? $shipper->city ?? ''}}" type="text" name="shipper[city]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="location_code" type="text" name="shiper[location_code]" disabled>
+                                                                        <input class="form-control" id="location_code" value="{{old('shipper.location_code') ?? $shipper->location_code ?? ''}}" type="text" name="shipper[location_code]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -445,13 +465,13 @@
                                                                         <label class="col-form-label" for="country_code">Country</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="country_code" type="text" name="shiper[country_code]" disabled>
+                                                                        <input class="form-control" id="country_code" value="{{old('shipper.country_code') ?? $shipper->country_code ?? ''}}" type="text" name="shipper[country_code]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <label class="col-form-label" for="zip_code">Zip Code</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="zip_code" type="text" name="shiper[zip_code]" disabled>
+                                                                        <input class="form-control" id="zip_code" value="{{old('shipper.zip_code') ?? $shipper->zip_code ?? ''}}" type="text" name="shipper[zip_code]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -460,10 +480,10 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Street/P.O  Box</label>
+                                                                        <label class="col-form-label" for="post_office_box ">Street/P.O  Box</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" disabled>
+                                                                        <input class="form-control" id="post_office_box" value="{{old('shipper.post_office_box') ?? $shipper->post_office_box ?? ''}}" type="text" name="shipper[post_office_box]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -475,17 +495,17 @@
                                                                         <label class="col-form-label" for="fax">Fax</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="fax" type="text" name="shiper[fax]" disabled>
+                                                                        <input class="form-control" id="fax" value="{{old('shipper.fax') ?? $shipper->fax ?? ''}}" type="text" name="shipper[fax]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Email</label>
+                                                                        <label class="col-form-label" for="shipper_email">Email</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" disabled>
+                                                                        <input class="form-control" id="shipper_email" value="{{old('shipper.email') ?? $shipper->email ?? ''}}" type="email" name="shipper[email]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -497,7 +517,7 @@
                                                                         <label class="col-form-label" for="tel">Tel</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="tel" type="text" name="shiper[tel]" disabled>
+                                                                        <input class="form-control" id="tel" value="{{old('shipper.tel') ?? $shipper->tel ?? ''}}" type="text" name="shipper[tel]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -508,17 +528,17 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <input type="hidden" value="" name="booking[consignee_id]" id="consignee_id">
+                                                                        <input type="hidden" value="{{$booking->consignee_id ?? ''}}" name="booking[consignee_id]"  id="consignee_id">
                                                                         <label class="col-form-label" for="text-input">Consignee</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_country" type="text" name="consignee_country">
+                                                                        <input class="form-control" id="consignee_country" value="{{old('consignee_country') ?? $consignee->country_code ?? ''}}" type="text" name="consignee_country" @if(isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_code" type="text" name="consignee_code">
+                                                                        <input class="form-control" id="consignee_code" value="{{old('consignee_code') ?? $consignee->customer_code ?? ''}}" type="text" name="consignee_code" @if(isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <button type="button" class="btn btn-primary" id="consignee_search">Search</button>
+                                                                        <button type="button" class="btn btn-primary" id="consignee_search" @if(isset($booking)) disabled @endif>Search</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -526,7 +546,7 @@
                                                                         <label class="col-form-label" for="consignee_name">Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_customer_legal_english_name" type="text" name="consignee[customer_legal_english_name]" disabled>
+                                                                        <input class="form-control" id="consignee_customer_legal_english_name" value="{{old('consignee.customer_legal_english_name') ?? $consignee->customer_legal_english_name ?? ''}}" type="text" name="consignee[customer_legal_english_name]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -534,7 +554,7 @@
                                                                         <label class="col-form-label" for="consignee_customer_address">Address</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_customer_address" type="text" name="consignee[customer_address]" disabled>
+                                                                        <input class="form-control" id="consignee_customer_address" value="{{old('consignee.customer_address') ?? $consignee->customer_address ?? ''}}" type="text" name="consignee[customer_address]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -547,10 +567,10 @@
                                                                         <label class="col-form-label" for="consignee_city">City/Stage</label>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <input class="form-control" id="consignee_city" type="text" name="consignee[city]" disabled>
+                                                                        <input class="form-control" id="consignee_city" value="{{old('consignee.city') ?? $consignee->city ?? ''}}" type="text" name="consignee[city]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_location_code" type="text" name="consignee[location_code]" disabled>
+                                                                        <input class="form-control" id="consignee_location_code" value="{{old('consignee.location_code') ?? $consignee->location_code ?? ''}}" type="text" name="consignee[location_code]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -560,13 +580,13 @@
                                                                         <label class="col-form-label" for="consignee_country_code">Country</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_country_code" type="text" name="consignee[country_code]" disabled>
+                                                                        <input class="form-control" id="consignee_country_code" value="{{old('consignee.country_code') ?? $consignee->country_code ?? ''}}" type="text" name="consignee[country_code]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <label class="col-form-label" for="consignee_zip_code">Zip Code</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_zip_code" type="text" name="consignee[zip_code]" disabled>
+                                                                        <input class="form-control" id="consignee_zip_code" value="{{old('consignee.zip_code') ?? $consignee->zip_code ?? ''}}" type="text" name="consignee[zip_code]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -578,7 +598,7 @@
                                                                         <label class="col-form-label" for="consignee_street">Street/P.O  Box</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_street" type="text" name="consignee[street]" disabled>
+                                                                        <input class="form-control" id="consignee_street" value="{{old('consignee.post_office_box') ?? $consignee->post_office_box  ?? ''}}" type="text" name="consignee[post_office_box]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -590,29 +610,29 @@
                                                                         <label class="col-form-label" for="consignee_fax">Fax</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_fax" type="text" name="consignee[fax]" disabled>
+                                                                        <input class="form-control" id="consignee_fax" value="{{old('consignee.fax') ?? $consignee->fax ?? ''}}" type="text" name="consignee[fax]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="text-input">Email</label>
+                                                                        <label class="col-form-label" for="consignee_email">Email</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="text-input" type="text" name="text-input" disabled>
+                                                                        <input class="form-control" id="consignee_email" value="{{old('consignee.email') ?? $consignee->email ?? ''}}" type="email" name="consignee[email]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="form-row row">
+                                                        <div class="form-group  row">
                                                             <div class="col-md-6">
                                                                 <div class="row">
                                                                     <div class="col-md-3">
                                                                         <label class=col-form-label" for="consignee_tel">Tel</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_tel" type="text" name="consignee[tel]" disabled>
+                                                                        <input class="form-control" id="consignee_tel" value="{{old('consignee.tel') ?? $consignee->tel ?? ''}}" type="text" name="consignee[tel]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -625,17 +645,18 @@
                                                         <div class="form-group row">
                                                             <div class="col-md-3">
                                                                 <label class="col-form-label" for="forwarder_country">Forwarder</label>
+                                                                <input type="hidden" value="{{$booking->forwarder_id ?? ''}}" name="booking[forwarder_id]" id="forwarder_id">
                                                             </div>
                                                             <div class="col-md-9">
                                                                 <div class="form-row row">
                                                                     <div class="col-sm-4">
-                                                                        <input class="form-control" id="forwarder_country" type="text" name="forwarder[country]">
+                                                                        <input class="form-control" id="forwarder_country" value="{{old('forwarder_country') ?? $forwarder->country_code ?? ''}}" type="text" name="forwarder[country]" @if(isset($forwarder)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-sm-4">
-                                                                        <input class="form-control" id="forwarder_code" type="text" name="forwarder[code]">
+                                                                        <input class="form-control" id="forwarder_code" value="{{old('forwarder_country') ?? $forwarder->customer_code ?? ''}}" type="text" name="forwarder[code]" @if(isset($forwarder)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-4">
-                                                                        <button type="button" class="btn btn-primary" id="forwarder_search">Search</button>
+                                                                        <button type="button" class="btn btn-primary" id="forwarder_search" @if(isset($forwarder)) disabled @endif>Search</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -645,7 +666,7 @@
                                                                 <label class="col-form-label" for="text-input">Name & address</label>
                                                             </div>
                                                             <div class="col-md-9">
-                                                                <textarea class="form-control" rows="3"></textarea>
+                                                                <textarea class="form-control" id="forwarder_customer_address" name="forwarder[customer_address]" rows="3">{{old('forwarder.customer_address') ?? $forwarder->customer_address ?? ''}}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -657,16 +678,16 @@
                                         <div class="form-row float-right">
                                             <div class="form-group  float-right">
                                                 <div class="btn-group">
-                                                    <button class="btn btn-primary" type="button">BKG Cancel</button>
+                                                    <button class="btn btn-primary" type="button" @if(!isset($booking)) disabled @endif>BKG Cancel</button>
                                                 </div>
                                                 <div class="btn-group">
-                                                    <button class="btn btn-primary" type="button">Split</button>
+                                                    <button class="btn btn-primary" type="button" @if(!isset($booking)) disabled @endif>Split</button>
                                                 </div>
                                                 <div class="btn-group">
-                                                    <button class="btn btn-primary" type="button">Fax/EDI</button>
+                                                    <button class="btn btn-primary" type="button" @if(!isset($booking)) disabled @endif>Fax/EDI</button>
                                                 </div>
                                                 <div class="btn-group">
-                                                    <button class="btn btn-primary" type="button">Copy</button>
+                                                    <button class="btn btn-primary" type="button" @if(!isset($booking)) disabled @endif>Copy</button>
                                                 </div>
                                                 <div class="btn-group">
                                                     <button class="btn btn-primary" type="submit"> Save</button>
@@ -688,6 +709,7 @@
         </div>
     </div>
     <script type="text/javascript">
+        let containerId =[];
         $(function () {
             $('#sailling_due_date').datetimepicker({
                 viewMode: 'days',
@@ -723,15 +745,15 @@
             $("#add_container").click(function(){
                 var selected = $("#select1 option:selected").val();
                 var vol = $('#container_vol').val();
-                if (selected){
+                if (selected &&  containerId.indexOf(selected) == -1){
                     $('#container_table tr:last').after('<tr>'+
-                        '<td>' + '<input type="hidden" value="'+selected+'">'+
+                        '<td>' + '<input type="hidden" value="'+selected+'" id="container_id_'+selected+'" name="container['+selected+'][container_code]">'+
                         '<label class="col-form-label">'+$("#select1 option:selected" ).text()+'</label>' +
                         '</td>\n' +
-                        '<td><input type="number" min="0" class="form-control" name="container['+selected+'][vol]"  value="'+vol+'"></td>\n' +
-                        '<td><input type="text" class="form-control" name="container['+selected+'][vol]" value="'+$('#container_eq_sub').val()+'"></td>\n' +
-                        '<td><input type="text" class="form-control" name="container['+selected+'][vol]" value="'+$('#container_soc').val()+'"></td>\n' +
-                        '<td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onClick="remove(this)">Delete</button></td>'
+                        '<td><input type="number" min="0" class="form-control" id="container_vol_'+selected+'" name="container['+selected+'][vol]"  value="'+vol+'"></td>\n' +
+                        '<td><input type="number" class="form-control" name="container['+selected+'][eq_sub]" value="'+$('#container_eq_sub').val()+'"></td>\n' +
+                        '<td><input type="number" class="form-control" name="container['+selected+'][soc]" value="'+$('#container_soc').val()+'"></td>\n' +
+                        '<td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onClick="remove(this,'+selected+')">Delete</button></td>'
                         +'</tr>');
                     $('#container_vol').val(0);
                     $('#container_eq_sub').val('');
@@ -740,25 +762,30 @@
                     var total = parseFloat($('#TotalVol').val());
                     total += parseFloat(vol);
                     $('#TotalVol').val(total);
-
+                    containerId.push(selected);
+                    $('#container_error').addClass('d-none');
                 }else {
+                    $('#container_error').removeClass('d-none');
                 }
             });
 
-            $('#shiper_search').click(function (){
+            $('#shipper_search').click(function (){
                 $.ajax({
                     url: "/api/customer/code",
                     dataType: "json",
                     method: 'get',
                     data: {
-                        country: $('#shiper_country').val(),
-                        code: $('#shiper_code').val()
+                        country: $('#shipper_country').val(),
+                        code: $('#shipper_code').val()
                     },
                     success: function (result) {
                         $('#shipper_id').val(result.id);
                         $.each(result, function (key, value) {
                             $('#'+key).val(value);
                         })
+                        $('#SHBR_country_code').val(result.country_code)
+                        $('#SHBR_customer_code').val(result.customer_code)
+                        $('#SHBR_customer_legal_english_name').val(result.customer_legal_english_name)
                     }
                 });
             })
@@ -777,12 +804,41 @@
                         $.each(result, function (key, value) {
                             $('#consignee_'+key).val(value);
                         })
+                        $('#CNEE_country_code').val(result.country_code)
+                        $('#CNEE_customer_code').val(result.customer_code)
+                        $('#CNEE_customer_legal_english_name').val(result.customer_legal_english_name)
+                    }
+                });
+            })
+
+            $('#forwarder_search').click(function (){
+                $.ajax({
+                    url: "/api/customer/code",
+                    dataType: "json",
+                    method: 'get',
+                    data: {
+                        country: $('#forwarder_country').val(),
+                        code: $('#forwarder_code').val()
+                    },
+                    success: function (result) {
+                        $('#forwarder_id').val(result.id);
+                        $('#forwarder_customer_address').val(result.customer_address);
+                        $('#FWDR_country_code').val(result.country_code)
+                        $('#FWDR_customer_code').val(result.customer_code)
+                        $('#FWDR_customer_legal_english_name').val(result.customer_legal_english_name)
                     }
                 });
             })
 
         });
-        function remove(elem){
+        function remove(elem,id){
+            var vol = $('#container_vol_'+id).val();
+            var total = parseFloat($('#TotalVol').val());
+            console.log(total,vol);
+            total -= parseFloat(vol);
+            console.log(total);
+            $('#TotalVol').val(total);
+            containerId.splice(containerId.indexOf(id), 1);
             $(elem).parent('td').parent('tr').remove();
         }
     </script>
