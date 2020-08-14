@@ -20,3 +20,10 @@ Route::group([
 
     Route::get('/', 'DashboardController@home');
 });
+
+Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
+    Route::get('/registration', 'CustomerController@create');
+    Route::post('/registration', 'CustomerController@store');
+    Route::get('/registration/{id}', 'CustomerController@edit');
+    Route::put('/registration/{id}', 'CustomerController@update');
+});
