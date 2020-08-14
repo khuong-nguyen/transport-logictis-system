@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookingRegistrationRequest extends FormRequest
+class CustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class BookingRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer.customer_code' => 'required|unique:booking|max:100',
+            'customer.customer_code' => 'required|unique:customer|max:100',
             'customer.country_code' => 'required|max:30',
             'customer.customer_name' => 'required|max:50'
         ];
