@@ -23,8 +23,10 @@ class BookingRegistrationRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('id');
+
         return [
-            'booking.booking_no' => 'required|unique:booking|max:100',
+            'booking.booking_no' => 'required|unique:booking,booking_no,'.$id.'|max:100',
             'booking.b_l_no' => 'required|max:30',
             'booking.tvvd' => 'required|max:50',
             'booking.por_1' => 'required|max:50',
