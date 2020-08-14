@@ -145,6 +145,23 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'booking.booking_no' => 'BKG No',
+        'booking.b_l_no' => 'B/L No',
+        'booking.tvvd' => 'T/VVD',
+        'booking.por_1' => 'POR',
+        'booking.cmdt_1' => 'CMDT',
+        'booking.r_d_term_1' => 'R/D Term',
+        'booking.pol_1' => 'POL',
+        'booking.pod_1' => 'POD',
+        'booking.del_1' => 'DEL',
+        'booking.weight' => 'Weight',
+        'booking.unit' => 'Unit',
+        'booking.lofc_1' => 'L.OFC/Rep',
+        'booking.sailling_due_date' => 'Sailling Due Date',
+        'booking.pick_up_dt' => 'M Ty Pick up DT',
+        'booking.shipper_id' => 'Shipper',
+        'booking.consignee_id' => 'Consignee'
+    ],
 
 ];
