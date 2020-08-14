@@ -55,16 +55,16 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  BookingRegistrationRequest $request
+     * @param  CustomerRequest $request
      *
      */
-    public function store(BookingRegistrationRequest $request)
+    public function store(CustomerRequest $request)
     {
          $request = $request->all();
-         $bookingRequest =  $request['booking'];
-         $booking =   $this->bookingRepository->create($bookingRequest);
+         $customerRequest =  $request['customer'];
+         $customer =   $this->customerRepository->create($customerRequest);
 
-        return redirect('/booking/registration/'.$booking->id);
+         return redirect('/customer/registration/'.$customer->id);
     }
 
     /**
@@ -74,8 +74,8 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $booking =   $this->bookingRepository->find($id);
-        return view('booking.booking_registration_create',compact('booking'));
+        $customer =   $this->customerRepository->find($id);
+        return view('customer.customer_create',compact('customer'));
     }
 
 
@@ -88,8 +88,8 @@ class CustomerController extends Controller
     public function update(Request $request,$id)
     {
         $request = $request->all();
-        $bookingRequest =  $request['booking'];
-        $booking =   $this->bookingRepository->update($this->bookingRepository->find($id),$bookingRequest);
-        return view('booking.booking_registration_create',compact('booking'));
+        $customerRequest =  $request['customer'];
+        $customer =   $this->customerRepository->update($this->customerRepository->find($id),$customerRequest);
+        return view('customer.customer_create',compact('customer'));
     }
 }
