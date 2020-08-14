@@ -48,9 +48,10 @@ class BookingInquiryController extends Controller
 
         if(request()->ajax())
         {
-            if(!empty($request->filter_gender))
+            $search = $request->get('search');
+            if($search != null)
             {
-                $data = $this->bookingRepository->serverPaginationFilteringFor($request);
+                $data = $this->bookingRepository->inquirySearch($request);
             }
             else
             {
@@ -62,7 +63,9 @@ class BookingInquiryController extends Controller
                     "recordsFiltered" => $data->total(),
                 ])
                 ->addColumn('action', function($row){
-                    return '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    $url = '/booking/registration/'.$row->id;
+                    return '<a href="'.$url.'" class="edit btn btn-success btn-sm">Edit</a>
+                        <button class="delete btn btn-danger btn-sm" data-remote="'. $url.'">Delete</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
