@@ -159,12 +159,10 @@ class BookingRegistrationController extends Controller
         unset($shipper["created_at"]);
         unset($shipper["updated_at"]);
 
-
         $this->consigneeBookingRepository->create($consignee);
         $this->shipperBookingRepository->create($shipper);
 
-
-        return redirect('/booking/registration/'.$booking->id);
+        return redirect('/booking/registration/'.$booking->id)->with('status','message.save_success');
     }
 
     /**
@@ -236,6 +234,6 @@ class BookingRegistrationController extends Controller
                 }
             }
         }
-        return redirect('/booking/registration/'.$booking->id);
+        return redirect('/booking/registration/'.$booking->id)->with('status','message.save_success');
     }
 }

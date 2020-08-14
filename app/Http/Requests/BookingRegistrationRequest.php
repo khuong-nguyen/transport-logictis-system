@@ -40,6 +40,8 @@ class BookingRegistrationRequest extends FormRequest
             'booking.lofc_1' => 'required|max:10',
             'booking.sailling_due_date' => 'required|date|date_format:Y-m-d',
             'booking.pick_up_dt' => 'nullable|date|date_format:Y-m-d',
+            'booking.shipper_id' => 'required',
+            'booking.consignee_id' => 'required'
         ];
     }
 }

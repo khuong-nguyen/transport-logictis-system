@@ -8,18 +8,31 @@
         }
         .error-messages {
             color: red;
-            font-size: 12px; }
+            font-size: 12px;
+        }
+        .nav-tabs .nav-item .active{
+            background:#0E0EFF !important;
+            color:#fff !important;
+            font-weight: bold;
+            border-color: #0E0EFF;
+        }
+        .nav-tabs-boxed .nav-tabs .nav-link {
+            color: #768192
+        }
     </style>
     <div class="row">
         <div class="col">
             <div class="card">
                 <div class="card-header">@lang('sidebar.booking_registration')</div>
-                <div class="card-body">
+                <div class="card-body container-fluid">
+                    @if (session('status'))
+                        <div class="alert alert-success">@lang(session('status'))</div>
+                    @endif
                     <form action="/booking/registration{{ isset($booking) ? '/'.$booking->id :''}}" method="post">
                         @csrf
                         @if(isset($booking))  @method('PUT') @endif
                         <div class="row">
-                            <div class="col">
+                            <div class="col ">
                                 <div class="nav-tabs-boxed form-group">
                                     <ul class="nav nav-tabs" role="tablist" >
                                         <li class="nav-item"><a class="nav-link active" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">BKG Creation Tab</a></li>
@@ -31,10 +44,8 @@
                                                 <div class="row col-md-12">
                                                     <div class="col-md-8">
                                                         <div class="form-group row">
-                                                            <div class="col-md-2">
-                                                                <label class="col-form-label required" for="booking_no">BKG No</label>
-                                                            </div>
-                                                            <div class="col-md-3">
+                                                            <label class="col-md-2 pr-0 col-form-label required" for="booking_no">BKG No</label>
+                                                            <div class="col-md-4 p-0">
                                                                 <input class="form-control @if($errors->has('booking.booking_no')) is-invalid @endif" name="booking[booking_no]" id="booking_no" type="text"
                                                                        value="{{ old('booking.booking_no') ?? $booking->booking_no ?? '' }}" required>
                                                                 @error('booking.booking_no')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -42,86 +53,107 @@
                                                             <div class="col-md-2">
                                                                 <label class="col-form-label required"  for="virtual_booking_no">Virtual BKG No</label>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4 pl-0">
                                                                 <input class="form-control" id="virtual_booking_no" type="text" name="virtual_booking_no">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <div class="col-md-2">
-                                                                <label class="col-form-label required" for="tvvd">T/VVD:</label>
-                                                            </div>
-
-                                                            <div class="col-md-3">
+                                                            <label class="col-md-2 pr-0 col-form-label required" for="tvvd">T/VVD:</label>
+                                                            <div class="col-md-4 p-0">
                                                                 <input class="form-control @if($errors->has('booking.tvvd')) is-invalid @endif" id="tvvd" type="text" name="booking[tvvd]" required value="{{ old('booking.tvvd') ?? $booking->tvvd ?? '' }}">
                                                                 @error('booking.tvvd')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-2 pr-0">
                                                                 <label class="col-form-label required" for="por_1">POR</label>
                                                             </div>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-2 p-0">
                                                                 <input class="form-control @if($errors->has('booking.por_1')) is-invalid @endif" id="por_1" type="text" name="booking[por_1]" value="{{ old('booking.por_1') ?? $booking->por_1 ?? '' }}">
                                                                 @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-2 pr-0">
                                                                 <input class="form-control @if($errors->has('booking.por_2')) is-invalid @endif" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}">
                                                                 @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-1"></div>
-                                                           <!-- <div class="col-md-2 "> -->
-                                                                <label class="col-form-label required" for="pol_1">POL</label>
-                                                            <!--</div>-->
-                                                            <div class="col-md-2">
-                                                                <input class="form-control  @if($errors->has('booking.pol_1')) is-invalid @endif" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}">
-                                                                @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-sm-4 text-center pr-0">
+                                                                        <label class="col-form-label required" for="pol_1">POL</label>
+                                                                    </div>
+                                                                    <div class="col-md-4 pl-0">
+                                                                        <input class="form-control  @if($errors->has('booking.pol_1')) is-invalid @endif" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}">
+                                                                        @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                                    </div>
+                                                                    <div class="col-md-4 pl-0">
+                                                                        <input class="form-control" id="pol_2" type="text" name="booking[pol_2]" value="{{ old('booking.pol_2') ?? $booking->pol_2 ?? '' }}">
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-2">
-                                                                <input class="form-control" id="pol_2" type="text" name="booking[pol_2]" value="{{ old('booking.pol_2') ?? $booking->pol_2 ?? '' }}">
-                                                            </div>
-
 
                                                         </div>
 
                                                         <div class="form-group row">
-                                                            <div class="col-md-2">
-                                                                <label class="col-form-label required" for="pod_1">POD</label>
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                        <label class=" col-md-4 pr-0 col-form-label required" for="pod_1">POD</label>
+                                                                    <div class="col-md-4 p-0">
+                                                                        <input class="form-control @if($errors->has('booking.pod_1')) is-invalid @endif" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}">
+                                                                        @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                                    </div>
+                                                                    <div class="col-md-4 pr-0">
+                                                                        <input class="form-control" id="pod_2" type="text" name="booking[pod_2]" value="{{ old('booking.pod_2') ?? $booking->pod_2 ?? '' }}">
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-2">
-                                                                <input class="form-control @if($errors->has('booking.pod_1')) is-invalid @endif" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}">
-                                                                @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <input class="form-control" id="pod_2" type="text" name="booking[pod_2]" value="{{ old('booking.pod_2') ?? $booking->pod_2 ?? '' }}">
-                                                            </div>
-                                                            <div class="col-md-1">
 
-                                                            </div>
-                                                            <!-- <div class="col-md-2 "> -->
-                                                                <label class="col-form-label required" for="del_1">DEL</label>
-                                                            <!--</div> -->
-                                                            <div class="col-md-2">
-                                                                <input class="form-control @if($errors->has('booking.del_1')) is-invalid @endif" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}">
-                                                                @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <input class="form-control" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}">
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-4 text-center pr-0">
+                                                                        <label class="col-form-label required" for="del_1">DEL</label>
+                                                                    </div>
+                                                                    <div class="col-md-4 pl-0">
+                                                                        <input class="form-control @if($errors->has('booking.del_1')) is-invalid @endif" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}">
+                                                                        @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                                    </div>
+                                                                    <div class="col-md-4 pl-0">
+                                                                        <input class="form-control" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}">
+                                                                    </div>
+                                                                </div>
                                                             </div>
 
 
                                                         </div>
                                                         <div class="form-group row">
-                                                            <div class="col-md-2">
-                                                                <label class="col-form-label required" for="text-input">R/D Term</label>
+                                                            <div class="col-sm-6">
+                                                                <div class="row">
+                                                                    <label class=" col-md-4 pr-0 col-form-label required" for="text-input">R/D Term</label>
+                                                                    <div class="col-md-4 p-0">
+                                                                        <input class="form-control @if($errors->has('booking.r_d_term_1')) is-invalid @endif" id="r_d_term_1" type="text" name="booking[r_d_term_1]" value="{{ old('booking.r_d_term_1') ?? $booking->r_d_term_1 ?? '' }}">
+                                                                        @error('booking.r_d_term_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                                    </div>
+                                                                    <div class="col-md-4 pr-0">
+                                                                        <input class="form-control" id="r_d_term_2" type="text" name="booking[r_d_term_2]" value="{{ old('booking.r_d_term_2') ?? $booking->r_d_term_2 ?? '' }}">
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-2 form-group">
-                                                                <input class="form-control @if($errors->has('booking.r_d_term_1')) is-invalid @endif" id="r_d_term_1" type="text" name="booking[r_d_term_1]" value="{{ old('booking.r_d_term_1') ?? $booking->r_d_term_1 ?? '' }}">
-                                                                @error('booking.r_d_term_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                            <div class=" col-sm-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-4 pr-0 text-center">
+                                                                        <label class="col-form-label required" for="cmdt_1">CMDT</label>
+                                                                    </div>
+                                                                    <div class="col-md-4 pl-0">
+                                                                        <input class="form-control @if($errors->has('booking.cmdt_1')) is-invalid @endif" id="cmdt_1" type="text" name="booking[cmdt_1]" value="{{old('booking.cmdt_1') ?? $booking->cmdt_1 ?? ''}} " >
+                                                                        @error('booking.cmdt_1')<div class="invalid-feedback" style="position: relative; width: 200%">{{ $message }}</div>@enderror
+                                                                    </div>
+                                                                    <div class="col-md-4 pl-0">
+                                                                        <input class="form-control" id="cmdt_2" type="text" name="booking[cmdt_2]" value="{{old('booking.cmdt_2') ?? $booking->cmdt_2 ?? ''}}" >
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-2 form-group">
-                                                                <input class="form-control" id="r_d_term_2" type="text" name="booking[r_d_term_2]" value="{{ old('booking.r_d_term_2') ?? $booking->r_d_term_2 ?? '' }}">
-                                                            </div>
+
                                                         </div>
+
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group row">
@@ -147,53 +179,53 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <label class="col-form-label">SHBR</label>
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <input class="form-control" id="SHBR_country_code" type="text"  value="{{ $shipper->country_code ?? ''}}" name="SHBR[country]" readonly >
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <input class="form-control" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" readonly >
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <input class="form-control" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" readonly >
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <label class="col-form-label" >FWDR</label>
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <input class="form-control" id="FWDR_country_code" type="text" value="{{ $forwarder->country_code ?? ''}}" name="FWDR[country]" readonly>
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <input class="form-control" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" readonly>
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <input class="form-control" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <label class="col-form-label" >CNEE</label>
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <input class="form-control" id="CNEE_country_code" type="text" value="{{ $consignee->country_code ?? ''}}" name="CNEE[country]" readonly>
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <input class="form-control" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" readonly>
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 pr-0">
                                                                 <input class="form-control" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]" readonly>
                                                             </div>
                                                         </div>
@@ -203,16 +235,7 @@
                                                     <div class="col-md-4"></div>
                                                     <div class="col-md-4"></div>
                                                     <div class="col-md-4">
-                                                        <div class="row">
-                                                            <div class="col-md-4">  <label class="col-form-label required" for="cmdt_1">CMDT</label></div>
-                                                            <div class="col-md-4 form-group">
-                                                                <input class="form-control @if($errors->has('booking.cmdt_1')) is-invalid @endif" id="cmdt_1" type="text" name="booking[cmdt_1]" value="{{old('booking.cmdt_1') ?? $booking->cmdt_1 ?? ''}} " >
-                                                                @error('booking.cmdt_1')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                                            </div>
-                                                            <div class="col-md-4 form-group">
-                                                                <input class="form-control" id="cmdt_2" type="text" name="booking[cmdt_2]" value="{{old('booking.cmdt_2') ?? $booking->cmdt_2 ?? ''}}" >
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,8 +252,8 @@
                                                         <div class="col-md-2"></div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row col-md-12 ">
-                                                        <div class="col-md-5">
+                                                <div class="row col-md-12">
+                                                        <div class="col-md-7">
                                                             <table class="table table-responsive-sm table-bordered" id="container_table">
                                                                 <thead>
                                                                 <tr>
@@ -251,9 +274,9 @@
                                                                     <td>
                                                                         <select class="form-control select2" id="select1" style="width: 100%;" name="select1"></select>
                                                                     </td>
-                                                                    <td><input type="text" class="form-control" id="container_vol"></td>
-                                                                    <td><input type="text" class="form-control" id="container_eq_sub"></td>
-                                                                    <td><input type="text" class="form-control" id="container_soc"></td>
+                                                                    <td><input type="number" min="0" value="0" class="form-control" id="container_vol"></td>
+                                                                    <td><input type="number" min="0" value="0" class="form-control" id="container_eq_sub"></td>
+                                                                    <td><input type="number" min="0" value="0" class="form-control" id="container_soc"></td>
                                                                     <td>
                                                                         <button class="btn btn-sm btn-primary" id="add_container" type="button">Add</button>
                                                                     </td>
@@ -270,9 +293,9 @@
                                                                 @endif
                                                                 </tbody>
                                                             </table>
-                                                            <div class="form-group row">
+                                                            <div class="row">
                                                                 <div class="col-md-4"></div>
-                                                                <div class="col-md-4 form-group">
+                                                                <div class="col-md-4">
                                                                     <div class="custom-control custom-checkbox col-md-2">
                                                                         <input class="custom-control-input" id="fh" @if(old('booking.fh') == 1 || (isset($booking) && $booking->fh ==1) )checked @endif type="checkbox" value="0" name="booking[fh]">
                                                                         <label class="custom-control-label" for="fh">Fh</label>
@@ -280,30 +303,28 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-7">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-2">
-                                                                    <label class="col-form-label required form-group" for="weight">Weight</label>
-                                                                </div>
-                                                                <div class="col-md-2 form-group">
+                                                        <div class="col-md-5">
+                                                            <div class="row">
+                                                                <label class="col-sm-3  pr-0  col-form-label required" for="weight">Weight</label>
+                                                                <div class="col-md-4 p-0 ">
                                                                     <input class="form-control @if($errors->has('booking.weight')) is-invalid @endif" id="weight" type="text" name="booking[weight]" value="{{old('booking.weight') ?? $booking->weight ?? ''}}">
                                                                     @error('booking.weight')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                 </div>
-                                                                <div class="col-md-2 form-group">
-                                                                    <input class="form-control @if($errors->has('booking.unit')) is-invalid @endif" type="text" name="booking[unit]" value="{{old('booking.unit') ?? $booking->unit ?? ''}}">
+                                                                <div class="col-md-4 form-group pr-0">
+                                                                    <input class="form-control @if($errors->has('booking.unit')) is-invalid @endif" type="text" name="booking[unit]" placeholder="unit" value="{{old('booking.unit') ?? $booking->unit ?? ''}}">
                                                                     @error('booking.unit')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                 </div>
-                                                                <div class="col-md-2 ">
-                                                                    <label class="col-form-label required" for="lofc_1">L.OFC/Rep.:</label>
-                                                                </div>
-                                                                <div class="col-md-2 form-group">
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <label class="col-md-3 pr-0 col-form-label required" for="lofc_1">L.OFC/Rep.:</label>
+                                                                <div class="col-md-4 form-group p-0 ">
                                                                     <input class="form-control @if($errors->has('booking.lofc_1')) is-invalid @endif" id="lofc_1" type="text" name="booking[lofc_1]" value="{{old('booking.lofc_1') ?? $booking->lofc_1 ?? ''}}">
                                                                     @error('booking.lofc_1')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                 </div>
-                                                                <div class="col-md-2 form-group">
+                                                                <div class="col-md-4 form-group pr-0">
                                                                     <input class="form-control" type="text" name="booking[lofc_2]"  value="{{old('booking.lofc_2') ?? $booking->lofc_2 ?? ''}}">
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                 </div>
@@ -316,8 +337,8 @@
                                                             <label class="col-md-12 col-form-label" for="text-input">Planned Delvery Schedule</label>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label required" for="sailling_due_date">Sailling Due Date</label>
-                                                            <div class="col-md-6 input-group date">
+                                                            <label class="col-md-4 pr-0 col-form-label required" for="sailling_due_date">Sailling Due Date</label>
+                                                            <div class="col-md-8 input-group date">
                                                                 <input class="form-control @if($errors->has('booking.sailling_due_date')) is-invalid @endif " id="sailling_due_date" required type="text" name="booking[sailling_due_date]">
                                                                 @error('booking.sailling_due_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                             </div>
@@ -325,23 +346,23 @@
                                                     </div>
                                                     <div class="col-md-3 border">
                                                         <div class="form-group row">
-                                                            <label class=" col-md-12 col-form-label" for="text-input">Empty CNTR P/Up & RTN CY</label>
+                                                            <label class="col-md-12 col-form-label" for="text-input">Empty CNTR P/Up & RTN CY</label>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label" for="pick_up_cy">M'Ty Pick up CY </label>
-                                                            <div class="col-md-6">
+                                                            <label class="col-md-4 pt-0 pr-0 col-form-label" for="pick_up_cy">M'Ty Pick up CY </label>
+                                                            <div class="col-md-8">
                                                                 <input class="form-control " id="pick_up_cy" type="text" name="booking[pick_up_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label @if($errors->has('booking.sailling_due_date')) is-invalid @endif" for="pick_up_dt">M'Ty Pick up DT </label>
-                                                            <div class="col-md-6">
+                                                            <label class="col-md-4 pt-0 pr-0 col-form-label @if($errors->has('booking.sailling_due_date')) is-invalid @endif" for="pick_up_dt">M'Ty Pick up DT </label>
+                                                            <div class="col-md-8">
                                                                 <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label" for="full_return_cy">Full Return CY</label>
-                                                            <div class="col-md-6">
+                                                            <label class="col-md-4 pt-0 pr-0 col-form-label" for="full_return_cy">Full Return CY</label>
+                                                            <div class="col-md-8">
                                                                 <input class="form-control" id="full_return_cy" type="text" name="booking[full_return_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
                                                             </div>
                                                         </div>
@@ -352,34 +373,34 @@
                                                             <label class="col-md-12 col-form-label" for="text-input">BKG Contact</label>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label" for="bkg_contact_name">Contact Name</label>
-                                                            <div class="col-md-6">
+                                                            <label class="col-md-4 pr-0 pt-0 col-form-label" for="bkg_contact_name">Contact Name</label>
+                                                            <div class="col-md-8">
                                                                 <input class="form-control" id="bkg_contact_name" type="text" name="booking['bkg_contact_name']" value="{{old('booking.bkg_contact_name') ?? $booking->bkg_contact_name ?? ''}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label" for="bkg_contact_email">E-mail </label>
-                                                            <div class="col-md-6">
+                                                            <label class="col-md-4 pr-0 col-form-label" for="bkg_contact_email">E-mail </label>
+                                                            <div class="col-md-8">
                                                                 <input class="form-control" id="bkg_contact_email" type="email" name="booking[bkg_contact_email]" value="{{old('booking.bkg_contact_email') ?? $booking->bkg_contact_email ?? ''}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label" for="bkg_contact_tel">Tel.</label>
-                                                            <div class="col-md-6">
+                                                            <label class="col-md-4 pr-0 col-form-label" for="bkg_contact_tel">Tel.</label>
+                                                            <div class="col-md-8">
                                                                 <input class="form-control" id="bkg_contact_tel" type="text" name="booking[bkg_contact_tel]" value="{{old('booking.bkg_contact_tel') ?? $booking->bkg_contact_tel ?? ''}}">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label" for="BOFC">B.OFC</label>
-                                                            <div class="col-md-6">
+                                                            <label class="col-md-4 pr-0 text-center col-form-label" for="BOFC">B.OFC</label>
+                                                            <div class="col-md-8 pr-0">
                                                                 <input class="form-control" id="BOFC" type="text" readonly name="BOFC">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-6 col-form-label" for="BStaff">B.Staff</label>
-                                                            <div class="col-md-6">
+                                                            <label class="col-md-4 pr-0 text-center col-form-label" for="BStaff">B.Staff</label>
+                                                            <div class="col-md-8 pr-0">
                                                                 <input class="form-control" id="BStaff" type="text" name="BStaff" readonly>
                                                             </div>
                                                         </div>
@@ -415,13 +436,14 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
                                                                         <input type="hidden" value="{{$booking->shipper_id ?? ''}}" id="shipper_id" name="booking[shipper_id]">
-                                                                        <label class="col-form-label" for="shipper_country">Shipper</label>
+                                                                        <label class="col-form-label required" for="shipper_country">Shipper</label>
                                                                     </div>
-                                                                    <div class="col-md-3">
-                                                                        <input class="form-control" id="shipper_country" value="{{old('shipper_country') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_country" @if(isset($booking)) readonly @endif>
+                                                                    <div class="col-md-3 pr-0">
+                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_country" value="{{old('shipper_country') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_country" @if(isset($booking)) readonly @endif>
+                                                                        @error('booking.shipper_id')<div class="invalid-feedback" style="position: relative; width:400%">{{ $message }}</div>@enderror
                                                                     </div>
-                                                                    <div class="col-md-3">
-                                                                        <input class="form-control" id="shipper_code" value="{{old('shipper_code') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_code" @if(isset($booking)) readonly @endif>
+                                                                    <div class="col-md-3 pr-0">
+                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_code" value="{{old('shipper_code') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_code" @if(isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <button type="button" class="btn btn-primary" id="shipper_search" @if(isset($booking)) disabled @endif>Search</button>
@@ -464,10 +486,10 @@
                                                                     <div class="col-md-3">
                                                                         <label class="col-form-label" for="country_code">Country</label>
                                                                     </div>
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-3 pr-0">
                                                                         <input class="form-control" id="country_code" value="{{old('shipper.country_code') ?? $shipper->country_code ?? ''}}" type="text" name="shipper[country_code]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-3 pr-0">
                                                                         <label class="col-form-label" for="zip_code">Zip Code</label>
                                                                     </div>
                                                                     <div class="col-md-3">
@@ -529,13 +551,14 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
                                                                         <input type="hidden" value="{{$booking->consignee_id ?? ''}}" name="booking[consignee_id]"  id="consignee_id">
-                                                                        <label class="col-form-label" for="text-input">Consignee</label>
+                                                                        <label class="col-form-label required" for="text-input">Consignee</label>
                                                                     </div>
-                                                                    <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_country" value="{{old('consignee_country') ?? $consignee->country_code ?? ''}}" type="text" name="consignee_country" @if(isset($booking)) readonly @endif>
+                                                                    <div class="col-md-3 pr-0">
+                                                                        <input class="form-control @if($errors->has('booking.consignee_id')) is-invalid @endif" id="consignee_country" value="{{old('consignee_country') ?? $consignee->country_code ?? ''}}" type="text" name="consignee_country" @if(isset($booking)) readonly @endif>
+                                                                        @error('booking.consignee_id')<div class="invalid-feedback" style="position: relative; width:400%">{{ $message }}</div>@enderror
                                                                     </div>
-                                                                    <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_code" value="{{old('consignee_code') ?? $consignee->customer_code ?? ''}}" type="text" name="consignee_code" @if(isset($booking)) readonly @endif>
+                                                                    <div class="col-md-3 pr-0">
+                                                                        <input class="form-control @if($errors->has('booking.consignee_id')) is-invalid @endif" id="consignee_code" value="{{old('consignee_code') ?? $consignee->customer_code ?? ''}}" type="text" name="consignee_code" @if(isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <button type="button" class="btn btn-primary" id="consignee_search" @if(isset($booking)) disabled @endif>Search</button>
@@ -582,7 +605,7 @@
                                                                     <div class="col-md-3">
                                                                         <input class="form-control" id="consignee_country_code" value="{{old('consignee.country_code') ?? $consignee->country_code ?? ''}}" type="text" name="consignee[country_code]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-3 pr-0">
                                                                         <label class="col-form-label" for="consignee_zip_code">Zip Code</label>
                                                                     </div>
                                                                     <div class="col-md-3">
