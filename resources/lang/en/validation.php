@@ -145,6 +145,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'customer.customer_legal_english_name' => 'Legal Name',
+        'customer.sale_office_code' => 'Sales Office',
+        'customer.sale_rep_code' => 'Sales Rep Office'
+    ],
 
 ];

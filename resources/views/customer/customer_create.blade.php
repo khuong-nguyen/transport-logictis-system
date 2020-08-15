@@ -46,10 +46,11 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="customer_legal_english_name">Legal Name</label>
+                                                                        <label class="col-form-label required" for="customer_legal_english_name">Legal Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="customer_legal_english_name" value="{{old('customer.customer_legal_english_name') ?? $customer->customer_legal_english_name ?? ''}}" type="text" name="customer[customer_legal_english_name]">
+                                                                        <input class="form-control @if($errors->has('customer.customer_legal_english_name')) is-invalid @endif" id="customer_legal_english_name" value="{{old('customer.customer_legal_english_name') ?? $customer->customer_legal_english_name ?? ''}}" type="text" name="customer[customer_legal_english_name]" required>
+                                                                        @error('customer.customer_legal_english_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -156,10 +157,11 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="sale_office_code">Sales Office</label>
+                                                                        <label class="col-form-label required" for="sale_office_code">Sales Office</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="sale_office_code" value="{{old('customer.sale_office_code') ?? $customer->sale_office_code ?? ''}}" type="text" name="customer[sale_office_code]">
+                                                                        <input class="form-control @if($errors->has('customer.sale_office_code')) is-invalid @endif" id="sale_office_code" value="{{old('customer.sale_office_code') ?? $customer->sale_office_code ?? ''}}" type="text" name="customer[sale_office_code]" required>
+                                                                        @error('customer.sale_office_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -168,10 +170,11 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="sale_rep_code">Sales Rep Office</label>
+                                                                        <label class="col-form-label required" for="sale_rep_code">Sales Rep Office</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="sale_rep_code" value="{{old('customer.sale_rep_code') ?? $customer->sale_rep_code ?? ''}}" type="text" name="customer[sale_rep_code]">
+                                                                        <input class="form-control @if($errors->has('customer.sale_rep_code')) is-invalid @endif" id="sale_rep_code" value="{{old('customer.sale_rep_code') ?? $customer->sale_rep_code ?? ''}}" type="text" name="customer[sale_rep_code]" required>
+                                                                        @error('customer.sale_rep_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                     </div>
                                                                 </div>
                                                             </div>
