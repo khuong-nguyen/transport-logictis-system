@@ -236,4 +236,10 @@ class BookingRegistrationController extends Controller
         }
         return redirect('/booking/registration/'.$booking->id)->with('status','message.save_success');
     }
+
+    public function delete($id)
+    {
+        $booking = $this->bookingRepository->find($id);
+       return $this->bookingRepository->destroy($booking);
+    }
 }
