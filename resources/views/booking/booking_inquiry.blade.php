@@ -78,10 +78,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="row">
-                                <label class="col-md-6 pr-0 col-form-label required" for="booking_status">BKG Status</label>
-                                <div class="col-md-6 pr-0">
+                                <label class="col-md-4 pr-0 col-form-label required" for="booking_status">BKG Status</label>
+                                <div class="col-md-8 p-0">
                                     <select class="form-control" id="booking_status" name="booking_status">
                                         <option value="">Please select</option>
                                         <option value="1">Open</option>
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table id="inquiryDatatable" class="table table-striped table-bordered">
+                        <table id="inquiryDatatable" class="table table-striped table-bordered  w-100">
                             <thead>
                             <tr>
                                 <th>No.</th>
@@ -251,26 +251,28 @@
                     }
                 });
                 var url = $(this).data('remote');
-                confirm("Are you sure you want to delete it?");
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    dataType: 'json',
-                    data: {method: 'DELETE', submit: true,_token:"{{ csrf_token() }}"},
-                    success: function(msg){
-                        if (msg == 1){
-                            $('#msg').text("{{trans('message.delete_success')}}")
-                        }else
-                        {
-                            $('#msg').text("{{trans('message.delete_failed')}}")
-                            $('#msg').addClass('alert-danger');
-                            $('#msg').removeClass('alert-success');
+                var proceed = confirm("Are you sure you want to delete it?");
+                if (proceed){
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        data: {method: 'DELETE', submit: true,_token:"{{ csrf_token() }}"},
+                        success: function(msg){
+                            if (msg == 1){
+                                $('#msg').text("{{trans('message.delete_success')}}")
+                            }else
+                            {
+                                $('#msg').text("{{trans('message.delete_failed')}}")
+                                $('#msg').addClass('alert-danger');
+                                $('#msg').removeClass('alert-success');
+                            }
+                            $('#msg').removeClass('d-none');
                         }
-                        $('#msg').removeClass('d-none');
-                    }
                     }).always(function (data) {
-                    $('#inquiryDatatable').DataTable().draw(false);
-                });
+                        $('#inquiryDatatable').DataTable().draw(false);
+                    });
+                }
             });
 
             $('.input-daterange input').each(function() {
@@ -293,7 +295,7 @@
             $('#pick_up_dt_to').on('dp.change', function(e){
                 $('#pick_up_dt_from').data("DateTimePicker").maxDate(e.date)
             })
-
+            $('div.dataTables_length select').removeClass('form-control-sm custom-select-sm');
         });
 
     </script>

@@ -28,7 +28,8 @@ class EloquentCustomerRepository extends EloquentBaseRepository implements Custo
 
     public function search(string $country, string $code)
     {
-        $query =  $this->model->query()->where('customer_code','=',$country.$code)->first();
+        $query =  $this->model->query()->where('customer_code','=',$country.$code);
+
         return $query ? $query->first() :[];
     }
     

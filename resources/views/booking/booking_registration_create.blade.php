@@ -435,7 +435,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <input type="hidden" value="{{$booking->shipper_id ?? ''}}" id="shipper_id" name="booking[shipper_id]">
+                                                                        <input type="hidden" value="{{old('booking.shipper_id')??$booking->shipper_id ?? ''}}" id="shipper_id" name="booking[shipper_id]">
                                                                         <label class="col-form-label required" for="shipper_country">Shipper</label>
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
@@ -550,7 +550,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <input type="hidden" value="{{$booking->consignee_id ?? ''}}" name="booking[consignee_id]"  id="consignee_id">
+                                                                        <input type="hidden" value="{{old('booking.consignee_id')??$booking->consignee_id ?? ''}}" name="booking[consignee_id]"  id="consignee_id">
                                                                         <label class="col-form-label required" for="text-input">Consignee</label>
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
@@ -668,15 +668,15 @@
                                                         <div class="form-group row">
                                                             <div class="col-md-3">
                                                                 <label class="col-form-label" for="forwarder_country">Forwarder</label>
-                                                                <input type="hidden" value="{{$booking->forwarder_id ?? ''}}" name="booking[forwarder_id]" id="forwarder_id">
+                                                                <input type="hidden" value="{{old('booking.forwarder_id')??$booking->forwarder_id ?? ''}}" name="booking[forwarder_id]" id="forwarder_id">
                                                             </div>
                                                             <div class="col-md-9">
                                                                 <div class="form-row row">
                                                                     <div class="col-sm-4">
-                                                                        <input class="form-control" id="forwarder_country" value="{{old('forwarder_country') ?? $forwarder->country_code ?? ''}}" type="text" name="forwarder[country]" @if(isset($forwarder)) readonly @endif>
+                                                                        <input class="form-control" id="forwarder_country" value="{{old('forwarder.country') ?? $forwarder->country_code ?? ''}}" type="text" name="forwarder[country]" @if(isset($forwarder)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-sm-4">
-                                                                        <input class="form-control" id="forwarder_code" value="{{old('forwarder_country') ?? $forwarder->customer_code ?? ''}}" type="text" name="forwarder[code]" @if(isset($forwarder)) readonly @endif>
+                                                                        <input class="form-control" id="forwarder_code" value="{{old('forwarder.customer_code') ?? $forwarder->customer_code ?? ''}}" type="text" name="forwarder[code]" @if(isset($forwarder)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <button type="button" class="btn btn-primary" id="forwarder_search" @if(isset($forwarder)) disabled @endif>Search</button>
@@ -857,9 +857,7 @@
         function remove(elem,id){
             var vol = $('#container_vol_'+id).val();
             var total = parseFloat($('#TotalVol').val());
-            console.log(total,vol);
             total -= parseFloat(vol);
-            console.log(total);
             $('#TotalVol').val(total);
             containerId.splice(containerId.indexOf(id), 1);
             $(elem).parent('td').parent('tr').remove();
