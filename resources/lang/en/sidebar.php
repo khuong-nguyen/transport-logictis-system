@@ -14,7 +14,6 @@ return [
     'container_booking_registration' => 'Container Booking Registration',
     'inventory_module' => 'Inventory Module',
     'setting_module' => 'Setting Module',
-
     'setting_customer' => 'Customer Registration',
     'setting_container' => 'Container Registration',
     'customer_inquiry' => 'Customer Inquiry',
