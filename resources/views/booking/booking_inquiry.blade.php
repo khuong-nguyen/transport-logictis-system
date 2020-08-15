@@ -7,9 +7,7 @@
             <div class="card">
                 <div class="card-header">@lang('sidebar.booking_registration')</div>
                 <div class="card-body container-fluid">
-                    @if (session('status'))
-                        <div class="alert alert-success">@lang(session('status'))</div>
-                    @endif
+                    <div class="alert alert-success d-none" id="msg"></div>
                     @csrf
                     <div class="row form-group">
                         <div class="col-sm-3">
@@ -258,8 +256,19 @@
                     url: url,
                     type: 'DELETE',
                     dataType: 'json',
-                    data: {method: 'DELETE', submit: true,_token:"{{ csrf_token() }}"}
-                }).always(function (data) {
+                    data: {method: 'DELETE', submit: true,_token:"{{ csrf_token() }}"},
+                    success: function(msg){
+                        if (msg == 1){
+                            $('#msg').text("{{trans('message.delete_success')}}")
+                        }else
+                        {
+                            $('#msg').text("{{trans('message.delete_failed')}}")
+                            $('#msg').addClass('alert-danger');
+                            $('#msg').removeClass('alert-success');
+                        }
+                        $('#msg').removeClass('d-none');
+                    }
+                    }).always(function (data) {
                     $('#inquiryDatatable').DataTable().draw(false);
                 });
             });
