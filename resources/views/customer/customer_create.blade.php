@@ -85,7 +85,7 @@
                                                                         <label class="col-form-label" for="city">City/Stage</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="city" value="{{old('customer.city') ?? $customer->city ?? ''}}" type="text" name="customer[city]">
+                                                                        {{ Form::select('customer[city]', $cityCodeOptions,(empty($customer->city) ? $cityCodeOptionDefault : $selectedCityCodeOption), ['class'=>'form-control']) }}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -95,7 +95,7 @@
                                                                         <label class="col-form-label" for="country_code">Country</label>
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
-                                                                        <input class="form-control" id="country_code" value="{{old('customer.country_code') ?? $customer->country_code ?? ''}}" type="text" name="customer[country_code]">
+                                                                        {{ Form::select('customer[country_code]', $countryCodeOptions,(empty($customer->country_code) ? $countryCodeOptionDefault : $selectedCountryCodeOption), ['class'=>'form-control']) }}
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
                                                                         <label class="col-form-label" for="zip_code">Zip Code</label>
