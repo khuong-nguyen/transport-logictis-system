@@ -31,5 +31,4 @@ class EloquentCustomerRepository extends EloquentBaseRepository implements Custo
         $query =  $this->model->query()->where('customer_code','=',$country.$code)->first();
         return $query ? $query->first() :[];
     }
-
 }
