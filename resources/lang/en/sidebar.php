@@ -14,7 +14,13 @@ return [
     'container_booking_registration' => 'Container Booking Registration',
     'inventory_module' => 'Inventory Module',
     'setting_module' => 'Setting Module',
-    'setting_customer' => 'Customer',
-    'setting_container' => 'Container'
+    'setting_customer' => 'Customer Registration',
+    'setting_container' => 'Container Registration',
+    'customer_inquiry' => 'Customer Inquiry',
+    'container_inquiry' => 'Container Inquiry',
+    'setting_employee' => 'Employee Registration',
+    'employee_inquiry' => 'Employee Inquiry',
+    'setting_container_truck' => 'Container Truck Registration',
+    'container_truck_inquiry' => 'Container Truck Inquiry'
 
 ];
