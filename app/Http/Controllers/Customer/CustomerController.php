@@ -62,12 +62,12 @@ class CustomerController extends Controller
             "HN" => "Ha Noi",
             "HP" => "Hai Phong"
         ];
-        $cityOptionDefault = "SGN";
+        $cityCodeOptionDefault = "SGN";
         
         return view('customer.customer_create',['countryCodeOptions' => $countryCodeOptions,
                                                 'countryCodeOptionDefault' => $countryCodeOptionDefault,
                                                 'cityCodeOptions' => $cityCodeOptions,
-                                                'cityOptionDefault' => $cityOptionDefault
+                                                'cityCodeOptionDefault' => $cityCodeOptionDefault
                                                 ]);
     }
 
