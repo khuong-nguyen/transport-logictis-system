@@ -49,7 +49,26 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('customer.customer_create');
+        //load default options for country_code
+        $countryCodeOptions = [
+            "VN" => "Viet Nam",
+            "HK" => "Hong Kong"
+        ];
+        $countryCodeOptionDefault = "VN";
+        
+        //load default options for city
+        $cityCodeOptions = [
+            "SGN" => "Sai Gon",
+            "HN" => "Ha Noi",
+            "HP" => "Hai Phong"
+        ];
+        $cityOptionDefault = "SGN";
+        
+        return view('customer.customer_create',['countryCodeOptions' => $countryCodeOptions,
+                                                'countryCodeOptionDefault' => $countryCodeOptionDefault,
+                                                'cityCodeOptions' => $cityCodeOptions,
+                                                'cityOptionDefault' => $cityOptionDefault
+                                                ]);
     }
 
     /**
@@ -79,7 +98,29 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer =   $this->customerRepository->find($id);
-        return view('customer.customer_create',compact('customer'));
+        
+        //load default options for country_code
+        $countryCodeOptions = [
+            "VN" => "Viet Nam",
+            "HK" => "Hong Khong"
+        ];
+        $selectedCountryCodeOption = $customer->country_code;
+        
+        //load default options for city
+        $cityCodeOptions = [
+            "SGN" => "Sai Gon",
+            "HN" => "Ha Noi",
+            "HP" => "Hai Phong"
+        ];
+        
+        $selectedCityCodeOption = $customer->city;
+        
+        return view('customer.customer_create',["customer" => $customer,
+            'countryCodeOptions' => $countryCodeOptions,
+            'selectedCountryCodeOption' => $selectedCountryCodeOption,
+            'cityCodeOptions' => $cityCodeOptions,
+            'selectedCityCodeOption' => $selectedCityCodeOption
+        ]);
     }
 
 
@@ -94,6 +135,28 @@ class CustomerController extends Controller
         $request = $request->all();
         $customerRequest =  $request['customer'];
         $customer =   $this->customerRepository->update($this->customerRepository->find($id),$customerRequest);
-        return view('customer.customer_create',compact('customer'));
+        
+        //load default options for country_code
+        $countryCodeOptions = [
+            "VN" => "Viet Nam",
+            "HK" => "Hong Khong"
+        ];
+        $selectedCountryCodeOption = $customer->country_code;
+        
+        //load default options for city
+        $cityCodeOptions = [
+            "SGN" => "Sai Gon",
+            "HN" => "Ha Noi",
+            "HP" => "Hai Phong"
+        ];
+        
+        $selectedCityCodeOption = $customer->city;
+        
+        return view('customer.customer_create',["customer" => $customer,
+            'countryCodeOptions' => $countryCodeOptions,
+            'selectedCountryCodeOption' => $selectedCountryCodeOption,
+            'cityCodeOptions' => $cityCodeOptions,
+            'selectedCityCodeOption' => $selectedCityCodeOption
+        ]);
     }
 }
