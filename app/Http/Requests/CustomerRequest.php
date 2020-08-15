@@ -25,7 +25,7 @@ class CustomerRequest extends FormRequest
     {
         return [
             'customer.country_code' => 'required|max:30',
-            'customer.customer_name' => 'required|max:50'
+            'customer.customer_legal_english_name' => 'required|max:200'
         ];
     }
 }
