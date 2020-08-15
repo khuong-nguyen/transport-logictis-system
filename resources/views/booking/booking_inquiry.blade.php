@@ -66,9 +66,9 @@
                         </div>
                         <div class="col-sm-2">
                             <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label required"  for="pol_1">POL</label>
+                                <label class="col-md-4 pr-0 col-form-label required"  for="pol">POL</label>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" id="pol_1" type="text" name="pol_1">
+                                    <input class="form-control" id="pol" type="text" name="pol">
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,11 @@
                             <div class="row">
                                 <label class="col-md-6 pr-0 col-form-label required" for="booking_status">BKG Status</label>
                                 <div class="col-md-6 pr-0">
-                                    <input class="form-control" name="booking_status" id="booking_status" type="text" value="{{ old('booking.booking_no')}}">
+                                    <select class="form-control" id="booking_status" name="booking_status">
+                                        <option value="">Please select</option>
+                                        <option value="1">Open</option>
+                                        <option value="0">Close</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +141,6 @@
                                 <th>M'Ty Pick up DT </th>
                                 <th>POL</th>
                                 <th>POD</th>
-                                <th>Extn.</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -159,7 +162,8 @@
                     serverSide: true,
                     "searching": false,
                     "sPaginationType":"full_numbers",
-                    "iDisplayLength": 4,
+                    "iDisplayLength": 10,
+                    dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
                     // "infoCallback": function( settings, start, end, max, total, pre ) {
                     //     var api = this.api();
                     //     var pageInfo = api.page.info();
@@ -196,10 +200,6 @@
                             name:'pod_1'
                         },
                         {
-                            data:null,
-                            name:null
-                        },
-                        {
                             data: 'action',
                             name: 'action',
                             orderable: true,
@@ -226,7 +226,7 @@
                     shipper_customer_code: $('#shipper_customer_code').val(),
                     consignee_customer_code :$('#consignee_customer_code').val(),
                     forwarder_customer_code: $('#forwarder_customer_code').val(),
-                    pol_1: $('#pol_1').val(),
+                    pol: $('#pol').val(),
                     pod: $('#pod').val(),
                     sailling_due_date: sailling_due_date,
                     pick_up_dt: pick_up_dt
@@ -258,7 +258,7 @@
                     url: url,
                     type: 'DELETE',
                     dataType: 'json',
-                    data: {method: '_DELETE', submit: true}
+                    data: {method: 'DELETE', submit: true,_token:"{{ csrf_token() }}"}
                 }).always(function (data) {
                     $('#inquiryDatatable').DataTable().draw(false);
                 });

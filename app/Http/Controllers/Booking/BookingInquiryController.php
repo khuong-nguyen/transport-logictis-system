@@ -62,6 +62,12 @@ class BookingInquiryController extends Controller
                     "recordsTotal"    => $data->total(),
                     "recordsFiltered" => $data->total(),
                 ])
+                ->editColumn('pol_1', function ($row) {
+                    return $row->pol_1.$row->pol_2;
+                })
+                ->editColumn('pod_1', function ($row) {
+                    return $row->pod_1.$row->pod_2;
+                })
                 ->addColumn('action', function($row){
                     $url = '/booking/registration/'.$row->id;
                     return '<a href="'.$url.'" class="edit btn btn-success btn-sm">Edit</a>

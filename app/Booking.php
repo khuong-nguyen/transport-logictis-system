@@ -63,4 +63,19 @@ class Booking extends Model
     {
         return $this->belongsTo('App\ShipperBooking');
     }
+
+    public  function containers()
+    {
+        return $this->hasMany('App\ContainerBooking','booking_id');
+    }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($booking) {
+            $booking->shipper()->delete();
+            $booking->forwarders()->delete();
+            $booking->consignee()->delete();
+        });
+    }
 }

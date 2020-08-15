@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 
 class EloquentBookingRepository extends EloquentBaseRepository implements BookingRepository
 {
@@ -84,6 +85,15 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
             $query->where('pick_up_dt','<=',$search['pick_up_dt']['to']);
         }
 
+        if ($search['pol'] != null)
+        {
+            $query->where(DB::raw("CONCAT_WS( '' ,pol_1,pol_2)"), '=', $search['pol']);
+        }
+
+        if ($search['pod'] != null)
+        {
+            $query->where(DB::raw("CONCAT_WS( '' ,pod_1,pod_2)"), '=', $search['pol']);
+        }
         return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
     }
 
