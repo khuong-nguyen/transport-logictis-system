@@ -62,7 +62,10 @@ class CustomerController extends Controller
     {
          $request = $request->all();
          $customerRequest =  $request['customer'];
-         dd($customerRequest);
+         $customerCount = $this->customerRepository->countCustomer();
+         
+         $customerRequest["customer_code"] = $customerRequest["country_code"]. ($customerCount + 1);
+         $customerRequest["location_code"] = $customerRequest["country_code"]. $customerRequest["city"];
          $customer =   $this->customerRepository->create($customerRequest);
 
          return redirect('/customer/registration/'.$customer->id);

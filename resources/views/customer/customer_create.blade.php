@@ -46,10 +46,26 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="customer_legal_english_name">Name</label>
+                                                                        <label class="col-form-label" for="customer_legal_english_name">Legal Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="customer_legal_english_name" value="{{old('customer.customer_legal_english_name') ?? $customer->customer_legal_english_name ?? ''}}" type="text" name="customer_legal_english_name">
+                                                                        <input class="form-control" id="customer_legal_english_name" value="{{old('customer.customer_legal_english_name') ?? $customer->customer_legal_english_name ?? ''}}" type="text" name="customer[customer_legal_english_name]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="customer_language_name">Language Name</label>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <input class="form-control" id="customer_language_name" value="{{old('customer.customer_language_name') ?? $customer->customer_language_name ?? ''}}" type="text" name="customer[customer_language_name]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="tax_code">Tax Code</label>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <input class="form-control" id="tax_code" value="{{old('customer.tax_code') ?? $customer->tax_code ?? ''}}" type="text" name="customer[tax_code]">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -57,7 +73,7 @@
                                                                         <label class="col-form-label" for="customer_address">Address</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="customer_address" value="{{old('customer.customer_address') ?? $customer->customer_address ?? ''}}" type="text" name="customer_address">
+                                                                        <input class="form-control" id="customer_address" value="{{old('customer.customer_address') ?? $customer->customer_address ?? ''}}" type="text" name="customer[customer_address]">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -68,11 +84,8 @@
                                                                     <div class="col-md-3">
                                                                         <label class="col-form-label" for="city">City/Stage</label>
                                                                     </div>
-                                                                    <div class="col-md-6">
-                                                                        <input class="form-control" id="city" value="{{old('customer.city') ?? $customer->city ?? ''}}" type="text" name="city">
-                                                                    </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="location_code" value="{{old('customer.location_code') ?? $customer->location_code ?? ''}}" type="text" name="location_code">
+                                                                        <input class="form-control" id="city" value="{{old('customer.city') ?? $customer->city ?? ''}}" type="text" name="customer[city]">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -82,13 +95,13 @@
                                                                         <label class="col-form-label" for="country_code">Country</label>
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
-                                                                        <input class="form-control" id="country_code" value="{{old('customer.country_code') ?? $customer->country_code ?? ''}}" type="text" name="country_code">
+                                                                        <input class="form-control" id="country_code" value="{{old('customer.country_code') ?? $customer->country_code ?? ''}}" type="text" name="customer[country_code]">
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
                                                                         <label class="col-form-label" for="zip_code">Zip Code</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="zip_code" value="{{old('customer.zip_code') ?? $customer->zip_code ?? ''}}" type="text" name="zip_code">
+                                                                        <input class="form-control" id="zip_code" value="{{old('customer.zip_code') ?? $customer->zip_code ?? ''}}" type="text" name="customer[zip_code]">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -100,7 +113,7 @@
                                                                         <label class="col-form-label" for="post_office_box ">Street/P.O  Box</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="post_office_box" value="{{old('customer.post_office_box') ?? $customer->post_office_box ?? ''}}" type="text" name="post_office_box">
+                                                                        <input class="form-control" id="post_office_box" value="{{old('customer.post_office_box') ?? $customer->post_office_box ?? ''}}" type="text" name="customer[post_office_box]">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -112,17 +125,17 @@
                                                                         <label class="col-form-label" for="fax">Fax</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="fax" value="{{old('customer.fax') ?? $customer->fax ?? ''}}" type="text" name="shipper[fax]">
+                                                                        <input class="form-control" id="fax" value="{{old('customer.fax') ?? $customer->fax ?? ''}}" type="text" name="customer[fax]">
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="customer_email">Email</label>
+                                                                        <label class="col-form-label" for="email">Email</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="customer_email" value="{{old('customer.email') ?? $customer->email ?? ''}}" type="email" name="email">
+                                                                        <input class="form-control" id="email" value="{{old('customer.email') ?? $customer->email ?? ''}}" type="email" name="customer[email]">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -134,7 +147,31 @@
                                                                         <label class="col-form-label" for="tel">Tel</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="tel" value="{{old('customer.tel') ?? $customer->tel ?? ''}}" type="text" name="tel">
+                                                                        <input class="form-control" id="tel" value="{{old('customer.tel') ?? $customer->tel ?? ''}}" type="text" name="customer[tel]">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="sale_office_code">Sales Office</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input class="form-control" id="sale_office_code" value="{{old('customer.sale_office_code') ?? $customer->sale_office_code ?? ''}}" type="text" name="customer[sale_office_code]">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="sale_rep_code">Sales Rep Office</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input class="form-control" id="sale_rep_code" value="{{old('customer.sale_rep_code') ?? $customer->sale_rep_code ?? ''}}" type="text" name="customer[sale_rep_code]">
                                                                     </div>
                                                                 </div>
                                                             </div>
