@@ -1,4 +1,3 @@
 <footer class="c-footer">
-    <div>Copyright ……</div>
-    <div class="ml-auto">Powered by&nbsp;<a href="#">...</a></div>
+    <div>Copyright (C) myfriend Co.,Ltd. Since 2020 Rights Reserved</div>
 </footer>
