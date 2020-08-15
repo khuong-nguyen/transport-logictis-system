@@ -62,6 +62,7 @@ class CustomerController extends Controller
     {
          $request = $request->all();
          $customerRequest =  $request['customer'];
+         dd($customerRequest);
          $customer =   $this->customerRepository->create($customerRequest);
 
          return redirect('/customer/registration/'.$customer->id);

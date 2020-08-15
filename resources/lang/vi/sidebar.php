@@ -15,6 +15,9 @@ return [
     'inventory_module' => 'Inventory Module',
     'setting_module' => 'Setting Module',
     'setting_customer' => 'Customer',
-    'setting_container' => 'Container'
+    'setting_container' => 'Container',
+    
+    // Customer Screen
+    'customer_registration' => 'Customer Registration'
 
 ];
