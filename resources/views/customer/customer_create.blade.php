@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header">@lang('sidebar.customer_registration')</div>
+                <div class="card-header">@lang('customer.customer_registration')</div>
                 <div class="card-body container-fluid">
                     @if (session('status'))
                         <div class="alert alert-success">@lang(session('status'))</div>
