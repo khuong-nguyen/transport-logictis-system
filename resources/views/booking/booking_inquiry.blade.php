@@ -161,7 +161,7 @@
                     "searching": false,
                     "sPaginationType":"full_numbers",
                     "iDisplayLength": 10,
-                    dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-3"p>>',
+                    dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
                     // "infoCallback": function( settings, start, end, max, total, pre ) {
                     //     var api = this.api();
                     //     var pageInfo = api.page.info();
