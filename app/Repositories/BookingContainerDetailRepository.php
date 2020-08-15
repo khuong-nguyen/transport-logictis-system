@@ -4,7 +4,7 @@ namespace App\Repositories;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-interface BookingRepository extends BaseRepository
+interface BookingContainerDetailRepository extends BaseRepository
 {
 
     /**
@@ -14,10 +14,5 @@ interface BookingRepository extends BaseRepository
      */
     public function serverPaginationFilteringFor(Request $request) :LengthAwarePaginator;
 
-    /**
-     * Paginating, ordering and searching through pages for server side index table
-     * @param Request $request
-     * @return LengthAwarePaginator
-     */
-    public function inquirySearch(Request $request):LengthAwarePaginator;
+    public function getWithContainerByBookingId($id);
 }

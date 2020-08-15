@@ -98,4 +98,11 @@ interface BaseRepository
      * @return bool
      */
     public function clearCache();
+
+    /**
+     * @param array $attributes
+     * @param array $values
+     * @return mixed
+     */
+    public function updateOrCreate(array $attributes, array $values = []);
 }

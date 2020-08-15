@@ -14,7 +14,7 @@ class BookingContainerDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'booking_id', 'booking_no', 'container_id', 'booking_container_id', 'containter_no', 'seal_no_1', 'seal_no_2', 'package', 'weight', 'vgm', 'measure',
+        'booking_id', 'booking_no', 'container_id', 'booking_container_id', 'container_no', 'seal_no_1', 'seal_no_2', 'package', 'weight', 'vgm', 'measure',
         'st', 'rf', 'scheduled', 'created_by', 'updated_by'
     ];
 
@@ -26,10 +26,19 @@ class BookingContainerDetail extends Model
     public $timestamps = true;
 
     protected $attributes = [
-        'si' => false,
-        'brd'=>false,
-        'fh' => false,
-        'booking_status' => false
+        'booking_id' => null,
+        'booking_no' => null,
+        'container_id' => null,
+        'booking_container_id' => null,
+        'container_no' => null,
+        'seal_no_1' => null,
+        'seal_no_2' => null,
+        'package' => null,
+        'weight' => null,
+        'vgm' => null,
+        'measure' => null,
+        'st' => null,
+        'rf' => null
     ];
 
     /**
@@ -38,8 +47,6 @@ class BookingContainerDetail extends Model
      * @var array
      */
     protected $casts = [
-        'booking_status' => 'boolean',
-        'si' => 'boolean'
     ];
 
     public function container() {

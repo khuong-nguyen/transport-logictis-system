@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Booking;
 
+use App\BookingContainerDetail;
 use App\Http\Controllers\Controller;
+use App\Repositories\BookingContainerDetailRepository;
 use App\Repositories\BookingRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookingContainerRegistrationController extends Controller
 {
@@ -14,16 +17,23 @@ class BookingContainerRegistrationController extends Controller
     private $bookingRepository;
 
     /**
+     * @var BookingContainerDetailRepository
+     */
+    private $bookingContainerDetailRepository;
+
+    /**
      * Create a new controller instance.
      * @param BookingRepository $bookingRepository
-     *
+     * @param BookingContainerDetailRepository $bookingContainerDetailRepository
      * @return void
      */
     public function __construct(
-        BookingRepository $bookingRepository
+        BookingRepository $bookingRepository,
+        BookingContainerDetailRepository $bookingContainerDetailRepository
     )
     {
         $this->bookingRepository = $bookingRepository;
+        $this->bookingContainerDetailRepository = $bookingContainerDetailRepository;
     }
 
     /**
@@ -44,13 +54,21 @@ class BookingContainerRegistrationController extends Controller
     public function create(Request $request)
     {
         $search = '';
+        $bookingContainerDetails = [];
+        $example = [];
         if ($request->has('search')) {
             $search = $request->get('search');
             $bookingContainerDetails = $this->bookingRepository->search($search,'');
-            $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails:[];
+
+            if ($bookingContainerDetails) {
+                $bookingContainerDetails = $bookingContainerDetails->toArray();
+                $example = new BookingContainerDetail();
+                $example = $example->attributesToArray();
+                return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example'));
+            }
+            return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example'))->with('searchError', 'Could not find this Booking No.');
         }
-        $container = $this->bookingRepository->all();
-        return view('transport.booking_container_registration_create',compact('bookingContainerDetails', 'container', 'search'));
+        return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example'));
     }
 
     /**
@@ -96,17 +114,51 @@ class BookingContainerRegistrationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $booking =  $this->bookingRepository->find($id);
+        if ($booking && $request->has('containerbookingdetail')) {
+            try {
+                $this->bookingContainerDetailRepository->saveBooking($request);
+                return redirect('/booking/transport/registration?search='.$booking->booking_no)->with('status', 'message.save_success');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect('/booking/transport/registration?search='.$booking->booking_no)->with('status', 'message.save_error');
+            }
+        }
+        return redirect('/booking/transport/registration?search='.$booking->booking_no)->with('status', 'message.save_error');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $booking = $this->bookingContainerDetailRepository->find($id);
+            $this->bookingContainerDetailRepository->destroy($booking);
+            DB::commit();
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => null,
+                    'message' => 'success',
+                    'data' => true
+                ], 200);
+            }
+            return redirect('/booking/transport/registration?search='.$booking->booking_no)->with('status', 'message.save_success');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage(),
+                    'data' => false
+                ], 403);
+            }
+            return redirect('/booking/transport/registration?search='.$booking->booking_no)->with('status', 'message.save_error');
+        }
     }
 }

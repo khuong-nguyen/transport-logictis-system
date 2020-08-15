@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\BaseRepository;
+use Ramsey\Uuid\Validator\ValidatorInterface;
 
 /**
  * Class EloquentCoreRepository
@@ -191,4 +192,20 @@ abstract class EloquentBaseRepository implements BaseRepository
     {
         return true;
     }
+
+    /**
+     * Update or Create an entity in repository
+     *
+     * @throws ValidatorException
+     *
+     * @param array $attributes
+     * @param array $values
+     *
+     * @return mixed
+     */
+    public function updateOrCreate(array $attributes, array $values = [])
+    {
+        return $this->model->updateOrCreate($attributes, $values);
+    }
+
 }

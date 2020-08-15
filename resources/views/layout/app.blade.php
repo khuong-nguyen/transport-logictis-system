@@ -19,7 +19,6 @@
 
 </head>
 <body class="c-app">
-
 @include('layout.sidebar')
 <div class="c-wrapper c-fixed-components">
     @include('layout.header')

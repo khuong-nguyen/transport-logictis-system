@@ -24,7 +24,9 @@ class BookingRegistrationRequest extends FormRequest
     public function rules()
     {
         $id = $this->route('id');
-
+        if ($this->has('add-full') || $this->has('save-container')) {
+            return [];
+        }
         return [
             'booking.booking_no' => 'required|unique:booking,booking_no,'.$id.'|max:100',
             'booking.b_l_no' => 'required|max:30',
@@ -40,6 +42,8 @@ class BookingRegistrationRequest extends FormRequest
             'booking.lofc_1' => 'required|max:10',
             'booking.sailling_due_date' => 'required|date|date_format:Y-m-d',
             'booking.pick_up_dt' => 'nullable|date|date_format:Y-m-d',
+            'booking.shipper_id' => 'required',
+            'booking.consignee_id' => 'required'
         ];
     }
 }
