@@ -130,7 +130,7 @@ class CustomerController extends Controller
      *
      * @return View
      */
-    public function update(Request $request,$id)
+    public function update(CustomerRequest $request,$id)
     {
         $request = $request->all();
         $customerRequest =  $request['customer'];
