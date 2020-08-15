@@ -13,4 +13,11 @@ interface BookingRepository extends BaseRepository
      * @return LengthAwarePaginator
      */
     public function serverPaginationFilteringFor(Request $request) :LengthAwarePaginator;
+
+    /**
+     * Paginating, ordering and searching through pages for server side index table
+     * @param Request $request
+     * @return LengthAwarePaginator
+     */
+    public function inquirySearch(Request $request):LengthAwarePaginator;
 }

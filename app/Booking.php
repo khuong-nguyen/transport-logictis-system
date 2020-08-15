@@ -49,4 +49,18 @@ class Booking extends Model
         'si' => 'boolean'
     ];
 
+    public  function forwarders()
+    {
+       return $this->hasMany('App\ForwarderBooking','booking_id');
+    }
+
+    public  function consignee()
+    {
+        return $this->belongsTo('App\BookingConsignee');
+    }
+
+    public  function shipper()
+    {
+        return $this->belongsTo('App\ShipperBooking');
+    }
 }
