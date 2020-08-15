@@ -26,4 +26,5 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
     Route::post('/registration', 'CustomerController@store');
     Route::get('/registration/{id}', 'CustomerController@edit');
     Route::put('/registration/{id}', 'CustomerController@update');
+    Route::get('/inquiry', 'CustomerInquiryController@index');
 });
