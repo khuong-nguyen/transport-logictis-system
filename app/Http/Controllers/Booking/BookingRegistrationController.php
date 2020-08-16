@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Booking;
 
+use App\Booking;
 use App\BookingContainerDetail;
 use App\Http\Controllers\Controller;
 use App\Repositories\BookingContainerDetailRepository;
@@ -192,8 +193,9 @@ class BookingRegistrationController extends Controller
         $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails->toArray():[];
         $example = new BookingContainerDetail();
         $example = $example->attributesToArray();
+        $statusApproved = Booking::STATUS_APPROVED;
 
-        return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers', 'bookingContainerDetails', 'search', 'example'));
+        return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers', 'bookingContainerDetails', 'search', 'example', 'statusApproved'));
     }
 
 
@@ -204,10 +206,13 @@ class BookingRegistrationController extends Controller
      */
     public function update(BookingRegistrationRequest $request,$id)
     {
-        $url = $request->getRequestUri();
-        if ($request->has('add-full') || $request->has('save-container')) {
+        $booking = $this->bookingRepository->find($id);
+        if ($request->has('save-container')) {
             try {
-                $data = $this->bookingContainerDetailRepository->saveBooking($request);
+                $data = [];
+                if ($booking->booking_status !== Booking::STATUS_APPROVED) {
+                    $data = $this->bookingContainerDetailRepository->saveBooking($request);
+                }
                 return response()->json([
                     'error' => null,
                     'message' => 'Updated success!',
@@ -222,13 +227,35 @@ class BookingRegistrationController extends Controller
             }
 
         }
+        if ($request->has('confirm-booking')) {
+            try {
+                $data = [];
+                if ($booking->booking_status !== Booking::STATUS_APPROVED) {
+                    $data = $this->bookingRepository->update($booking, ['booking_status' => Booking::STATUS_APPROVED]);
+                }
+
+                return response()->json([
+                    'error' => null,
+                    'message' => 'Updated success!',
+                    'data' => $data
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage(),
+                    'data' => false
+                ], 403);
+            }
+
+        }
+        $url = $request->getRequestUri();
         $request = $request->all();
         $bookingRequest =  $request['booking'];
         $shipperRequest =  $request['shipper'];
         $consigneeRequest =  $request['consignee'];
         $forwarderRequest =  $request['forwarder'];
 
-        $booking =   $this->bookingRepository->update($this->bookingRepository->find($id),$bookingRequest);
+        $booking =   $this->bookingRepository->update($booking,$bookingRequest);
 
         $shipper =   $this->shipperBookingRepository->update($this->shipperBookingRepository->findByAttributes(['booking_id'=>$booking->id]),$shipperRequest);
         $consignee =   $this->consigneeBookingRepository->update($this->consigneeBookingRepository->findByAttributes(['booking_id'=>$booking->id]),$consigneeRequest);

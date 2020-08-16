@@ -9,6 +9,8 @@ class Booking extends Model
 
     protected $table ='booking';
 
+    const STATUS_APPROVED = 'APPROVED';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -36,7 +38,7 @@ class Booking extends Model
         'si' => false,
         'brd'=>false,
         'fh' => false,
-        'booking_status' => false
+        'booking_status' => 'ORDER'
     ];
 
     /**
@@ -45,7 +47,7 @@ class Booking extends Model
      * @var array
      */
     protected $casts = [
-        'booking_status' => 'boolean',
+//        'booking_status' => 'boolean',
         'si' => 'boolean'
     ];
 
