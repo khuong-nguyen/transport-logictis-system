@@ -10,6 +10,10 @@ use App\Repositories\EmployeeRepository;
 use App\Repositories\Eloquent\EloquentEmployeeRepository;
 use App\Employee;
 
+use App\Repositories\FixedAssetRepository;
+use App\Repositories\Eloquent\EloquentFixedAssetRepository;
+use App\FixedAsset;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,7 +38,14 @@ class AppServiceProvider extends ServiceProvider
             function () {
                 return  new EloquentEmployeeRepository(new Employee());
             }
-            );
+        );
+        
+        $this->app->bind(
+            FixedAssetRepository::class,
+            function () {
+                return  new EloquentFixedAssetRepository(new FixedAsset());
+            }
+        );
     }
 
     /**
