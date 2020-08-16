@@ -64,10 +64,21 @@ class EmployeeController extends Controller
         ];
         $cityCodeOptionDefault = "SGN";
         
+        //load default options for department
+        $departmentCodeOptions = [
+            "DRIVER" => "Driver",
+            "HR" => "Human Resource",
+            "TRANSPORT" => "Transport",
+            "ACCOUNTING" => "Accounting",
+        ];
+        $departmentCodeOptionDefault = "DRIVER";
+        
         return view('employee.employee_create',['countryCodeOptions' => $countryCodeOptions,
                                                 'countryCodeOptionDefault' => $countryCodeOptionDefault,
                                                 'cityCodeOptions' => $cityCodeOptions,
-                                                'cityCodeOptionDefault' => $cityCodeOptionDefault
+                                                'cityCodeOptionDefault' => $cityCodeOptionDefault,
+                                                'departmentCodeOptions' => $departmentCodeOptions,
+                                                'departmentCodeOptionDefault' => $departmentCodeOptionDefault
                                                 ]);
     }
 
@@ -114,11 +125,22 @@ class EmployeeController extends Controller
         
         $selectedCityCodeOption = $employee->city;
         
-        return view('employee.employee_create',["employee" => $employee,
+        //load default options for department
+        $departmentCodeOptions = [
+            "DRIVER" => "Driver",
+            "HR" => "Human Resource",
+            "TRANSPORT" => "Transport",
+            "ACCOUNTING" => "Accounting",
+        ];
+        $selectedDepartmentCodeOption = $employee->department_code;
+        
+        return view('employee.employee_create',['employee' => $employee,
             'countryCodeOptions' => $countryCodeOptions,
             'selectedCountryCodeOption' => $selectedCountryCodeOption,
             'cityCodeOptions' => $cityCodeOptions,
-            'selectedCityCodeOption' => $selectedCityCodeOption
+            'selectedCityCodeOption' => $selectedCityCodeOption,
+            'departmentCodeOptions' => $departmentCodeOptions,
+            'selectedDepartmentCodeOption' => $selectedDepartmentCodeOption
         ]);
     }
 
@@ -151,11 +173,22 @@ class EmployeeController extends Controller
         
         $selectedCityCodeOption = $employee->city;
         
-        return view('employee.employee_create',["employee" => $employee,
+        //load default options for department
+        $departmentCodeOptions = [
+            "DRIVER" => "Driver",
+            "HR" => "Human Resource",
+            "TRANSPORT" => "Transport",
+            "ACCOUNTING" => "Accounting",
+        ];
+        $selectedDepartmentCodeOption = $employee->department_code;
+        
+        return view('employee.employee_create',['employee' => $employee,
             'countryCodeOptions' => $countryCodeOptions,
             'selectedCountryCodeOption' => $selectedCountryCodeOption,
             'cityCodeOptions' => $cityCodeOptions,
-            'selectedCityCodeOption' => $selectedCityCodeOption
+            'selectedCityCodeOption' => $selectedCityCodeOption,
+            'departmentCodeOptions' => $departmentCodeOptions,
+            'selectedDepartmentCodeOption' => $selectedDepartmentCodeOption
         ]);
     }
 }

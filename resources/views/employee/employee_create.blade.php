@@ -35,7 +35,7 @@
                             <div class="col ">
                                 <div class="nav-tabs-boxed form-group">
                                     <ul class="nav nav-tabs" role="tablist" >
-                                        <li class="nav-item"><a class="nav-link active" id="cust_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="profile">Employee Creation</a></li>
+                                        <li class="nav-item"><a class="nav-link active" id="employee_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="profile">Employee Creation</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="tab1" role="tabpanel" aria-labelledby="cust_tab">
@@ -46,7 +46,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label required" for="employee_name">Legal Name</label>
+                                                                        <label class="col-form-label required" for="employee_name">Employee Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
                                                                         <input class="form-control @if($errors->has('employee.employee_name')) is-invalid @endif" id="employee_name" value="{{old('employee.employee_name') ?? $employee->employee_name ?? ''}}" type="text" name="employee[employee_name]" required>
@@ -81,8 +81,6 @@
                                                                         {{ Form::select('employee[city]', $cityCodeOptions,(empty($employee->city) ? $cityCodeOptionDefault : $selectedCityCodeOption), ['class'=>'form-control']) }}
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
                                                                         <label class="col-form-label" for="country_code">Country</label>
@@ -90,6 +88,10 @@
                                                                     <div class="col-md-3 pr-0">
                                                                         {{ Form::select('employee[country_code]', $countryCodeOptions,(empty($employee->country_code) ? $countryCodeOptionDefault : $selectedCountryCodeOption), ['class'=>'form-control']) }}
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
                                                                     <div class="col-md-3 pr-0">
                                                                         <label class="col-form-label" for="zip_code">Zip Code</label>
                                                                     </div>
@@ -119,6 +121,18 @@
                                                                     </div>
                                                                     <div class="col-md-9">
                                                                         <input class="form-control" id="tel" value="{{old('employee.tel') ?? $employee->tel ?? ''}}" type="text" name="employee[tel]">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                        	<div class="col-md-6">
+                                                        		<div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="department_code">Department</label>
+                                                                    </div>
+                                                                    <div class="col-md-3 pr-0">
+                                                                        {{ Form::select('employee[department_code]', $departmentCodeOptions,(empty($employee->department_code) ? $departmentCodeOptionDefault : $selectedDepartmentCodeOption), ['class'=>'form-control']) }}
                                                                     </div>
                                                                 </div>
                                                             </div>
