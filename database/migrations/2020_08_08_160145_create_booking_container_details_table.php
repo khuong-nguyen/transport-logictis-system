@@ -19,7 +19,7 @@ class CreateBookingContainerDetailsTable extends Migration
             $table->string('booking_no', 50);
             $table->foreignId('container_id');
             $table->foreignId('booking_container_id');
-            $table->string('containter_no', 50);
+            $table->string('container_no', 50);
             $table->string('seal_no_1', 50);
             $table->string('seal_no_2', 50);
             $table->integer('package');
