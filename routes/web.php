@@ -29,6 +29,13 @@ Route::group(['prefix' => 'booking','namespace' => 'Booking'],function (){
 
     Route::get('/inquiry', 'BookingInquiryController@index');
 
+    Route::group(['prefix' => 'transport'],function (){
+        Route::get('/registration', 'BookingContainerRegistrationController@create');
+        Route::post('/registration', 'BookingContainerRegistrationController@store');
+        Route::get('/registration/{id}', 'BookingContainerRegistrationController@edit');
+        Route::put('/registration/{id}', 'BookingContainerRegistrationController@update');
+        Route::delete('/registration/{id}', 'BookingContainerRegistrationController@destroy');
+    });
 });
 
 Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){

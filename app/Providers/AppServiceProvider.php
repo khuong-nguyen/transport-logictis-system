@@ -3,9 +3,12 @@
 namespace App\Providers;
 
 use App\BookingConsignee;
+use App\BookingContainerDetail;
 use App\ContainerBooking;
 use App\ForwarderBooking;
+use App\Repositories\BookingContainerDetailRepository;
 use App\Repositories\BookingContainerRepository;
+use App\Repositories\Eloquent\EloquentBookingContainerDetailRepository;
 use App\Repositories\Eloquent\EloquentBookingContainerRepository;
 use App\ShipperBooking;
 use App\Customer;
@@ -77,6 +80,13 @@ class AppServiceProvider extends ServiceProvider
             BookingContainerRepository::class,
             function () {
                 return new EloquentBookingContainerRepository(new ContainerBooking());
+            }
+        );
+
+        $this->app->bind(
+            BookingContainerDetailRepository::class,
+            function () {
+                return new EloquentBookingContainerDetailRepository(new BookingContainerDetail());
             }
         );
     }

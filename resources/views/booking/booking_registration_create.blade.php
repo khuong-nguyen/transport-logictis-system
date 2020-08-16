@@ -37,6 +37,7 @@
                                     <ul class="nav nav-tabs" role="tablist" >
                                         <li class="nav-item"><a class="nav-link active" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">BKG Creation Tab</a></li>
                                         <li class="nav-item"><a class="nav-link" id="cust_tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="profile">Customer Tab</a></li>
+                                        <li class="nav-item"><a class="nav-link" id="container_tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="profile">Container Detail</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="tab1" role="tabpanel" aria-labelledby="bkg_tab">
@@ -695,6 +696,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="container_tab">
+                                            @include('transport.content_create')
                                         </div>
                                     </div>
                                     <div class="card-footer">

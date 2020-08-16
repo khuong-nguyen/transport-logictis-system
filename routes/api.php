@@ -21,4 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api'], function($lang=null) {
     Route::get('/container/code', 'ContainerApiController@search');
     Route::get('/customer/code', 'CustomerApiController@search');
+    Route::get('/booking/code', 'BookingApiController@search');
 });

@@ -49,7 +49,7 @@
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
             <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">@lang('sidebar.transportation_module')</a>
             <ul class="c-sidebar-nav-dropdown-items">
-                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/booking/transport/registration">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.container_booking_registration')</a>

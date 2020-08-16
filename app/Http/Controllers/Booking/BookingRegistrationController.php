@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Booking;
 
+use App\BookingContainerDetail;
 use App\Http\Controllers\Controller;
+use App\Repositories\BookingContainerDetailRepository;
 use App\Repositories\BookingContainerRepository;
 use App\Repositories\ContainerRepository;
 use App\Repositories\CustomerRepository;
@@ -54,6 +56,11 @@ class BookingRegistrationController extends Controller
     private $bookingContainerRepository;
 
     /**
+     * @var BookingContainerDetailRepository
+     */
+    private $bookingContainerDetailRepository;
+
+    /**
      * Where to redirect users after login.
      *
      * @var string
@@ -69,6 +76,7 @@ class BookingRegistrationController extends Controller
      * @param ShipperBookingRepository $shipperBookingRepository
      * @param ForwarderBookingRepository $forwarderBookingRepository
      * @param BookingContainerRepository $bookingContainerRepository
+     * @param BookingContainerDetailRepository $bookingContainerDetailRepository
      *
      * @return void
      */
@@ -79,7 +87,8 @@ class BookingRegistrationController extends Controller
         ConsigneeBookingRepository $consigneeBookingRepository,
         ShipperBookingRepository $shipperBookingRepository,
         ForwarderBookingRepository $forwarderBookingRepository,
-        BookingContainerRepository $bookingContainerRepository
+        BookingContainerRepository $bookingContainerRepository,
+        BookingContainerDetailRepository $bookingContainerDetailRepository
     )
     {
         $this->customerRepository = $customerRepository;
@@ -89,6 +98,7 @@ class BookingRegistrationController extends Controller
         $this->shipperBookingRepository = $shipperBookingRepository;
         $this->forwarderBookingRepository = $forwarderBookingRepository;
         $this->bookingContainerRepository = $bookingContainerRepository;
+        $this->bookingContainerDetailRepository = $bookingContainerDetailRepository;
     }
 
     public function index()
@@ -177,8 +187,13 @@ class BookingRegistrationController extends Controller
         $shipper =   $this->shipperBookingRepository->findByAttributes(['booking_id'=>$booking->id]);
         $consignee =   $this->consigneeBookingRepository->findByAttributes(['booking_id'=>$booking->id]);
         $containers =   $this->bookingContainerRepository->getWithContainerByBookingId($booking->id);
+        $search = $booking->booking_no;
+        $bookingContainerDetails = $this->bookingRepository->search($search,'');
+        $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails->toArray():[];
+        $example = new BookingContainerDetail();
+        $example = $example->attributesToArray();
 
-        return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers'));
+        return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers', 'bookingContainerDetails', 'search', 'example'));
     }
 
 
@@ -189,8 +204,24 @@ class BookingRegistrationController extends Controller
      */
     public function update(BookingRegistrationRequest $request,$id)
     {
-        $request = $request->all();
+        if ($request->has('add-full') || $request->has('save-container')) {
+            try {
+                $data = $this->bookingContainerDetailRepository->saveBooking($request);
+                return response()->json([
+                    'error' => null,
+                    'message' => 'Updated success!',
+                    'data' => $data
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage(),
+                    'data' => false
+                ], 403);
+            }
 
+        }
+        $request = $request->all();
         $bookingRequest =  $request['booking'];
         $shipperRequest =  $request['shipper'];
         $consigneeRequest =  $request['consignee'];
@@ -240,6 +271,6 @@ class BookingRegistrationController extends Controller
     public function delete($id)
     {
         $booking = $this->bookingRepository->find($id);
-       return $this->bookingRepository->destroy($booking);
+        return $this->bookingRepository->destroy($booking);
     }
 }

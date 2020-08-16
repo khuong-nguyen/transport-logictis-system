@@ -30,4 +30,15 @@ class ContainerBooking extends Model
         return $this->belongsTo('App\Container');
     }
 
+    /**
+     * Get booking container details
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function details() {
+        return $this->hasMany(BookingContainerDetail::class, 'booking_container_id', 'id');
+    }
+
+    public function oneContainer() {
+        return $this->hasOne(Container::class, 'id', 'container_id');
+    }
 }

@@ -97,4 +97,21 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
         return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
     }
 
+    /**
+     * @param string|null $string
+     * @return array|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     */
+    public function search(?string $string)
+    {
+
+        if ($string != '')
+        {
+            return $this->model->with(['containerBookings' => function($q) {
+                $q->with('details', 'container');
+            }])->where('booking_no', "{$string}")->first();
+        }
+        return [];
+
+    }
+
 }

@@ -24,7 +24,9 @@ class BookingRegistrationRequest extends FormRequest
     public function rules()
     {
         $id = $this->route('id');
-
+        if ($this->has('add-full') || $this->has('save-container')) {
+            return [];
+        }
         return [
             'booking.booking_no' => 'required|unique:booking,booking_no,'.$id.'|max:100',
             'booking.b_l_no' => 'required|max:30',

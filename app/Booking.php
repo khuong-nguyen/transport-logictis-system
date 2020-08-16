@@ -78,4 +78,11 @@ class Booking extends Model
             $booking->consignee()->delete();
         });
     }
+    /**
+     * Get booking container
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function containerBookings() {
+        return $this->hasMany(ContainerBooking::class);
+    }
 }
