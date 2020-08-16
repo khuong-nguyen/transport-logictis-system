@@ -14,132 +14,140 @@
             </div>
         </div>
         @if (isset($bookingContainerDetails['container_bookings']))
-        <div class="row">
-            <div class="col-sm-6">
-                <table class="table table-dark">
+            @if (!isset($booking))
+            <form id="form-transport-container" action="/booking/transport/registration{{ isset($bookingContainerDetails['id']) ? '/'.$bookingContainerDetails['id'] :''}}" method="post">
+                @csrf
+                @if(isset($bookingContainerDetails))  @method('PUT') @endif
+            @endif
+                <div class="row">
+                    <div class="col-sm-6">
+                        <table class="table table-dark">
+                            <thead>
+                                <tr>
+                                    <th>TP/SZ</th>
+                                    <th>Vol</th>
+                                    <th>EQ Sub(Incl. R/D</th>
+                                    <th>S.O.C</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $listContainers = [];
+                                    $addFull = false;
+                                @endphp
+                                @foreach($bookingContainerDetails['container_bookings'] as $containerBooking)
+                                    @php
+                                        $containerCode = isset($containerBooking['container']) && !empty($containerBooking['container']) ? $containerBooking['container']['container_code']:'';
+                                        $vol = $containerBooking['vol'];
+                                        if (is_array($containerBooking['details'])) {
+                                            foreach ($containerBooking['details'] as $detail) {
+                                                $addFull = true;
+                                                $detail['weight'] = floatval($detail['weight']);
+                                                $detail['vgm'] = floatval($detail['vgm']);
+                                                $detail['measure'] = floatval($detail['measure']);
+                                                $detail['container_code'] = $containerCode;
+                                                $listContainers[] = $detail;
+                                                $vol--;
+                                            }
+                                        }
+
+                                        for ($i = 0; $i < $vol; $i++) {
+                                            $example['booking_container_id'] = $containerBooking['id'];
+                                            $example['booking_no'] = $bookingContainerDetails['booking_no'];
+                                            $example['container_id'] = $containerBooking['container_id'];
+                                            $example['booking_id'] = $containerBooking['booking_id'];
+                                            $example['container_code'] = $containerCode;
+                                            $listContainers[] = $example;
+                                        }
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $containerCode }}</td>
+                                        <td>{{ $containerBooking['vol'] }}</td>
+                                        <td>{{ $containerBooking['eq_sub'] }}</td>
+                                        <td>{{ $containerBooking['soc'] }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="">Route {{ '{'.$bookingContainerDetails['por_1'].'}'.'{'.$bookingContainerDetails['por_2'].'}'.'{'.$bookingContainerDetails['pol_1'].'}'.'{'.$bookingContainerDetails['pol_2'].'} ~ '.'{'.$bookingContainerDetails['pod_1'].'}'.'{'.$bookingContainerDetails['pod_2'].'}'.'{'.$bookingContainerDetails['del_1'].'}'.'{'.$bookingContainerDetails['del_2'].'}' }}</label>
+                    </div>
+                </div>
+                <table class="table table-bordered table-container-list">
                     <thead>
                         <tr>
+                            <th>No.</th>
                             <th>TP/SZ</th>
-                            <th>Vol</th>
-                            <th>EQ Sub(Incl. R/D</th>
-                            <th>S.O.C</th>
+                            <th>Container No</th>
+                            <th>Seal No 1</th>
+                            <th>Seal No 2</th>
+                            <th>package</th>
+                            <th>weight</th>
+                            <th colspan="2">VGM</th>
+                            <th>Measure</th>
+                            <th>ST</th>
+                            <th>RF</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $listContainers = [];
-                            $addFull = false;
-                        @endphp
-                        @foreach($bookingContainerDetails['container_bookings'] as $containerBooking)
-                            @php
-                                $containerCode = isset($containerBooking['container']) && !empty($containerBooking['container']) ? $containerBooking['container']['container_code']:'';
-                                $vol = $containerBooking['vol'];
-                                if (is_array($containerBooking['details'])) {
-                                    foreach ($containerBooking['details'] as $detail) {
-                                        $addFull = true;
-                                        $detail['weight'] = floatval($detail['weight']);
-                                        $detail['vgm'] = floatval($detail['vgm']);
-                                        $detail['measure'] = floatval($detail['measure']);
-                                        $detail['container_code'] = $containerCode;
-                                        $listContainers[] = $detail;
-                                        $vol--;
-                                    }
-                                }
+                    @php
+                        $i = 1;
+                    @endphp
+                    @foreach($listContainers as $list)
 
-                                for ($i = 0; $i < $vol; $i++) {
-                                    $example['booking_container_id'] = $containerBooking['id'];
-                                    $example['booking_no'] = $bookingContainerDetails['booking_no'];
-                                    $example['container_id'] = $containerBooking['container_id'];
-                                    $example['booking_id'] = $containerBooking['booking_id'];
-                                    $example['container_code'] = $containerCode;
-                                    $listContainers[] = $example;
-                                }
-                            @endphp
-                            <tr>
-                                <td>{{ $containerCode }}</td>
-                                <td>{{ $containerBooking['vol'] }}</td>
-                                <td>{{ $containerBooking['eq_sub'] }}</td>
-                                <td>{{ $containerBooking['soc'] }}</td>
-                            </tr>
-                        @endforeach
+                        <tr>
+                            <input type="hidden" name="containerbookingdetail[<?=$i?>][container_id]" value="{{ $list['container_id'] }}">
+                            <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_id]" value="{{ $list['booking_id'] }}">
+                            <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_container_id]" value="{{ $list['booking_container_id'] }}">
+                            <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_no]" value="{{ $list['booking_no'] }}">
+                            <input type="hidden" name="containerbookingdetail[<?=$i?>][position]" value="{{ $i }}">
+                            <input type="hidden" class="id" name="containerbookingdetail[<?=$i?>][id]" value="{{ isset($list['id'])?$list['id']:'' }}">
+                            <td>{{ $i }}</td>
+                            <td>{{ $list['container_code'] }}</td>
+                            <td><input type="text" name="containerbookingdetail[<?=$i?>][container_no]" value="{{ $list['container_no'] }}" class="form-control container_no"></td>
+                            <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_1]" value="{{ $list['seal_no_1'] }}" class="form-control seal_no_1"></td>
+                            <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_2]" value="{{ $list['seal_no_2'] }}" class="form-control seal_no_2"></td>
+                            <td><input type="number" min="1" name="containerbookingdetail[<?=$i?>][package]" value="{{ $list['package'] }}" class="form-control package"></td>
+                            <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][weight]" value="{{ $list['weight'] }}" class="form-control weight"></td>
+                            <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][vgm]" value="{{ $list['vgm'] }}" class="form-control vgm"></td>
+                            <td>KGS</td>
+                            <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][measure]" value="{{ $list['measure'] }}" class="form-control measure"></td>
+                            <td><input type="text" name="containerbookingdetail[<?=$i?>][st]" value="{{ $list['st'] }}" class="form-control st"></td>
+                            <td><input type="number" min="1" maxlength="11" name="containerbookingdetail[<?=$i?>][rf]" value="{{ $list['rf'] }}" class="form-control rf"></td>
+                            <td>@if(isset($list['id']))<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
+                        </tr>
+                        @php
+                            $i++;
+                        @endphp
+                    @endforeach
                     </tbody>
                 </table>
-            </div>
-            <div class="col-sm-6">
-                <label for="">Route {{ '{'.$bookingContainerDetails['por_1'].'}'.'{'.$bookingContainerDetails['por_2'].'}'.'{'.$bookingContainerDetails['pol_1'].'}'.'{'.$bookingContainerDetails['pol_2'].'} ~ '.'{'.$bookingContainerDetails['pod_1'].'}'.'{'.$bookingContainerDetails['pod_2'].'}'.'{'.$bookingContainerDetails['del_1'].'}'.'{'.$bookingContainerDetails['del_2'].'}' }}</label>
-            </div>
-        </div>
-            <table class="table table-bordered table-container-list">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>TP/SZ</th>
-                        <th>Container No</th>
-                        <th>Seal No 1</th>
-                        <th>Seal No 2</th>
-                        <th>package</th>
-                        <th>weight</th>
-                        <th colspan="2">VGM</th>
-                        <th>Measure</th>
-                        <th>ST</th>
-                        <th>RF</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @php
-                    $i = 1;
-                @endphp
-                @foreach($listContainers as $list)
-
-                    <tr>
-                        <input type="hidden" name="containerbookingdetail[<?=$i?>][container_id]" value="{{ $list['container_id'] }}">
-                        <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_id]" value="{{ $list['booking_id'] }}">
-                        <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_container_id]" value="{{ $list['booking_container_id'] }}">
-                        <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_no]" value="{{ $list['booking_no'] }}">
-                        <input type="hidden" name="containerbookingdetail[<?=$i?>][position]" value="{{ $i }}">
-                        <input type="hidden" class="id" name="containerbookingdetail[<?=$i?>][id]" value="{{ isset($list['id'])?$list['id']:'' }}">
-                        <td>{{ $i }}</td>
-                        <td>{{ $list['container_code'] }}</td>
-                        <td><input type="text" name="containerbookingdetail[<?=$i?>][container_no]" value="{{ $list['container_no'] }}" class="form-control container_no"></td>
-                        <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_1]" value="{{ $list['seal_no_1'] }}" class="form-control seal_no_1"></td>
-                        <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_2]" value="{{ $list['seal_no_2'] }}" class="form-control seal_no_2"></td>
-                        <td><input type="number" min="1" name="containerbookingdetail[<?=$i?>][package]" value="{{ $list['package'] }}" class="form-control package"></td>
-                        <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][weight]" value="{{ $list['weight'] }}" class="form-control weight"></td>
-                        <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][vgm]" value="{{ $list['vgm'] }}" class="form-control vgm"></td>
-                        <td>KGS</td>
-                        <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][measure]" value="{{ $list['measure'] }}" class="form-control measure"></td>
-                        <td><input type="text" name="containerbookingdetail[<?=$i?>][st]" value="{{ $list['st'] }}" class="form-control st"></td>
-                        <td><input type="number" min="1" maxlength="11" name="containerbookingdetail[<?=$i?>][rf]" value="{{ $list['rf'] }}" class="form-control rf"></td>
-                        <td>@if(isset($list['id']))<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
-                    </tr>
-                    @php
-                        $i++;
-                    @endphp
-                @endforeach
-                </tbody>
-            </table>
-            <div class="row">
-                <div class="col-12">
-                    <div class="float-right add-full">
-                        @if($addFull)
-                            <button type="submit" id="add-full" value="action" class="btn btn-primary">Add Full</button>
-                        @endif
+                <div class="row">
+                    <div class="col-12">
+                        <div class="float-right add-full">
+                            @if($addFull)
+                                <button type="submit" id="add-full" value="action" class="btn btn-primary">Add Full</button>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="float-right">
-                        @if (isset($booking))
-                            <input type="hidden" id="is-booking" value="true">
-                            <button type="button" class="btn btn-primary" id="confirm-booking">Confirm</button>
-                        @endif
-                        <button type="button" id="save-container" class="btn btn-primary">Save</button>
-                        <a href="{{ asset('booking/transport/registration') }}" class="btn btn-secondary">Close</a>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="float-right">
+                            @if (isset($booking))
+                                <input type="hidden" id="is-booking" value="true">
+                                <button type="button" class="btn btn-primary" id="confirm-booking">Confirm</button>
+                            @endif
+                            <button type="button" id="save-container" class="btn btn-primary">Save</button>
+                            <a href="{{ asset('booking/transport/registration') }}" class="btn btn-secondary">Close</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @if (!isset($booking))
+                </form>
+            @endif
         @endif
     </div>
 </div>
