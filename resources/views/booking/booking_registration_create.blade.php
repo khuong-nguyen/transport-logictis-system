@@ -172,12 +172,12 @@
                                                             </div>
 
                                                             <div class="custom-control custom-checkbox col-md-2">
-                                                                <input class="custom-control-input" id="si" @if(old('booking.si') == 1 || (isset($booking) && $booking->si ==1)) checked @endif type="checkbox" value="0" name="booking[si]" >
+                                                                <input class="custom-control-input" id="si" @if(old('booking.si') == 1 || (isset($booking) && $booking->si ==1)) checked @endif type="checkbox" value="1" name="booking[si]" >
                                                                 <label class="custom-control-label" for="si">SI</label>
                                                             </div>
 
                                                             <div class="custom-control custom-checkbox col-md-2">
-                                                                <input class="custom-control-input" id="brd" @if(old('booking.brd') == 1 || (isset($booking) && $booking->brd ==1)) checked @endif type="checkbox" value="0" name="booking[brd]">
+                                                                <input class="custom-control-input" id="brd" @if(old('booking.brd') == 1 || (isset($booking) && $booking->brd ==1)) checked @endif type="checkbox" value="1" name="booking[brd]">
                                                                 <label class="custom-control-label" for="brd">BRD</label>
                                                             </div>
                                                         </div>
@@ -300,7 +300,7 @@
                                                                 <div class="col-md-4"></div>
                                                                 <div class="col-md-4">
                                                                     <div class="custom-control custom-checkbox col-md-2">
-                                                                        <input class="custom-control-input" id="fh" @if(old('booking.fh') == 1 || (isset($booking) && $booking->fh ==1) )checked @endif type="checkbox" value="0" name="booking[fh]">
+                                                                        <input class="custom-control-input" id="fh" @if(old('booking.fh') == 1 || (isset($booking) && $booking->fh ==1) )checked @endif type="checkbox" value="1" name="booking[fh]">
                                                                         <label class="custom-control-label" for="fh">Fh</label>
                                                                     </div>
                                                                 </div>
@@ -378,7 +378,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-4 pr-0 pt-0 col-form-label" for="bkg_contact_name">Contact Name</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control" id="bkg_contact_name" type="text" name="booking['bkg_contact_name']" value="{{old('booking.bkg_contact_name') ?? $booking->bkg_contact_name ?? ''}}">
+                                                                <input class="form-control" id="bkg_contact_name" type="text" name="booking[bkg_contact_name]" value="{{old('booking.bkg_contact_name') ?? $booking->bkg_contact_name ?? ''}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -527,10 +527,10 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="shipper_email">Email</label>
+                                                                        <label class="col-form-label" for="email">Email</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="shipper_email" value="{{old('shipper.email') ?? $shipper->email ?? ''}}" type="email" name="shipper[email]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="email" value="{{old('shipper.email') ?? $shipper->email ?? ''}}" type="email" name="shipper[email]" @if(!isset($booking)) readonly @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -724,7 +724,7 @@
                                                     <button class="btn btn-primary" type="submit" id="submit-form-save"> Save</button>
                                                 </div>
                                                 <div class="btn-group">
-                                                    <a class="btn btn-primary" href="/" role="button">Close</a>
+                                                    <button class="btn btn-primary" id="closeRegistration" role="button" type="button"> Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -867,6 +867,14 @@
                 });
             })
 
+            $('#closeRegistration').click(function (){
+                var queryString = window.location.search;
+                var url = '/'
+                if (queryString){
+                    url = '/booking/inquiry'+queryString;
+                }
+                window.location.replace(url);
+            });
         });
         function remove(elem,id){
             var vol = $('#container_vol_'+id).val();
