@@ -28,7 +28,7 @@
                     @if (session('status'))
                         <div class="alert alert-success">@lang(session('status'))</div>
                     @endif
-                    <form action="/booking/registration{{ isset($booking) ? '/'.$booking->id :''}}" method="post">
+                    <form id="form" action="/booking/registration{{ isset($booking) ? '/'.$booking->id :''}}" method="post">
                         @csrf
                         @if(isset($booking))  @method('PUT') @endif
                         <div class="row">
@@ -443,7 +443,7 @@
                                                                         @error('booking.shipper_id')<div class="invalid-feedback" style="position: relative; width:400%">{{ $message }}</div>@enderror
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
-                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_code" value="{{old('shipper_code') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_code" @if(isset($booking)) readonly @endif>
+                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_code" value="{{old('shipper_code') ?? $shipper->customer_code ?? ''}}" type="text" name="shipper_code" @if(isset($booking)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <button type="button" class="btn btn-primary" id="shipper_search" @if(isset($booking)) disabled @endif>Search</button>
@@ -733,7 +733,12 @@
     </div>
     <script type="text/javascript">
         let containerId =[];
+        var queryString = window.location.search;
+        var action = document.getElementById("form").getAttribute("action");
+        document.getElementById("form").setAttribute('action',action+queryString);
+
         $(function () {
+
             $('#sailling_due_date').datetimepicker({
                 viewMode: 'days',
                 format: 'YYYY-MM-DD',

@@ -189,6 +189,7 @@ class BookingRegistrationController extends Controller
      */
     public function update(BookingRegistrationRequest $request,$id)
     {
+        $url = $request->getRequestUri();
         $request = $request->all();
 
         $bookingRequest =  $request['booking'];
@@ -234,7 +235,7 @@ class BookingRegistrationController extends Controller
                 }
             }
         }
-        return redirect('/booking/registration/'.$booking->id)->with('status','message.save_success');
+        return redirect($url)->with('status','message.save_success');
     }
 
     public function delete($id)
