@@ -19,7 +19,7 @@ class CreateConsigneeBookingTable extends Migration
             $table->string('customer_legal_english_name', 200);
             $table->string('customer_language_name', 200)->nullable();
             $table->string('customer_address', 300)->nullable();
-            $table->string('customer_code', 50)->unique();
+            $table->string('customer_code', 50);
             $table->string('email', 100);
             $table->string('fax', 30)->nullable();
             $table->string('tel', 30)->nullable();
