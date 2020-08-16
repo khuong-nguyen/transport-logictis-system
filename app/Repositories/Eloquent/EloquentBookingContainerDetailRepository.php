@@ -42,35 +42,20 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
                     $oldContainer = $this->find($data['id']);
                     $this->update($oldContainer, $data);
                 } else {
-                    if ($request->has('add-full')) {
-                        $data['container_no'] = $data['container_no']?$data['container_no']:'CONT'.substr(str_shuffle("0123456789"), 0, 5);
-                        $data['seal_no_1'] = $data['seal_no_1']?$data['seal_no_1']:'SEAL'.substr(str_shuffle("0123456789"), 0, 5);
-                        $data['seal_no_2'] = $data['seal_no_2']?$data['seal_no_2']:'SEAL'.substr(str_shuffle("0123456789"), 0, 5);
-                        $data['package'] = $data['package']?$data['package']:0;
-                        $data['weight'] = $data['weight']?$data['weight']:0;
-                        $data['vgm'] = $data['vgm']?$data['vgm']:0;
-                        $data['measure'] = $data['measure']?$data['measure']:0;
-                        $data['rf'] = $data['rf']?$data['rf']:0;
-                        $data['st'] = $data['st']?$data['st']:'ST'.substr(str_shuffle("0123456789"), 0, 5);
-                        $record = $this->create($data);
+                    $filter = collect([$data])->whereNotNull('container_no')
+                        ->whereNotNull('seal_no_1')
+                        ->whereNotNull('seal_no_2')
+                        ->whereNotNull('package')
+                        ->whereNotNull('weight')
+                        ->whereNotNull('vgm')
+                        ->whereNotNull('measure')
+                        ->whereNotNull('vgm')
+                        ->whereNotNull('st')
+                        ->whereNotNull('rf')->values()->pop();
+                    if ($filter) {
+                        $record = $this->create($filter);
                         $data['id'] = $record->id;
                         $result[] = $data;
-                    } else {
-                        $filter = collect([$data])->whereNotNull('container_no')
-                            ->whereNotNull('seal_no_1')
-                            ->whereNotNull('seal_no_2')
-                            ->whereNotNull('package')
-                            ->whereNotNull('weight')
-                            ->whereNotNull('vgm')
-                            ->whereNotNull('measure')
-                            ->whereNotNull('vgm')
-                            ->whereNotNull('st')
-                            ->whereNotNull('rf')->values()->pop();
-                        if ($filter) {
-                            $record = $this->create($filter);
-                            $data['id'] = $record->id;
-                            $result[] = $data;
-                        }
                     }
                 }
             }

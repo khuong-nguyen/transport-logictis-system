@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Booking;
 
+use App\Booking;
 use App\BookingContainerDetail;
 use App\Http\Controllers\Controller;
 use App\Repositories\BookingContainerDetailRepository;
@@ -115,7 +116,7 @@ class BookingContainerRegistrationController extends Controller
     public function update(Request $request, $id)
     {
         $booking =  $this->bookingRepository->find($id);
-        if ($booking && $request->has('containerbookingdetail')) {
+        if ($booking && $request->has('containerbookingdetail') && $booking->booking_status !== Booking::STATUS_APPROVED) {
             try {
                 $this->bookingContainerDetailRepository->saveBooking($request);
                 return redirect('/booking/transport/registration?search='.$booking->booking_no)->with('status', 'message.save_success');
@@ -139,8 +140,10 @@ class BookingContainerRegistrationController extends Controller
         DB::beginTransaction();
         try {
             $booking = $this->bookingContainerDetailRepository->find($id);
-            $this->bookingContainerDetailRepository->destroy($booking);
-            DB::commit();
+            if ($booking->booking_status !== Booking::STATUS_APPROVED) {
+                $this->bookingContainerDetailRepository->destroy($booking);
+                DB::commit();
+            }
             if ($request->ajax()) {
                 return response()->json([
                     'error' => null,

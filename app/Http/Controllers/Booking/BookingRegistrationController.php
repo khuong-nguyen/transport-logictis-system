@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Booking;
 
+use App\Booking;
 use App\BookingContainerDetail;
 use App\Http\Controllers\Controller;
 use App\Repositories\BookingContainerDetailRepository;
@@ -204,9 +205,13 @@ class BookingRegistrationController extends Controller
      */
     public function update(BookingRegistrationRequest $request,$id)
     {
-        if ($request->has('add-full') || $request->has('save-container')) {
+        $booking = $this->bookingRepository->find($id);
+        if ($request->has('save-container')) {
             try {
-                $data = $this->bookingContainerDetailRepository->saveBooking($request);
+                $data = [];
+                if ($booking->booking_status !== Booking::STATUS_APPROVED) {
+                    $data = $this->bookingContainerDetailRepository->saveBooking($request);
+                }
                 return response()->json([
                     'error' => null,
                     'message' => 'Updated success!',
@@ -221,13 +226,35 @@ class BookingRegistrationController extends Controller
             }
 
         }
+        if ($request->has('confirm-booking')) {
+            try {
+                $data = [];
+                if ($booking->booking_status !== Booking::STATUS_APPROVED) {
+                    $data = $this->bookingRepository->update($booking, ['booking_status' => Booking::STATUS_APPROVED]);
+                }
+
+                return response()->json([
+                    'error' => null,
+                    'message' => 'Updated success!',
+                    'data' => $data
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage(),
+                    'data' => false
+                ], 403);
+            }
+
+        }
+        $url = $request->getRequestUri();
         $request = $request->all();
         $bookingRequest =  $request['booking'];
         $shipperRequest =  $request['shipper'];
         $consigneeRequest =  $request['consignee'];
         $forwarderRequest =  $request['forwarder'];
 
-        $booking =   $this->bookingRepository->update($this->bookingRepository->find($id),$bookingRequest);
+        $booking =   $this->bookingRepository->update($booking,$bookingRequest);
 
         $shipper =   $this->shipperBookingRepository->update($this->shipperBookingRepository->findByAttributes(['booking_id'=>$booking->id]),$shipperRequest);
         $consignee =   $this->consigneeBookingRepository->update($this->consigneeBookingRepository->findByAttributes(['booking_id'=>$booking->id]),$consigneeRequest);
@@ -265,7 +292,7 @@ class BookingRegistrationController extends Controller
                 }
             }
         }
-        return redirect('/booking/registration/'.$booking->id)->with('status','message.save_success');
+        return redirect($url)->with('status','message.save_success');
     }
 
     public function delete($id)

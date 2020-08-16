@@ -70,7 +70,7 @@ class BookingInquiryController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $url = '/booking/registration/'.$row->id;
-                    return '<a href="'.$url.'" class="edit btn btn-success btn-sm">Edit</a>
+                    return '<button class="edit btn btn-success btn-sm" data-remote="'. $url.'">Edit</button>
                         <button class="delete btn btn-danger btn-sm" data-remote="'. $url.'">Delete</button>';
                 })
                 ->rawColumns(['action'])
