@@ -49,14 +49,10 @@ class BookingInquiryController extends Controller
         if(request()->ajax())
         {
             $search = $request->get('search');
-            if($search != null)
-            {
+
+
                 $data = $this->bookingRepository->inquirySearch($request);
-            }
-            else
-            {
-                $data = $this->bookingRepository->serverPaginationFilteringFor($request);
-            }
+
             return datatables()->of($data)
                 ->with([
                     "recordsTotal"    => count($data),
