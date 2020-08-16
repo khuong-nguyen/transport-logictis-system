@@ -30,7 +30,7 @@ class CreateCustomerTable extends Migration
             $table->string('post_office_box', 300)->nullable();
             $table->string('sale_office_code', 50);
             $table->string('sale_rep_code', 50);
-            $table->string('customer_type', 30); //[01,02,03]
+            $table->string('customer_type', 30)->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->timestamps();

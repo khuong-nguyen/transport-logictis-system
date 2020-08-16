@@ -28,9 +28,9 @@ class CreateVirtualBookingTable extends Migration
             $table->string('r_d_term_1', 30)->nullable();
             $table->string('r_d_term_2', 30)->nullable();
             $table->string('b_l_no', 30)->nullable();
-            $table->boolean('si');
-            $table->boolean('brd');
-            $table->boolean('fh');
+            $table->boolean('si')->default(false);
+            $table->boolean('brd')->default(false);
+            $table->boolean('fh')->default(false);
             $table->string('cmdt_1', 30);
             $table->string('cmdt_2', 30)->nullable();
             $table->decimal('weight');

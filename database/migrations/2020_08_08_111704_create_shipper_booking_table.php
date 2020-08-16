@@ -13,7 +13,7 @@ class CreateConsigneeBookingTable extends Migration
      */
     public function up()
     {
-        Schema::create('consignee_booking', function (Blueprint $table) {
+        Schema::create('shipper_booking', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('booking_id');
             $table->string('customer_legal_english_name', 200);
@@ -31,7 +31,7 @@ class CreateConsigneeBookingTable extends Migration
             $table->string('post_office_box', 300)->nullable();
             $table->string('sale_office_code', 50);
             $table->string('sale_rep_code', 50);
-            $table->string('customer_type', 30);
+            $table->string('customer_type', 30)->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->timestamps();
@@ -45,6 +45,6 @@ class CreateConsigneeBookingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer');
+        Schema::dropIfExists('shipper_booking');
     }
 }
