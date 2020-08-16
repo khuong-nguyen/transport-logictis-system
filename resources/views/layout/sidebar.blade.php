@@ -70,7 +70,7 @@
                             <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.setting_customer')</a>
                 </li>
-                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/customer/inquiry">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.customer_inquiry')</a>
