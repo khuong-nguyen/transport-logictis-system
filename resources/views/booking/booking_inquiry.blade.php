@@ -15,7 +15,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label" for="booking_no">BKG No</label>
                                 <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="booking_no" name="booking_no" type="text" value="{{ old('booking.booking_no') ?? $params['columns']['booking_no']}}">
+                                    <input class="form-control" id="booking_no" name="booking_no" type="text" value="{{ old('booking.booking_no') ?? $params['booking_no']}}">
                                 </div>
                             </div>
                         </div>
@@ -170,9 +170,10 @@
         var searchFirst = searchToObject(window.location.search)
         $(function () {
             fill_datatable(searchFirst);
-            function fill_datatable(search = '')
+            function fill_datatable(search = {})
             {
                 search = Array.isArray(search)?{search:search}:search;
+
                $('#inquiryDatatable').DataTable({
                     processing: true,
                     serverSide: true,

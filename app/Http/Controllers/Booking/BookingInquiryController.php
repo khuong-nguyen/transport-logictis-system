@@ -49,18 +49,14 @@ class BookingInquiryController extends Controller
         if(request()->ajax())
         {
             $search = $request->get('search');
-            if($search != null)
-            {
+
+
                 $data = $this->bookingRepository->inquirySearch($request);
-            }
-            else
-            {
-                $data = $this->bookingRepository->serverPaginationFilteringFor($request);
-            }
-            return datatables()->of($data->items())
+
+            return datatables()->of($data)
                 ->with([
-                    "recordsTotal"    => $data->total(),
-                    "recordsFiltered" => $data->total(),
+                    "recordsTotal"    => count($data),
+                    "recordsFiltered" => count($data),
                 ])
                 ->editColumn('pol_1', function ($row) {
                     return $row->pol_1.$row->pol_2;

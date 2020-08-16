@@ -29,7 +29,7 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
         return $query->paginate($request->get('per_page', 10));
     }
 
-    public function inquirySearch(Request $request) :LengthAwarePaginator
+    public function inquirySearch(Request $request)
     {
         $query = $this->model->query();
 
@@ -107,7 +107,7 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
         {
             $query->where(DB::raw("CONCAT_WS( '' ,pod_1,pod_2)"), '=', $search['pod']);
         }
-        return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
+        return $query->orderBy('created_at', 'desc')->get();
     }
 
     /**
