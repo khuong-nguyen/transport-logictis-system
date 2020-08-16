@@ -98,12 +98,12 @@
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
-                        </svg>@lang('sidebar.setting_container_truck')</a>
+                        </svg>@lang('sidebar.setting_fixed_asset')</a>
                 </li>
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
-                        </svg>@lang('sidebar.container_truck_inquiry')</a>
+                        </svg>@lang('sidebar.fixed_asset_inquiry')</a>
                 </li>
             </ul>
         </li>
