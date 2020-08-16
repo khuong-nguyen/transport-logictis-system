@@ -20,7 +20,7 @@ return [
     'container_inquiry' => 'Container Inquiry',
     'setting_employee' => 'Employee Registration',
     'employee_inquiry' => 'Employee Inquiry',
-    'setting_container_truck' => 'Container Truck Registration',
-    'container_truck_inquiry' => 'Container Truck Inquiry'
+    'setting_fixed_asset' => 'Fixed Asset Registration',
+    'fixed_asset_inquiry' => 'Fixed Asset Inquiry'
 
 ];
