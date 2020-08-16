@@ -1,11 +1,6 @@
 <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
     <div class="c-sidebar-brand d-lg-down-none">
-        <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
-            <use xlink:href="assets/brand/coreui.svg#full"></use>
-        </svg>
-        <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
-            <use xlink:href="assets/brand/coreui.svg#signet"></use>
-        </svg>
+        <a class = "navbar-brand" href = "#" ><span style = "color:#e4c13f">My Friend </span><span style = "color:#e00b0b"> IT Solution</span></a>
     </div>
     <ul class="c-sidebar-nav">
         <li class="c-sidebar-nav-item">
@@ -78,7 +73,37 @@
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.customer_inquiry')</a>
+                </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.setting_container')</a>
+                </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.container_inquiry')</a>
+                </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.setting_employee')</a>
+                </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.employee_inquiry')</a>
+                </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.setting_container_truck')</a>
+                </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.container_truck_inquiry')</a>
                 </li>
             </ul>
         </li>
