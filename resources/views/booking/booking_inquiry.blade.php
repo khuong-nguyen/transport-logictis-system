@@ -178,7 +178,7 @@
                     serverSide: true,
                     "searching": false,
                     "sPaginationType":"full_numbers",
-                    "iDisplayLength": 2,
+                    "iDisplayLength": 10,
                     dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
                     // "infoCallback": function( settings, start, end, max, total, pre ) {
                     //     var api = this.api();
