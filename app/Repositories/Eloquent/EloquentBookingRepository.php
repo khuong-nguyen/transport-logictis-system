@@ -99,7 +99,7 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
 
         if (isset($search['pod']) && $search['pod'] != null)
         {
-            $query->where(DB::raw("CONCAT_WS( '' ,pod_1,pod_2)"), '=', $search['pol']);
+            $query->where(DB::raw("CONCAT_WS( '' ,pod_1,pod_2)"), '=', $search['pod']);
         }
         return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
     }

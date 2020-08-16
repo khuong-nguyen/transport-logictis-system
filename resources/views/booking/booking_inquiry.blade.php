@@ -152,17 +152,33 @@
     </div>
     <script type="text/javascript">
         let containerId =[];
-        var searchFirst = window.location.search;
+        function searchToObject() {
+            var pairs = window.location.search.substring(1).split("&"),
+                obj = {},
+                pair,
+                i;
+
+            for ( i in pairs ) {
+                if ( pairs[i] === "" ) continue;
+
+                pair = pairs[i].split("=");
+                obj[ decodeURIComponent( pair[0] ) ] = decodeURIComponent( pair[1] );
+            }
+
+            return obj;
+        }
+        var searchFirst = searchToObject(window.location.search)
         $(function () {
             fill_datatable(searchFirst);
             function fill_datatable(search = '')
             {
-                var dataTable = $('#inquiryDatatable').DataTable({
+                search = Array.isArray(search)?{search:search}:search;
+               $('#inquiryDatatable').DataTable({
                     processing: true,
                     serverSide: true,
                     "searching": false,
                     "sPaginationType":"full_numbers",
-                    "iDisplayLength": 10,
+                    "iDisplayLength": 2,
                     dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
                     // "infoCallback": function( settings, start, end, max, total, pre ) {
                     //     var api = this.api();
@@ -172,7 +188,7 @@
                     // },
                     ajax:{
                         url: "/booking/inquiry",
-                        data:{search: search}
+                        data:search
                     },
                     columns: [
                         {
@@ -232,10 +248,8 @@
                     pick_up_dt: pick_up_dt
                 };
                 $('#inquiryDatatable').DataTable().destroy();
-                fill_datatable(search);
-                var tmpSearch = {search:search};
-                console.log(tmpSearch);
-                searchFirst = '?'+$.param(tmpSearch);
+                searchFirst = {search:search}
+                fill_datatable(searchFirst);
             });
 
             $('#resetForm').click(function(){
@@ -301,7 +315,7 @@
             $('div.dataTables_length select').removeClass('form-control-sm custom-select-sm');
 
             $('#inquiryDatatable').on('click', '.edit[data-remote]', function (e) {
-                window.location.replace($(this).data('remote')+searchFirst);
+                window.location.replace($(this).data('remote')+'?'+$.param(searchFirst));
             });
         });
 
