@@ -17,7 +17,6 @@ interface BookingRepository extends BaseRepository
     /**
      * Paginating, ordering and searching through pages for server side index table
      * @param Request $request
-     * @return LengthAwarePaginator
      */
-    public function inquirySearch(Request $request):LengthAwarePaginator;
+    public function inquirySearch(Request $request);
 }
