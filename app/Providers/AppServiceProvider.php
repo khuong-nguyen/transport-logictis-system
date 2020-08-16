@@ -38,8 +38,6 @@ use App\Repositories\FixedAssetRepository;
 use App\Repositories\Eloquent\EloquentFixedAssetRepository;
 use App\FixedAsset;
 
-use Illuminate\Support\ServiceProvider;
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
