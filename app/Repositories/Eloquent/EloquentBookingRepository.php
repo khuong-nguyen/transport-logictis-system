@@ -45,6 +45,12 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
             }
         }
 
+        if (isset($search['booking_no']) && $search['booking_no'] != null)
+        {
+                $booking_no = $search['booking_no'];
+                $query->where('booking_no','LIKE', "$booking_no%");
+        }
+
         if (isset($search['shipper_customer_code']) && $search['shipper_customer_code'] != null)
         {
             $customer_code = $search['shipper_customer_code'];
@@ -68,7 +74,7 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
                 $q->where('customer_code', $customer_code);
             });
         }
-//dd($query->toSql());
+
         if (isset($search['sailling_due_date']) ){
             if ($search['sailling_due_date']['from'] != null)
             {

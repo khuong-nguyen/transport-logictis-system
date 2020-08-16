@@ -234,11 +234,11 @@
                 }
                 var search = {
                     columns:{
-                        booking_no: $('#booking_no').val(),
                         b_l_no: $('#b_l_no').val(),
                         tvvd: $('#tvvd').val(),
                         booking_status: $('#booking_status').val(),
                     },
+                    booking_no: $('#booking_no').val(),
                     shipper_customer_code: $('#shipper_customer_code').val(),
                     consignee_customer_code :$('#consignee_customer_code').val(),
                     forwarder_customer_code: $('#forwarder_customer_code').val(),
