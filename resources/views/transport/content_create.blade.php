@@ -105,7 +105,7 @@
                         <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_1]" value="{{ $list['seal_no_1'] }}" class="form-control seal_no_1"></td>
                         <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_2]" value="{{ $list['seal_no_2'] }}" class="form-control seal_no_2"></td>
                         <td><input type="number" min="1" name="containerbookingdetail[<?=$i?>][package]" value="{{ $list['package'] }}" class="form-control package"></td>
-                        <td><input type="number" min="1" step="0.01" name="containerbookingdetail[<?=$i?>][weight]" value="{{ $list['weight'] }}" class="form-control weight"></td>
+                        <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][weight]" value="{{ $list['weight'] }}" class="form-control weight"></td>
                         <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][vgm]" value="{{ $list['vgm'] }}" class="form-control vgm"></td>
                         <td>KGS</td>
                         <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][measure]" value="{{ $list['measure'] }}" class="form-control measure"></td>
@@ -214,6 +214,7 @@
                             tr.find('.container_no').val(item.container_no);
                             tr.find('.seal_no_1').val(item.seal_no_1);
                             tr.find('.seal_no_2').val(item.seal_no_2);
+                            tr.find('.weight').val(item.weight);
                             tr.find('.package').val(item.package);
                             tr.find('.vgm').val(item.vgm);
                             tr.find('.measure').val(item.measure);
