@@ -204,6 +204,7 @@ class BookingRegistrationController extends Controller
      */
     public function update(BookingRegistrationRequest $request,$id)
     {
+        $url = $request->getRequestUri();
         if ($request->has('add-full') || $request->has('save-container')) {
             try {
                 $data = $this->bookingContainerDetailRepository->saveBooking($request);
@@ -265,7 +266,7 @@ class BookingRegistrationController extends Controller
                 }
             }
         }
-        return redirect('/booking/registration/'.$booking->id)->with('status','message.save_success');
+        return redirect($url)->with('status','message.save_success');
     }
 
     public function delete($id)
