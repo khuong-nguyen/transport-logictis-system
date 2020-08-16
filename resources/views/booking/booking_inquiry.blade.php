@@ -9,12 +9,13 @@
                 <div class="card-body container-fluid">
                     <div class="alert alert-success d-none" id="msg"></div>
                     @csrf
+                    @php($params = Request::get('search'))
                     <div class="row form-group">
                         <div class="col-sm-3">
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label" for="booking_no">BKG No</label>
                                 <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="booking_no" name="booking_no" type="text" value="{{ old('booking.booking_no')}}">
+                                    <input class="form-control" id="booking_no" name="booking_no" type="text" value="{{ old('booking.booking_no') ?? $params['columns']['booking_no']}}">
                                 </div>
                             </div>
                         </div>
@@ -24,7 +25,7 @@
                                     <label class="col-form-label required"  for="b_l_no">B/L No</label>
                                 </div>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" id="b_l_no" type="text" name="b_l_no">
+                                    <input class="form-control" id="b_l_no" type="text" name="b_l_no" value="{{$params['columns']['b_l_no'] ??''}}">
                                 </div>
                             </div>
                         </div>
@@ -32,7 +33,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label" for="shipper_customer_code">SHBR</label>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" name="shipper_customer_code" id="shipper_customer_code" type="text" value="{{ old('booking.booking_no')}}">
+                                    <input class="form-control" name="shipper_customer_code" id="shipper_customer_code" type="text" value="{{$params['shipper_customer_code'] ??''}}">
                                 </div>
                             </div>
                         </div>
@@ -40,7 +41,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label required" for="consignee_customer_code">CNEE</label>
                                 <div class="col-md-8 p-0">
-                                    <input class="form-control" name="consignee_customer_code" id="consignee_customer_code" type="text" value="{{ old('booking.booking_no')}}">
+                                    <input class="form-control" name="consignee_customer_code" id="consignee_customer_code" type="text" value="{{$params['consignee_customer_code'] ??''}}">
                                 </div>
                             </div>
                         </div>
@@ -48,7 +49,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label required" for="forwarder_customer_code">FWDR</label>
                                 <div class="col-md-8 p-0">
-                                    <input class="form-control" name="forwarder_customer_code" id="forwarder_customer_code" type="text" value="{{ old('booking.booking_no')}}">
+                                    <input class="form-control" name="forwarder_customer_code" id="forwarder_customer_code" type="text" value="{{$params['forwarder_customer_code'] ??''}}">
                                 </div>
                             </div>
                         </div>
@@ -58,7 +59,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label" for="tvvd">T/VVD</label>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" id="tvvd" name="tvvd" type="text" value="{{ old('booking.booking_no')}}">
+                                    <input class="form-control" id="tvvd" name="tvvd" type="text" value="{{$params['columns']['tvvd'] ??''}}">
                                 </div>
                             </div>
                         </div>
@@ -66,7 +67,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label required"  for="pol">POL</label>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" id="pol" type="text" name="pol">
+                                    <input class="form-control" id="pol" type="text" name="pol" value="{{$params['pol'] ??''}}">
                                 </div>
                             </div>
                         </div>
@@ -74,7 +75,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label required" for="pod">POD</label>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" name="pod" id="pod" type="text" value="{{ old('booking.booking_no')}}">
+                                    <input class="form-control" name="pod" id="pod" type="text" value="{{$params['pod'] ??''}}">
                                 </div>
                             </div>
                         </div>
@@ -84,8 +85,8 @@
                                 <div class="col-md-8 p-0">
                                     <select class="form-control" id="booking_status" name="booking_status">
                                         <option value="">Please select</option>
-                                        <option value="1">Open</option>
-                                        <option value="0">Close</option>
+                                        <option value="1" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 1) selected @endif>Open</option>
+                                        <option value="0" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 0) selected @endif>Close</option>
                                     </select>
                                 </div>
                             </div>
@@ -99,9 +100,9 @@
                                     </div>
                                     <div class="input-group col-md-8 input-daterange pr-0">
 {{--                                        <div class="input-group-prepend d-block"><div class="input-group-text">From</div></div>--}}
-                                        <input class="form-control" id="sailling_due_date_from" name="sailling_due_date[from]" type="text">
+                                        <input class="form-control" id="sailling_due_date_from" value="{{$params['sailling_due_date']['from'] ?? ''}}" name="sailling_due_date[from]" type="text">
                                         <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
-                                        <input class="form-control" id="sailling_due_date_to" name="sailling_due_date[to]" type="text">
+                                        <input class="form-control" id="sailling_due_date_to" value="{{$params['sailling_due_date']['to'] ?? ''}}" name="sailling_due_date[to]" type="text">
                                     </div>
                                 </div>
                         </div>
@@ -114,9 +115,9 @@
                                     </div>
                                     <div class="input-group col-md-8 input-daterange pr-0">
 {{--                                        <div class="input-group-prepend d-block"><div class="input-group-text">From</div></div>--}}
-                                        <input class="form-control" id="pick_up_dt_from" name="pick_up_dt[from]" type="text">
+                                        <input class="form-control" id="pick_up_dt_from" value="{{$params['pick_up_dt']['from'] ?? ''}}" name="pick_up_dt[from]" type="text">
                                         <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
-                                        <input class="form-control" id="pick_up_dt_to" type="text" name="pick_up_dt[to]">
+                                        <input class="form-control" id="pick_up_dt_to" value="{{$params['pick_up_dt']['to'] ?? ''}}" type="text" name="pick_up_dt[to]">
                                     </div>
                                 </div>
                             </div>
@@ -151,8 +152,9 @@
     </div>
     <script type="text/javascript">
         let containerId =[];
+        var searchFirst = window.location.search;
         $(function () {
-            fill_datatable();
+            fill_datatable(searchFirst);
             function fill_datatable(search = '')
             {
                 var dataTable = $('#inquiryDatatable').DataTable({
@@ -229,10 +231,11 @@
                     sailling_due_date: sailling_due_date,
                     pick_up_dt: pick_up_dt
                 };
-
                 $('#inquiryDatatable').DataTable().destroy();
                 fill_datatable(search);
-
+                var tmpSearch = {search:search};
+                console.log(tmpSearch);
+                searchFirst = '?'+$.param(tmpSearch);
             });
 
             $('#resetForm').click(function(){
@@ -296,6 +299,10 @@
                 $('#pick_up_dt_from').data("DateTimePicker").maxDate(e.date)
             })
             $('div.dataTables_length select').removeClass('form-control-sm custom-select-sm');
+
+            $('#inquiryDatatable').on('click', '.edit[data-remote]', function (e) {
+                window.location.replace($(this).data('remote')+searchFirst);
+            });
         });
 
     </script>
