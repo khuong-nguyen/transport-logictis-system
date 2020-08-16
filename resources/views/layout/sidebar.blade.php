@@ -72,16 +72,12 @@
                 </li>
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
                         <svg class="c-sidebar-nav-icon">
-<<<<<<< HEAD
-                            <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
-=======
                             <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.customer_inquiry')</a>
                 </li>
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
->>>>>>> refs/remotes/origin/ES-0001
                         </svg>@lang('sidebar.setting_container')</a>
                 </li>
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
