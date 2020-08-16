@@ -29,9 +29,9 @@ class CreateBookingTable extends Migration
             $table->string('r_d_term_1', 30)->nullable();
             $table->string('r_d_term_2', 30)->nullable();
             $table->string('b_l_no', 30)->nullable();
-            $table->boolean('si');
-            $table->boolean('brd');
-            $table->boolean('fh');
+            $table->boolean('si')->default(false);
+            $table->boolean('brd')->default(false);
+            $table->boolean('fh')->default(false);
             $table->string('cmdt_1', 30);
             $table->string('cmdt_2', 30)->nullable();
             $table->decimal('weight');
@@ -47,14 +47,14 @@ class CreateBookingTable extends Migration
             $table->string('bkg_contact_tel', 30)->nullable();
             $table->text('ext_remark')->nullable();
             $table->text('int_remark')->nullable();
-            $table->string('booking_status')->default('ORDER'); //[ORDER,APPROVED]
+            $table->string('booking_status',8)->default('ORDER')->comment('[ORDER,APPROVED]');
             $table->foreignId('shipper_id');
             $table->foreignId('forwarder_id')->nullable();
             $table->foreignId('consignee_id');
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('approved_by')->nullable();
-            $table->string('schedule_status')->default('EMPTY');//[EMPTY,PARTIAL,FULL]
+            $table->string('schedule_status')->default('EMPTY')->comment('[EMPTY,PARTIAL,FULL]');
             $table->timestamps();
         });
     }

@@ -13,13 +13,14 @@ class CreateForwarderBookingTable extends Migration
      */
     public function up()
     {
-        Schema::create('forwarder_booking', function (Blueprint $table) {
+        Schema::create('consignee_booking', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('booking_id');
             $table->string('customer_legal_english_name', 200);
             $table->string('customer_language_name', 200)->nullable();
             $table->string('customer_address', 300)->nullable();
-            $table->string('customer_code', 50)->unique();
+            $table->string('customer_code', 50);
+            $table->string('email', 100);
             $table->string('fax', 30)->nullable();
             $table->string('tel', 30)->nullable();
             $table->string('tax_code', 50)->nullable();
@@ -30,7 +31,7 @@ class CreateForwarderBookingTable extends Migration
             $table->string('post_office_box', 300)->nullable();
             $table->string('sale_office_code', 50);
             $table->string('sale_rep_code', 50);
-            $table->string('customer_type', 30);
+            $table->string('customer_type', 30)->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->timestamps();
@@ -44,6 +45,6 @@ class CreateForwarderBookingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer');
+        Schema::dropIfExists('consignee_booking');
     }
 }
