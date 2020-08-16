@@ -25,7 +25,7 @@ class CreateScheduledTransportContainerTable extends Migration
             $table->datetime('act_td')->nullable();
             $table->datetime('eta');
             $table->datetime('act_ta')->nullable();
-            $table->foreignId('container_truck_id');
+            $table->foreignId('truck_id');
             $table->foreignId('container_truck_code');
             $table->foreignId('driver_id');
             $table->string('driver_name',100);
