@@ -53,3 +53,11 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
         Route::put('/registration/{id}', 'EmployeeController@update');
         Route::get('/inquiry', 'EmployeeInquiryController@index');
     });
+    
+    Route::group(['prefix' => 'fixed_asset','namespace' => 'FixedAsset'],function (){
+        Route::get('/registration', 'FixedAssetController@create');
+        Route::post('/registration', 'FixedAssetController@store');
+        Route::get('/registration/{id}', 'FixedAssetController@edit');
+        Route::put('/registration/{id}', 'FixedAssetController@update');
+        Route::get('/inquiry', 'FixedAssetInquiryController@index');
+    });
