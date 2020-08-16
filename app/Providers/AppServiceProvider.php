@@ -6,6 +6,10 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\Eloquent\EloquentCustomerRepository;
 use App\Customer;
 
+use App\Repositories\EmployeeRepository;
+use App\Repositories\Eloquent\EloquentEmployeeRepository;
+use App\Employee;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,9 +25,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CustomerRepository::class,
             function () {
-                return  new EloquentCustomerRepository(new Customer());
+                return  new EloquentCustomerRepository(new Employee());
             }
         );
+        
+        $this->app->bind(
+            EmployeeRepository::class,
+            function () {
+                return  new EloquentEmployeeRepository(new Employee());
+            }
+            );
     }
 
     /**

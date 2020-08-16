@@ -28,3 +28,11 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
     Route::put('/registration/{id}', 'CustomerController@update');
     Route::get('/inquiry', 'CustomerInquiryController@index');
 });
+
+    Route::group(['prefix' => 'employee','namespace' => 'Employee'],function (){
+        Route::get('/registration', 'EmployeeController@create');
+        Route::post('/registration', 'EmployeeController@store');
+        Route::get('/registration/{id}', 'EmployeeController@edit');
+        Route::put('/registration/{id}', 'EmployeeController@update');
+        Route::get('/inquiry', 'EmployeeInquiryController@index');
+    });
