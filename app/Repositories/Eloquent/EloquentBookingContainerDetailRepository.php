@@ -50,6 +50,7 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
                         $data['weight'] = $data['weight']?$data['weight']:0;
                         $data['vgm'] = $data['vgm']?$data['vgm']:0;
                         $data['measure'] = $data['measure']?$data['measure']:0;
+                        $data['rf'] = $data['rf']?$data['rf']:0;
                         $data['st'] = $data['st']?$data['st']:'ST'.substr(str_shuffle("0123456789"), 0, 5);
                         $record = $this->create($data);
                         $data['id'] = $record->id;
