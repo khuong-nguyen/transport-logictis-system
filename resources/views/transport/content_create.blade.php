@@ -123,7 +123,7 @@
                 <div class="col-12">
                     <div class="float-right add-full">
                         @if($addFull)
-                            <button type="submit" name="add-full" id="add-full" value="action" class="btn btn-primary">Add Full</button>
+                            <button type="submit" id="add-full" value="action" class="btn btn-primary">Add Full</button>
                         @endif
                     </div>
                 </div>
