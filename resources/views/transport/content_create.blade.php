@@ -151,8 +151,8 @@
 <!-- Modal -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content panel-danger">
+            <div class="modal-header panel-heading-danger">
                 <h5 class="modal-title" id="exampleModalLabel">DELETE</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -162,7 +162,7 @@
                 Do you want to delete this?
             </div>
             <div class="modal-footer">
-                <button type="button" id="delete" class="btn btn-primary">YES</button>
+                <button type="button" id="delete" class="btn btn-danger">YES</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
             </div>
         </div>
@@ -218,6 +218,11 @@
     }
     .modal-body p {
         margin-bottom: 0.3rem;
+    }
+    .modal-header.panel-heading-danger {
+        background-color: #e55353;
+        border-color: #e55353;
+        color: #fff;
     }
     .modal-header.panel-heading-warning {
         background-color: #f9b115;
@@ -275,6 +280,7 @@
                         });
                         $('.table-container-list .action-delete').remove();
                         $('#confirm-booking').remove();
+                        $('#save-container').remove();
                     }
                     toastr.success(result.message)
                 },
@@ -295,6 +301,7 @@
             e.preventDefault();
             confirmBooking();
             $('#confirmBookingModal').modal('hide');
+            $('#confirmInfoBookingModal').modal('hide');
         });
         $('#save-container').on('click', e => {
             e.preventDefault();
