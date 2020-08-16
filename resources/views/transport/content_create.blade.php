@@ -94,9 +94,10 @@
                     <tbody>
                     @php
                         $i = 1;
+                        $booking_status = isset($booking)?$booking->booking_status:$bookingContainerDetails['booking_status'];
+                        $readonly = $booking_status !== $statusApproved?'':'readonly';
                     @endphp
                     @foreach($listContainers as $list)
-
                         <tr>
                             <input type="hidden" name="containerbookingdetail[<?=$i?>][container_id]" value="{{ $list['container_id'] }}">
                             <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_id]" value="{{ $list['booking_id'] }}">
@@ -106,17 +107,17 @@
                             <input type="hidden" class="id" name="containerbookingdetail[<?=$i?>][id]" value="{{ isset($list['id'])?$list['id']:'' }}">
                             <td>{{ $i }}</td>
                             <td>{{ $list['container_code'] }}</td>
-                            <td><input type="text" name="containerbookingdetail[<?=$i?>][container_no]" value="{{ $list['container_no'] }}" class="form-control container_no"></td>
-                            <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_1]" value="{{ $list['seal_no_1'] }}" class="form-control seal_no_1"></td>
-                            <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_2]" value="{{ $list['seal_no_2'] }}" class="form-control seal_no_2"></td>
-                            <td><input type="number" min="1" name="containerbookingdetail[<?=$i?>][package]" value="{{ $list['package'] }}" class="form-control package"></td>
-                            <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][weight]" value="{{ $list['weight'] }}" class="form-control weight"></td>
-                            <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][vgm]" value="{{ $list['vgm'] }}" class="form-control vgm"></td>
+                            <td><input type="text" name="containerbookingdetail[<?=$i?>][container_no]" {{ $readonly }} value="{{ $list['container_no'] }}" class="form-control container_no"></td>
+                            <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_1]" {{ $readonly }} value="{{ $list['seal_no_1'] }}" class="form-control seal_no_1"></td>
+                            <td><input type="text" maxlength="50" name="containerbookingdetail[<?=$i?>][seal_no_2]" {{ $readonly }} value="{{ $list['seal_no_2'] }}" class="form-control seal_no_2"></td>
+                            <td><input type="number" min="1" name="containerbookingdetail[<?=$i?>][package]" {{ $readonly }} value="{{ $list['package'] }}" class="form-control package"></td>
+                            <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][weight]" {{ $readonly }} value="{{ $list['weight'] }}" class="form-control weight"></td>
+                            <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][vgm]" {{ $readonly }} value="{{ $list['vgm'] }}" class="form-control vgm"></td>
                             <td>KGS</td>
-                            <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][measure]" value="{{ $list['measure'] }}" class="form-control measure"></td>
-                            <td><input type="text" name="containerbookingdetail[<?=$i?>][st]" value="{{ $list['st'] }}" class="form-control st"></td>
-                            <td><input type="number" min="1" maxlength="11" name="containerbookingdetail[<?=$i?>][rf]" value="{{ $list['rf'] }}" class="form-control rf"></td>
-                            <td>@if(isset($list['id']))<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
+                            <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][measure]" {{ $readonly }} value="{{ $list['measure'] }}" class="form-control measure"></td>
+                            <td><input type="text" name="containerbookingdetail[<?=$i?>][st]" value="{{ $list['st'] }}" {{ $readonly }} class="form-control st"></td>
+                            <td><input type="number" min="1" maxlength="11" name="containerbookingdetail[<?=$i?>][rf]" {{ $readonly }} value="{{ $list['rf'] }}" class="form-control rf"></td>
+                            <td>@if(isset($list['id']) && $booking_status !== $statusApproved)<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
                         </tr>
                         @php
                             $i++;
@@ -126,22 +127,17 @@
                 </table>
                 <div class="row">
                     <div class="col-12">
-                        <div class="float-right add-full">
-                            @if($addFull)
-                                <button type="submit" id="add-full" value="action" class="btn btn-primary">Add Full</button>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
                         <div class="float-right">
                             @if (isset($booking))
                                 <input type="hidden" id="is-booking" value="true">
-                                <button type="button" class="btn btn-primary" id="confirm-booking">Confirm</button>
+                                @if($booking_status !== $statusApproved)
+                                    <button type="button" class="btn btn-primary" id="confirm-booking">Confirm</button>
+                                @endif
                             @endif
-                            <button type="button" id="save-container" class="btn btn-primary">Save</button>
-                            <a href="{{ asset('booking/transport/registration') }}" class="btn btn-secondary">Close</a>
+                            @if($booking_status !== $statusApproved)
+                                <button type="button" id="save-container" class="btn btn-primary">Save</button>
+                            @endif
+                            <a href="{{ !isset($booking)?asset('booking/transport/registration'):asset('booking/registration/'.$booking->id) }}" class="btn btn-secondary">Close</a>
                         </div>
                     </div>
                 </div>
@@ -155,8 +151,8 @@
 <!-- Modal -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content panel-danger">
+            <div class="modal-header panel-heading-danger">
                 <h5 class="modal-title" id="exampleModalLabel">DELETE</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -166,7 +162,48 @@
                 Do you want to delete this?
             </div>
             <div class="modal-footer">
-                <button type="button" id="delete" class="btn btn-primary">YES</button>
+                <button type="button" id="delete" class="btn btn-danger">YES</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="confirmBookingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content panel-warning">
+            <div class="modal-header panel-heading-warning">
+                <h5 class="modal-title" id="exampleModalLabel"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> WARNING</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                The current number of containers does not match the requirements of the booking.<br/> Do you want to continue?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning continue-confirm-booking">YES</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="confirmInfoBookingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content panel-info">
+            <div class="modal-header panel-heading-info">
+                <h5 class="modal-title" id="exampleModalLabel"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> CONFIRM</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>After confirming you will not be able to perform the actions.</p>
+                Do you want to continue?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info continue-confirm-booking">YES</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
             </div>
         </div>
@@ -178,6 +215,28 @@
     }
     .add-full {
         margin-bottom: 15px;
+    }
+    .modal-body p {
+        margin-bottom: 0.3rem;
+    }
+    .modal-header.panel-heading-danger {
+        background-color: #e55353;
+        border-color: #e55353;
+        color: #fff;
+    }
+    .modal-header.panel-heading-warning {
+        background-color: #f9b115;
+        border-color: #f9b115;
+    }
+    .modal-header.panel-heading-info {
+        background-color:#39f;
+        border-color: #39f;
+        color: #fff;
+    }
+    .form-control:disabled, .form-control[readonly], .form-control:disabled, .form-control[readonly]:focus {
+        background: rgba(0, 0, 0, 0);
+        border: 0;
+        box-shadow: 0 0 0 0;
     }
 </style>
 
@@ -204,47 +263,45 @@
             return inputValues;
         }
 
-        $('#add-full').on('click', e => {
-            e.preventDefault();
-            if ($('#is-booking').length > 0) {
-                var inputValues = getAllValues();
-                inputValues.push({name: 'add-full', value:true})
-                inputValues.push({name: '_token', value:$('input[name="_token"]').val()})
-                inputValues.push({name: '_method', value:$('input[name="_method"]').val()})
-                $.ajax({
-                    url: $('form').prop("action"),
-                    dataType: "json",
-                    method: 'post',
-                    data: inputValues,
-                    success: function (result) {
-                        $.each(result.data, (index, item) => {
-                            let tr = $('.table-container-list tbody tr:nth-child('+parseInt(item.position)+')');
-                            tr.find('.container_no').val(item.container_no);
-                            tr.find('.seal_no_1').val(item.seal_no_1);
-                            tr.find('.seal_no_2').val(item.seal_no_2);
-                            tr.find('.weight').val(item.weight);
-                            tr.find('.package').val(item.package);
-                            tr.find('.vgm').val(item.vgm);
-                            tr.find('.measure').val(item.measure);
-                            tr.find('.st').val(item.st);
-                            tr.find('.rf').val(item.rf);
-                            tr.find('.id').val(item.id);
-                            var input = $("<button type=\"button\" onclick=\"onDelete(this)\" data-id=\""+item.id+"\" class=\"btn btn-sm btn-danger action-delete\">Del</button>")
-                            tr.find('td:last-child').html(input);
+        function confirmBooking() {
+            let inputValues = [];
+            inputValues.push({name: 'confirm-booking', value:true})
+            inputValues.push({name: '_token', value:$('input[name="_token"]').val()})
+            inputValues.push({name: '_method', value:$('input[name="_method"]').val()})
+            $.ajax({
+                url: $('form').prop("action"),
+                dataType: "json",
+                method: 'post',
+                data: inputValues,
+                success: function (result) {
+                    if (typeof result.data.booking_status !== undefined && result.data.booking_status === '{{$statusApproved}}') {
+                        $('.table-container-list input').each((index,item) => {
+                            item.setAttribute('readonly', true)
                         });
-                        toastr.success(result.message)
-                    },
-                    error: err => {
-                        toastr.error(err.responseJSON.message)
+                        $('.table-container-list .action-delete').remove();
+                        $('#confirm-booking').remove();
+                        $('#save-container').remove();
                     }
-                });
+                    toastr.success(result.message)
+                },
+                error: err => {
+                    toastr.error(err.responseJSON.message)
+                }
+            });
+        }
+        $('#confirm-booking').on('click', e => {
+            e.preventDefault();
+            if ($('.table-container-list tbody tr').length !== $('.table-container-list tbody tr .action-delete').length) {
+                $('#confirmBookingModal').modal('show');
             } else {
-                var input = $("<input>")
-                    .attr("type", "hidden")
-                    .attr("name", "add-full").val("true");
-                $('#form-transport-container').append(input);
-                $('#form-transport-container').submit();
+                $('#confirmInfoBookingModal').modal('show');
             }
+        });
+        $('.continue-confirm-booking').on('click', e => {
+            e.preventDefault();
+            confirmBooking();
+            $('#confirmBookingModal').modal('hide');
+            $('#confirmInfoBookingModal').modal('hide');
         });
         $('#save-container').on('click', e => {
             e.preventDefault();
