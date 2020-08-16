@@ -161,7 +161,10 @@ return [
         'booking.sailling_due_date' => 'Sailling Due Date',
         'booking.pick_up_dt' => 'M Ty Pick up DT',
         'booking.shipper_id' => 'Shipper',
-        'booking.consignee_id' => 'Consignee'
+        'booking.consignee_id' => 'Consignee',
+        'customer.customer_legal_english_name' => 'Legal Name',
+        'customer.sale_office_code' => 'Sales Office',
+        'customer.sale_rep_code' => 'Sales Rep Office'
     ],
 
 ];

@@ -12,6 +12,7 @@ use App\Repositories\Eloquent\EloquentBookingContainerDetailRepository;
 use App\Repositories\Eloquent\EloquentBookingContainerRepository;
 use App\ShipperBooking;
 use App\Customer;
+
 use App\Booking;
 use App\Container;
 use App\Repositories\Eloquent\EloquentConsigneeBookingRepository;
@@ -21,12 +22,17 @@ use App\Repositories\Eloquent\EloquentCustomerRepository;
 use App\Repositories\Eloquent\EloquentBookingRepository;
 use App\Repositories\ForwarderBookingRepository;
 use App\Repositories\Eloquent\EloquentContainerRepository;
+
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\ConsigneeBookingRepository;
 use App\Repositories\ShipperBookingRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\BookingRepository;
 use App\Repositories\ContainerRepository;
+
+use App\Repositories\EmployeeRepository;
+use App\Repositories\Eloquent\EloquentEmployeeRepository;
+use App\Employee;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CustomerRepository::class,
             function () {
-                return  new EloquentCustomerRepository(new Customer());
+                return  new EloquentCustomerRepository(new Employee());
             }
         );
 
@@ -87,6 +93,13 @@ class AppServiceProvider extends ServiceProvider
             BookingContainerDetailRepository::class,
             function () {
                 return new EloquentBookingContainerDetailRepository(new BookingContainerDetail());
+            }
+        );
+        
+        $this->app->bind(
+            EmployeeRepository::class,
+            function () {
+                return  new EloquentEmployeeRepository(new Employee());
             }
         );
     }
