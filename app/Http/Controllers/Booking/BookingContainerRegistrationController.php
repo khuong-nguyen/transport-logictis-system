@@ -57,6 +57,7 @@ class BookingContainerRegistrationController extends Controller
         $search = '';
         $bookingContainerDetails = [];
         $example = [];
+        $statusApproved = Booking::STATUS_APPROVED;
         if ($request->has('search')) {
             $search = $request->get('search');
             $bookingContainerDetails = $this->bookingRepository->search($search,'');
@@ -65,11 +66,11 @@ class BookingContainerRegistrationController extends Controller
                 $bookingContainerDetails = $bookingContainerDetails->toArray();
                 $example = new BookingContainerDetail();
                 $example = $example->attributesToArray();
-                return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example'));
+                return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example', 'statusApproved'));
             }
-            return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example'))->with('searchError', 'Could not find this Booking No.');
+            return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example', 'statusApproved'))->with('searchError', 'Could not find this Booking No.');
         }
-        return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example'));
+        return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example', 'statusApproved'));
     }
 
     /**

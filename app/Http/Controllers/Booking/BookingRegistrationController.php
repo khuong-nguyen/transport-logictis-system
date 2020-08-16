@@ -193,8 +193,9 @@ class BookingRegistrationController extends Controller
         $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails->toArray():[];
         $example = new BookingContainerDetail();
         $example = $example->attributesToArray();
+        $statusApproved = Booking::STATUS_APPROVED;
 
-        return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers', 'bookingContainerDetails', 'search', 'example'));
+        return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers', 'bookingContainerDetails', 'search', 'example', 'statusApproved'));
     }
 
 

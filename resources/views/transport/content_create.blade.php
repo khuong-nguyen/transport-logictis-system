@@ -95,8 +95,7 @@
                     @php
                         $i = 1;
                         $booking_status = isset($booking)?$booking->booking_status:$bookingContainerDetails['booking_status'];
-                        $compareBookingStatus = \App\Booking::STATUS_APPROVED;
-                        $readonly = $booking_status !== $compareBookingStatus?'':'readonly';
+                        $readonly = $booking_status !== $statusApproved?'':'readonly';
                     @endphp
                     @foreach($listContainers as $list)
                         <tr>
@@ -118,7 +117,7 @@
                             <td><input type="number" min="1" step="any" name="containerbookingdetail[<?=$i?>][measure]" {{ $readonly }} value="{{ $list['measure'] }}" class="form-control measure"></td>
                             <td><input type="text" name="containerbookingdetail[<?=$i?>][st]" value="{{ $list['st'] }}" {{ $readonly }} class="form-control st"></td>
                             <td><input type="number" min="1" maxlength="11" name="containerbookingdetail[<?=$i?>][rf]" {{ $readonly }} value="{{ $list['rf'] }}" class="form-control rf"></td>
-                            <td>@if(isset($list['id']) && $booking_status !== $compareBookingStatus)<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
+                            <td>@if(isset($list['id']) && $booking_status !== $statusApproved)<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
                         </tr>
                         @php
                             $i++;
@@ -131,11 +130,11 @@
                         <div class="float-right">
                             @if (isset($booking))
                                 <input type="hidden" id="is-booking" value="true">
-                                @if($booking_status !== $compareBookingStatus)
+                                @if($booking_status !== $statusApproved)
                                     <button type="button" class="btn btn-primary" id="confirm-booking">Confirm</button>
                                 @endif
                             @endif
-                            @if($booking_status !== $compareBookingStatus)
+                            @if($booking_status !== $statusApproved)
                                 <button type="button" id="save-container" class="btn btn-primary">Save</button>
                             @endif
                             <a href="{{ !isset($booking)?asset('booking/transport/registration'):asset('booking/registration/'.$booking->id) }}" class="btn btn-secondary">Close</a>
@@ -180,10 +179,31 @@
                 </button>
             </div>
             <div class="modal-body">
-                The current number of containers does not match the requirements of the booking. Do you want to continue?
+                The current number of containers does not match the requirements of the booking.<br/> Do you want to continue?
             </div>
             <div class="modal-footer">
-                <button type="button" id="continue-confirm-booking" class="btn btn-warning">YES</button>
+                <button type="button" class="btn btn-warning continue-confirm-booking">YES</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="confirmInfoBookingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content panel-info">
+            <div class="modal-header panel-heading-info">
+                <h5 class="modal-title" id="exampleModalLabel"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> CONFIRM</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>After confirming you will not be able to perform the actions.</p>
+                Do you want to continue?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info continue-confirm-booking">YES</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
             </div>
         </div>
@@ -196,9 +216,17 @@
     .add-full {
         margin-bottom: 15px;
     }
+    .modal-body p {
+        margin-bottom: 0.3rem;
+    }
     .modal-header.panel-heading-warning {
         background-color: #f9b115;
         border-color: #f9b115;
+    }
+    .modal-header.panel-heading-info {
+        background-color:#39f;
+        border-color: #39f;
+        color: #fff;
     }
     .form-control:disabled, .form-control[readonly], .form-control:disabled, .form-control[readonly]:focus {
         background: rgba(0, 0, 0, 0);
@@ -241,7 +269,7 @@
                 method: 'post',
                 data: inputValues,
                 success: function (result) {
-                    if (typeof result.data.booking_status !== undefined) {
+                    if (typeof result.data.booking_status !== undefined && result.data.booking_status === '{{$statusApproved}}') {
                         $('.table-container-list input').each((index,item) => {
                             item.setAttribute('readonly', true)
                         });
@@ -260,17 +288,13 @@
             if ($('.table-container-list tbody tr').length !== $('.table-container-list tbody tr .action-delete').length) {
                 $('#confirmBookingModal').modal('show');
             } else {
-                confirmBooking();
+                $('#confirmInfoBookingModal').modal('show');
             }
         });
-        $('#continue-confirm-booking').on('click', e => {
+        $('.continue-confirm-booking').on('click', e => {
             e.preventDefault();
-            if ($('.table-container-list tbody tr').length !== $('.table-container-list tbody tr .action-delete').length) {
-                confirmBooking();
-                $('#confirmBookingModal').modal('hide');
-            } else {
-                $('#confirmBookingModal').modal('hide');
-            }
+            confirmBooking();
+            $('#confirmBookingModal').modal('hide');
         });
         $('#save-container').on('click', e => {
             e.preventDefault();
