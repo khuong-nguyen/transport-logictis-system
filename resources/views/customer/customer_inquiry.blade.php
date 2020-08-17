@@ -14,7 +14,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label" for="customer_code">Customer Code</label>
                                 <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="customer_code" name="customer_code" type="text" value="{{ old('customer.customer_code')}}">
+                                    <input class="form-control" id="customer_code" name="customer_code" type="text" value="{{ old('customer.customer_code')?old('customer.customer_code'):app('request')->input('customer_code')  }}">
                                 </div>
                             </div>
                         </div>
@@ -22,7 +22,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label" for="location_code">Location Code</label>
                                 <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="location_code" name="location_code" type="text" value="{{ old('customer.location_code')}}">
+                                    <input class="form-control" id="location_code" name="location_code" type="text" value="{{ old('customer.location_code')?old('customer.location_code'):app('request')->input('location_code')}}">
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                     <label class="col-form-label"  for="customer_legal_english_name">Legal Name</label>
                                 </div>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" id="customer_legal_english_name" type="text" name="customer_legal_english_name">
+                                    <input class="form-control" id="customer_legal_english_name" type="text" name="customer_legal_english_name" value="{{ old('customer.customer_legal_english_name')?old('customer.customer_legal_english_name'):app('request')->input('customer_legal_english_name') }}">
                                 </div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                                     <label class="col-form-label"  for="customer_language_name">Language Name</label>
                                 </div>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" id="customer_language_name" type="text" name="customer_language_name">
+                                    <input class="form-control" id="customer_language_name" type="text" name="customer_language_name" value="{{ old('customer.customer_language_name')?old('customer.customer_language_name'):app('request')->input('customer_language_name') }}">
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label" for="tax">Tax Code</label>
                                 <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="tax" name="tax" type="text" value="{{ old('customer.tax')}}">
+                                    <input class="form-control" id="tax" name="tax" type="text" value="{{ old('customer.tax')?old('customer.tax'):app('request')->input('tax_code')}}">
                                 </div>
                             </div>
                         </div>
@@ -88,9 +88,21 @@
     <script type="text/javascript">
         let containerId =[];
         $(function () {
+            @if(session()->has('status'))
+            toastr.success("{{ session()->get('status') }}");
+            @endif
             fill_datatable();
-            function fill_datatable(search = '')
+            function fill_datatable()
             {
+                var search = {
+                    columns:{
+                        customer_code: $('#customer_code').val(),
+                        location_code: $('#location_code').val(),
+                        customer_legal_english_name: $('#customer_legal_english_name').val(),
+                        customer_language_name: $('#customer_language_name').val(),
+                        tax_code: $('#tax').val(),
+                    },
+                };
                 var dataTable = $('#inquiryDatatable').DataTable({
                     processing: true,
                     serverSide: true,
@@ -100,7 +112,7 @@
                     dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
                     ajax:{
                         url: "/customer/inquiry",
-                        data:{search: search}
+                        data: {search: search}
                     },
                     columns: [
                         {
@@ -124,7 +136,7 @@
                             name:'customer_language_name'
                         },
                         {
-                            data:'tax',
+                            data:'tax_code',
                             name:'tax'
                         },
                         {
@@ -135,19 +147,12 @@
                         },
                     ]
                 });
+                $('div.dataTables_length select').removeClass('form-control-sm');
+                $('div.dataTables_length select').removeClass('form-control');
             }
             $('#searchForm').click(function(){
-                var search = {
-                    columns:{
-                        customer_code: $('#customer_code').val(),
-                        location_code: $('#location_code').val(),
-                        customer_legal_english_name: $('#customer_legal_english_name').val(),
-                        customer_language_name: $('#customer_language_name').val(),
-                        tax: $('#tax').val(),
-                    },
-                };
                 $('#inquiryDatatable').DataTable().destroy();
-                fill_datatable(search);
+                fill_datatable();
             });
             $('#resetForm').click(function(){
                 $('input').each(function() {
@@ -168,26 +173,20 @@
                 if (proceed){
                     $.ajax({
                         url: url,
-                        type: 'DELETE',
+                        type: 'POST',
                         dataType: 'json',
-                        data: {method: 'DELETE', submit: true,_token:"{{ csrf_token() }}"},
+                        data: {_method: 'DELETE', submit: true,_token:"{{ csrf_token() }}"},
                         success: function(msg){
-                            if (msg == 1){
-                                $('#msg').text("{{trans('message.delete_success')}}")
-                            }else
-                            {
-                                $('#msg').text("{{trans('message.delete_failed')}}")
-                                $('#msg').addClass('alert-danger');
-                                $('#msg').removeClass('alert-success');
-                            }
-                            $('#msg').removeClass('d-none');
+                            toastr.success('Deleted success!');
+                        },
+                        error: err => {
+                            toastr.error(err.responseJSON.message)
                         }
                     }).always(function (data) {
                         $('#inquiryDatatable').DataTable().draw(false);
                     });
                 }
             });
-            $('div.dataTables_length select').removeClass('form-control-sm custom-select-sm');
         });
     </script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
