@@ -85,7 +85,7 @@
                             <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.container_inquiry')</a>
                 </li>
-                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="employee/registration">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/employee/registration">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.setting_employee')</a>
