@@ -98,7 +98,6 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer =   $this->customerRepository->find($id);
-        
         //load default options for country_code
         $countryCodeOptions = [
             "VN" => "Viet Nam",

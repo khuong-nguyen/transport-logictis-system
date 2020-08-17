@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CustomerRepository::class,
             function () {
-                return  new EloquentCustomerRepository(new Employee());
+                return  new EloquentCustomerRepository(new Customer());
             }
         );
 
