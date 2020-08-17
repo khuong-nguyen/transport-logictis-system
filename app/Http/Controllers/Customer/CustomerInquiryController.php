@@ -38,18 +38,22 @@ class CustomerInquiryController extends Controller
 
     public function index(Request $request)
     {
-
-        if(request()->ajax())
+        if($request->ajax())
         {
+            $params = '';
             $search = $request->get('search');
             if($search != null)
             {
+                if (isset($search['columns'])) {
+                    $params = http_build_query($search['columns']);
+                }
                 $data = $this->customerRepository->inquirySearch($request);
             }
             else
             {
                 $data = $this->customerRepository->serverPaginationFilteringFor($request);
             }
+
             return datatables()->of($data->items())
                 ->with([
                     "recordsTotal"    => $data->total(),
@@ -61,8 +65,8 @@ class CustomerInquiryController extends Controller
                 ->editColumn('pod_1', function ($row) {
                     return $row->pod_1.$row->pod_2;
                 })
-                ->addColumn('action', function($row){
-                    $url = '/customer/registration/'.$row->id;
+                ->addColumn('action', function($row) use ($params) {
+                    $url = '/customer/registration/'.$row->id.'?'.$params;
                     return '<a href="'.$url.'" class="edit btn btn-success btn-sm">Edit</a>
                         <button class="delete btn btn-danger btn-sm" data-remote="'. $url.'">Delete</button>';
                 })

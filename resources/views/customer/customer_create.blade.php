@@ -28,7 +28,7 @@
                     @if (session('status'))
                         <div class="alert alert-success">@lang(session('status'))</div>
                     @endif
-                    <form action="/customer/registration{{ isset($customer) ? '/'.$customer->id :''}}" method="post">
+                    <form action="/customer/registration{{ isset($customer) ? '/'.$customer->id.'?'.$params :''}}" method="post">
                         @csrf
                         @if(isset($customer))  @method('PUT') @endif
                         <div class="row">
