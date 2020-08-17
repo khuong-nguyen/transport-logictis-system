@@ -46,6 +46,6 @@ class CreateAdvanceMoneyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fixed_asset');
+        Schema::dropIfExists('advance_money');
     }
 }
