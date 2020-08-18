@@ -37,9 +37,11 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
         DB::beginTransaction();
         try {
             $result = [];
+//            $userId = Auth::user()->id;
             foreach ($request->containerbookingdetail as $data) {
                 if ($data['id']) {
                     $oldContainer = $this->find($data['id']);
+//                    $data['updated_by'] = $userId;
                     $this->update($oldContainer, $data);
                 } else {
                     $filter = collect([$data])->whereNotNull('container_no')
@@ -53,6 +55,7 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
                         ->whereNotNull('st')
                         ->whereNotNull('rf')->values()->pop();
                     if ($filter) {
+//                        $filter->merge(['created_by' => $userId]);
                         $record = $this->create($filter);
                         $data['id'] = $record->id;
                         $result[] = $data;

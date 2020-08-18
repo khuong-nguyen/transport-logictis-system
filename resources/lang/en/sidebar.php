@@ -21,6 +21,7 @@ return [
     'setting_employee' => 'Employee Registration',
     'employee_inquiry' => 'Employee Inquiry',
     'setting_fixed_asset' => 'Fixed Asset Registration',
-    'fixed_asset_inquiry' => 'Fixed Asset Inquiry'
+    'fixed_asset_inquiry' => 'Fixed Asset Inquiry',
+    'transport_schedule_registration' => 'Transport Schedule Registration'
 
 ];

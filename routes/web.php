@@ -35,6 +35,13 @@ Route::group(['prefix' => 'booking','namespace' => 'Booking'],function (){
         Route::get('/registration/{id}', 'BookingContainerRegistrationController@edit');
         Route::put('/registration/{id}', 'BookingContainerRegistrationController@update');
         Route::delete('/registration/{id}', 'BookingContainerRegistrationController@destroy');
+        Route::group(['prefix' => 'schedule'],function (){
+            Route::get('/registration', 'TransportScheduleRegistrationController@create');
+            Route::post('/registration', 'TransportScheduleRegistrationController@store');
+            Route::get('/registration/{id}', 'TransportScheduleRegistrationController@edit');
+            Route::put('/registration/{id}', 'TransportScheduleRegistrationController@update');
+            Route::delete('/registration/{id}', 'TransportScheduleRegistrationController@destroy');
+        });
     });
 });
 
@@ -54,7 +61,7 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
         Route::put('/registration/{id}', 'EmployeeController@update');
         Route::get('/inquiry', 'EmployeeInquiryController@index');
     });
-    
+
     Route::group(['prefix' => 'fixed_asset','namespace' => 'FixedAsset'],function (){
         Route::get('/registration', 'FixedAssetController@create');
         Route::post('/registration', 'FixedAssetController@store');
