@@ -247,7 +247,10 @@
                                                             <label class="col-md-12 col-form-label" for="TotalVol">Total Vol</label>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <input class="form-control" id="TotalVol" type="text" value="{{ isset($containers) ?$containers->sum('vol'):0 }}" name="TotalVol" readonly >
+                                                             <?php
+                                                                if(old('TotalVol')) {$old = old('TotalVol'); } elseif(isset($containers)) $old = $containers->sum('vol');
+                                                            ?>
+                                                            <input class="form-control" id="TotalVol" type="text" value="{{ $old ?? 0}}" name="TotalVol" readonly >
                                                         </div>
                                                         <div class="col-md-2"></div>
                                                     </div>
@@ -281,14 +284,29 @@
                                                                         <button class="btn btn-sm btn-primary" id="add_container" type="button">Add</button>
                                                                     </td>
                                                                 </tr>
-                                                                @if(isset($booking) && isset($containers))
-                                                                    @foreach($containers as $container)
-                                                                        <tr><td><input type="hidden" value="{{$container->id}}" id="container_id_{{$container->container_id}}" name="container[{{$container->container_id}}][id]">
-                                                                                <label class="col-form-label">{{$container->container->container_code}}</label></td>
-                                                                            <td><input type="number" min="0" class="form-control" id="container_vol_{{$container->container_id}}" name="container[{{$container->container_id}}][vol]" value="{{$container->vol}}"></td>
-                                                                            <td><input type="number" class="form-control" name="container[{{$container->container_id}}][eq_sub]" value="{{$container->eq_sub}}"></td>
-                                                                            <td><input type="number" class="form-control" name="container[{{$container->container_id}}][soc]" value="{{$container->soc}}"></td>
-                                                                            <td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onclick="remove(this,{{$container->container_id}})">Delete</button></td></tr>
+                                                                @if(old('container'))  @php($containers =  old('container'))  @endif
+                                                                @if(isset($containers))
+                                                                    @foreach($containers as $key => $container)
+                                                                        @php($id = $container->container_id ?? $key)
+                                                                        <tr>
+                                                                            <td>
+                                                                                @if(old('container'))
+                                                                                <input type="hidden" value="{{$container['container_code']}}" id="container_id_{{$id}}" name="container[{{$id}}][container_code]">
+                                                                                <input type="hidden" value="{{$container['text']}}" name="container[{{$id}}][text]">
+                                                                                @else
+                                                                                    <input type="hidden" value="{{$container->id}}" id="container_id_{{$container->container_id}}" name="container[{{$container->container_id}}][id]">
+                                                                                @endif
+                                                                                <label class="col-form-label">{{$container['text']??$container->container->container_code}}</label>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="number" min="0" class="form-control" id="container_vol_{{$id}}" name="container[{{$id}}][vol]" value="{{$container['vol']??$container->vol}}">
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="number" class="form-control @if($errors->has('container.'.$key.'.eq_sub')) is-invalid @endif" name="container[{{$id}}][eq_sub]" value="{{$container['eq_sub']??$container->eq_sub}}">
+                                                                                @error('container.'.$key.'.eq_sub')<div class="invalid-feedback">The EQ Sub(Incl. R/D field is required.</div>@enderror
+                                                                            </td>
+                                                                            <td><input type="number" class="form-control" min="0" name="container[{{$id}}][soc]" value="{{$container['soc']??$container->soc}}"></td>
+                                                                            <td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onclick="remove(this,{{$id}})">Delete</button></td></tr>
                                                                     @endforeach
                                                                 @endif
                                                                 </tbody>
@@ -776,16 +794,17 @@
                 if (selected &&  containerId.indexOf(selected) == -1){
                     $('#container_table tr:last').after('<tr>'+
                         '<td>' + '<input type="hidden" value="'+selected+'" id="container_id_'+selected+'" name="container['+selected+'][container_code]">'+
+                        '<input type="hidden" value="'+$("#select1 option:selected" ).text()+'" name="container['+selected+'][text]">'+
                         '<label class="col-form-label">'+$("#select1 option:selected" ).text()+'</label>' +
                         '</td>\n' +
                         '<td><input type="number" min="0" class="form-control" id="container_vol_'+selected+'" name="container['+selected+'][vol]"  value="'+vol+'"></td>\n' +
-                        '<td><input type="number" class="form-control" name="container['+selected+'][eq_sub]" value="'+$('#container_eq_sub').val()+'"></td>\n' +
-                        '<td><input type="number" class="form-control" name="container['+selected+'][soc]" value="'+$('#container_soc').val()+'"></td>\n' +
+                        '<td><input type="number"  min="0" class="form-control" name="container['+selected+'][eq_sub]" value="'+$('#container_eq_sub').val()+'"></td>\n' +
+                        '<td><input type="number"  min="0" class="form-control" name="container['+selected+'][soc]" value="'+$('#container_soc').val()+'"></td>\n' +
                         '<td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onClick="remove(this,'+selected+')">Delete</button></td>'
                         +'</tr>');
                     $('#container_vol').val(0);
-                    $('#container_eq_sub').val('');
-                    $('#container_soc').val('')
+                    $('#container_eq_sub').val(0);
+                    $('#container_soc').val(0)
 
                     var total = parseFloat($('#TotalVol').val());
                     total += parseFloat(vol);

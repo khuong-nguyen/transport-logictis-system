@@ -25,7 +25,7 @@ class BookingRegistrationRequest extends FormRequest
     {
         $id = $this->route('id');
 
-        return [
+        $validate = [
             'booking.booking_no' => 'required|unique:booking,booking_no,'.$id.'|max:100',
             'booking.b_l_no' => 'required|max:30',
             'booking.tvvd' => 'required|max:50',
@@ -43,5 +43,13 @@ class BookingRegistrationRequest extends FormRequest
             'booking.shipper_id' => 'required',
             'booking.consignee_id' => 'required'
         ];
+        if ($this->request->get('container'))
+        {
+            foreach ($this->request->get('container') as $key => $container)
+            {
+                $validate['container.'.$key.'.eq_sub'] = 'required|numeric|min:1';
+            }
+        }
+        return $validate;
     }
 }
