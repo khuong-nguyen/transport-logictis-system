@@ -25,8 +25,6 @@ class CreateAdvanceMoneyTable extends Migration
             $table->string('give_money_employee_name', 200)->comment('employee_name');
             $table->timestamp('advance_money_date');
             $table->decimal('advance_money');
-            $table->timestamp('refund_money_date')->nullable();;
-            $table->decimal('refund_money')->default(0);
             $table->string('advance_money_reason',255);
             $table->string('refund_money_status')->default('EMPTY')->comment('[EMPTY,PARTIAL,FULL]');
             $table->foreignId('booking_id')->nullable()->comment('booking table');
