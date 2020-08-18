@@ -12,7 +12,15 @@ return [
 
     'transportation_module' => 'Transportation Module',
     'container_booking_registration' => 'Container Booking Registration',
+    'transport_schedule_registration' => 'Transport Schedule Registration',
+    'transport_schedule_inquiry' => 'Transport Schedule Inquiry',
+    'transport_advance_money_registration' => 'Advance Money Registration',
+    'transport_advance_money_inquiry' => 'Advance Money Inquiry',
+    'transport_refund_money_registration' => 'Refund Money Registration',
+    'transport_refund_money_inquiry' => 'Refund Money Inquiry',
+    
     'inventory_module' => 'Inventory Module',
+    
     'setting_module' => 'Setting Module',
     'setting_customer' => 'Customer Registration',
     'setting_container' => 'Container Registration',
