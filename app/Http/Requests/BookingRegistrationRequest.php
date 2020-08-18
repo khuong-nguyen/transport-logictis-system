@@ -27,6 +27,7 @@ class BookingRegistrationRequest extends FormRequest
         if ($this->has('confirm-booking') || $this->has('save-container')) {
             return [];
         }
+
         $validate = [
             'booking.booking_no' => 'required|unique:booking,booking_no,'.$id.'|max:100',
             'booking.b_l_no' => 'required|max:30',
