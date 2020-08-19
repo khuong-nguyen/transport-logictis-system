@@ -168,18 +168,23 @@
             return obj;
         }
         var searchFirst = searchToObject(window.location.search)
+        if (!searchFirst.displayStart){
+            searchFirst.displayStart =0 ;
+        }
         $(function () {
             fill_datatable(searchFirst);
             function fill_datatable(search = {})
             {
                 search = Array.isArray(search)?{search:search}:search;
 
-               $('#inquiryDatatable').DataTable({
+                datatable = $('#inquiryDatatable').DataTable({
                     processing: true,
                     serverSide: true,
                     "searching": false,
                     "sPaginationType":"full_numbers",
                     "iDisplayLength": 10,
+                    displayStart: search.displayStart,
+
                     dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
                     // "infoCallback": function( settings, start, end, max, total, pre ) {
                     //     var api = this.api();
@@ -187,6 +192,10 @@
                     //     pgno = pageInfo.page+1;
                     //     return 'Showing '+start+' to '+end+' of '+total+' entries';
                     // },
+                    drawCallback: function(settings ){
+                        var api = this.api();
+                        searchFirst.displayStart =api.page.info().start;
+                    },
                     ajax:{
                         url: "/booking/inquiry",
                         data:search
@@ -258,6 +267,8 @@
                     $(this).val('');
                 });
                 $('#inquiryDatatable').DataTable().destroy();
+                window.history.replaceState({}, document.title, window.location.pathname);
+                searchFirst = {}
                 fill_datatable();
             });
 
