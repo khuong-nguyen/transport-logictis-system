@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Booking;
 use App\Booking;
 use App\BookingContainerDetail;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TransportScheduleRequest;
 use App\Repositories\BookingContainerDetailRepository;
 use App\Repositories\BookingRepository;
+use App\ScheduleTransportContainer;
 use Illuminate\Http\Request;
 
 class TransportScheduleRegistrationController extends Controller
@@ -60,10 +62,12 @@ class TransportScheduleRegistrationController extends Controller
         $example = [];
         $statusApproved = Booking::STATUS_APPROVED;
         if ($request->has('bookingNo')) {
-            $bookingContainerDetails = $this->bookingRepository->fullSearch($request->get('bookingNo'),'');
+            $bookingNo = $request->bookingNo;
+            $bookingContainerDetails = $this->bookingRepository->fullSearch($bookingNo,'');
             if ($bookingContainerDetails) {
                 $bookingContainerDetails = $bookingContainerDetails->toArray();
             }
+//            dd($bookingContainerDetails);
             if ($request->has('driverNo')) {
 
             } else if ($request->has('containerTruckNo')) {
@@ -140,5 +144,41 @@ class TransportScheduleRegistrationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function validateUseds(TransportScheduleRequest $request) {
+        $validate = [];
+        foreach ($request->schedules as $index => $schedule) {
+            if ($schedule['container_truck_id']) {
+                if($this->isPropertyUsed($schedule, 'container_truck_id')) {
+                    $validate['schedules.'.$index.'.container_truck_code'] = ['This container truck was used during the selected period'];
+                }
+            }
+            if ($schedule['driver_id']) {
+                if($this->isPropertyUsed($schedule, 'driver_code')) {
+                    $validate['schedules.'.$index.'.driver_id'] = ['This driver was used during the selected period'];
+                }
+            }
+        }
+        if ($validate) {
+            return response()->json([
+                'error' => null,
+                'message' => 'Pass data!',
+                'data' => []
+            ], 200);
+        }
+        return response()->json([
+            'errors' => $validate,
+            'message' => 'The given data was invalid.'
+        ], 403);
+    }
+
+    protected function isPropertyUsed($schedule, $columnName = 'container_truck_id') {
+        return ScheduleTransportContainer::where(function ($query) use ($schedule) {
+            $query->wherebetween('etd', [$schedule['etd'], $schedule['eta']])
+                ->orwherebetween('eta', [$schedule['etd'], $schedule['eta']]);
+        })
+            ->where('container_truck_id', $this->car_id)
+            ->exists();
     }
 }

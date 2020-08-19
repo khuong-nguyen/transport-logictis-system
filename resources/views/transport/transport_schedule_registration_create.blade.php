@@ -25,7 +25,7 @@
                                                     </div>
                                                     <div class="col-md-2 col-sm-3">
                                                         <input class="form-control @if(isset($searchError)) is-invalid @endif" id="booking_no" type="text" name="booking_no" @if (isset($booking)) disabled @endif
-                                                        value="{{ isset($search) ? $search : '' }}" >
+                                                        value="{{ isset($bookingNo) ? $bookingNo : '' }}" >
                                                         @if(isset($searchError))<div class="invalid-feedback">{{ $searchError }}</div>@endif
                                                     </div>
                                                     <div class="col-md-2">
@@ -38,14 +38,14 @@
                                                     </div>
                                                     <div class="col-md-2 col-sm-3">
                                                         <input class="form-control" id="shipper" type="text" name="shipper" readonly
-                                                        value="{{ isset($search) ? $search : '' }}" >
+                                                        value="{{ isset($bookingContainerDetails['shipper']) && $bookingContainerDetails['shipper'] ? $bookingContainerDetails['shipper']['customer_legal_english_name'] : '' }}" >
                                                     </div>
-                                                    <div class="col-sm-2">
+                                                    <div class="col-md-1 col-sm-2">
                                                         <label class="col-form-label required" for="booking_no">Consignee: </label>
                                                     </div>
                                                     <div class="col-md-2 col-sm-3">
                                                         <input class="form-control" id="consignee" type="text" name="consignee" readonly
-                                                        value="{{ isset($search) ? $search : '' }}" >
+                                                        value="{{ isset($bookingContainerDetails['consignee']) && $bookingContainerDetails['consignee'] ? $bookingContainerDetails['consignee']['customer_legal_english_name'] : '' }}" >
                                                     </div>
                                                 </div>
                                                 @if (isset($bookingContainerDetails['container_bookings']))
@@ -82,15 +82,18 @@
                                                                                         $detail['measure'] = floatval($detail['measure']);
                                                                                         $detail['container_code'] = $containerCode;
                                                                                         if ($detail['schedules']) {
+                                                                                            $driver = \App\Employee::find($detail['schedules']['driver_id']);
                                                                                             $detail['container_truck_id'] = $detail['schedules']['container_truck_id'];
                                                                                             $detail['container_truck_code'] = $detail['schedules']['container_truck_code'];
                                                                                             $detail['driver_id'] = $detail['schedules']['driver_id'];
-                                                                                            $detail['driver_code'] = \App\Employee::find($detail['schedules']['driver_id'])->employee_code;
+                                                                                            $detail['driver_code'] = $driver->employee_code;
                                                                                             $detail['driver_name'] = $detail['schedules']['driver_name'];
                                                                                         } else {
                                                                                             $detail['container_truck_code'] = '';
-                                                                                        $detail['driver_code'] = '';
-                                                                                        $detail['driver_name'] = '';
+                                                                                            $detail['container_truck_id'] = '';
+                                                                                            $detail['driver_code'] = '';
+                                                                                            $detail['driver_name'] = '';
+                                                                                            $detail['driver_id'] = '';
                                                                                         }
 
                                                                                         $listContainers[] = $detail;
@@ -107,9 +110,6 @@
                                                                         @endforeach
                                                                         </tbody>
                                                                     </table>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label for="">Route {{ '{'.$bookingContainerDetails['por_1'].'}'.'{'.$bookingContainerDetails['por_2'].'}'.'{'.$bookingContainerDetails['pol_1'].'}'.'{'.$bookingContainerDetails['pol_2'].'} ~ '.'{'.$bookingContainerDetails['pod_1'].'}'.'{'.$bookingContainerDetails['pod_2'].'}'.'{'.$bookingContainerDetails['del_1'].'}'.'{'.$bookingContainerDetails['del_2'].'}' }}</label>
                                                                 </div>
                                                             </div>
                                                             <table class="table table-bordered table-container-list">
@@ -136,26 +136,29 @@
                                                                 @endphp
                                                                 @foreach($listContainers as $list)
                                                                     <tr>
-                                                                        <input type="hidden" name="containerbookingdetail[<?=$i?>][container_id]" value="{{ $list['container_id'] }}">
-                                                                        <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_id]" value="{{ $list['booking_id'] }}">
-                                                                        <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_container_id]" value="{{ $list['booking_container_id'] }}">
-                                                                        <input type="hidden" name="containerbookingdetail[<?=$i?>][booking_no]" value="{{ $list['booking_no'] }}">
-                                                                        <input type="hidden" name="containerbookingdetail[<?=$i?>][position]" value="{{ $i }}">
-                                                                        <input type="hidden" class="id" name="containerbookingdetail[<?=$i?>][id]" value="{{ isset($list['id'])?$list['id']:'' }}">
+                                                                        <input type="hidden" name="schedules[<?=$i?>][container_id]" value="{{ $list['container_id'] }}">
+                                                                        <input type="hidden" name="schedules[<?=$i?>][booking_id]" value="{{ $list['booking_id'] }}">
+                                                                        <input type="hidden" name="schedules[<?=$i?>][booking_container_id]" value="{{ $list['booking_container_id'] }}">
+                                                                        <input type="hidden" name="schedules[<?=$i?>][booking_no]" value="{{ $list['booking_no'] }}">
+                                                                        <input type="hidden" name="schedules[<?=$i?>][position]" value="{{ $i }}">
+                                                                        <input type="hidden" name="schedules[<?=$i?>][driver_name]" class="driver_name" value="{{ $list['driver_name'] }}">
+                                                                        <input type="hidden" name="schedules[<?=$i?>][driver_id]" class="driver_id" value="{{ $list['driver_id'] }}">
+                                                                        <input type="hidden" class="id" name="schedules[<?=$i?>][id]" value="{{ isset($list['id'])?$list['id']:'' }}">
+                                                                        <input type="hidden" class="id" name="schedules[<?=$i?>][container_truck_id]" value="{{ $list['container_truck_id'] }}">
                                                                         <td>{{ $i }}</td>
                                                                         <td>{{ $bookingContainerDetails['booking_no'] }}</td>
                                                                         <td>{{ $list['container_code'] }}</td>
                                                                         <td>{{ $list['container_no'] }}</td>
                                                                         <td>{{ '{'.$bookingContainerDetails['por_1'].'}'.'{'.$bookingContainerDetails['por_2'].'}'.'{'.$bookingContainerDetails['pol_1'].'}'.'{'.$bookingContainerDetails['pol_2'].'} ~ '.'{'.$bookingContainerDetails['pod_1'].'}'.'{'.$bookingContainerDetails['pod_2'].'}'.'{'.$bookingContainerDetails['del_1'].'}'.'{'.$bookingContainerDetails['del_2'].'}' }}</td>
                                                                         <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" name="containerbookingdetail[<?=$i?>][etd]" class="form-control etd">
+                                                                            <input style="min-width: 150px" type="text" name="schedules[<?=$i?>][etd]" class="form-control etd">
                                                                         </td>
                                                                         <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" name="containerbookingdetail[<?=$i?>][eta]" class="form-control eta">
+                                                                            <input style="min-width: 150px" type="text" name="schedules[<?=$i?>][eta]" class="form-control eta">
                                                                         </td>
-                                                                        <td><input type="text" name="containerbookingdetail[<?=$i?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code"></td>
-                                                                        <td><input type="text" step="any" name="containerbookingdetail[<?=$i?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code"></td>
-                                                                        <td>{{ $list['driver_name'] }}</td>
+                                                                        <td><input type="text" name="schedules[<?=$i?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code"></td>
+                                                                        <td><input type="text" step="any" name="schedules[<?=$i?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code"></td>
+                                                                        <td class="driver_name_text">{{ $list['driver_name'] }}</td>
                                                                         <td>@if(isset($list['id']))<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
                                                                     </tr>
                                                                     @php
@@ -207,8 +210,73 @@
 @push('scripts')
     <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <style>
+        .form-control.is-warning {
+            padding-right: calc(1.5em + 0.75rem);
+            background-position: right calc(0.375em + 0.1875rem) center;
+            border-color: #d4c240;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAACLUlEQVQ4jY2S30tTYRjHv+97ztlp1KY2GaahQsLCi7wQIugqQm1QFIQUBkVYiPfd1x8g3koglBB0P9K2sLpohHUhWqmLLa216TTnfrnt7Jz3RxfpcYkrn7v34fv9PA/f9yHYV+9H+52lY/nzRNMuE0KvSyk0ImWQCT5ZJo7g1cFAoVpPACA43tehCOpXHVo/5+zsUXd9qaml1e050awAQDq1JtZX48XtbEZXHdosM6znjPCpS/dCMRUAKGikqa3d9DafdB73NkHVHHr1FFddA233dbqYZWJrI3VuYzXRtfbz+ygAdQdALN+Zbqem/+XD2MgEAGD4wR0AgKo54G1pRb3H60wlfpT+eAEQSnOVirE/jpplVgxQSvM2QKFq0jTKhwZUKmVQqiRtAJfsYz6bFocF5Lc2BRd8xgYIbr1Lp1KFf9v2Kr2eKnCLhW0A0Vgol/mlc87+a2aMIZfZ1CWVr4CdOwCAN0+vhHxd3T3NbadIbTuQWInK2MJc6MLtgN/eAAC4xR4uL30pSrEXxdjIhP2VACCFwEpkoWiW2aPdng3ouf9yxjLN+cS3KK81PR6NcGaZc31DUx92e2q1QJbFjdji/FJdY6PL3eCxDwgA8pktLEc+l7hp3Kr20OrHxeEXSSH5wGz4bXE7l7X7hWwGs+HXRcbYzZ6h6Xi158DApsf914iiPOvo7DoCSMQWPxlcyIHewcnAfm3NxEOPe09ruv6EANLg1l3/YPDrQbrf9xX5oO8d+8UAAAAASUVORK5CYII=");
+            background-repeat: no-repeat;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+    </style>
 <script type="text/javascript">
     $(function () {
+        function getAllValues(element) {
+            var inputValues = element.find('input').map(function() {
+                var type = $(this).prop("type");
+
+                // checked radios/checkboxes
+                if ((type === "checkbox" || type === "radio") && this.checked) {
+                    return {name: $(this).prop("name"), value: $(this).val()};
+                }
+                // all other fields, except buttons
+                else if (type !== "button" && type !== "submit") {
+                    return {name: $(this).prop("name"), value: $(this).val()};
+                }
+            });
+            return inputValues;
+        }
+        function callIsUsedProperty(index) {
+            let tr = $('.table-container-list tbody tr').eq(index);
+            let etd = tr.find('.etd').val();
+            let eta = tr.find('.eta').val();
+            let container_truck_code = tr.find('.container_truck_code').val();
+            let driver_code = tr.find('.driver_code').val();
+            if (etd !== '' && eta !== '' && (container_truck_code !== '' || driver_code !== '')) {
+                let form = getAllValues(tr)
+                form.push({name: '_token', value:$('meta[name="csrf-token"]').attr('content')})
+                $.ajax({
+                    url: '/booking/transport/schedule/useds',
+                    dataType: "json",
+                    method: 'post',
+                    data: form,
+                    success: function (result) {
+                        $.each(result.data, (index, item) => {
+                            let tr = $('.table-container-list tbody tr:nth-child('+parseInt(item.position)+')');
+                            var input = $("<button type=\"button\" onclick=\"onDelete(this)\" data-id=\""+item.id+"\" class=\"btn btn-sm btn-danger action-delete\">Del</button>")
+                            tr.find('td:last-child').html(input);
+                        });
+                        toastr.success(result.message)
+                    },
+                    error: err => {
+                        $.each(err.responseJSON.errors, (index, item) => {
+                            let lip = index.split('.');
+                            let name = lip[0]+'['+lip[1]+']'+'['+lip[2]+']';
+                            let element = $('#form-transport-container').find('input[name="'+name+'"]');
+                            if (lip[2] === 'container_truck_code' || lip[2] === 'driver_code') {
+                                element.addClass('is-warning')
+                                toastr.warning(item[0]);
+                            } else {
+                                element.addClass('is-invalid')
+                                toastr.error(item[0]);
+                            }
+                        })
+                        // toastr.error(err.responseJSON.message)
+                    }
+                });
+            }
+        }
 
         $('#booking_no').on('keyup', e => {
             if (e.target.value !== '') {
@@ -217,15 +285,8 @@
                 $('.btn-search-booking').prop('disabled', true)
             }
         });
-        $('.etd2').datetimepicker({
-            viewMode: 'days',
-            format: 'YYYY-MM-DD',
-            date: new Date()
-        });
         $('.etd').each((index, etd) => {
-            var index = index+1;
             let eta = $(etd).closest('tr').find('.eta');
-            console.log($(etd).closest('tr').find('.eta').val());
             $(etd).datetimepicker({
                 format: 'dd/mm/yyyy hh:ii',
                 startDate: moment().toDate(),
@@ -233,10 +294,10 @@
                 // todayBtn: true,
                 autoclose: true
             }).on('changeDate', function (selected) {
+                callIsUsedProperty(index);
                 var minDate = new Date(selected.date.valueOf());
                 $(eta).datetimepicker('setStartDate', $(etd).data("datetimepicker").getDate());
             });
-        console.log(index);
             $(eta).datetimepicker({
                 format: 'dd/mm/yyyy hh:ii',
                 // todayBtn: true,
@@ -246,9 +307,67 @@
                 todayHighlight: true,
             }).on('changeDate', function (selected) {
                 var maxDate = new Date(selected.date.valueOf());
+                callIsUsedProperty(index);
                 $(etd).datetimepicker('setEndDate', $(eta).data("datetimepicker").getDate());
             });
-        })
+        });
+
+        $('.container_truck_code').on('change', function() {
+            let tr = $(this).closest('tr');
+            let val = $(this).val()
+            if (val !== '') {
+                $.ajax({
+                    url: '/fixed_asset/search',
+                    dataType: "json",
+                    method: 'GET',
+                    data: {
+                        'code': val,
+                        'type': 'TRUCK'
+                    },
+                    success: function (result) {
+                        if (result.data !== null) {
+                            tr.find('.container_truck_id').val(result.data.id)
+                            tr.find('.container_truck_code').addClass('is-valid')
+                            tr.find('.container_truck_code').removeClass('is-invalid')
+                            callIsUsedProperty(tr.index());
+                        }
+                    },
+                    error: err => {
+                        tr.find('.container_truck_code').removeClass('is-valid')
+                        tr.find('.container_truck_code').addClass('is-invalid')
+                        toastr.error(err.responseJSON.message)
+                    }
+                });
+            }
+        });
+
+        $('.driver_code').on('change', function() {
+            let tr = $(this).closest('tr');
+            let val = $(this).val()
+            if (val !== '') {
+                $.ajax({
+                    url: '/employee/search',
+                    dataType: "json",
+                    method: 'GET',
+                    data: {
+                        'code': val,
+                        'type': 'DRIVER'
+                    },
+                    success: function (result) {
+                        if (result.data !== null) {
+                            tr.find('.driver_id').val(result.data.id)
+                            tr.find('.driver_name').val(result.data.employee_name)
+                            tr.find('.driver_name_text').html(result.data.employee_name)
+                            callIsUsedProperty(tr.index());
+                        }
+                    },
+                    error: err => {
+                        toastr.error(err.responseJSON.message)
+                    }
+                });
+            }
+
+        });
 
         $('.btn-search-booking').on('click', e => {
             let bookingNo = $('#booking_no').val();
