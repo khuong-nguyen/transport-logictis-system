@@ -38,6 +38,11 @@ class ContainerBooking extends Model
         return $this->hasMany(BookingContainerDetail::class, 'booking_container_id', 'id');
     }
 
+    public function schedules()
+    {
+        return $this->hasOneThrough(ScheduleTransportContainer::class, BookingContainerDetail::class, 'booking_id', 'booking_container_detail_id', 'id', 'id');
+    }
+
     public function oneContainer() {
         return $this->hasOne(Container::class, 'id', 'container_id');
     }

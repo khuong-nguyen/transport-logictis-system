@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ScheduleTransportContainer extends Model
 {
-    protected $table ='booking_container_details';
-
+    protected $table ='scheduled_transport_container';
     /**
      * The attributes that are mass assignable.
      *
@@ -50,6 +49,7 @@ class ScheduleTransportContainer extends Model
     protected $casts = [
     ];
 
+
     public function container() {
         $this->hasOne(Container::class);
     }
@@ -67,10 +67,10 @@ class ScheduleTransportContainer extends Model
     }
 
     public function driver() {
-        $this->hasOne(Employee::class);
+        $this->hasOne(Employee::class, 'id', 'driver_id')->where('department_code', 'DRIVER');
     }
 
     public function containerTruck() {
-        $this->hasOne(FixedAsset::class);
+        $this->hasOne(FixedAsset::class)->where('fixed_asset_type', 'TRUCK');
     }
 }

@@ -5,10 +5,37 @@ namespace App\Http\Controllers\Booking;
 use App\Booking;
 use App\BookingContainerDetail;
 use App\Http\Controllers\Controller;
+use App\Repositories\BookingContainerDetailRepository;
+use App\Repositories\BookingRepository;
 use Illuminate\Http\Request;
 
 class TransportScheduleRegistrationController extends Controller
 {
+    /**
+     * @var BookingRepository
+     */
+    private $bookingRepository;
+
+    /**
+     * @var BookingContainerDetailRepository
+     */
+    private $bookingContainerDetailRepository;
+
+    /**
+     * Create a new controller instance.
+     * @param BookingRepository $bookingRepository
+     * @param BookingContainerDetailRepository $bookingContainerDetailRepository
+     * @return void
+     */
+    public function __construct(
+        BookingRepository $bookingRepository,
+        BookingContainerDetailRepository $bookingContainerDetailRepository
+    )
+    {
+        $this->bookingRepository = $bookingRepository;
+        $this->bookingContainerDetailRepository = $bookingContainerDetailRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,14 +51,28 @@ class TransportScheduleRegistrationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $bookingNo = '';
+        $driverNo = '';
+        $containerTruckNo = '';
         $bookingContainerDetails = [];
         $example = [];
         $statusApproved = Booking::STATUS_APPROVED;
-        if ($request->has('search')) {
-            $search = $request->get('search');
+        if ($request->has('bookingNo')) {
+            $bookingContainerDetails = $this->bookingRepository->fullSearch($request->get('bookingNo'),'');
+            if ($bookingContainerDetails) {
+                $bookingContainerDetails = $bookingContainerDetails->toArray();
+            }
+            if ($request->has('driverNo')) {
+
+            } else if ($request->has('containerTruckNo')) {
+
+            }
+        }
+        return view('transport.transport_schedule_registration_create', compact('bookingContainerDetails', 'bookingNo', 'driverNo', 'containerTruckNo', 'example', 'statusApproved'));
+        if ($request->has('bookingNo')) {
+            $search = $request->get('bookingNo');
             $bookingContainerDetails = $this->bookingRepository->search($search,'');
 
             if ($bookingContainerDetails) {
@@ -42,7 +83,7 @@ class TransportScheduleRegistrationController extends Controller
             }
             return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example', 'statusApproved'))->with('searchError', 'Could not find this Booking No.');
         }
-        return view('transport.booking_container_registration_create', compact('bookingContainerDetails', 'search', 'example', 'statusApproved'));
+
     }
 
     /**

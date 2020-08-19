@@ -60,4 +60,9 @@ class BookingContainerDetail extends Model
     public function booking() {
         $this->hasOne(Booking::class);
     }
+
+    public function schedules()
+    {
+        return $this->hasOne(ScheduleTransportContainer::class);
+    }
 }
