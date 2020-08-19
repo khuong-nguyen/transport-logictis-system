@@ -35,7 +35,7 @@
                             <div class="col ">
                                 <div class="nav-tabs-boxed form-group">
                                     <ul class="nav nav-tabs" role="tablist" >
-                                        <li class="nav-item"><a class="nav-link active" id="cust_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="profile">Customer Creation</a></li>
+                                        <li class="nav-item"><a class="nav-link active" id="cust_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="profile">Advance Money Creation</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="tab1" role="tabpanel" aria-labelledby="cust_tab">
@@ -43,39 +43,89 @@
                                                 <div class="col-md-12">
                                                     <div class="card-body border">
                                                         <div class="row">
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                 <div class="form-group row">
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-5">
                                                                         <label class="col-form-label required" for="advance_money_employee_code">Advance money person code</label>
                                                                     </div>
-                                                                    <div class="col-md-5">
+                                                                    <div class="col-md-4">
                                                                         <input class="form-control @if($errors->has('advance_money.advance_money_employee_code')) is-invalid @endif" id="advance_money_employee_code" value="{{old('advance_money.advance_money_employee_code') ?? $advance_money->advance_money_employee_code ?? ''}}" type="text" name="advance_money[advance_money_employee_code]" required>
                                                                         @error('advance_money.advance_money_employee_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-5">
+                                                                        <label class="col-form-label" for="give_money_employee_code">Give money person code</label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <input class="form-control" id="give_money_employee_code" value="{{old('advance_money.give_money_employee_code') ?? $advance_money->give_money_employee_code ?? ''}}" type="text" name="advance_money[give_money_employee_code]">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-5">
                                                                         <label class="col-form-label" for="advance_money_employee_name">Advance money person name</label>
                                                                     </div>
-                                                                    <div class="col-md-5">
+                                                                    <div class="col-md-6">
                                                                         <input class="form-control" id="advance_money_employee_name" value="{{old('advance_money.advance_money_employee_name') ?? $advance_money->advance_money_employee_name ?? ''}}" type="text" name="advance_money[advance_money_employee_name]">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <div class="col-md-3">
-                                                                        <label class="col-form-label" for="give_money_employee_code">Give money person code</label>
+                                                                    <div class="col-md-5">
+                                                                        <label class="col-form-label" for="give_money_employee_name">Give money person name</label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <input class="form-control" id="give_money_employee_name" value="{{old('advance_money.give_money_employee_name') ?? $advance_money->give_money_employee_name ?? ''}}" type="text" name="advance_money[give_money_employee_name]">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-5">
+                                                                        <label class="col-form-label" for="advance_money_type">Advance money type</label>
+                                                                    </div>
+                                                                    <div class="col-md-5">
+                                                                        {{ Form::select('advance_money[advance_money_type]', $advanceMoneyTypeOptions,(empty($advance_money->advance_money_type) ? $advanceMoneyTypeOptionDefault : $selectedAdvanceMoneyTypeOption), ['class'=>'form-control']) }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-5">
+                                                                        <label class="col-form-label" for="booking_no">Booking No</label>
                                                                     </div>
                                                                     <div class="col-md-5">
                                                                         <input class="form-control" id="give_money_employee_code" value="{{old('advance_money.give_money_employee_code') ?? $advance_money->give_money_employee_code ?? ''}}" type="text" name="advance_money[give_money_employee_code]">
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group row">
-                                                                    <div class="col-md-3">
-                                                                        <label class="col-form-label" for="give_money_employee_name">Give money person name</label>
+                                                                    <div class="col-md-5">
+                                                                        <label class="col-form-label" for="advance_money">Advance money</label>
                                                                     </div>
                                                                     <div class="col-md-5">
-                                                                        <input class="form-control" id="give_money_employee_name" value="{{old('advance_money.give_money_employee_name') ?? $advance_money->give_money_employee_name ?? ''}}" type="text" name="advance_money[give_money_employee_name]">
+                                                                        <input type="number" min="0" value="{{old('advance_money.advance_money') ?? $advance_money->advance_money?? ''}}" type="text" class="form-control" id="advance_money" name="advance_money[advance_money]">
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-5">
+                                                                        <label class="col-form-label" for="advance_money_reason">Reason</label>
+                                                                    </div>
+                                                                    <div class="col-md-10">
+                                                                		<textarea class="form-control" id="ext_remark" name="advance_money[advance_money_reason]" rows="9" placeholder="Content..">{{old('advance_money.advance_money_reason') ?? $advance_money->advance_money_reason ?? ''}}</textarea>
+                                                            		</div>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -50,7 +50,18 @@ class AdvanceMoneyController extends Controller
      */
     public function create()
     {
-        return view('advance_money.advance_money_create',[]);
+        //load default options for advance_money_type
+        $advanceMoneyTypeOptions = [
+            "BOOKING" => "Booking",
+            "OTHER" => "Other"
+        ];
+        $advanceMoneyTypeOptionDefault = "BOOKING";
+        
+        return view('advance_money.advance_money_create',[
+            'advanceMoneyTypeOptions' => $advanceMoneyTypeOptions,
+            'advanceMoneyTypeOptionDefault' => $advanceMoneyTypeOptionDefault
+            
+        ]);
     }
 
     /**
