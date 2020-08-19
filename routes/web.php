@@ -69,3 +69,11 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
         Route::put('/registration/{id}', 'FixedAssetController@update');
         Route::get('/inquiry', 'FixedAssetInquiryController@index');
     });
+    
+    Route::group(['prefix' => 'advance_money','namespace' => 'AdvanceMoney'],function (){
+        Route::get('/registration', 'AdvanceMoneyController@create');
+        Route::post('/registration', 'AdvanceMoneyController@store');
+        Route::get('/registration/{id}', 'AdvanceMoneyController@edit');
+        Route::put('/registration/{id}', 'AdvanceMoneyController@update');
+        Route::get('/inquiry', 'AdvanceMoneyInquiryController@index');
+    });

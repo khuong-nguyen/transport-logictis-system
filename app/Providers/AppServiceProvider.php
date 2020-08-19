@@ -38,6 +38,10 @@ use App\Repositories\FixedAssetRepository;
 use App\Repositories\Eloquent\EloquentFixedAssetRepository;
 use App\FixedAsset;
 
+use App\Repositories\AdvanceMoneyRepository;
+use App\Repositories\Eloquent\EloquentAdvanceMoneyRepository;
+use App\AdvanceMoney;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -111,6 +115,12 @@ class AppServiceProvider extends ServiceProvider
             FixedAssetRepository::class,
             function () {
                 return  new EloquentFixedAssetRepository(new FixedAsset());
+            }
+        );
+        $this->app->bind(
+            AdvanceMoneyRepository::class,
+            function () {
+                return  new EloquentAdvanceMoneyRepository(new AdvanceMoney());
             }
         );
     }
