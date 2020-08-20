@@ -25,5 +25,24 @@ class EloquentAdvanceMoneyRepository extends EloquentBaseRepository implements A
         }
         return $categories->paginate($request->get('per_page', 10));
     }
+    
+    public function advanceMoneyCode():string{
+        
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+
+        $advanceMoneyCode = $currentYear.$currentMonth;
+        
+        $advanceMoneyCodeInMonthCount = $this->model
+            ->whereYear('created_at',$currentYear)
+            ->whereMonth('created_at',$currentMonth)
+            ->count();
+            
+        $newCode = $advanceMoneyCodeInMonthCount + 1;
+        $numberCode = substr("00000".$newCode,strlen($newCode));
+        $advanceMoneyCode .= $numberCode;
+        
+        return $advanceMoneyCode;
+    }
 
 }

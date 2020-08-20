@@ -13,5 +13,7 @@ interface AdvanceMoneyRepository extends BaseRepository
      * @return LengthAwarePaginator
      */
     public function serverPaginationFilteringFor(Request $request) :LengthAwarePaginator;
-
+    
+    public function advanceMoneyCode():string;
+    
 }

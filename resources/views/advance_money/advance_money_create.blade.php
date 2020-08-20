@@ -48,13 +48,13 @@
                                                                     <div class="col-md-5">
                                                                         <label class="col-form-label required" for="advance_money_employee_code">Advance money person code</label>
                                                                     </div>
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-4" style ="display:inline">
                                                                         <input class="form-control @if($errors->has('advance_money.advance_money_employee_code')) is-invalid @endif" id="advance_money_employee_code" value="{{old('advance_money.advance_money_employee_code') ?? $advance_money->advance_money_employee_code ?? ''}}" type="text" name="advance_money[advance_money_employee_code]" required>
-                                                                        @error('advance_money.advance_money_employee_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                                         @error('advance_money.advance_money_employee_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                     </div>
-                                                                    <svg class="c-sidebar-nav-icon" width="16" height="16">
-                                                                    	<use xlink:href="/svg/free/cil-watch.svg#ccil-book"></use>
-                                                                    </svg>
+                                                                    <div class="col-md-3">
+                                                                        <button type="button" class="btn btn-primary" id="advance_money_employee_search" @if(isset($advance_money_employee)) disabled @endif>Search</button>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-5">
@@ -62,6 +62,9 @@
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <input class="form-control" id="give_money_employee_code" value="{{old('advance_money.give_money_employee_code') ?? $advance_money->give_money_employee_code ?? ''}}" type="text" name="advance_money[give_money_employee_code]">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <button type="button" class="btn btn-primary" id="give_money_employee_search" @if(isset($give_money_employee)) disabled @endif>Search</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -78,7 +81,7 @@
                                                                     <div class="col-md-5">
                                                                         <label class="col-form-label" for="give_money_employee_name">Give money person name</label>
                                                                     </div>
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-6">
                                                                         <input class="form-control" id="give_money_employee_name" value="{{old('advance_money.give_money_employee_name') ?? $advance_money->give_money_employee_name ?? ''}}" type="text" name="advance_money[give_money_employee_name]">
                                                                     </div>
                                                                 </div>
@@ -103,7 +106,10 @@
                                                                         <label class="col-form-label" for="booking_no">Booking No</label>
                                                                     </div>
                                                                     <div class="col-md-5">
-                                                                        <input class="form-control" id="give_money_employee_code" value="{{old('advance_money.give_money_employee_code') ?? $advance_money->give_money_employee_code ?? ''}}" type="text" name="advance_money[give_money_employee_code]">
+                                                                        <input class="form-control" id="booking_no" value="{{old('advance_money.booking_no') ?? $advance_money->booking_no ?? ''}}" type="text" name="advance_money[booking_no]">
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <button type="button" class="btn btn-primary" id="booking_no_search" @if(isset($booking)) disabled @endif>Search</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -116,6 +122,18 @@
                                                                     </div>
                                                                     <div class="col-md-5">
                                                                         <input type="number" min="0" value="{{old('advance_money.advance_money') ?? $advance_money->advance_money?? ''}}" type="text" class="form-control" id="advance_money" name="advance_money[advance_money]">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+              		                                  <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-5">
+                                                                        <label class="col-form-label" for="advance_money_date">Advance money  Date</label>
+                                                                    </div>
+                                                                    <div class="col-md-5">
+                                                                        <input type="number" min="0" value="{{old('advance_money.advance_money_date') ?? $advance_money->advance_money_date?? ''}}" type="text" class="form-control" id="advance_money_date" name="advance_money[advance_money_date]">
                                                                     </div>
                                                                 </div>
                                                             </div>

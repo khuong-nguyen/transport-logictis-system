@@ -70,17 +70,19 @@ class AdvanceMoneyController extends Controller
      * @param  CustomerRequest $request
      *
      */
-    public function store(CustomerRequest $request)
+    public function store(AdvanceMoneyRequest $request)
     {
          $request = $request->all();
-         $customerRequest =  $request['customer'];
-         $customerCount = $this->customerRepository->countCustomer();
+         
+         $advanceMoneyRequest =  $request['advance_money'];
+         
+         $advanceMoneyCode = $this->advanceMoneyRepository->advanceMoneyCode();
+         
+         $advanceMoneyRequest["advance_money_code"] = $advanceMoneyCode;
+         
+         $advance_money =   $this->advanceMoneyRepository->create($advanceMoneyRequest);
 
-         $customerRequest["customer_code"] = $customerRequest["country_code"]. ($customerCount + 1);
-         $customerRequest["location_code"] = $customerRequest["country_code"]. $customerRequest["city"];
-         $customer =   $this->customerRepository->create($customerRequest);
-
-         return redirect('/customer/registration/'.$customer->id);
+         return redirect('/customer/registration/'.$advance_money->id);
     }
 
     /**
