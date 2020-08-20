@@ -73,8 +73,7 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
     public function fullSearch($bookingId, $driverNo = '', $containerTruckNo = '')
     {
         try {
-            DB::connection()->enableQueryLog();
-                dd($this->model->where('booking_id', $bookingId));
+
                 return $this->model->where('booking_id', $bookingId)->with(['container', 'schedules' => function($q) use ($driverNo, $containerTruckNo) {
 //                            $q->with(['driver' => function($q) use ($driverNo) {
 //                                if ($driverNo) {
@@ -86,11 +85,10 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
 //                                }
 //                            }]);
             }])->get();
-//                 dd($a);
 
             return [];
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            return false;
         }
 
 

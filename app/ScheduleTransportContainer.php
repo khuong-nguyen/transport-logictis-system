@@ -27,19 +27,19 @@ class ScheduleTransportContainer extends Model
     public $timestamps = true;
 
     protected $attributes = [
-        'booking_id' => null,
-        'booking_no' => null,
-        'container_id' => null,
-        'booking_container_id' => null,
-        'container_no' => null,
-        'seal_no_1' => null,
-        'seal_no_2' => null,
-        'package' => null,
-        'weight' => null,
-        'vgm' => null,
-        'measure' => null,
-        'st' => null,
-        'rf' => null
+//        'booking_id' => null,
+//        'booking_no' => null,
+//        'container_id' => null,
+//        'booking_container_id' => null,
+//        'container_no' => null,
+//        'seal_no_1' => null,
+//        'seal_no_2' => null,
+//        'package' => null,
+//        'weight' => null,
+//        'vgm' => null,
+//        'measure' => null,
+//        'st' => null,
+//        'rf' => null
     ];
 
     /**
