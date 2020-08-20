@@ -25,8 +25,8 @@ class TransportScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            'schedules.*.etd' => 'required|date_format:d/m/Y H:i',
-            'schedules.*.eta' => 'required|date_format:d/m/Y H:i|after:schedules.*.etd',
+            'schedules.*.etd' => 'nullable|date_format:d/m/Y H:i',
+            'schedules.*.eta' => 'nullable|date_format:d/m/Y H:i|after:schedules.*.etd',
             'schedules.*.driver_id' => 'nullable',
             'schedules.*.container_truck_id' => 'nullable'
         ];

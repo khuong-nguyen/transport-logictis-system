@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class ScheduleTransportContainer extends Model
@@ -72,5 +73,15 @@ class ScheduleTransportContainer extends Model
 
     public function containerTruck() {
         $this->hasOne(FixedAsset::class)->where('fixed_asset_type', 'TRUCK');
+    }
+
+    public function getEtaAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y H:i');
+    }
+
+    public function getEtdAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y H:i');
     }
 }

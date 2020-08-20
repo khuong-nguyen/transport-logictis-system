@@ -69,4 +69,30 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
             throw new \Exception($e->getMessage());
         }
     }
+
+    public function fullSearch($bookingId, $driverNo = '', $containerTruckNo = '')
+    {
+        try {
+            DB::connection()->enableQueryLog();
+                dd($this->model->where('booking_id', $bookingId));
+                return $this->model->where('booking_id', $bookingId)->with(['container', 'schedules' => function($q) use ($driverNo, $containerTruckNo) {
+//                            $q->with(['driver' => function($q) use ($driverNo) {
+//                                if ($driverNo) {
+//                                    $q->where('employee_code', $driverNo);
+//                                }
+//                            },'containerTruck' => function($q) use ($containerTruckNo) {
+//                                if ($containerTruckNo) {
+//                                    $q->where('fixed_asset_code', $containerTruckNo);
+//                                }
+//                            }]);
+            }])->get();
+//                 dd($a);
+
+            return [];
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+
+    }
 }

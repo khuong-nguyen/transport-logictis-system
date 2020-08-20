@@ -8,8 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TransportScheduleRequest;
 use App\Repositories\BookingContainerDetailRepository;
 use App\Repositories\BookingRepository;
+use App\Repositories\ScheduleTransportContainerRepository;
 use App\ScheduleTransportContainer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransportScheduleRegistrationController extends Controller
 {
@@ -24,6 +27,11 @@ class TransportScheduleRegistrationController extends Controller
     private $bookingContainerDetailRepository;
 
     /**
+     * @var ScheduleTransportContainerRepository
+     */
+    private $scheduleTransportContainerRepository;
+
+    /**
      * Create a new controller instance.
      * @param BookingRepository $bookingRepository
      * @param BookingContainerDetailRepository $bookingContainerDetailRepository
@@ -31,11 +39,13 @@ class TransportScheduleRegistrationController extends Controller
      */
     public function __construct(
         BookingRepository $bookingRepository,
-        BookingContainerDetailRepository $bookingContainerDetailRepository
+        BookingContainerDetailRepository $bookingContainerDetailRepository,
+        ScheduleTransportContainerRepository $scheduleTransportContainerRepository
     )
     {
         $this->bookingRepository = $bookingRepository;
         $this->bookingContainerDetailRepository = $bookingContainerDetailRepository;
+        $this->scheduleTransportContainerRepository = $scheduleTransportContainerRepository;
     }
 
     /**
@@ -130,9 +140,19 @@ class TransportScheduleRegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TransportScheduleRequest $request, $id)
     {
-        //
+        $booking =  $this->bookingRepository->find($id);
+        if ($booking && $request->has('schedules')) {
+            try {
+                $this->scheduleTransportContainerRepository->saveBooking($request);
+                return redirect('/booking/transport/schedule/registration?search='.$booking->booking_no)->with('status', 'message.save_success');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect('/booking/transport/schedule/registration?search='.$booking->booking_no)->with('status', 'message.save_error');
+            }
+        }
+        return redirect('/booking/transport/schedule/registration?search='.$booking->booking_no)->with('status', 'message.save_error');
     }
 
     /**
@@ -149,18 +169,21 @@ class TransportScheduleRegistrationController extends Controller
     public function validateUseds(TransportScheduleRequest $request) {
         $validate = [];
         foreach ($request->schedules as $index => $schedule) {
+            $schedule['etd'] = Carbon::createFromFormat('d/m/Y H:i', $schedule['etd'])->format('Y-m-d H:i:s');
+            $schedule['eta'] = Carbon::createFromFormat('d/m/Y H:i', $schedule['eta'])->format('Y-m-d H:i:s');
+
             if ($schedule['container_truck_id']) {
                 if($this->isPropertyUsed($schedule, 'container_truck_id')) {
                     $validate['schedules.'.$index.'.container_truck_code'] = ['This container truck was used during the selected period'];
                 }
             }
             if ($schedule['driver_id']) {
-                if($this->isPropertyUsed($schedule, 'driver_code')) {
-                    $validate['schedules.'.$index.'.driver_id'] = ['This driver was used during the selected period'];
+                if($this->isPropertyUsed($schedule, 'driver_id')) {
+                    $validate['schedules.'.$index.'.driver_code'] = ['This driver was used during the selected period'];
                 }
             }
         }
-        if ($validate) {
+        if (!$validate) {
             return response()->json([
                 'error' => null,
                 'message' => 'Pass data!',
@@ -174,11 +197,12 @@ class TransportScheduleRegistrationController extends Controller
     }
 
     protected function isPropertyUsed($schedule, $columnName = 'container_truck_id') {
+
         return ScheduleTransportContainer::where(function ($query) use ($schedule) {
-            $query->wherebetween('etd', [$schedule['etd'], $schedule['eta']])
-                ->orwherebetween('eta', [$schedule['etd'], $schedule['eta']]);
+            $query->whereRaw("'{$schedule['etd']}' BETWEEN etd AND eta OR '{$schedule['eta']}' BETWEEN etd AND eta");
         })
-            ->where('container_truck_id', $this->car_id)
+            ->where($columnName, $schedule[$columnName])
             ->exists();
+
     }
 }

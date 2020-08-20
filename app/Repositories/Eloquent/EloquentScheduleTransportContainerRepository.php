@@ -36,11 +36,9 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
         DB::beginTransaction();
         try {
             $result = [];
-//            $userId = Auth::user()->id;
-            foreach ($request->containerbookingdetail as $data) {
+            foreach ($request->schedules as $data) {
                 if ($data['id']) {
                     $oldContainer = $this->find($data['id']);
-//                    $data['updated_by'] = $userId;
                     $this->update($oldContainer, $data);
                 } else {
                     $filter = collect([$data])->whereNotNull('container_no')

@@ -131,25 +131,21 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
      * @param string|null $string
      * @return array|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
-    public function fullSearch(?string $string, $driverNo = '', $containerTruckNo = '')
+    public function fullSearch(?string $string, $driverId = '', $containerTruckId = '')
     {
         try {
             DB::connection()->enableQueryLog();
             if ($string != '')
             {
-                 return $this->model->with(['shipper', 'consignee', 'containerBookings' => function($q) use ($driverNo, $containerTruckNo) {
-                    $q->with(['details' => function($q) use ($driverNo, $containerTruckNo) {
-                        $q->with(['schedules' => function($q) use ($driverNo, $containerTruckNo) {
-//                            $q->with(['driver' => function($q) use ($driverNo) {
-//                                if ($driverNo) {
-//                                    $q->where('employee_code', $driverNo);
-//                                }
-//                            }]);
-//                            $q->with(['containerTruck' => function($q) use ($containerTruckNo) {
-//                                if ($containerTruckNo) {
-//                                    $q->where('fixed_asset_code', $containerTruckNo);
-//                                }
-//                            }]);
+                 return $this->model->with(['shipper', 'consignee', 'containerBookings' => function($q) use ($driverId, $containerTruckId) {
+                    $q->with(['details' => function($q) use ($driverId, $containerTruckId) {
+                        $q->with(['schedules' => function($q) use ($driverId, $containerTruckId) {
+                            if ($driverId) {
+                                $q->where('driver_id', $driverId);
+                            }
+                            if ($driverId) {
+                                $q->where('container_truck_id', $containerTruckId);
+                            }
                         }]);
                     }, 'container']);
                 }])->where('booking_no', $string)->first();

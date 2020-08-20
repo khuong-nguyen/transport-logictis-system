@@ -50,7 +50,7 @@ class BookingContainerDetail extends Model
     ];
 
     public function container() {
-        $this->hasOne(Container::class);
+        $this->hasMany(Container::class);
     }
 
     public function containerBooking() {
