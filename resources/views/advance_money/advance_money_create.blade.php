@@ -52,6 +52,9 @@
                                                                         <input class="form-control @if($errors->has('advance_money.advance_money_employee_code')) is-invalid @endif" id="advance_money_employee_code" value="{{old('advance_money.advance_money_employee_code') ?? $advance_money->advance_money_employee_code ?? ''}}" type="text" name="advance_money[advance_money_employee_code]" required>
                                                                         @error('advance_money.advance_money_employee_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                     </div>
+                                                                    <svg class="c-sidebar-nav-icon" width="16" height="16">
+                                                                    	<use xlink:href="/svg/free/cil-watch.svg#ccil-book"></use>
+                                                                    </svg>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-5">
