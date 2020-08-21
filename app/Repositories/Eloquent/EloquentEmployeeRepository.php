@@ -26,9 +26,18 @@ class EloquentEmployeeRepository extends EloquentBaseRepository implements Emplo
         return $categories->paginate($request->get('per_page', 10));
     }
 
-    public function countEmployee(){
-        $employeeCount = $this->model->get()->count();
-        return $employeeCount;
+    public function employeeCode($branchCode = 'HCM'){
+        $employeeCode = $branchCode;
+        $employeeCount = $this->model
+            ->where('employee_code','LIKE',$branchCode.'%')
+            ->count();
+        
+        $newCode = $employeeCount + 1;
+        
+        $numberCode = substr("00000".$newCode,strlen($newCode));
+        $employeeCode .= $numberCode;
+
+        return $employeeCode;
     }
     
     public function getEmployeeByEmployeeCode(?string $employeeCode)

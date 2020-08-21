@@ -573,6 +573,7 @@
         }
     </style>
 <script type="text/javascript">
+	$('#sidebar').removeClass('c-sidebar-lg-show');
     function onDelete(e) {
         let ID = $(e).attr('data-id');
         $('#delete').attr('data-id', ID);

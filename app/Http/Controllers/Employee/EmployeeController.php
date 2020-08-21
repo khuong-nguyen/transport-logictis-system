@@ -92,9 +92,9 @@ class EmployeeController extends Controller
     {
          $request = $request->all();
          $employeeRequest =  $request['employee'];
-         $employeeCount = $this->employeeRepository->countEmployee();
+         $employeeCode = $this->employeeRepository->employeeCode();
 
-         $employeeRequest["employee_code"] = $employeeRequest["country_code"]. ($employeeCount + 1);
+         $employeeRequest["employee_code"] = $employeeCode;
          $employee =   $this->employeeRepository->create($employeeRequest);
 
          return redirect('/employee/registration/'.$employee->id);

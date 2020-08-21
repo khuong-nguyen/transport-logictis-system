@@ -85,8 +85,8 @@
                                 <div class="col-md-8 p-0">
                                     <select class="form-control" id="booking_status" name="booking_status">
                                         <option value="">Please select</option>
-                                        <option value="1" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 1) selected @endif>Open</option>
-                                        <option value="0" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 0) selected @endif>Close</option>
+                                        <option value="ORDER" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == ORDER) selected @endif>Order</option>
+                                        <option value="APPROVED" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == APPROVED) selected @endif>Approved</option>
                                     </select>
                                 </div>
                             </div>
@@ -151,6 +151,9 @@
         </div>
     </div>
     <script type="text/javascript">
+
+    	$('#sidebar').removeClass('c-sidebar-lg-show');
+    
         let containerId =[];
         function searchToObject() {
             var pairs = window.location.search.substring(1).split("&"),

@@ -82,9 +82,18 @@ class CustomerController extends Controller
     {
          $request = $request->all();
          $customerRequest =  $request['customer'];
+         
          $customerCount = $this->customerRepository->countCustomer();
-
-         $customerRequest["customer_code"] = $customerRequest["country_code"]. ($customerCount + 1);
+         
+         $newCode = $customerCount + 1;
+         
+         $numberCode = substr("00000".$newCode,strlen($newCode));
+         
+         $customerCode = $customerRequest["country_code"];
+         
+         $customerCode .= $numberCode;
+         
+         $customerRequest["customer_code"] = $customerCode;
          $customerRequest["location_code"] = $customerRequest["country_code"]. $customerRequest["city"];
          $customer =   $this->customerRepository->create($customerRequest);
 

@@ -180,6 +180,7 @@
         </div>
     </div>
     <script type="text/javascript">
+    $('#sidebar').removeClass('c-sidebar-lg-show');
     $(function () {
 
         $('#advance_money_date').datetimepicker({

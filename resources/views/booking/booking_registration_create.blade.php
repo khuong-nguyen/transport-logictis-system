@@ -476,7 +476,7 @@
                                                                         <label class="col-form-label" for="customer_legal_english_name">Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="customer_legal_english_name" value="{{old('shipper.customer_legal_english_name') ?? $shipper->customer_legal_english_name ?? ''}}" type="text" name="shipper[customer_legal_english_name]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="customer_legal_english_name" value="{{old('shipper.customer_legal_english_name') ?? $shipper->customer_legal_english_name ?? ''}}" type="text" name="shipper[customer_legal_english_name]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -484,7 +484,7 @@
                                                                         <label class="col-form-label" for="customer_address">Address</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="customer_address" value="{{old('shipper.customer_address') ?? $shipper->customer_address ?? ''}}" type="text" name="shipper[customer_address]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="customer_address" value="{{old('shipper.customer_address') ?? $shipper->customer_address ?? ''}}" type="text" name="shipper[customer_address]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -496,10 +496,10 @@
                                                                         <label class="col-form-label" for="city">City/Stage</label>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <input class="form-control" id="city" value="{{old('shipper.city') ?? $shipper->city ?? ''}}" type="text" name="shipper[city]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="city" value="{{old('shipper.city') ?? $shipper->city ?? ''}}" type="text" name="shipper[city]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="location_code" value="{{old('shipper.location_code') ?? $shipper->location_code ?? ''}}" type="text" name="shipper[location_code]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="location_code" value="{{old('shipper.location_code') ?? $shipper->location_code ?? ''}}" type="text" name="shipper[location_code]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -509,13 +509,13 @@
                                                                         <label class="col-form-label" for="country_code">Country</label>
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
-                                                                        <input class="form-control" id="country_code" value="{{old('shipper.country_code') ?? $shipper->country_code ?? ''}}" type="text" name="shipper[country_code]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="country_code" value="{{old('shipper.country_code') ?? $shipper->country_code ?? ''}}" type="text" name="shipper[country_code]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
                                                                         <label class="col-form-label" for="zip_code">Zip Code</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="zip_code" value="{{old('shipper.zip_code') ?? $shipper->zip_code ?? ''}}" type="text" name="shipper[zip_code]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="zip_code" value="{{old('shipper.zip_code') ?? $shipper->zip_code ?? ''}}" type="text" name="shipper[zip_code]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -527,7 +527,7 @@
                                                                         <label class="col-form-label" for="post_office_box ">Street/P.O  Box</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="post_office_box" value="{{old('shipper.post_office_box') ?? $shipper->post_office_box ?? ''}}" type="text" name="shipper[post_office_box]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="post_office_box" value="{{old('shipper.post_office_box') ?? $shipper->post_office_box ?? ''}}" type="text" name="shipper[post_office_box]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -539,7 +539,7 @@
                                                                         <label class="col-form-label" for="fax">Fax</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="fax" value="{{old('shipper.fax') ?? $shipper->fax ?? ''}}" type="text" name="shipper[fax]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="fax" value="{{old('shipper.fax') ?? $shipper->fax ?? ''}}" type="text" name="shipper[fax]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -549,7 +549,7 @@
                                                                         <label class="col-form-label" for="email">Email</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="email" value="{{old('shipper.email') ?? $shipper->email ?? ''}}" type="email" name="shipper[email]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="email" value="{{old('shipper.email') ?? $shipper->email ?? ''}}" type="email" name="shipper[email]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -561,7 +561,7 @@
                                                                         <label class="col-form-label" for="tel">Tel</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="tel" value="{{old('shipper.tel') ?? $shipper->tel ?? ''}}" type="text" name="shipper[tel]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="tel" value="{{old('shipper.tel') ?? $shipper->tel ?? ''}}" type="text" name="shipper[tel]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -576,11 +576,11 @@
                                                                         <label class="col-form-label required" for="text-input">Consignee</label>
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
-                                                                        <input class="form-control @if($errors->has('booking.consignee_id')) is-invalid @endif" id="consignee_country" value="{{old('consignee_country') ?? $consignee->country_code ?? ''}}" type="text" name="consignee_country" @if(isset($booking)) readonly @endif>
+                                                                        <input class="form-control @if($errors->has('booking.consignee_id')) is-invalid @endif" id="consignee_country" value="{{old('consignee_country') ?? $consignee->country_code ?? ''}}" type="text" name="consignee_country" @if(isset($booking)) @endif>
                                                                         @error('booking.consignee_id')<div class="invalid-feedback" style="position: relative; width:400%">{{ $message }}</div>@enderror
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
-                                                                        <input class="form-control @if($errors->has('booking.consignee_id')) is-invalid @endif" id="consignee_code" value="{{old('consignee_code') ?? $consignee->customer_code ?? ''}}" type="text" name="consignee_code" @if(isset($booking)) readonly @endif>
+                                                                        <input class="form-control @if($errors->has('booking.consignee_id')) is-invalid @endif" id="consignee_code" value="{{old('consignee_code') ?? $consignee->customer_code ?? ''}}" type="text" name="consignee_code" @if(isset($booking)) @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <button type="button" class="btn btn-primary" id="consignee_search" @if(isset($booking)) disabled @endif>Search</button>
@@ -591,7 +591,7 @@
                                                                         <label class="col-form-label" for="consignee_name">Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_customer_legal_english_name" value="{{old('consignee.customer_legal_english_name') ?? $consignee->customer_legal_english_name ?? ''}}" type="text" name="consignee[customer_legal_english_name]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_customer_legal_english_name" value="{{old('consignee.customer_legal_english_name') ?? $consignee->customer_legal_english_name ?? ''}}" type="text" name="consignee[customer_legal_english_name]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -599,7 +599,7 @@
                                                                         <label class="col-form-label" for="consignee_customer_address">Address</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_customer_address" value="{{old('consignee.customer_address') ?? $consignee->customer_address ?? ''}}" type="text" name="consignee[customer_address]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_customer_address" value="{{old('consignee.customer_address') ?? $consignee->customer_address ?? ''}}" type="text" name="consignee[customer_address]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -612,10 +612,10 @@
                                                                         <label class="col-form-label" for="consignee_city">City/Stage</label>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <input class="form-control" id="consignee_city" value="{{old('consignee.city') ?? $consignee->city ?? ''}}" type="text" name="consignee[city]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_city" value="{{old('consignee.city') ?? $consignee->city ?? ''}}" type="text" name="consignee[city]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_location_code" value="{{old('consignee.location_code') ?? $consignee->location_code ?? ''}}" type="text" name="consignee[location_code]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_location_code" value="{{old('consignee.location_code') ?? $consignee->location_code ?? ''}}" type="text" name="consignee[location_code]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -625,13 +625,13 @@
                                                                         <label class="col-form-label" for="consignee_country_code">Country</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_country_code" value="{{old('consignee.country_code') ?? $consignee->country_code ?? ''}}" type="text" name="consignee[country_code]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_country_code" value="{{old('consignee.country_code') ?? $consignee->country_code ?? ''}}" type="text" name="consignee[country_code]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
                                                                         <label class="col-form-label" for="consignee_zip_code">Zip Code</label>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <input class="form-control" id="consignee_zip_code" value="{{old('consignee.zip_code') ?? $consignee->zip_code ?? ''}}" type="text" name="consignee[zip_code]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_zip_code" value="{{old('consignee.zip_code') ?? $consignee->zip_code ?? ''}}" type="text" name="consignee[zip_code]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -643,7 +643,7 @@
                                                                         <label class="col-form-label" for="consignee_street">Street/P.O  Box</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_street" value="{{old('consignee.post_office_box') ?? $consignee->post_office_box  ?? ''}}" type="text" name="consignee[post_office_box]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_street" value="{{old('consignee.post_office_box') ?? $consignee->post_office_box  ?? ''}}" type="text" name="consignee[post_office_box]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -655,7 +655,7 @@
                                                                         <label class="col-form-label" for="consignee_fax">Fax</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_fax" value="{{old('consignee.fax') ?? $consignee->fax ?? ''}}" type="text" name="consignee[fax]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_fax" value="{{old('consignee.fax') ?? $consignee->fax ?? ''}}" type="text" name="consignee[fax]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -665,7 +665,7 @@
                                                                         <label class="col-form-label" for="consignee_email">Email</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_email" value="{{old('consignee.email') ?? $consignee->email ?? ''}}" type="email" name="consignee[email]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_email" value="{{old('consignee.email') ?? $consignee->email ?? ''}}" type="email" name="consignee[email]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -677,7 +677,7 @@
                                                                         <label class=col-form-label" for="consignee_tel">Tel</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="consignee_tel" value="{{old('consignee.tel') ?? $consignee->tel ?? ''}}" type="text" name="consignee[tel]" @if(!isset($booking)) readonly @endif>
+                                                                        <input class="form-control" id="consignee_tel" value="{{old('consignee.tel') ?? $consignee->tel ?? ''}}" type="text" name="consignee[tel]" @if(!isset($booking)) @endif>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -695,10 +695,10 @@
                                                             <div class="col-md-9">
                                                                 <div class="form-row row">
                                                                     <div class="col-sm-4">
-                                                                        <input class="form-control" id="forwarder_country" value="{{old('forwarder.country') ?? $forwarder->country_code ?? ''}}" type="text" name="forwarder[country]" @if(isset($forwarder)) readonly @endif>
+                                                                        <input class="form-control" id="forwarder_country" value="{{old('forwarder.country') ?? $forwarder->country_code ?? ''}}" type="text" name="forwarder[country]" @if(isset($forwarder)) @endif>
                                                                     </div>
                                                                     <div class="col-sm-4">
-                                                                        <input class="form-control" id="forwarder_code" value="{{old('forwarder.customer_code') ?? $forwarder->customer_code ?? ''}}" type="text" name="forwarder[code]" @if(isset($forwarder)) readonly @endif>
+                                                                        <input class="form-control" id="forwarder_code" value="{{old('forwarder.customer_code') ?? $forwarder->customer_code ?? ''}}" type="text" name="forwarder[code]" @if(isset($forwarder)) @endif>
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <button type="button" class="btn btn-primary" id="forwarder_search" @if(isset($forwarder)) disabled @endif>Search</button>
