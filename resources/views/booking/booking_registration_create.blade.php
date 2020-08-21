@@ -39,6 +39,7 @@
                                         <li class="nav-item"><a class="nav-link" id="cust_tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="profile">Customer Tab</a></li>
                                         @if(isset($booking))
                                             <li class="nav-item"><a class="nav-link" id="container_tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="profile">Container Detail</a></li>
+                                            <li class="nav-item"><a class="nav-link" id="schedule_tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="profile">Transport Schedule</a></li>
                                         @endif
                                     </ul>
                                     <div class="tab-content">
@@ -720,6 +721,11 @@
                                         @if(isset($booking))
                                             <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="container_tab">
                                                 @include('transport.content_create')
+                                            </div>
+                                        @endif
+                                        @if(isset($booking))
+                                            <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="schedule_tab">
+                                                @include('transport.schedule.detail')
                                             </div>
                                         @endif
                                     </div>

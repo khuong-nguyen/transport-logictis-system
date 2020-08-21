@@ -120,7 +120,9 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
         if ($string != '')
         {
             return $this->model->with(['containerBookings' => function($q) {
-                $q->with('details', 'container');
+                $q->with(['details' => function($q) {
+                    $q->with('schedules');
+                }, 'container']);
             }])->where('booking_no', "{$string}")->first();
         }
         return [];
@@ -134,7 +136,6 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
     public function fullSearch(?string $string, $driverId = '', $containerTruckId = '')
     {
         try {
-            DB::connection()->enableQueryLog();
             if ($string != '')
             {
                  return $this->model->with(['shipper', 'consignee', 'containerBookings' => function($q) use ($driverId, $containerTruckId) {
@@ -149,7 +150,6 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
                         }]);
                     }, 'container']);
                 }])->where('booking_no', $string)->first();
-//                 dd($a);
             }
             return [];
         } catch (\Exception $e) {
