@@ -1,9 +1,9 @@
 @if (isset($bookingContainerDetails['container_bookings']))
     <label class="col-form-label" for="booking_no">Booking No: {{ $bookingContainerDetails['booking_no'] }}</label>
+    @php $listContainers = []; @endphp
     @foreach($bookingContainerDetails['container_bookings'] as $containerBooking)
         @php
             $containerCode = isset($containerBooking['container']) && !empty($containerBooking['container']) ? $containerBooking['container']['container_code']:'';
-
             if (is_array($containerBooking['details'])) {
                 foreach ($containerBooking['details'] as $detail) {
                     $detail['container_code'] = $containerCode;
