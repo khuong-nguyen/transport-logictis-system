@@ -596,9 +596,10 @@
         }
         function btnSearchDisable() {
             flag = false;
-            $('.full-search input').each(function(e) {
-                flag = $(this).val()?true:false;
-            });
+            $.each($('.full-search:visible input'), function(i, item) {
+                flag = $(item).val()?true:false;
+            })
+
             if (flag) {
                 $('.btn-search-booking:visible').prop('disabled', false)
             } else {
