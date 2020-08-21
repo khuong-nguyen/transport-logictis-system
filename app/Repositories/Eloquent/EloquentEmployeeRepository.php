@@ -30,4 +30,15 @@ class EloquentEmployeeRepository extends EloquentBaseRepository implements Emplo
         $employeeCount = $this->model->get()->count();
         return $employeeCount;
     }
+    
+    public function getEmployeeByEmployeeCode(?string $employeeCode)
+    {
+        
+        if ($employeeCode != '')
+        {
+            return $this->model->where('employee_code', "{$employeeCode}")->first();
+        }
+        return [];
+        
+    }
 }

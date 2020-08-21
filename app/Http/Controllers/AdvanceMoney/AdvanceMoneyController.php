@@ -82,7 +82,7 @@ class AdvanceMoneyController extends Controller
          
          $advance_money =   $this->advanceMoneyRepository->create($advanceMoneyRequest);
 
-         return redirect('/customer/registration/'.$advance_money->id);
+         return redirect('/advance_money/registration/'.$advance_money->id);
     }
 
     /**
@@ -93,28 +93,18 @@ class AdvanceMoneyController extends Controller
     public function edit(Request $request, $id)
     {
         $params = http_build_query($request->all());
-        $customer =   $this->customerRepository->find($id);
-        //load default options for country_code
-        $countryCodeOptions = [
-            "VN" => "Viet Nam",
-            "HK" => "Hong Khong"
+        $advance_money =   $this->advanceMoneyRepository->find($id);
+        //load default options for advance_money_type
+        $advanceMoneyTypeOptions = [
+            "BOOKING" => "Booking",
+            "OTHER" => "Other"
         ];
-        $selectedCountryCodeOption = $customer->country_code;
-
-        //load default options for city
-        $cityCodeOptions = [
-            "SGN" => "Sai Gon",
-            "HN" => "Ha Noi",
-            "HP" => "Hai Phong"
-        ];
-
-        $selectedCityCodeOption = $customer->city;
-
-        return view('customer.customer_create',["customer" => $customer,
-            'countryCodeOptions' => $countryCodeOptions,
-            'selectedCountryCodeOption' => $selectedCountryCodeOption,
-            'cityCodeOptions' => $cityCodeOptions,
-            'selectedCityCodeOption' => $selectedCityCodeOption,
+        $selectedAdvanceMoneyTypeOption = $advance_money->advance_money_type;
+        
+        return view('advance_money.advance_money_create',[
+            'advance_money' => $advance_money,
+            'advanceMoneyTypeOptions' => $advanceMoneyTypeOptions,
+            'selectedAdvanceMoneyTypeOption' => $selectedAdvanceMoneyTypeOption,
             'params' => $params
         ]);
     }

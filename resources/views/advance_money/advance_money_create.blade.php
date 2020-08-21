@@ -47,6 +47,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-5">
                                                                         <label class="col-form-label required" for="advance_money_employee_code">Advance money person code</label>
+                                                                        <input type="hidden" value="{{old('advance_money.advance_money_employee_id')??$advance_money->advance_money_employee_id?? ''}}" name="advance_money[advance_money_employee_id]"  id="advance_money_employee_id">
                                                                     </div>
                                                                     <div class="col-md-4" style ="display:inline">
                                                                         <input class="form-control @if($errors->has('advance_money.advance_money_employee_code')) is-invalid @endif" id="advance_money_employee_code" value="{{old('advance_money.advance_money_employee_code') ?? $advance_money->advance_money_employee_code ?? ''}}" type="text" name="advance_money[advance_money_employee_code]" required>
@@ -59,6 +60,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-5">
                                                                         <label class="col-form-label" for="give_money_employee_code">Give money person code</label>
+                                                                        <input type="hidden" value="{{old('advance_money.give_money_employee_id')??$advance_money->give_money_employee_id?? ''}}" name="advance_money[give_money_employee_id]"  id="give_money_employee_id">
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <input class="form-control" id="give_money_employee_code" value="{{old('advance_money.give_money_employee_code') ?? $advance_money->give_money_employee_code ?? ''}}" type="text" name="advance_money[give_money_employee_code]">
@@ -104,12 +106,13 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-5">
                                                                         <label class="col-form-label" for="booking_no">Booking No</label>
+                                                                        <input type="hidden" value="{{old('advance_money.booking_id')??$advance_money->booking_id?? ''}}" name="advance_money[booking_id]"  id="booking_id">
                                                                     </div>
                                                                     <div class="col-md-5">
                                                                         <input class="form-control" id="booking_no" value="{{old('advance_money.booking_no') ?? $advance_money->booking_no ?? ''}}" type="text" name="advance_money[booking_no]">
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <button type="button" class="btn btn-primary" id="booking_no_search" @if(isset($booking)) disabled @endif>Search</button>
+                                                                        <button type="button" class="btn btn-primary btn-search-booking" id="booking_no_search" @if(isset($booking)) disabled @endif>Search</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -132,8 +135,9 @@
                                                                     <div class="col-md-5">
                                                                         <label class="col-form-label" for="advance_money_date">Advance money  Date</label>
                                                                     </div>
-                                                                    <div class="col-md-5">
-                                                                        <input type="number" min="0" value="{{old('advance_money.advance_money_date') ?? $advance_money->advance_money_date?? ''}}" type="text" class="form-control" id="advance_money_date" name="advance_money[advance_money_date]">
+                                                                    <div class="col-md-5 input-group date">
+                                                                        <input class="form-control @if($errors->has('advance_money.advance_money_date')) is-invalid @endif " id="advance_money_date" required type="text" name="advance_money[advance_money_date]">
+                                                                        @error('advance_money.advance_money_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -175,4 +179,73 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+    $(function () {
+
+        $('#advance_money_date').datetimepicker({
+            viewMode: 'days',
+            format: 'YYYY-MM-DD',
+            date: new Date()
+        });
+    });
+
+    $('#booking_no_search').click(function (){
+        $.ajax({
+            url: "/api/booking/code",
+            dataType: "json",
+            method: 'get',
+            data: {
+            	search: $('#booking_no').val(),
+            },
+            success: function (result) {
+                $('#booking_id').val(result.data.id);
+                $('#booking_no').val(result.data.booking_no);
+            },
+            error: err => {
+                alert(err.responseJSON.message);
+            }
+        });
+    });
+
+    $('#advance_money_employee_search').click(function (){
+        $.ajax({
+            url: "/api/employee/employee-code",
+            dataType: "json",
+            method: 'get',
+            data: {
+            	employeeCode: $('#advance_money_employee_code').val(),
+            },
+            success: function (result) {
+                $('#advance_money_employee_id').val(result.data.id);
+                $('#advance_money_employee_code').val(result.data.employee_code);
+                $('#advance_money_employee_name').val(result.data.employee_name);
+            },
+            error: err => {
+                alert(err.responseJSON.message);
+            }
+        });
+    });
+
+    $('#give_money_employee_search').click(function (){
+        $.ajax({
+            url: "/api/employee/employee-code",
+            dataType: "json",
+            method: 'get',
+            data: {
+            	employeeCode: $('#give_money_employee_code').val(),
+            },
+            success: function (result) {
+                $('#give_money_employee_id').val(result.data.id);
+                $('#give_money_employee_code').val(result.data.employee_code);
+                $('#give_money_employee_name').val(result.data.employee_name);
+            },
+            error: err => {
+                alert(err.responseJSON.message);
+            }
+        });
+    });
+    
+    </script>
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/select2.full.min.js') }}"></script>
 @endsection
