@@ -54,6 +54,11 @@
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.container_booking_registration')</a>
                 </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/booking/transport/schedule/registration">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.transport_schedule_registration')</a>
+                </li>
 
 <!--                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
                         <svg class="c-sidebar-nav-icon">
