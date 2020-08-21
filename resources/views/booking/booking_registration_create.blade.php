@@ -764,6 +764,7 @@
         </div>
     </div>
     <script type="text/javascript">
+        $('#sidebar').removeClass('c-sidebar-lg-show')
         let containerId =[];
         var queryString = window.location.search;
         var action = document.getElementById("form").getAttribute("action");
