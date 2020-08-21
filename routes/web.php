@@ -41,6 +41,7 @@ Route::group(['prefix' => 'booking','namespace' => 'Booking'],function (){
             Route::get('/registration/{id}', 'TransportScheduleRegistrationController@edit');
             Route::put('/registration/{id}', 'TransportScheduleRegistrationController@update');
             Route::delete('/registration/{id}', 'TransportScheduleRegistrationController@destroy');
+            Route::post('/useds', 'TransportScheduleRegistrationController@validateUseds');
         });
     });
 });
@@ -59,6 +60,7 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
         Route::post('/registration', 'EmployeeController@store');
         Route::get('/registration/{id}', 'EmployeeController@edit');
         Route::put('/registration/{id}', 'EmployeeController@update');
+        Route::get('/search', 'EmployeeController@search');
         Route::get('/inquiry', 'EmployeeInquiryController@index');
     });
 
@@ -67,6 +69,7 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
         Route::post('/registration', 'FixedAssetController@store');
         Route::get('/registration/{id}', 'FixedAssetController@edit');
         Route::put('/registration/{id}', 'FixedAssetController@update');
+        Route::get('/search', 'FixedAssetController@search');
         Route::get('/inquiry', 'FixedAssetInquiryController@index');
     });
     

@@ -50,7 +50,7 @@ class BookingContainerDetail extends Model
     ];
 
     public function container() {
-        $this->hasOne(Container::class);
+        $this->hasMany(Container::class);
     }
 
     public function containerBooking() {
@@ -59,5 +59,10 @@ class BookingContainerDetail extends Model
 
     public function booking() {
         $this->hasOne(Booking::class);
+    }
+
+    public function schedules()
+    {
+        return $this->hasOne(ScheduleTransportContainer::class);
     }
 }

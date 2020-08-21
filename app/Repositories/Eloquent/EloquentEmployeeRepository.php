@@ -25,7 +25,7 @@ class EloquentEmployeeRepository extends EloquentBaseRepository implements Emplo
         }
         return $categories->paginate($request->get('per_page', 10));
     }
-    
+
     public function countEmployee(){
         $employeeCount = $this->model->get()->count();
         return $employeeCount;
@@ -40,5 +40,9 @@ class EloquentEmployeeRepository extends EloquentBaseRepository implements Emplo
         }
         return [];
         
+    }
+
+    public function search($data) {
+        return $this->model->where(['employee_code' => $data['code'], 'department_code' => $data['type']])->first();
     }
 }

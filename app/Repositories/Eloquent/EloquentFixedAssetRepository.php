@@ -25,9 +25,13 @@ class EloquentFixedAssetRepository extends EloquentBaseRepository implements Fix
         }
         return $categories->paginate($request->get('per_page', 10));
     }
-    
+
     public function countFixedAsset(){
         $fixedAssetCount = $this->model->get()->count();
         return $fixedAssetCount;
+    }
+
+    public function search($data) {
+        return $this->model->where(['fixed_asset_code' => $data['code'], 'fixed_asset_type' => $data['type']])->first();
     }
 }

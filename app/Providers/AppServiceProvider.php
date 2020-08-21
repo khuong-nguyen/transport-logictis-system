@@ -10,6 +10,9 @@ use App\Repositories\BookingContainerDetailRepository;
 use App\Repositories\BookingContainerRepository;
 use App\Repositories\Eloquent\EloquentBookingContainerDetailRepository;
 use App\Repositories\Eloquent\EloquentBookingContainerRepository;
+use App\Repositories\Eloquent\EloquentScheduleTransportContainerRepository;
+use App\Repositories\ScheduleTransportContainerRepository;
+use App\ScheduleTransportContainer;
 use App\ShipperBooking;
 use App\Customer;
 
@@ -103,24 +106,32 @@ class AppServiceProvider extends ServiceProvider
                 return new EloquentBookingContainerDetailRepository(new BookingContainerDetail());
             }
         );
-        
+
         $this->app->bind(
             EmployeeRepository::class,
             function () {
                 return  new EloquentEmployeeRepository(new Employee());
             }
         );
-        
+
         $this->app->bind(
             FixedAssetRepository::class,
             function () {
                 return  new EloquentFixedAssetRepository(new FixedAsset());
             }
         );
+
         $this->app->bind(
             AdvanceMoneyRepository::class,
             function () {
                 return  new EloquentAdvanceMoneyRepository(new AdvanceMoney());
+            }
+        );
+
+        $this->app->bind(
+            ScheduleTransportContainerRepository::class,
+            function () {
+                return  new EloquentScheduleTransportContainerRepository(new ScheduleTransportContainer());
             }
         );
     }

@@ -55,7 +55,7 @@ class EmployeeController extends Controller
             "HK" => "Hong Kong"
         ];
         $countryCodeOptionDefault = "VN";
-        
+
         //load default options for city
         $cityCodeOptions = [
             "SGN" => "Sai Gon",
@@ -63,7 +63,7 @@ class EmployeeController extends Controller
             "HP" => "Hai Phong"
         ];
         $cityCodeOptionDefault = "SGN";
-        
+
         //load default options for department
         $departmentCodeOptions = [
             "DRIVER" => "Driver",
@@ -72,7 +72,7 @@ class EmployeeController extends Controller
             "ACCOUNTING" => "Accounting",
         ];
         $departmentCodeOptionDefault = "DRIVER";
-        
+
         return view('employee.employee_create',['countryCodeOptions' => $countryCodeOptions,
                                                 'countryCodeOptionDefault' => $countryCodeOptionDefault,
                                                 'cityCodeOptions' => $cityCodeOptions,
@@ -93,7 +93,7 @@ class EmployeeController extends Controller
          $request = $request->all();
          $employeeRequest =  $request['employee'];
          $employeeCount = $this->employeeRepository->countEmployee();
-         
+
          $employeeRequest["employee_code"] = $employeeRequest["country_code"]. ($employeeCount + 1);
          $employee =   $this->employeeRepository->create($employeeRequest);
 
@@ -108,23 +108,23 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee =   $this->employeeRepository->find($id);
-        
+
         //load default options for country_code
         $countryCodeOptions = [
             "VN" => "Viet Nam",
             "HK" => "Hong Khong"
         ];
         $selectedCountryCodeOption = $employee->country_code;
-        
+
         //load default options for city
         $cityCodeOptions = [
             "SGN" => "Sai Gon",
             "HN" => "Ha Noi",
             "HP" => "Hai Phong"
         ];
-        
+
         $selectedCityCodeOption = $employee->city;
-        
+
         //load default options for department
         $departmentCodeOptions = [
             "DRIVER" => "Driver",
@@ -133,7 +133,7 @@ class EmployeeController extends Controller
             "ACCOUNTING" => "Accounting",
         ];
         $selectedDepartmentCodeOption = $employee->department_code;
-        
+
         return view('employee.employee_create',['employee' => $employee,
             'countryCodeOptions' => $countryCodeOptions,
             'selectedCountryCodeOption' => $selectedCountryCodeOption,
@@ -156,23 +156,23 @@ class EmployeeController extends Controller
         $request = $request->all();
         $employeeRequest =  $request['employee'];
         $employee =   $this->employeeRepository->update($this->employeeRepository->find($id),$employeeRequest);
-        
+
         //load default options for country_code
         $countryCodeOptions = [
             "VN" => "Viet Nam",
             "HK" => "Hong Khong"
         ];
         $selectedCountryCodeOption = $employee->country_code;
-        
+
         //load default options for city
         $cityCodeOptions = [
             "SGN" => "Sai Gon",
             "HN" => "Ha Noi",
             "HP" => "Hai Phong"
         ];
-        
+
         $selectedCityCodeOption = $employee->city;
-        
+
         //load default options for department
         $departmentCodeOptions = [
             "DRIVER" => "Driver",
@@ -181,7 +181,7 @@ class EmployeeController extends Controller
             "ACCOUNTING" => "Accounting",
         ];
         $selectedDepartmentCodeOption = $employee->department_code;
-        
+
         return view('employee.employee_create',['employee' => $employee,
             'countryCodeOptions' => $countryCodeOptions,
             'selectedCountryCodeOption' => $selectedCountryCodeOption,
@@ -190,5 +190,32 @@ class EmployeeController extends Controller
             'departmentCodeOptions' => $departmentCodeOptions,
             'selectedDepartmentCodeOption' => $selectedDepartmentCodeOption
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search(Request $request) {
+        if ($request->has('code') && $request->has('type')) {
+            $data = $this->employeeRepository->search($request->all());
+            if ($data) {
+                return response()->json([
+                    'error' => null,
+                    'message' => 'success',
+                    'data' => $data
+                ], 200);
+            }
+            return response()->json([
+                'error' => true,
+                'message' => 'This driver was not found!',
+                'data' => false
+            ], 403);
+        }
+        return response()->json([
+            'error' => true,
+            'message' => 'This driver was not found!',
+            'data' => false
+        ], 403);
     }
 }
