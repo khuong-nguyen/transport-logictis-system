@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header">@lang('sidebar.booking_registration')</div>
+                <!-- <div class="card-header">@lang('sidebar.booking_registration')</div> -->
                 <div class="card-body container-fluid">
                     @if (session('status'))
                         <div class="alert alert-success">@lang(session('status'))</div>
@@ -758,6 +758,7 @@
         </div>
     </div>
     <script type="text/javascript">
+    
         let containerId =[];
         var queryString = window.location.search;
         var action = document.getElementById("form").getAttribute("action");
