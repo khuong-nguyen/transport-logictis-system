@@ -42,6 +42,7 @@ Route::group(['prefix' => 'booking','namespace' => 'Booking'],function (){
             Route::put('/registration/{id}', 'TransportScheduleRegistrationController@update');
             Route::delete('/registration/{id}', 'TransportScheduleRegistrationController@destroy');
             Route::post('/useds', 'TransportScheduleRegistrationController@validateUseds');
+            Route::get('/inquiry', 'TransportScheduleInquiryController@index');
         });
     });
 });
@@ -72,7 +73,7 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
         Route::get('/search', 'FixedAssetController@search');
         Route::get('/inquiry', 'FixedAssetInquiryController@index');
     });
-    
+
     Route::group(['prefix' => 'advance_money','namespace' => 'AdvanceMoney'],function (){
         Route::get('/registration', 'AdvanceMoneyController@create');
         Route::post('/registration', 'AdvanceMoneyController@store');
