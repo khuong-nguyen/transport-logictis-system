@@ -11,9 +11,9 @@
                         <div class="col ">
                             <div class="nav-tabs-boxed form-group">
                                 <ul class="nav nav-tabs" role="tablist" >
-                                    <li class="nav-item"><a class="nav-link @if(!$driverNo && !$containerTruckNo) active @endif" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">For Booking Tab</a></li>
-                                    <li class="nav-item"><a class="nav-link @if($driverNo) active @endif" id="driver_tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="profile">For Driver Tab</a></li>
-                                    <li class="nav-item"><a class="nav-link @if($containerTruckNo) active @endif" id="container_truck_tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="profile">For Container Truck Tab</a></li>
+                                    <li class="nav-item"><a class="nav-link @if(!$driverNo && !$containerTruckNo) active @endif" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">Inbound Tab</a></li>
+                                    <li class="nav-item"><a class="nav-link @if($driverNo) active @endif" id="driver_tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="profile">Outbound Tab</a></li>
+                                    <li class="nav-item"><a class="nav-link @if($containerTruckNo) active @endif" id="container_truck_tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="profile">Summary</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane @if(!$driverNo && !$containerTruckNo) active @endif" id="tab1" role="tabpanel" aria-labelledby="bkg_tab">
