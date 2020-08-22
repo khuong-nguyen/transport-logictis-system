@@ -40,6 +40,7 @@
                                         @if(isset($booking))
                                             <li class="nav-item"><a class="nav-link" id="container_tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="profile">Container Detail</a></li>
                                             <li class="nav-item"><a class="nav-link" id="schedule_tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="profile">Transport Schedule</a></li>
+                                            <li class="nav-item"><a class="nav-link" id="advance_money_tab" data-toggle="tab" href="#tab5" role="tab" aria-controls="profile">Advance Money</a></li>
                                         @endif
                                     </ul>
                                     <div class="tab-content">

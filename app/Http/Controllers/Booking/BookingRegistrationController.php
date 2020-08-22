@@ -202,14 +202,14 @@ class BookingRegistrationController extends Controller
         $bookingContainerDetails = $this->bookingRepository->search($search,'');
         $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails->toArray():[];
         
-        $dvanceMoneyBookingDetails['booking'] = $booking;
+        $advanceMoneyBookingDetails['booking'] = $booking;
         
-        $dvanceMoneyBookingDetails['advance_money_bookings'] = $this->advanceMoneyRepository->advanceMoneyForBooking($booking->id);
+        $advanceMoneyBookingDetails['advance_money_bookings'] = $this->advanceMoneyRepository->advanceMoneyForBooking($booking->id);
         
         $example = new BookingContainerDetail();
         $example = $example->attributesToArray();
         $statusApproved = Booking::STATUS_APPROVED;
-
+        
         return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers', 'bookingContainerDetails', 'search', 'example', 'statusApproved','advanceMoneyBookingDetails'));
     }
 

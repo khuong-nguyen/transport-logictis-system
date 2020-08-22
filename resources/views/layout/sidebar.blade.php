@@ -84,7 +84,7 @@
             </ul>
         </li>
 
-<!--         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+        <!-- <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
             <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">@lang('sidebar.inventory_module')</a>
             <ul class="c-sidebar-nav-dropdown-items"></ul>
         </li> -->

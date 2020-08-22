@@ -1,4 +1,6 @@
+
 @if (isset($advanceMoneyBookingDetails['booking']))
+	
     <label class="col-form-label" for="booking_no">Booking No: {{ $advanceMoneyBookingDetails['booking']['booking_no'] }}</label>
     @php $listAdvanceMoneys = []; @endphp
     @foreach($advanceMoneyBookingDetails['advance_money_bookings'] as $advanceMoneyBooking)
