@@ -28,6 +28,7 @@ class AdvanceMoneyRequest extends FormRequest
             'advance_money.advance_money_employee_name' => 'required|max:200',
             'advance_money.give_money_employee_code' => 'required|max:30',
             'advance_money.give_money_employee_name' => 'required|max:200',
+            'advance_money.advance_money_reason' => 'required|max:255',
         ];
     }
 }
