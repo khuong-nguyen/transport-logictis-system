@@ -108,8 +108,8 @@
                                                                     <th>Con</th>
                                                                     <th>Con No</th>
                                                                     <th>Router</th>
-                                                                    <th>ETD</th>
-                                                                    <th>ETA</th>
+                                                                    <th>Pickup Time</th>
+                                                                    <th>Delivery Time</th>
                                                                     <th>Container Truck</th>
                                                                     <th>Driver</th>
                                                                     <th>Driver Name</th>
