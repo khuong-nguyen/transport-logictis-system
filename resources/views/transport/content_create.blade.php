@@ -13,12 +13,14 @@
                 @if (!isset($booking))<button type="button" class="btn btn-primary btn-search-booking" disabled>Search</button>@endif
             </div>
         </div>
+
         @if (isset($bookingContainerDetails['container_bookings']))
             @if (!isset($booking))
             <form id="form-transport-container" action="/booking/transport/registration{{ isset($bookingContainerDetails['id']) ? '/'.$bookingContainerDetails['id'] :''}}" method="post">
                 @csrf
                 @if(isset($bookingContainerDetails))  @method('PUT') @endif
             @endif
+                <input type="hidden" id="hr-booking-id" value="{{ isset($bookingContainerDetails['id'])?$bookingContainerDetails['id']:'' }}">
                 <div class="row">
                     <div class="col-sm-6">
                         <table class="table table-dark">
@@ -269,26 +271,29 @@
             inputValues.push({name: 'confirm-booking', value:true})
             inputValues.push({name: '_token', value:$('input[name="_token"]').val()})
             inputValues.push({name: '_method', value:$('input[name="_method"]').val()})
-            $.ajax({
-                url: $('form').prop("action"),
-                dataType: "json",
-                method: 'post',
-                data: inputValues,
-                success: function (result) {
-                    if (typeof result.data.booking_status !== undefined && result.data.booking_status === '{{$statusApproved}}') {
-                        $('.table-container-list input').each((index,item) => {
-                            item.setAttribute('readonly', true)
-                        });
-                        $('.table-container-list .action-delete').remove();
-                        $('#confirm-booking').remove();
-                        $('#save-container').remove();
+            let bookingID = $('#hr-booking-id').val();
+            if (bookingID !== '') {
+                $.ajax({
+                    url: '/booking/transport/registration/'+bookingID,
+                    dataType: "json",
+                    method: 'post',
+                    data: inputValues,
+                    success: function (result) {
+                        if (typeof result.data.booking_status !== undefined && result.data.booking_status === '{{$statusApproved}}') {
+                            $('.table-container-list input').each((index,item) => {
+                                item.setAttribute('readonly', true)
+                            });
+                            $('.table-container-list .action-delete').remove();
+                            $('#confirm-booking').remove();
+                            $('#save-container').remove();
+                        }
+                        toastr.success(result.message)
+                    },
+                    error: err => {
+                        toastr.error(err.responseJSON.message)
                     }
-                    toastr.success(result.message)
-                },
-                error: err => {
-                    toastr.error(err.responseJSON.message)
-                }
-            });
+                });
+            }
         }
         $('#confirm-booking').on('click', e => {
             e.preventDefault();
@@ -311,8 +316,9 @@
                 inputValues.push({name: 'save-container', value:true})
                 inputValues.push({name: '_token', value:$('input[name="_token"]').val()})
                 inputValues.push({name: '_method', value:$('input[name="_method"]').val()})
+                let bookingID = $('#hr-booking-id').val();
                 $.ajax({
-                    url: $('form').prop("action"),
+                    url: '/booking/transport/registration/'+bookingID,
                     dataType: "json",
                     method: 'post',
                     data: inputValues,

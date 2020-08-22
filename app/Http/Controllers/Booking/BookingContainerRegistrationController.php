@@ -117,6 +117,47 @@ class BookingContainerRegistrationController extends Controller
     public function update(Request $request, $id)
     {
         $booking =  $this->bookingRepository->find($id);
+        if ($request->has('save-container')) {
+            try {
+                $data = [];
+                if ($booking->booking_status !== Booking::STATUS_APPROVED) {
+                    $data = $this->bookingContainerDetailRepository->saveBooking($request);
+                }
+                return response()->json([
+                    'error' => null,
+                    'message' => 'Updated success!',
+                    'data' => $data
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage(),
+                    'data' => false
+                ], 403);
+            }
+
+        }
+        if ($request->has('confirm-booking')) {
+            try {
+                $data = [];
+                if ($booking->booking_status !== Booking::STATUS_APPROVED) {
+                    $data = $this->bookingRepository->update($booking, ['booking_status' => Booking::STATUS_APPROVED]);
+                }
+
+                return response()->json([
+                    'error' => null,
+                    'message' => 'Updated success!',
+                    'data' => $data
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage(),
+                    'data' => false
+                ], 403);
+            }
+
+        }
         if ($booking && $request->has('containerbookingdetail') && $booking->booking_status !== Booking::STATUS_APPROVED) {
             try {
                 $this->bookingContainerDetailRepository->saveBooking($request);

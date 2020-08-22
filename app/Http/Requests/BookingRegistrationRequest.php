@@ -24,9 +24,6 @@ class BookingRegistrationRequest extends FormRequest
     public function rules()
     {
         $id = $this->route('id');
-        if ($this->has('confirm-booking') || $this->has('save-container')) {
-            return [];
-        }
 
         $validate = [
             'booking.booking_no' => 'required|unique:booking,booking_no,'.$id.'|max:100',
@@ -46,7 +43,7 @@ class BookingRegistrationRequest extends FormRequest
             'booking.shipper_id' => 'required',
             'booking.consignee_id' => 'required'
         ];
-        
+
         if ($this->request->get('container'))
         {
             foreach ($this->request->get('container') as $key => $container)

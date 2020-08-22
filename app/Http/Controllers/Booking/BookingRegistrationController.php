@@ -61,12 +61,12 @@ class BookingRegistrationController extends Controller
      * @var BookingContainerDetailRepository
      */
     private $bookingContainerDetailRepository;
-    
+
     /**
      * @var AdvanceMoneyRepository
      */
     private $advanceMoneyRepository;
-    
+
 
     /**
      * Where to redirect users after login.
@@ -201,15 +201,15 @@ class BookingRegistrationController extends Controller
         $search = $booking->booking_no;
         $bookingContainerDetails = $this->bookingRepository->search($search,'');
         $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails->toArray():[];
-        
+
         $advanceMoneyBookingDetails['booking'] = $booking;
-        
+
         $advanceMoneyBookingDetails['advance_money_bookings'] = $this->advanceMoneyRepository->advanceMoneyForBooking($booking->id);
-        
+
         $example = new BookingContainerDetail();
         $example = $example->attributesToArray();
         $statusApproved = Booking::STATUS_APPROVED;
-        
+
         return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers', 'bookingContainerDetails', 'search', 'example', 'statusApproved','advanceMoneyBookingDetails'));
     }
 
@@ -222,47 +222,6 @@ class BookingRegistrationController extends Controller
     public function update(BookingRegistrationRequest $request,$id)
     {
         $booking = $this->bookingRepository->find($id);
-        if ($request->has('save-container')) {
-            try {
-                $data = [];
-                if ($booking->booking_status !== Booking::STATUS_APPROVED) {
-                    $data = $this->bookingContainerDetailRepository->saveBooking($request);
-                }
-                return response()->json([
-                    'error' => null,
-                    'message' => 'Updated success!',
-                    'data' => $data
-                ], 200);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'error' => true,
-                    'message' => $e->getMessage(),
-                    'data' => false
-                ], 403);
-            }
-
-        }
-        if ($request->has('confirm-booking')) {
-            try {
-                $data = [];
-                if ($booking->booking_status !== Booking::STATUS_APPROVED) {
-                    $data = $this->bookingRepository->update($booking, ['booking_status' => Booking::STATUS_APPROVED]);
-                }
-
-                return response()->json([
-                    'error' => null,
-                    'message' => 'Updated success!',
-                    'data' => $data
-                ], 200);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'error' => true,
-                    'message' => $e->getMessage(),
-                    'data' => false
-                ], 403);
-            }
-
-        }
         $url = $request->getRequestUri();
         $request = $request->all();
         $bookingRequest =  $request['booking'];
