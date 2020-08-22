@@ -728,6 +728,11 @@
                                                 @include('transport.schedule.detail')
                                             </div>
                                         @endif
+                                        @if(isset($booking))
+                                            <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="advance_money_tab">
+                                                @include('advance_money.booking.detail')
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="card-footer">
                                         <div class="form-row float-right">

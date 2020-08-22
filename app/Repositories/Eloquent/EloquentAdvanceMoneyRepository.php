@@ -44,5 +44,9 @@ class EloquentAdvanceMoneyRepository extends EloquentBaseRepository implements A
         
         return $advanceMoneyCode;
     }
+    
+    public function advanceMoneyForBooking($booking_id){
+        return $this->model->where('booking_id',$booking_id)->get();
+    }
 
 }

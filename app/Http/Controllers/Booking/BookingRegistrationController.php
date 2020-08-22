@@ -13,6 +13,7 @@ use App\Repositories\BookingRepository;
 use App\Repositories\ConsigneeBookingRepository;
 use App\Repositories\ShipperBookingRepository;
 use App\Repositories\ForwarderBookingRepository;
+use App\Repositories\AdvanceMoneyRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
@@ -60,6 +61,12 @@ class BookingRegistrationController extends Controller
      * @var BookingContainerDetailRepository
      */
     private $bookingContainerDetailRepository;
+    
+    /**
+     * @var AdvanceMoneyRepository
+     */
+    private $advanceMoneyRepository;
+    
 
     /**
      * Where to redirect users after login.
@@ -78,6 +85,7 @@ class BookingRegistrationController extends Controller
      * @param ForwarderBookingRepository $forwarderBookingRepository
      * @param BookingContainerRepository $bookingContainerRepository
      * @param BookingContainerDetailRepository $bookingContainerDetailRepository
+     * @param AdvanceMoneyRepository $advanceMoneyRepository
      *
      * @return void
      */
@@ -89,7 +97,8 @@ class BookingRegistrationController extends Controller
         ShipperBookingRepository $shipperBookingRepository,
         ForwarderBookingRepository $forwarderBookingRepository,
         BookingContainerRepository $bookingContainerRepository,
-        BookingContainerDetailRepository $bookingContainerDetailRepository
+        BookingContainerDetailRepository $bookingContainerDetailRepository,
+        AdvanceMoneyRepository $advanceMoneyRepository
     )
     {
         $this->customerRepository = $customerRepository;
@@ -100,6 +109,7 @@ class BookingRegistrationController extends Controller
         $this->forwarderBookingRepository = $forwarderBookingRepository;
         $this->bookingContainerRepository = $bookingContainerRepository;
         $this->bookingContainerDetailRepository = $bookingContainerDetailRepository;
+        $this->advanceMoneyRepository = $advanceMoneyRepository;
     }
 
     public function index()
@@ -191,11 +201,16 @@ class BookingRegistrationController extends Controller
         $search = $booking->booking_no;
         $bookingContainerDetails = $this->bookingRepository->search($search,'');
         $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails->toArray():[];
+        
+        $dvanceMoneyBookingDetails['booking'] = $booking;
+        
+        $dvanceMoneyBookingDetails['advance_money_bookings'] = $this->advanceMoneyRepository->advanceMoneyForBooking($booking->id);
+        
         $example = new BookingContainerDetail();
         $example = $example->attributesToArray();
         $statusApproved = Booking::STATUS_APPROVED;
 
-        return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers', 'bookingContainerDetails', 'search', 'example', 'statusApproved'));
+        return view('booking.booking_registration_create',compact('booking','forwarder','consignee','shipper','containers', 'bookingContainerDetails', 'search', 'example', 'statusApproved','advanceMoneyBookingDetails'));
     }
 
 
