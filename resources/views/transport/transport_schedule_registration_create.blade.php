@@ -282,8 +282,8 @@
                                                                 <th class="redonly">Con</th>
                                                                 <th class="redonly">Con No</th>
                                                                 <th class="redonly">Router</th>
-                                                                <th>ETD</th>
-                                                                <th>ETA</th>
+                                                                <th>Pickup Time</th>
+                                                                <th>Delivery Time</th>
                                                                 <th>Container Truck</th>
                                                                 <th class="redonly">Driver</th>
                                                                 <th class="redonly">Driver Name</th>
@@ -448,8 +448,8 @@
                                                                 <th class="redonly">Con</th>
                                                                 <th class="redonly">Con No</th>
                                                                 <th class="redonly">Router</th>
-                                                                <th>ETD</th>
-                                                                <th>ETA</th>
+                                                                <th>Pickup Time</th>
+                                                                <th>Delivery Time</th>
                                                                 <th class="redonly">Container Truck</th>
                                                                 <th>Driver</th>
                                                                 <th class="redonly">Driver Name</th>
