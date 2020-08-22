@@ -295,13 +295,13 @@
                                                                         @php($id = $container->container_id ?? $key)
                                                                         <tr>
                                                                             <td>
-                                                                                @if(old('container') && $container)
-                                                                                <input type="hidden" value="{{isset($container['container_code'])? $container['container_code'] : ''}}" id="container_id_{{$id}}" name="container[{{$id}}][container_code]">
-                                                                                <input type="hidden" value="{{isset($container['text'])?$container['text']: ''}}" name="container[{{$id}}][text]">
+                                                                                @if(old('container'))
+                                                                                <input type="hidden" value="{{$container['container_code']}}" id="container_id_{{$id}}" name="container[{{$id}}][container_code]">
+                                                                                <input type="hidden" value="{{$container['text']}}" name="container[{{$id}}][text]">
                                                                                 @else
                                                                                     <input type="hidden" value="{{$container->id}}" id="container_id_{{$container->container_id}}" name="container[{{$container->container_id}}][id]">
                                                                                 @endif
-                                                                                <label class="col-form-label">{{$container['text']??isset($container)?$container->container->container_code:''}}</label>
+                                                                                <label class="col-form-label">{{$container['text']??$container->container->container_code}}</label>
                                                                             </td>
                                                                             <td>
                                                                                 <input type="number" min="0" class="form-control" id="container_vol_{{$id}}" name="container[{{$id}}][vol]" value="{{$container['vol']??$container->vol}}">
