@@ -85,8 +85,8 @@
                                 <div class="col-md-8 p-0">
                                     <select class="form-control" id="booking_status" name="booking_status">
                                         <option value="">Please select</option>
-                                        <option value="ORDER" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == ORDER) selected @endif>Order</option>
-                                        <option value="APPROVED" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == APPROVED) selected @endif>Approved</option>
+                                        <option value="ORDER" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 'ORDER') selected @endif>Order</option>
+                                        <option value="APPROVED" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 'APPROVED') selected @endif>Approved</option>
                                     </select>
                                 </div>
                             </div>
