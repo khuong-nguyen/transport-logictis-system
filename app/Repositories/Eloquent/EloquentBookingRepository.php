@@ -110,4 +110,9 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
         return $query->orderBy('created_at', 'desc')->get();
     }
 
+    public function detachContainers($model,array $ids)
+    {
+       return $model->containers()->whereNotIn('id',$ids)->delete();
+    }
+
 }

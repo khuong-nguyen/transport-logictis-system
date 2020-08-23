@@ -751,6 +751,9 @@
     </div>
     <script type="text/javascript">
         let containerId =[];
+        @if(isset($container_ids))
+            containerId =  {!! json_encode($container_ids) !!}
+        @endif
         var queryString = window.location.search;
         var action = document.getElementById("form").getAttribute("action");
         document.getElementById("form").setAttribute('action',action+queryString);
@@ -789,7 +792,7 @@
             });
 
             $("#add_container").click(function(){
-                var selected = $("#select1 option:selected").val();
+                var selected = parseInt($("#select1 option:selected").val());
                 var vol = $('#container_vol').val();
                 if (selected &&  containerId.indexOf(selected) == -1){
                     $('#container_table tr:last').after('<tr>'+

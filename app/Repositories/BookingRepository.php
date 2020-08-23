@@ -19,4 +19,12 @@ interface BookingRepository extends BaseRepository
      * @param Request $request
      */
     public function inquirySearch(Request $request);
+
+
+    /**
+     * Paginating, ordering and searching through pages for server side index table
+     *  @param $model
+     * @param array $ids
+     */
+    public function detachContainers($model,array $ids);
 }

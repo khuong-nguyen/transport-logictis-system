@@ -222,18 +222,21 @@ class BookingRegistrationController extends Controller
         }
         if (isset($request['container']))
         {
+            $containerIds = [];
             foreach ($request['container'] as $key => $container)
             {
                 if (isset($container['id'])){
                     $oldContainer = $this->bookingContainerRepository->find($container['id']);
-                    $this->containerRepository->update($oldContainer,$container);
+                    $result = $this->containerRepository->update($oldContainer,$container);
 
                 }else{
                     $container['booking_id'] = $booking->id;
                     $container['container_id'] = $key;
-                    $this->bookingContainerRepository->create($container);
+                    $result = $this->bookingContainerRepository->create($container);
                 }
+                $containerIds[] = $result->id;
             }
+            $this->bookingRepository->detachContainers($booking,$containerIds);
         }
         return redirect($url)->with('status','message.save_success');
     }
