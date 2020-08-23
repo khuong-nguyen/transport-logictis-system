@@ -75,12 +75,17 @@ class ScheduleTransportContainer extends Model
         $this->hasOne(FixedAsset::class)->where('fixed_asset_type', 'TRUCK');
     }
 
-    public function getEtaAttribute($date)
+    public function getDeliveryPlanAttribute($date)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y H:i');
     }
 
-    public function getEtdAttribute($date)
+    public function getPickupPlanAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y H:i');
+    }
+    
+    public function getCompletedDateAttribute($date)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y H:i');
     }

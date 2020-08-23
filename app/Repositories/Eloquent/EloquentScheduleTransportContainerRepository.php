@@ -34,6 +34,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
     }
 
     public function saveBooking($request, $container = '', $driver = '') {
+        
         DB::beginTransaction();
         try {
             $result = [];
@@ -43,7 +44,8 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                     
                     $pickup_plan = Carbon::createFromFormat('d/m/Y H:i', $data['pickup_plan']);
                     
-                    $completed_date = !empty($completed_date)?  Carbon::createFromFormat('d/m/Y H:i', $data['completed_date']) : null ;
+                    $completed_date = !empty($data['completed_date'])? Carbon::createFromFormat('d/m/Y H:i', $data['completed_date']) : null ;
+                    
 //                    unset($data['container_truck_code']);
                     if ($delivery_plan->gt($pickup_plan)) {
                         if ($container) {
@@ -57,6 +59,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                         $data['delivery_plan'] = $delivery_plan->format('Y-m-d H:i:s');
                         $data['pickup_plan'] = $pickup_plan->format('Y-m-d H:i:s');
                         $data['completed_date'] = !empty($completed_date) ? $completed_date->format('Y-m-d H:i:s'):null;
+                        
                         if ($data['id']) {
                             $oldContainer = $this->find($data['id']);
                             $this->update($oldContainer, $data);

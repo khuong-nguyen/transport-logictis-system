@@ -108,7 +108,7 @@
                                                                             @endphp
                                                                         @endforeach
                                                             </div>
-                                                            <table class="table table-bordered table-container-list">
+                                                            <table class="table table-bordered table-container-list table-responsive">
                                                                 <thead>
                                                                 <tr>
                                                                     <th>No.</th>
@@ -162,16 +162,16 @@
                                                                             <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$i?>][completed_date]" class="form-control completed_date">
                                                                         </td>
                                                                         <td style="position: relative">
-                                                                            <input type="number" min="0" type="text" style="min-width: 150px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$i?>][transport_cost]" class="form-control transport_cost">
+                                                                            <input type="number" min="0" type="text" style="min-width: 100px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$i?>][transport_cost]" class="form-control transport_cost">
                                                                         </td>
                                                                         <td style="position: relative">
-                                                                            <input type="text" style="min-width: 150px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$i?>][pickup_address]" class="form-control pickup_address">
+                                                                            <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$i?>][pickup_address]" class="form-control pickup_address">
                                                                         </td>
                                                                        <td style="position: relative">
-                                                                            <input type="text" style="min-width: 150px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$i?>][delivery_address]" class="form-control delivery_address">
+                                                                            <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$i?>][delivery_address]" class="form-control delivery_address">
                                                                         </td>
-                                                                        <td><input type="text" name="schedules[<?=$i?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code"></td>
-                                                                        <td><input type="text" name="schedules[<?=$i?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code"></td>
+                                                                        <td><input type="text" style="min-width: 100px" name="schedules[<?=$i?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code"></td>
+                                                                        <td><input type="text" style="min-width: 100px" name="schedules[<?=$i?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code"></td>
                                                                         <td class="driver_name_text">{{ $list['driver_name'] }}</td>
                                                                         <td>@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
                                                                     </tr>
