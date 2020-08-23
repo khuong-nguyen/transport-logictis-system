@@ -276,6 +276,7 @@ class BookingRegistrationController extends Controller
         }
         if (isset($request['container']))
         {
+            
             foreach ($request['container'] as $key => $container)
             {
                 if (isset($container['id'])){
@@ -287,6 +288,14 @@ class BookingRegistrationController extends Controller
                     $container['container_id'] = $key;
                     $this->bookingContainerRepository->create($container);
                 }
+            }
+        }
+
+        if(isset($request['deletedBookingContainer'])){
+            foreach ($request['deletedBookingContainer'] as $key => $bookingContainer)
+            {
+                $deletedBookingContainer = $this->bookingContainerRepository->find($bookingContainer);
+                $deletedBookingContainer->delete();
             }
         }
         return redirect($url)->with('status','message.save_success');

@@ -13,7 +13,7 @@ class ContainerBooking extends Model
      *
      * @var array
      */
-    protected $fillable = ['booking_id' ,'container_id','vol','eq_sub','soc','created_by','updated_by'];
+    protected $fillable = ['booking_id' ,'container_id','vol','eq_sub','soc','created_by','updated_by','container_code'];
 
     /**
      * Indicates if the model should be timestamped.

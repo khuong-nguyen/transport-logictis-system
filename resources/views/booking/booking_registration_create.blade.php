@@ -277,19 +277,23 @@
                                                                     <td colspan="5">
                                                                         <span class="error-messages">The TP/SZ has already been taken</span>
                                                                     </td>
+                                                                    <input type="hidden" value="" id="deletedBookingContainer" name="deletedBookingContainer[]">
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
                                                                         <select class="form-control select2" id="select1" style="width: 100%;" name="select1"></select>
                                                                     </td>
-                                                                    <td><input type="number" min="0" value="0" class="form-control" id="container_vol"></td>
+                                                                    <td><input type="number" min="1" value="1" class="form-control" id="container_vol">
+                                                                    	<span id = "added_container_vol" class="error-messages d-none">Vol must be greater zero</span>
+                                                                    </td>
                                                                     <td><input type="number" min="0" value="0" class="form-control" id="container_eq_sub"></td>
                                                                     <td><input type="number" min="0" value="0" class="form-control" id="container_soc"></td>
                                                                     <td>
                                                                         <button class="btn btn-sm btn-primary" id="add_container" type="button">Add</button>
                                                                     </td>
                                                                 </tr>
-                                                                @if(old('container'))  @php($containers =  old('container'))  @endif
+
+                                                                
                                                                 @if(isset($containers))
                                                                     @foreach($containers as $key => $container)
                                                                         @php($id = $container->container_id ?? $key)
@@ -298,6 +302,7 @@
                                                                                 @if(old('container'))
                                                                                 <input type="hidden" value="{{$container['container_code']}}" id="container_id_{{$id}}" name="container[{{$id}}][container_code]">
                                                                                 <input type="hidden" value="{{$container['text']}}" name="container[{{$id}}][text]">
+                                                                                <input type="hidden" value="{{$container->id}}" id="container_id_{{$container->container_id}}" name="container[{{$container->container_id}}][id]">
                                                                                 @else
                                                                                     <input type="hidden" value="{{$container->id}}" id="container_id_{{$container->container_id}}" name="container[{{$container->container_id}}][id]">
                                                                                 @endif
@@ -311,7 +316,8 @@
                                                                                 <input type="number" class="form-control" name="container[{{$id}}][eq_sub]" value="{{$container['eq_sub']??$container->eq_sub}}">
                                                                             </td>
                                                                             <td><input type="number" class="form-control" min="0" name="container[{{$id}}][soc]" value="{{$container['soc']??$container->soc}}"></td>
-                                                                            <td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onclick="remove(this,{{$id}})">Delete</button></td></tr>
+                                                                            <td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onclick="remove(this,{{$id}})">Delete</button></td>
+                                                                        </tr>
                                                                     @endforeach
                                                                 @endif
                                                                 </tbody>
@@ -777,7 +783,9 @@
         var queryString = window.location.search;
         var action = document.getElementById("form").getAttribute("action");
         document.getElementById("form").setAttribute('action',action+queryString);
-
+        
+		var deletedBookingContainer = [];
+		
         $(function () {
 
             $('#sailling_due_date').datetimepicker({
@@ -820,18 +828,22 @@
             $("#add_container").click(function(){
                 var selected = $("#select1 option:selected").val();
                 var vol = $('#container_vol').val();
+                if(vol<1){
+                	$('#added_container_vol').removeClass('d-none');
+                	return;
+                }
                 if (selected &&  containerId.indexOf(selected) == -1){
                     $('#container_table tr:last').after('<tr>'+
                         '<td>' + '<input type="hidden" value="'+selected+'" id="container_id_'+selected+'" name="container['+selected+'][container_code]">'+
                         '<input type="hidden" value="'+$("#select1 option:selected" ).text()+'" name="container['+selected+'][text]">'+
                         '<label class="col-form-label">'+$("#select1 option:selected" ).text()+'</label>' +
                         '</td>\n' +
-                        '<td><input type="number" min="0" class="form-control" id="container_vol_'+selected+'" name="container['+selected+'][vol]"  value="'+vol+'"></td>\n' +
+                        '<td><input type="number" min="1" class="form-control" id="container_vol_'+selected+'" name="container['+selected+'][vol]"  value="'+vol+'"></td>\n' +
                         '<td><input type="number"  min="0" class="form-control" name="container['+selected+'][eq_sub]" value="'+$('#container_eq_sub').val()+'"></td>\n' +
                         '<td><input type="number"  min="0" class="form-control" name="container['+selected+'][soc]" value="'+$('#container_soc').val()+'"></td>\n' +
                         '<td><button class="btn btn-sm btn-primary" id="delete_container" type="button" onClick="remove(this,'+selected+')">Delete</button></td>'
                         +'</tr>');
-                    $('#container_vol').val(0);
+                    $('#container_vol').val(1);
                     $('#container_eq_sub').val(0);
                     $('#container_soc').val(0)
 
@@ -921,6 +933,10 @@
             total -= parseFloat(vol);
             $('#TotalVol').val(total);
             containerId.splice(containerId.indexOf(id), 1);
+            if (typeof $('#container_id_'+id).val() !== 'undefined') {
+            	deletedBookingContainer.push($('#container_id_'+id).val());
+                $('#deletedBookingContainer').val(deletedBookingContainer);
+        	}
             $(elem).parent('td').parent('tr').remove();
         }
     </script>
