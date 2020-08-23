@@ -18,8 +18,8 @@ class CreateBookingContainerTable extends Migration
             $table->foreignId('booking_id');
             $table->foreignId('container_id');
             $table->integer('vol');
-            $table->decimal('eq_sub');
-            $table->decimal('soc');
+            $table->decimal('eq_sub')->default(0);
+            $table->decimal('soc')->default(0);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->timestamps();

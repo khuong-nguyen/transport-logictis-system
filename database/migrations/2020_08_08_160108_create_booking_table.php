@@ -32,12 +32,12 @@ class CreateBookingTable extends Migration
             $table->boolean('si')->default(false);
             $table->boolean('brd')->default(false);
             $table->boolean('fh')->default(false);
-            $table->string('cmdt_1', 30);
+            $table->string('cmdt_1', 30)->nullable();
             $table->string('cmdt_2', 30)->nullable();
-            $table->decimal('weight');
+            $table->decimal('weight')->default(0)->nullable();
             $table->string('unit', 10);
             $table->string('lofc_1', 30)->nullable();
-            $table->string('lofc_2', 30);
+            $table->string('lofc_2', 30)->nullable();
             $table->date('sailling_due_date');
             $table->string('pick_up_cy', 50)->nullable();
             $table->date('pick_up_dt')->nullable();
@@ -50,7 +50,7 @@ class CreateBookingTable extends Migration
             $table->string('booking_status',8)->default('ORDER')->comment('[ORDER,APPROVED]');
             $table->foreignId('shipper_id');
             $table->foreignId('forwarder_id')->nullable();
-            $table->foreignId('consignee_id');
+            $table->foreignId('consignee_id')->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('approved_by')->nullable();
