@@ -38,11 +38,14 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
         try {
             $result = [];
             foreach ($request->schedules as $data) {
-                if ($data['eta'] && $data['etd']) {
-                    $eta = Carbon::createFromFormat('d/m/Y H:i', $data['eta']);
-                    $etd = Carbon::createFromFormat('d/m/Y H:i', $data['etd']);
+                if ($data['delivery_plan'] && $data['pickup_plan']) {
+                    $delivery_plan = Carbon::createFromFormat('d/m/Y H:i', $data['delivery_plan']);
+                    
+                    $pickup_plan = Carbon::createFromFormat('d/m/Y H:i', $data['pickup_plan']);
+                    
+                    $completed_date = !empty($completed_date)?  Carbon::createFromFormat('d/m/Y H:i', $data['completed_date']) : null ;
 //                    unset($data['container_truck_code']);
-                    if ($eta->gt($etd)) {
+                    if ($delivery_plan->gt($pickup_plan)) {
                         if ($container) {
                             $data['container_truck_id'] = $container->id;
                             $data['container_truck_code'] = $container->fixed_asset_code;
@@ -51,8 +54,9 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                             $data['driver_id'] = $driver->id;
                             $data['driver_name'] = $driver->employee_code;
                         }
-                        $data['eta'] = $eta->format('Y-m-d H:i:s');
-                        $data['etd'] = $etd->format('Y-m-d H:i:s');
+                        $data['delivery_plan'] = $delivery_plan->format('Y-m-d H:i:s');
+                        $data['pickup_plan'] = $pickup_plan->format('Y-m-d H:i:s');
+                        $data['completed_date'] = !empty($completed_date) ? $completed_date->format('Y-m-d H:i:s'):null;
                         if ($data['id']) {
                             $oldContainer = $this->find($data['id']);
                             $this->update($oldContainer, $data);
@@ -80,6 +84,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
             DB::commit();
             return $result;
         } catch (\Exception $e) {
+            dd($e->getMessage());
             DB::rollBack();
             throw new \Exception($e->getMessage());
         }

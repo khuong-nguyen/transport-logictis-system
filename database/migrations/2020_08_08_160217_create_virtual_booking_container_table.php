@@ -16,10 +16,11 @@ class CreateVirtualBookingContainerTable extends Migration
         Schema::create('virtual_booking_container', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('virtual_booking_id');
-            $table->string('container_id');
+            $table->foreignId('container_id');
+            $table->string('container_code',30)->nullable();
             $table->integer('vol');
-            $table->decimal('eq_sub');
-            $table->decimal('soc');
+            $table->decimal('eq_sub')->default(0);
+            $table->decimal('soc')->default(0);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->timestamps();

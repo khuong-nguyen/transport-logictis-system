@@ -77,9 +77,13 @@
                                                                                             $detail['driver_id'] = $detail['schedules']['driver_id'];
                                                                                             $detail['driver_code'] = $driver->employee_code;
                                                                                             $detail['driver_name'] = $detail['schedules']['driver_name'];
-                                                                                            $detail['etd'] = $detail['schedules']['etd'];
-                                                                                            $detail['eta'] = $detail['schedules']['eta'];
+                                                                                            $detail['pickup_plan'] = $detail['schedules']['pickup_plan'];
+                                                                                            $detail['delivery_plan'] = $detail['schedules']['delivery_plan'];
                                                                                             $detail['container_no'] = $detail['schedules']['container_no'];
+                                                                                            $detail['completed_date'] = $detail['schedules']['completed_date'];
+                                                                                            $detail['transport_cost'] = $detail['schedules']['transport_cost'];
+                                                                                            $detail['pickup_address'] = $detail['schedules']['pickup_address'];
+                                                                                            $detail['delivery_address'] = $detail['schedules']['delivery_address'];
                                                                                         } else {
                                                                                             $detail['booking_container_detail_id'] = $detail['id'];
                                                                                             $detail['container_no'] = $detail['container_no'];
@@ -89,8 +93,12 @@
                                                                                             $detail['driver_name'] = '';
                                                                                             $detail['driver_id'] = '';
                                                                                             $detail['id'] = '';
-                                                                                            $detail['etd'] = '';
-                                                                                            $detail['eta'] = '';
+                                                                                            $detail['pickup_plan'] = '';
+                                                                                            $detail['delivery_plan'] = '';
+                                                                                            $detail['completed_date'] = '';
+                                                                                            $detail['transport_cost'] = '';
+                                                                                            $detail['pickup_address'] = '';
+                                                                                            $detail['delivery_address'] = '';
                                                                                         }
 
                                                                                         $listContainers[] = $detail;
@@ -108,8 +116,12 @@
                                                                     <th>Con</th>
                                                                     <th>Con No</th>
                                                                     <th>Router</th>
-                                                                    <th>Pickup Time</th>
-                                                                    <th>Delivery Time</th>
+                                                                    <th>Pickup Plan</th>
+                                                                    <th>Delivery Plan</th>
+                                                                    <th>Completed Time</th>
+                                                                    <th>Transport Cost</th>
+                                                                    <th>Pickup Address</th>
+                                                                    <th>Delivery Address</th>
                                                                     <th>Container Truck</th>
                                                                     <th>Driver</th>
                                                                     <th>Driver Name</th>
@@ -141,10 +153,22 @@
                                                                         <td>{{ $list['container_no'] }}</td>
                                                                         <td>{{ '{'.$bookingContainerDetails['por_1'].'}'.'{'.$bookingContainerDetails['por_2'].'}'.'{'.$bookingContainerDetails['pol_1'].'}'.'{'.$bookingContainerDetails['pol_2'].'} ~ '.'{'.$bookingContainerDetails['pod_1'].'}'.'{'.$bookingContainerDetails['pod_2'].'}'.'{'.$bookingContainerDetails['del_1'].'}'.'{'.$bookingContainerDetails['del_2'].'}' }}</td>
                                                                         <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" value="{{ $list['etd'] }}"  name="schedules[<?=$i?>][etd]" class="form-control etd">
+                                                                            <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$i?>][pickup_plan]" class="form-control pickup_plan">
                                                                         </td>
                                                                         <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" value="{{ $list['eta'] }}" name="schedules[<?=$i?>][eta]" class="form-control eta">
+                                                                            <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$i?>][delivery_plan]" class="form-control delivery_plan">
+                                                                        </td>
+                                                                        <td style="position: relative">
+                                                                            <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$i?>][completed_date]" class="form-control completed_date">
+                                                                        </td>
+                                                                        <td style="position: relative">
+                                                                            <input type="number" min="0" type="text" style="min-width: 150px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$i?>][transport_cost]" class="form-control transport_cost">
+                                                                        </td>
+                                                                        <td style="position: relative">
+                                                                            <input type="text" style="min-width: 150px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$i?>][pickup_address]" class="form-control pickup_address">
+                                                                        </td>
+                                                                       <td style="position: relative">
+                                                                            <input type="text" style="min-width: 150px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$i?>][delivery_address]" class="form-control delivery_address">
                                                                         </td>
                                                                         <td><input type="text" name="schedules[<?=$i?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code"></td>
                                                                         <td><input type="text" name="schedules[<?=$i?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code"></td>
@@ -251,8 +275,8 @@
                                                                                 $detail['driver_id'] = $detail['schedules']['driver_id'];
                                                                                 $detail['driver_code'] = $driver->employee_code;
                                                                                 $detail['driver_name'] = $detail['schedules']['driver_name'];
-                                                                                $detail['etd'] = $detail['schedules']['etd'];
-                                                                                $detail['eta'] = $detail['schedules']['eta'];
+                                                                                $detail['pickup_plan'] = $detail['schedules']['pickup_plan'];
+                                                                                $detail['delivery_plan'] = $detail['schedules']['delivery_plan'];
                                                                                 $detail['container_no'] = $detail['schedules']['container_no'];
                                                                             } else {
                                                                                 $detail['booking_container_detail_id'] = $detail['id'];
@@ -263,8 +287,8 @@
                                                                                 $detail['driver_name'] = $bookingContainerDetails['data_driver']['employee_code'];
                                                                                 $detail['driver_id'] = $bookingContainerDetails['data_driver']['id'];
                                                                                 $detail['id'] = '';
-                                                                                $detail['etd'] = '';
-                                                                                $detail['eta'] = '';
+                                                                                $detail['pickup_plan'] = '';
+                                                                                $detail['delivery_plan'] = '';
                                                                             }
 
                                                                             $listContainers[] = $detail;
@@ -282,8 +306,8 @@
                                                                 <th class="redonly">Con</th>
                                                                 <th class="redonly">Con No</th>
                                                                 <th class="redonly">Router</th>
-                                                                <th>Pickup Time</th>
-                                                                <th>Delivery Time</th>
+                                                                <th>Pickup Plan</th>
+                                                                <th>Delivery Plan</th>
                                                                 <th>Container Truck</th>
                                                                 <th class="redonly">Driver</th>
                                                                 <th class="redonly">Driver Name</th>
@@ -315,10 +339,10 @@
                                                                     <td class="redonly">{{ $list['container_no'] }}</td>
                                                                     <td class="redonly">{{ '{'.$bookingContainerDetails['por_1'].'}'.'{'.$bookingContainerDetails['por_2'].'}'.'{'.$bookingContainerDetails['pol_1'].'}'.'{'.$bookingContainerDetails['pol_2'].'} ~ '.'{'.$bookingContainerDetails['pod_1'].'}'.'{'.$bookingContainerDetails['pod_2'].'}'.'{'.$bookingContainerDetails['del_1'].'}'.'{'.$bookingContainerDetails['del_2'].'}' }}</td>
                                                                     <td style="position: relative">
-                                                                        <input style="min-width: 150px" type="text" value="{{ $list['etd'] }}"  name="schedules[<?=$i?>][etd]" class="form-control etd">
+                                                                        <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$i?>][pickup_plan]" class="form-control pickup_plan">
                                                                     </td>
                                                                     <td style="position: relative">
-                                                                        <input style="min-width: 150px" type="text" value="{{ $list['eta'] }}" name="schedules[<?=$i?>][eta]" class="form-control eta">
+                                                                        <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$i?>][delivery_plan]" class="form-control delivery_plan">
                                                                     </td>
                                                                     <td><input type="text" name="schedules[<?=$i?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code"></td>
                                                                     <td class="redonly">{{ $list['driver_code'] }}</td>
@@ -417,8 +441,8 @@
                                                                                 $detail['driver_id'] = $detail['schedules']['driver_id'];
                                                                                 $detail['driver_code'] = $driver->employee_code;
                                                                                 $detail['driver_name'] = $detail['schedules']['driver_name'];
-                                                                                $detail['etd'] = $detail['schedules']['etd'];
-                                                                                $detail['eta'] = $detail['schedules']['eta'];
+                                                                                $detail['pickup_plan'] = $detail['schedules']['pickup_plan'];
+                                                                                $detail['delivery_plan'] = $detail['schedules']['delivery_plan'];
                                                                                 $detail['container_no'] = $detail['schedules']['container_no'];
                                                                             } else {
                                                                                 $detail['booking_container_detail_id'] = $detail['id'];
@@ -429,8 +453,8 @@
                                                                                 $detail['driver_name'] = '';
                                                                                 $detail['driver_id'] = '';
                                                                                 $detail['id'] = '';
-                                                                                $detail['etd'] = '';
-                                                                                $detail['eta'] = '';
+                                                                                $detail['pickup_plan'] = '';
+                                                                                $detail['delivery_plan'] = '';
                                                                             }
 
                                                                             $listContainers[] = $detail;
@@ -448,8 +472,8 @@
                                                                 <th class="redonly">Con</th>
                                                                 <th class="redonly">Con No</th>
                                                                 <th class="redonly">Router</th>
-                                                                <th>Pickup Time</th>
-                                                                <th>Delivery Time</th>
+                                                                <th>Pickup Plan</th>
+                                                                <th>Delivery Plan</th>
                                                                 <th class="redonly">Container Truck</th>
                                                                 <th>Driver</th>
                                                                 <th class="redonly">Driver Name</th>
@@ -481,10 +505,10 @@
                                                                     <td class="redonly">{{ $list['container_no'] }}</td>
                                                                     <td class="redonly">{{ '{'.$bookingContainerDetails['por_1'].'}'.'{'.$bookingContainerDetails['por_2'].'}'.'{'.$bookingContainerDetails['pol_1'].'}'.'{'.$bookingContainerDetails['pol_2'].'} ~ '.'{'.$bookingContainerDetails['pod_1'].'}'.'{'.$bookingContainerDetails['pod_2'].'}'.'{'.$bookingContainerDetails['del_1'].'}'.'{'.$bookingContainerDetails['del_2'].'}' }}</td>
                                                                     <td style="position: relative">
-                                                                        <input style="min-width: 150px" type="text" value="{{ $list['etd'] }}"  name="schedules[<?=$i?>][etd]" class="form-control etd">
+                                                                        <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$i?>][pickup_plan]" class="form-control pickup_plan">
                                                                     </td>
                                                                     <td style="position: relative">
-                                                                        <input style="min-width: 150px" type="text" value="{{ $list['eta'] }}" name="schedules[<?=$i?>][eta]" class="form-control eta">
+                                                                        <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$i?>][delivery_plan]" class="form-control delivery_plan">
                                                                     </td>
                                                                     <td class="redonly">{{ $list['container_truck_code'] }}</td>
                                                                     <td><input type="text" name="schedules[<?=$i?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code"></td>
@@ -609,11 +633,11 @@
         }
         function callIsUsedProperty(index) {
             let tr = $('.table-container-list:visible tbody tr').eq(index);
-            let etd = tr.find('.etd').val();
-            let eta = tr.find('.eta').val();
+            let pickup_plan = tr.find('.pickup_plan').val();
+            let delivery_plan = tr.find('.delivery_plan').val();
             let container_truck_code = tr.find('.container_truck_id').val();
             let driver_code = tr.find('.driver_id').val();
-            if (etd !== '' && eta !== '' && (container_truck_code !== '' || driver_code !== '')) {
+            if (pickup_plan !== '' && delivery_plan !== '' && (container_truck_code !== '' || driver_code !== '')) {
                 let form = getAllValues(tr)
                 form.push({name: '_token', value:$('meta[name="csrf-token"]').attr('content')})
                 $.ajax({
@@ -680,16 +704,17 @@
         $('.full-search input').on('keyup, change', e => {
             btnSearchDisable();
         });
-        $('.etd').change(function(e) {
+        $('.pickup_plan').change(function(e) {
 
             callIsUsedProperty($(this).closest('tr').index());
         });
-        $('.eta').change(function(e) {
+        $('.delivery_plan').change(function(e) {
             callIsUsedProperty($(this).closest('tr').index());
         });
-        $('.etd').each((index, etd) => {
-            let eta = $(etd).closest('tr').find('.eta');
-            $(etd).datetimepicker({
+        $('.pickup_plan').each((index, pickup_plan) => {
+            let delivery_plan = $(pickup_plan).closest('tr').find('.delivery_plan');
+            let completed_date = $(pickup_plan).closest('tr').find('.completed_date');
+            $(pickup_plan).datetimepicker({
                 format: 'dd/mm/yyyy hh:ii',
                 startDate: moment().toDate(),
                 useCurrent: false,
@@ -697,10 +722,10 @@
                 autoclose: true
             }).on('changeDate', function (selected) {
                 var minDate = new Date(selected.date.valueOf());
-                $(eta).datetimepicker('setStartDate', $(etd).data("datetimepicker").getDate());
+                $(delivery_plan).datetimepicker('setStartDate', $(pickup_plan).data("datetimepicker").getDate());
                 callIsUsedProperty(index);
             });
-            $(eta).datetimepicker({
+            $(delivery_plan).datetimepicker({
                 format: 'dd/mm/yyyy hh:ii',
                 // todayBtn: true,
                 startDate: moment().toDate(),
@@ -709,7 +734,20 @@
                 todayHighlight: true,
             }).on('changeDate', function (selected) {
                 var maxDate = new Date(selected.date.valueOf());
-                $(etd).datetimepicker('setEndDate', $(eta).data("datetimepicker").getDate());
+                $(pickup_plan).datetimepicker('setEndDate', $(delivery_plan).data("datetimepicker").getDate());
+                callIsUsedProperty(index);
+            });
+
+            $(completed_date).datetimepicker({
+                format: 'dd/mm/yyyy hh:ii',
+                // todayBtn: true,
+                startDate: moment().toDate(),
+                autoclose: true,
+                useCurrent: false,
+                todayHighlight: true,
+            }).on('changeDate', function (selected) {
+                var maxDate = new Date(selected.date.valueOf());
+                $(pickup_plan).datetimepicker('setEndDate', $(completed_date).data("datetimepicker").getDate());
                 callIsUsedProperty(index);
             });
         });

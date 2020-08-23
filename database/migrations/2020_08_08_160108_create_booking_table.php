@@ -34,7 +34,7 @@ class CreateBookingTable extends Migration
             $table->boolean('fh')->default(false);
             $table->string('cmdt_1', 30)->nullable();
             $table->string('cmdt_2', 30)->nullable();
-            $table->decimal('weight')->default(0)->nullable();
+            $table->decimal('weight',16,2)->default(0)->nullable();
             $table->string('unit', 10);
             $table->string('lofc_1', 30)->nullable();
             $table->string('lofc_2', 30)->nullable();

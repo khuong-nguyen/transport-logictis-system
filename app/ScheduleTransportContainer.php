@@ -14,8 +14,8 @@ class ScheduleTransportContainer extends Model
      * @var array
      */
     protected $fillable = [
-        'booking_id', 'booking_no', 'container_id', 'booking_container_id', 'booking_container_detail_id', 'container_no', 'etd', 'act_td', 'eta', 'act_ta', 'container_truck_id',
-        'container_truck_code', 'driver_id', 'driver_name', 'hour_number_alarm', 'schedule_status', 'reason_delay', 'start_location', 'start_address', 'end_location', 'end_address', 'vgm', 'created_by', 'updated_by'
+        'booking_id', 'booking_no', 'container_id', 'booking_container_id', 'booking_container_detail_id', 'container_no', 'pickup_plan', 'act_td', 'delivery_plan','completed_date', 'act_ta', 'container_truck_id',
+        'container_truck_code', 'driver_id', 'driver_name', 'hour_number_alarm', 'schedule_status', 'reason_delay', 'start_location', 'pickup_address', 'end_location', 'delivery_address', 'vgm','transport_cost', 'created_by', 'updated_by'
 
     ];
 

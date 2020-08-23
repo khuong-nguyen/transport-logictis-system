@@ -230,8 +230,8 @@ class TransportScheduleRegistrationController extends Controller
     public function validateUseds(TransportScheduleRequest $request) {
         $validate = [];
         foreach ($request->schedules as $index => $schedule) {
-            $schedule['etd'] = Carbon::createFromFormat('d/m/Y H:i', $schedule['etd'])->format('Y-m-d H:i:s');
-            $schedule['eta'] = Carbon::createFromFormat('d/m/Y H:i', $schedule['eta'])->format('Y-m-d H:i:s');
+            $schedule['pickup_plan'] = Carbon::createFromFormat('d/m/Y H:i', $schedule['pickup_plan'])->format('Y-m-d H:i:s');
+            $schedule['delivery_plan'] = Carbon::createFromFormat('d/m/Y H:i', $schedule['delivery_plan'])->format('Y-m-d H:i:s');
 
             if ($schedule['container_truck_id']) {
                 if($this->isPropertyUsed($schedule, 'container_truck_id')) {
@@ -264,7 +264,7 @@ class TransportScheduleRegistrationController extends Controller
      */
     protected function isPropertyUsed($schedule, $columnName = 'container_truck_id') {
         $compare = ScheduleTransportContainer::where(function ($query) use ($schedule) {
-            $query->whereRaw("'{$schedule['etd']}' BETWEEN etd AND eta OR '{$schedule['eta']}' BETWEEN etd AND eta");
+            $query->whereRaw("'{$schedule['pickup_plan']}' BETWEEN pickup_plan AND delivery_plan OR '{$schedule['delivery_plan']}' BETWEEN pickup_plan AND delivery_plan");
         })
             ->where($columnName, $schedule[$columnName]);
         if ($schedule['id']) {

@@ -21,9 +21,10 @@ class CreateScheduledTransportContainerTable extends Migration
             $table->foreignId('booking_container_id');
             $table->foreignId('booking_container_detail_id');
             $table->string('container_no', 50);
-            $table->datetime('etd');
+            $table->datetime('pickup_plan');
             $table->datetime('act_td')->nullable();
-            $table->datetime('eta');
+            $table->datetime('delivery_plan');
+            $table->datetime('completed_date');
             $table->datetime('act_ta')->nullable();
             $table->foreignId('truck_id');
             $table->string('container_truck_code');
@@ -33,10 +34,11 @@ class CreateScheduledTransportContainerTable extends Migration
             $table->string('schedule_status',20)->default('INPROCESS')->comment('[INPROCESS,DELAY,ONTIME]');
             $table->string('reason_delay',255)->nullable();
             $table->string('start_location',20)->default('SGN')->comment('[SGN, HN, HP, DN, KH, DN]');
-            $table->string('start_address',255)->nullable();
+            $table->string('pickup_address',255)->nullable();
             $table->string('end_location',20)->nullable()->comment('[SGN, HN, HP, DN, KH, DN]');
-            $table->string('end_address',255)->nullable();
-            $table->decimal('vgm')->default(0);
+            $table->string('delivery_address',255)->nullable();
+            $table->decimal('transport_cost',16,2)->default(0);
+            $table->decimal('vgm',16,2)->default(0);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->timestamps();
