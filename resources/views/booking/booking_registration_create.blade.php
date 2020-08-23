@@ -934,7 +934,7 @@
             total -= parseFloat(vol);
             $('#TotalVol').val(total);
             containerId.splice(containerId.indexOf(id), 1);
-            if (typeof $('#container_id_'+id).val() !== 'undefined') {
+            if (typeof $('#container_id_'+id).val() !== 'undefined' && $('#container_id_'+id).val() == null) {
             	deletedBookingContainer.push($('#container_id_'+id).val());
                 $('#deletedBookingContainer').val(deletedBookingContainer);
         	}
