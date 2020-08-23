@@ -833,6 +833,7 @@
                 	return;
                 }
                 if (selected &&  containerId.indexOf(selected) == -1){
+                	$('#added_container_vol').addClass('d-none');
                     $('#container_table tr:last').after('<tr>'+
                         '<td>' + '<input type="hidden" value="'+selected+'" id="container_id_'+selected+'" name="container['+selected+'][container_code]">'+
                         '<input type="hidden" value="'+$("#select1 option:selected" ).text()+'" name="container['+selected+'][text]">'+
@@ -933,7 +934,7 @@
             total -= parseFloat(vol);
             $('#TotalVol').val(total);
             containerId.splice(containerId.indexOf(id), 1);
-            if (typeof $('#container_id_'+id).val() !== 'undefined') {
+            if (typeof $('#container_id_'+id).val() !== 'undefined' && $('#container_id_'+id).val() == null) {
             	deletedBookingContainer.push($('#container_id_'+id).val());
                 $('#deletedBookingContainer').val(deletedBookingContainer);
         	}

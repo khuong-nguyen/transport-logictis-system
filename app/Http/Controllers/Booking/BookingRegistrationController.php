@@ -291,11 +291,16 @@ class BookingRegistrationController extends Controller
             }
         }
 
-        if(isset($request['deletedBookingContainer'])){
+        if(empty($request['deletedBookingContainer'])){
             foreach ($request['deletedBookingContainer'] as $key => $bookingContainer)
             {
-                $deletedBookingContainer = $this->bookingContainerRepository->find($bookingContainer);
-                $deletedBookingContainer->delete();
+                if(!empty($bookingContainer)){
+                    $deletedBookingContainer = $this->bookingContainerRepository->find($bookingContainer);
+                    if(!empty($deletedBookingContainer)){
+                        $deletedBookingContainer->delete();
+                    }
+                }
+                
             }
         }
         return redirect($url)->with('status','message.save_success');
