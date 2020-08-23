@@ -87,6 +87,9 @@ class ScheduleTransportContainer extends Model
     
     public function getCompletedDateAttribute($date)
     {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y H:i');
+        if(!empty($date)){
+            return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y H:i');
+        }
+        return $date;
     }
 }
