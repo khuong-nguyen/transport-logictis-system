@@ -9,78 +9,83 @@
                 <div class="card-body container-fluid">
                     <div class="alert alert-success d-none" id="msg"></div>
                     @csrf
-                    <div class="row form-group">
-                        <div class="col-sm-3">
-                            <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label" for="booking_no">BKG No</label>
-                                <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="booking_no" name="booking_no" type="text" value="{{ old('schedule.booking_no')?old('customer.booking_no'):app('request')->input('booking_no')  }}">
+                    <form id="form-search" action="">
+                        <div class="row form-group">
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <label class="col-md-4 pr-0 col-form-label" for="booking_no">BKG No</label>
+                                    <div class="col-md-8 pr-0 ">
+                                        <input class="form-control" id="booking_no" name="booking_no" type="text" value="{{ old('schedule.booking_no')?old('customer.booking_no'):app('request')->input('booking_no')  }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <label class="col-md-4 pr-0 col-form-label" for="driver_name">Drive name</label>
+                                    <div class="col-md-8 pr-0 ">
+                                        <input class="form-control" id="driver_name" name="driver_name" type="text" value="{{ old('schedule.driver_name')?old('customer.driver_name'):app('request')->input('driver_name')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <div class="col-md-4 pr-0">
+                                        <label class="col-form-label"  for="container_truck">Container truck</label>
+                                    </div>
+                                    <div class="col-md-8 pr-0">
+                                        <input class="form-control" id="container_truck" type="text" name="container_truck" value="{{ old('schedule.container_truck')?old('schedule.container_truck'):app('request')->input('container_truck') }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label" for="driver_name">Drive name</label>
-                                <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="driver_name" name="driver_name" type="text" value="{{ old('schedule.driver_name')?old('customer.driver_name'):app('request')->input('driver_name')}}">
+                        <div class="row form-group">
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <label class="col-md-4 pr-0 col-form-label" for="etd_from">ETD from</label>
+                                    <div class="col-md-8 pr-0 ">
+                                        <input class="form-control" id="etd_from" name="etd[0][from]" type="text" value="{{ old('schedule.etd_from')?old('schedule.etd_from'):app('request')->input('etd[0][from]')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <label class="col-md-4 pr-0 col-form-label" for="etd_to">ETD to</label>
+                                    <div class="col-md-8 pr-0 ">
+                                        <input class="form-control" id="etd_to" name="etd[0][to]" type="text" value="{{ old('schedule.etd_to')?old('schedule.etd_to'):app('request')->input('etd[0][to]')}}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="row">
-                                <div class="col-md-4 pr-0">
-                                    <label class="col-form-label"  for="container_truck">Container truck</label>
+                        <div class="row form-group">
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <label class="col-md-4 pr-0 col-form-label" for="eta_from">ETA from</label>
+                                    <div class="col-md-8 pr-0 ">
+                                        <input class="form-control" id="eta_from" name="eta[1][from]" type="text" value="{{ old('schedule.eta_from')?old('schedule.eta_from'):app('request')->input('eta[1][from]')}}">
+                                    </div>
                                 </div>
-                                <div class="col-md-8 pr-0">
-                                    <input class="form-control" id="container_truck" type="text" name="container_truck" value="{{ old('schedule.container_truck')?old('schedule.container_truck'):app('request')->input('container_truck') }}">
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <label class="col-md-4 pr-0 col-form-label" for="eta_to">ETA to</label>
+                                    <div class="col-md-8 pr-0 ">
+                                        <input class="form-control" id="eta_to" name="eta[1][to]" type="text" value="{{ old('schedule.eta_to')?old('schedule.eta_to'):app('request')->input('eta[1][to]')}}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-3">
-                            <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label" for="etd_from">ETD from</label>
-                                <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="etd_from" name="etd_from" type="text" value="{{ old('schedule.etd_from')?old('schedule.etd_from'):app('request')->input('etd_from')}}">
+                        <div class="row form-group text-right">
+                            <div class="col-sm-9 pr-0">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" id="resetForm" type="button"> Reset</button>
+                                </div>
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" id="searchForm" type="button"> Search</button>
                                 </div>
                             </div>
+
                         </div>
-                        <div class="col-sm-3">
-                            <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label" for="etd_to">ETD to</label>
-                                <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="etd_to" name="etd_to" type="text" value="{{ old('schedule.etd_to')?old('schedule.etd_to'):app('request')->input('etd_to')}}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-3">
-                            <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label" for="eta_from">ETA from</label>
-                                <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="etd_from" name="eta_from" type="text" value="{{ old('schedule.eta_from')?old('schedule.eta_from'):app('request')->input('eta_from')}}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label" for="eta_to">ETA to</label>
-                                <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="etd_to" name="eta_to" type="text" value="{{ old('schedule.eta_to')?old('schedule.eta_to'):app('request')->input('eta_to')}}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group text-center">
-                        <div class="btn-group">
-                            <button class="btn btn-primary" id="resetForm" type="button"> Reset</button>
-                        </div>
-                        <div class="btn-group">
-                            <button class="btn btn-primary" id="searchForm" type="button"> Search</button>
-                        </div>
-                    </div>
+                    </form>
                     <div class="table-responsive">
                         <table id="inquiryDatatable" class="table table-striped table-bordered  w-100">
                             <thead>
@@ -105,24 +110,69 @@
             </div>
         </div>
     </div>
+@endsection
+@push('scripts')
+    <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script type="text/javascript">
         let containerId =[];
         $(function () {
+            $('#etd_from').datetimepicker({
+                format: 'dd/mm/yyyy hh:ii',
+                startDate: moment().toDate(),
+                useCurrent: false,
+                // todayBtn: true,
+                autoclose: true
+            }).on('changeDate', function (selected) {
+                $('#etd_to').datetimepicker('setStartDate', $('#etd_from').data("datetimepicker").getDate());
+            });
+            $('#etd_to').datetimepicker({
+                format: 'dd/mm/yyyy hh:ii',
+                // todayBtn: true,
+                startDate: moment().toDate(),
+                autoclose: true,
+                useCurrent: false,
+                todayHighlight: true,
+            }).on('changeDate', function (selected) {
+                $('#etd_from').datetimepicker('setEndDate', $('#etd_to').data("datetimepicker").getDate());
+            });
+
+            $('#eta_from').datetimepicker({
+                format: 'dd/mm/yyyy hh:ii',
+                startDate: moment().toDate(),
+                useCurrent: false,
+                // todayBtn: true,
+                autoclose: true
+            }).on('changeDate', function (selected) {
+                $('#etd_to').datetimepicker('setStartDate', $('#eta_from').data("datetimepicker").getDate());
+            });
+            $('#eta_to').datetimepicker({
+                format: 'dd/mm/yyyy hh:ii',
+                // todayBtn: true,
+                startDate: moment().toDate(),
+                autoclose: true,
+                useCurrent: false,
+                todayHighlight: true,
+            }).on('changeDate', function (selected) {
+                $('#eta_from').datetimepicker('setEndDate', $('#eta_to').data("datetimepicker").getDate());
+            });
+
             @if(session()->has('status'))
             toastr.success("{{ session()->get('status') }}");
             @endif
             fill_datatable();
             function fill_datatable()
             {
+                var data = {};
+                $.each($('#form-search').serializeArray(), function(index, obj){
+                    if (obj.value)
+                        data[obj.name] = obj.value;
+                });
+
                 var search = {
-                    columns:{
-                        customer_code: $('#customer_code').val(),
-                        location_code: $('#location_code').val(),
-                        customer_legal_english_name: $('#customer_legal_english_name').val(),
-                        customer_language_name: $('#customer_language_name').val(),
-                        tax_code: $('#tax').val(),
-                    },
+                    columns: data,
                 };
+
                 var dataTable = $('#inquiryDatatable').DataTable({
                     processing: true,
                     serverSide: true,
@@ -140,24 +190,40 @@
                             name:'id'
                         },
                         {
-                            data:'customer_code',
-                            name:'customer_code'
+                            data:'booking_no',
+                            name:'booking_no'
                         },
                         {
-                            data:'location_code',
-                            name:'location_code'
+                            data:'container_code',
+                            name:'container_code'
                         },
                         {
-                            data:'customer_legal_english_name',
-                            name:'customer_legal_english_name'
+                            data:'container_no',
+                            name:'container_no'
                         },
                         {
-                            data:'customer_language_name',
-                            name:'customer_language_name'
+                            data:'router',
+                            name:'router'
                         },
                         {
-                            data:'tax_code',
-                            name:'tax'
+                            data:'etd',
+                            name:'etd'
+                        },
+                        {
+                            data:'eta',
+                            name:'eta'
+                        },
+                        {
+                            data:'container_truck_code',
+                            name:'container_truck_code'
+                        },
+                        {
+                            data:'fixed_asset_code',
+                            name:'fixed_asset_code'
+                        },
+                        {
+                            data:'driver_name',
+                            name:'driver_name'
                         },
                         {
                             data: 'action',
@@ -165,7 +231,8 @@
                             orderable: true,
                             searchable: true
                         },
-                    ]
+                    ],
+                    order: [[ 0, 'desc' ]]
                 });
                 $('div.dataTables_length select').removeClass('form-control-sm');
                 $('div.dataTables_length select').removeClass('form-control');
@@ -175,9 +242,7 @@
                 fill_datatable();
             });
             $('#resetForm').click(function(){
-                $('input').each(function() {
-                    $(this).val('');
-                });
+                $('#form-search').trigger("reset");
                 $('#inquiryDatatable').DataTable().destroy();
                 fill_datatable();
             });
@@ -211,4 +276,4 @@
     </script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/dataTables.bootstrap4.min.js') }}"></script>
-@endsection
+@endpush

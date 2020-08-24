@@ -2,6 +2,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\BookingContainerDetail;
+use App\Container;
 use App\Repositories\ScheduleTransportContainerRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -88,68 +89,52 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
 
     public function inquirySearch(Request $request) :LengthAwarePaginator
     {
-        $query = BookingContainerDetail();
+        $query = new BookingContainerDetail();
 
         $search = $request->get('search');
-
+        $query = $query->leftJoin('container', 'booking_container_details.container_id', 'container.id')
+            ->leftJoin('booking', 'booking_container_details.booking_id', 'booking.id')
+            ->leftJoin('scheduled_transport_container', 'scheduled_transport_container.booking_container_detail_id', 'booking_container_details.id')
+            ->leftJoin('fixed_asset', 'scheduled_transport_container.driver_id', 'fixed_asset.id');
         if (isset($search['columns'])) {
             foreach ($search['columns'] as $key => $value)
             {
-                if ($value != null)
-                {
-                    $query->where($key,'=',$value);
+                try {
+                    if (is_array($value)) {
+                        if (strpos($key, 'etd')) {
+                            $etd_from = Carbon::createFromFormat('d/m/Y H:i', $value['from'])->format('d-m-Y H:i:s');
+                            $etd_to = Carbon::createFromFormat('d/m/Y H:i', $value['to'])->format('d-m-Y H:i:s');
+                            $query = $query->whereBetween('scheduled_transport_container.etd', [$etd_from, $etd_to]);
+                        } else {
+                            $eta_from = Carbon::createFromFormat('d/m/Y H:i', $value['from'])->format('d-m-Y H:i:s');
+                            $eta_to = Carbon::createFromFormat('d/m/Y H:i', $value['to'])->format('d-m-Y H:i:s');
+                            $query->whereBetween('scheduled_transport_container.eta', [$eta_from, $eta_to]);
+                        }
+                    } else {
+                        $query->where($key, '=' , $value);
+                    }
+                } catch (\Exception $e) {
+                    continue;
                 }
             }
         }
-//        $query = $query->with('container');
-        $searchIn = [];
-        if (isset($search['driver_name']) && $search['driver_name'] != null)
-        {
-            $driver_name = $search['driver_name'];
-            $searchIn[] = [
-                'where:driver_name' => $driver_name
-            ];
-        }
 
-        if (isset($search['etd_from']) && isset($search['etd_to']) && $search['etd_from'] != null && $search['etd_to'] != null)
-        {
-            $etd_from = Carbon::createFromFormat('d/m/Y H:i', $search['etd_from']);
-            $etd_to = Carbon::createFromFormat('d/m/Y H:i', $search['etd_to']);
-            $searchIn[] = [
-                'whereBetween:etd' => [
-                    $etd_from,
-                    $etd_to
-                ]
-            ];
-        }
-
-        if (isset($search['eta_from']) && isset($search['eta_to']) && $search['eta_from'] !== null && $search['eta_to'] !== null)
-        {
-            $eta_from = Carbon::createFromFormat('d/m/Y H:i', $search['eta_from']);
-            $eta_to = Carbon::createFromFormat('d/m/Y H:i', $search['eta_to']);
-            $searchIn[] = [
-                'whereBetween:eta' => [
-                    $eta_from,
-                    $eta_to
-                ]
-            ];
-        }
-
-        if (isset($search['container_truck']) && $search['container_truck'] !== null)
-        {
-            $container_truck = $search['container_truck'];
-            $searchIn[] = [
-                'where:container_truck_code' => $container_truck
-            ];
-        }
-
-        $query->whereHas('schedules',function($q) use ($searchIn){
-            foreach ($searchIn as $key => $value) {
-                $explode = explode(':', $key);
-                $q->{$explode[0]}($explode[1], $value);
-            }
-        });
-
-        return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
+        return $query->select('scheduled_transport_container.etd', 'scheduled_transport_container.eta', 'booking_container_details.booking_no',
+            'booking_container_details.container_no',
+            'booking.por_1',
+            'booking.por_2',
+            'booking.pol_1',
+            'booking.pol_2',
+            'booking.pod_1',
+            'booking.pod_2',
+            'booking.del_1',
+            'booking.del_2',
+            'container.container_code',
+            'fixed_asset.fixed_asset_code',
+            'scheduled_transport_container.booking_container_detail_id',
+            'scheduled_transport_container.container_truck_code',
+            'scheduled_transport_container.driver_name',
+            'scheduled_transport_container.id',
+            'scheduled_transport_container.container_truck_code')->orderBy('booking_container_details.created_at', 'desc')->paginate($request->get('per_page', 10));
     }
 }

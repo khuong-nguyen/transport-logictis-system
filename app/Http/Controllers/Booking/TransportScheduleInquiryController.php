@@ -87,10 +87,20 @@ class TransportScheduleInquiryController extends Controller
                     "recordsTotal"    => $data->total(),
                     "recordsFiltered" => $data->total(),
                 ])
+                ->editColumn('router', function($row) {
+                    return '{'.$row->por_1.'}'.'{'.$row->por_2.'}'.'{'.$row->pol_1.'}'.'{'.$row->pol_2.'} ~ '.'{'.$row->pod_1.'}'.'{'.$row->pod_2.'}'.'{'.$row->del_1.'}'.'{'.$row->del_2.'}';
+                })
+                ->editColumn('eta', function($row) {
+                    return $row->eta?Carbon::parse($row->eta)->format('d/m/Y H:i:s'):'';
+                })
+                ->editColumn('etd', function($row) {
+                    return $row->etd?Carbon::parse($row->etd)->format('d/m/Y H:i:s'):'';
+                })
                 ->addColumn('action', function($row) use ($params) {
-                    $url = '/booking/transport/schedule/registration/'.$row->id.'?'.$params;
-                    return '<a href="'.$url.'" class="edit btn btn-success btn-sm">Edit</a>
-                        <button class="delete btn btn-danger btn-sm" data-remote="'. $url.'">Delete</button>';
+                    $url = '/booking/transport/schedule/registration?bookingNo='.$row->booking_no.'&'.$params;
+                    if (!$row->booking_container_detail_id) {
+                        return '<a href="'.$url.'" class="edit btn btn-success btn-sm">Schedule</a>';
+                    }
                 })
                 ->rawColumns(['action'])
                 ->make(true);
