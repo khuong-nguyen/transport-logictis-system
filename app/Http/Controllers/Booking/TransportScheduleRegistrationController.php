@@ -82,22 +82,44 @@ class TransportScheduleRegistrationController extends Controller
      */
     public function create(Request $request)
     {
-        $bookingNo = $request->has('bookingNo')?$request->bookingNo:'';
+        //dd($request);
+        $params = [];
+        if($request->has('booking_no') && $request->booking_no == ''){
+            $params['booking_no'] = $request->booking_no;
+        }
+        
+        if($request->has('bkg_created_date_from') && $request->bkg_created_date_from == ''){
+            $params['bkg_created_date_from'] = $request->bkg_created_date_from;
+        }
+        
+        if($request->has('bkg_created_date_to') && $request->bkg_created_date_to == ''){
+            $params['bkg_created_date_to'] = $request->bkg_created_date_to;
+        }
+        
+        $bookingNo = $request->has('booking_no')?$request->booking_no:'';
+        $bkg_created_date_from = $request->has('bkg_created_date_from')?$request->bkg_created_date_from:'';
+        $bkg_created_date_to = $request->has('bkg_created_date_to')?$request->bkg_created_date_to:'';
+        
+        
         $driverNo = $request->has('driverNo')?$request->driverNo:'';
         $containerTruckNo = $request->has('containerTruckNo')?$request->containerTruckNo:'';
+        
         $bookingContainerDetails = [];
         $example = [];
         $errorFlash = [];
         $statusApproved = Booking::STATUS_APPROVED;
-        if ($bookingNo) {
-            $bookingNo = $request->bookingNo;
-            $bookingContainerDetails = $this->bookingRepository->fullSearch($bookingNo,'');
+        if (!empty($params)) {
+            
+            $bookingNo = $request->booking_no;
+            
+            $bookingContainerDetails = $this->bookingRepository->fullSearch($params);
+            
             if ($bookingContainerDetails) {
                 $bookingContainerDetails = $bookingContainerDetails->toArray();
             } else {
                 $errorFlash['booking'] = 'Could not find this Booking No.';
             }
-
+            
             if ($driverNo) {
                 $bookingContainerDetails['data_driver'] = $this->employeeRepository->search(['code' => $driverNo, 'type' => 'DRIVER']);
                 if (!$bookingContainerDetails['data_driver']) {
@@ -110,6 +132,8 @@ class TransportScheduleRegistrationController extends Controller
                 }
             }
         }
+        
+        
 
         return view('transport.transport_schedule_registration_create', compact('bookingContainerDetails', 'bookingNo', 'driverNo', 'containerTruckNo', 'example', 'statusApproved'))->with('searchError', $errorFlash);
     }
