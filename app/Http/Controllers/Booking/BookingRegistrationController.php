@@ -145,11 +145,11 @@ class BookingRegistrationController extends Controller
         
         if ($bookingRequest['consignee_id'] != null){
             $consignee = $this->customerRepository->find($bookingRequest['consignee_id'])->toArray();
-            unset($forwarder["id"]);
-            unset($forwarder["created_by"]);
-            unset($forwarder["updated_by"]);
-            unset($forwarder["created_at"]);
-            unset($forwarder["updated_at"]);
+            unset($consignee["id"]);
+            unset($consignee["created_by"]);
+            unset($consignee["updated_by"]);
+            unset($consignee["created_at"]);
+            unset($consignee["updated_at"]);
             
             $consignee["booking_id"] = $booking->id;
             $this->consigneeBookingRepository->create($consignee);
