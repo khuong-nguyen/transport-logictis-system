@@ -131,7 +131,7 @@
                     "iDisplayLength": 10,
                     dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
                     ajax:{
-                        url: "/customer/inquiry",
+                        url: "/booking/transport/schedule/inquiry",
                         data: {search: search}
                     },
                     columns: [
