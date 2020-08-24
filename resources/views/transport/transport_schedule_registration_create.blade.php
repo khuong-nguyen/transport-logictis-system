@@ -65,16 +65,16 @@
                                                 @if (isset($bookingContainerDetails))
                                       
                                                         <form class="form-transport-container" action="/booking/transport/schedule/registration{{ isset($bookingContainerDetail['id']) ? '/'.$bookingContainerDetail['id'] :''}}" method="post">
+                                                        
+                                                        @csrf
+                                                        @method('PUT')
+                                                        
                                                         @php
                                                             $listContainers = [];
                                                             $addFull = false;
                                                             $i = 1;
                                                         @endphp
                                                         @foreach($bookingContainerDetails as $bookingContainerDetail)
-                                                            @csrf
-                                                            @method('PUT')
-
-                                                            
                                                                         
                                                                         @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)
                                                                             @php
@@ -147,7 +147,7 @@
                                                                         <td>{{ $bookingContainerDetail['booking_no'] }}</td>
                                                                         <td>{{ $list['container_code'] }}</td>
                                                                         <td>{{ $list['container_no'] }}</td>
-                                                                        <td>{{ '{'.$bookingContainerDetail['por_1'].'}'.'{'.$bookingContainerDetail['por_2'].'}'.'{'.$bookingContainerDetail['pol_1'].'}'.'{'.$bookingContainerDetail['pol_2'].'} ~ '.'{'.$bookingContainerDetail['pod_1'].'}'.'{'.$bookingContainerDetail['pod_2'].'}'.'{'.$bookingContainerDetail['del_1'].'}'.'{'.$bookingContainerDetail['del_2'].'}' }}</td>
+                                                                        <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
                                                                         <td style="position: relative">
                                                                             <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$i?>][pickup_plan]" class="form-control pickup_plan">
                                                                         </td>
@@ -289,18 +289,7 @@
             });
             return inputValues;
         }
-        function btnSearchDisable() {
-            flag = false;
-            $.each($('.full-search:visible input'), function(i, item) {
-                flag = $(item).val()?true:false;
-            })
 
-            if (flag) {
-                $('.btn-search-booking:visible').prop('disabled', false)
-            } else {
-                $('.btn-search-booking:visible').prop('disabled', true)
-            }
-        }
         function callIsUsedProperty(index) {
             let tr = $('.table-container-list:visible tbody tr').eq(index);
             let pickup_plan = tr.find('.pickup_plan').val();
@@ -492,7 +481,7 @@
             let bkg_created_date_to = $('input[name="bkg_created_date_to"]:visible').val();
 
             let query = "bkg_created_date_from" + "=" + bkg_created_date_from;
-            query = query + "&" + "bkg_created_date_to" + "=" + bkg_created_date_from;
+            query = query + "&" + "bkg_created_date_to" + "=" + bkg_created_date_to;
             query = query + "&" + "booking_no" + "=" + bookingNo;
             
             document.location.search = query

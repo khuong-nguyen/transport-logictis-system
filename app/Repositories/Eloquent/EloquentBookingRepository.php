@@ -150,10 +150,10 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
                 }
                 
                 if(!empty($params['bkg_created_date_from']) & !empty($params['bkg_created_date_to'])){
-                    $query = $query->whereBetween('created_at', [$params['bkg_created_date_from'], $params['bkg_created_date_from']]);
-                }
-                
-                
+                    $query = $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y') >= '".$params['bkg_created_date_from'].
+                        "' AND DATE_FORMAT(created_at,'%d/%m/%Y') <= '" . $params['bkg_created_date_to']."'"
+                        );
+                }   
                 $result = $query->get();
                 
                 return $result;
