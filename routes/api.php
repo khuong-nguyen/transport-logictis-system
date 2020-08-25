@@ -24,4 +24,7 @@ Route::group(['namespace' => 'Api'], function($lang=null) {
     Route::get('/booking/code', 'BookingApiController@search');
     Route::get('/booking/{id}', 'BookingApiController@getBooking');
     Route::get('/employee/employee-code', 'EmployeeApiController@employeeByEmployeeCode');
+    Route::get('autocompleteBookingNo', ['as'=>'autocompleteBookingNo', 'uses'=>'BookingApiController@autoCompleteBookingNo']);
+    Route::get('autocompleteTruckNo', ['as'=>'autocompleteTruckNo', 'uses'=>'FixedAssetApiController@autoCompleteTruckNo']);
+    Route::get('autocompleteDriverNo', ['as'=>'autocompleteDriverNo', 'uses'=>'EmployeeApiController@autoCompleteDriverNo']);
 });

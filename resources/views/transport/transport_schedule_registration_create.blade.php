@@ -25,9 +25,9 @@
                                                                 <label class="col-form-label" for="pick_up_dt_from">BKG Created Date </label>
                                                             </div>
                                                             <div class="input-group col-md-6 input-daterange pr-0">
-                                                                <input class="form-control" id="bkg_created_date_from" value="{{ isset($params['bkg_created_date_from']) ? $params['bkg_created_date_from'] : date('d/m/Y') }}" name="bkg_created_date_from" type="text">
+                                                                <input class="form-control" id="bkg_created_date_from" value="{{ isset($params['bkg_created_date_from']) ? $params['bkg_created_date_from'] : date('d/m/Y') }}" name="bkg_created_date_from" type="text" autocomplete="off">
                                                                 <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
-                                                                <input class="form-control" id="bkg_created_date_to" value="{{ isset($params['bkg_created_date_to']) ? $params['bkg_created_date_to'] : date('d/m/Y') }}" type="text" name="bkg_created_date_to">
+                                                                <input class="form-control" id="bkg_created_date_to" value="{{ isset($params['bkg_created_date_to']) ? $params['bkg_created_date_to'] : date('d/m/Y') }}" type="text" name="bkg_created_date_to" autocomplete="off">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -35,9 +35,8 @@
                                                                 <label class="col-form-label required" for="booking_no">Booking No:</label>
                                                             </div>
                                                             <div class="col-md-3 col-sm-3">
-                                                                <input class="form-control @if(isset($searchError['booking'])) is-invalid @endif" class="booking_no" type="text" name="booking_no"
-                                                                value="{{ isset($params['booking_no']) ? $params['booking_no'] : '' }}" >
-                                                                @if(isset($searchError['booking']))<div class="invalid-feedback">{{ $searchError['booking'] }}</div>@endif
+                                                        		<input class="form-control typeahead" type="text" name="booking_no"
+                                                                    value="{{ isset($params['booking_no']) ? $params['booking_no'] : '' }}" autocomplete="off" >
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <button type="button" class="btn btn-primary btn-search-booking">Search</button>
@@ -227,8 +226,17 @@
                                                                        <td style="position: relative">
                                                                             <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$i?>][delivery_address]" class="form-control delivery_address">
                                                                         </td>
-                                                                        <td><input type="text" style="min-width: 100px" name="schedules[<?=$i?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code"></td>
-                                                                        <td><input type="text" style="min-width: 100px" name="schedules[<?=$i?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code"></td>
+                                                                        <td style="position: relative">
+                                                                            <div class = "container">
+                                                                            	<input type="text" style="min-width: 150px" name="schedules[<?=$i?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code" autocomplete="off">
+                                                                            </div>
+                                                                    	</td>
+                                                                        <td style="position: relative">
+                                                                        	<div class = "container">
+                                                                        		<input type="text" style="min-width: 150px" name="schedules[<?=$i?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code" autocomplete="off">
+                                                                    		</div>
+                                                                		</td>
+                                                                    		
                                                                         <td class="driver_name_text">{{ $list['driver_name'] }}</td>
                                                                         <td>@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
                                                                     </tr>
@@ -280,6 +288,7 @@
 @push('scripts')
     <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     <style>
         .form-control.is-warning {
             padding-right: calc(1.5em + 0.75rem);
@@ -564,4 +573,36 @@
         });
     });
 </script>
+
+<script type="text/javascript">
+    var path = "{{ route('autocompleteBookingNo') }}";
+    $('input.typeahead').typeahead({
+        source:  function (query, process) {
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+    var container_truck_code_path = "{{ route('autocompleteTruckNo') }}";
+    $('input.container_truck_code').typeahead({
+        source:  function (query, process) {
+        return $.get(container_truck_code_path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+    var driver_code_path = "{{ route('autocompleteDriverNo') }}";
+    $('input.driver_code').typeahead({
+        source:  function (query, process) {
+        return $.get(driver_code_path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+    
+</script>
+
 @endpush
