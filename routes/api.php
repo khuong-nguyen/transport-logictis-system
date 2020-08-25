@@ -22,5 +22,6 @@ Route::group(['namespace' => 'Api'], function($lang=null) {
     Route::get('/container/code', 'ContainerApiController@search');
     Route::get('/customer/code', 'CustomerApiController@search');
     Route::get('/booking/code', 'BookingApiController@search');
+    Route::get('/booking/{id}', 'BookingApiController@getBooking');
     Route::get('/employee/employee-code', 'EmployeeApiController@employeeByEmployeeCode');
 });

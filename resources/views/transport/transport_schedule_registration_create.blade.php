@@ -107,7 +107,6 @@
                                                         <input type="hidden" name="search" value="{{ isset($params) ? json_encode($params) : '' }}">
                                                         @php
                                                             $listContainers = [];
-                                                            $viewDetailBooking = [];
                                                             $addFull = false;
                                                             $i = 1;
                                                         @endphp
@@ -193,7 +192,7 @@
 																
                                                                 @foreach($listContainers as $list)
                                                                 	
-                                                                    <tr onmouseOver = "viewBookingDetail({{json_encode($viewDetailBooking) }}, {{ $list['booking_id'] }})">
+                                                                    <tr onmouseOver = "viewBookingDetail({{ $list['booking_id'] }})">
                                                                         <input type="hidden" name="schedules[<?=$i?>][container_id]" value="{{ $list['container_id'] }}">
                                                                         <input type="hidden" name="schedules[<?=$i?>][container_no]" value="{{ $list['container_no'] }}">
                                                                         <input type="hidden" name="schedules[<?=$i?>][booking_container_detail_id]" value="{{ $list['booking_container_detail_id'] }}">
@@ -311,11 +310,17 @@
 <script type="text/javascript">
 	$('#sidebar').removeClass('c-sidebar-lg-show');
 
-	function viewBookingDetail(bookings, booking_id){
-		
-		$('#view_booking_no').text(bookings[booking_id].booking_no);
-		$('#view_pick_up_dt').text(bookings[booking_id].pick_up_dt);
-		$('#view_sailling_due_date').text(bookings[booking_id].sailling_due_date);
+	function viewBookingDetail(booking_id){
+		$.ajax({
+            url:"/api/booking/" + booking_id,
+            type: 'get',
+            dataType: "json",
+            success: function( result) {
+            	$('#view_booking_no').text(result.data.booking_no);
+        		$('#view_pick_up_dt').text(result.data.pick_up_dt);
+        		$('#view_sailling_due_date').text(result.data.sailling_due_date);
+            }
+		});
 	}
 	
 	$(function () {

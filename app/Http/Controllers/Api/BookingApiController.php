@@ -44,6 +44,25 @@ class BookingApiController extends BaseApiController
         }
 
     }
+    
+    /**
+     * @param  Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getBooking($booking_id)
+    {
+        try {
+            $booking = $this->bookingRepository->find($booking_id);
+            if ($booking) {
+                return $this->success($booking);
+            }
+            return $this->error('Booking not found');
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage());
+        }
+        
+    }
 
     /**
      * Display a listing of the resource.
