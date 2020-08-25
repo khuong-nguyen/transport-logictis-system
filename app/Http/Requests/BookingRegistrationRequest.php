@@ -34,8 +34,7 @@ class BookingRegistrationRequest extends FormRequest
             'booking.del_1' => 'required|max:30',
             'booking.unit' => 'required|max:10',
             'booking.sailling_due_date' => 'required|date|date_format:Y-m-d',
-            'booking.pick_up_dt' => 'nullable|date|date_format:Y-m-d',
-            'booking.shipper_id' => 'required',
+            'booking.pick_up_dt' => 'nullable|date|date_format:Y-m-d'
         ];
 
         if ($this->request->get('container'))
