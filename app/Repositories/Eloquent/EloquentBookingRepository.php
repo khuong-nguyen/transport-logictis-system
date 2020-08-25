@@ -119,11 +119,14 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
 
         if ($string != '')
         {
-            return $this->model->with(['containerBookings' => function($q) {
+            $result = $this->model->with(['containerBookings' => function($q) {
                 $q->with(['details' => function($q) {
                     $q->with('schedules');
                 }, 'container']);
             }])->where('booking_no', "{$string}")->first();
+            
+            return $result;
+            
         }
         return [];
 
@@ -155,7 +158,7 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
                         );
                 }   
                 $result = $query->get();
-                
+
                 return $result;
             }
             return [];

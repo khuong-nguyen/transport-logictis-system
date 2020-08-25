@@ -82,7 +82,6 @@ class TransportScheduleRegistrationController extends Controller
      */
     public function create(Request $request)
     {
-        //dd($request);
         $params = [];
         if($request->has('booking_no') && $request->booking_no != ''){
             $params['booking_no'] = $request->booking_no;
@@ -120,7 +119,7 @@ class TransportScheduleRegistrationController extends Controller
                 $errorFlash['booking'] = 'Could not find this Booking No.';
             }
             
-            if ($driverNo) {
+            /* if ($driverNo) {
                 $bookingContainerDetails['data_driver'] = $this->employeeRepository->search(['code' => $driverNo, 'type' => 'DRIVER']);
                 if (!$bookingContainerDetails['data_driver']) {
                     $errorFlash['driver'] = 'Could not find this Driver No.';
@@ -130,12 +129,12 @@ class TransportScheduleRegistrationController extends Controller
                 if (!$bookingContainerDetails['data_container_truck']) {
                     $errorFlash['container_truck'] = 'Could not find this Container Truck.';
                 }
-            }
+            } */
         }
         
         
 
-        return view('transport.transport_schedule_registration_create', compact('bookingContainerDetails', 'bookingNo', 'driverNo', 'containerTruckNo', 'example', 'statusApproved'))->with('searchError', $errorFlash);
+        return view('transport.transport_schedule_registration_create', compact('bookingContainerDetails', 'params', 'driverNo', 'containerTruckNo', 'example', 'statusApproved'))->with('searchError', $errorFlash);
     }
 
     /**
@@ -178,15 +177,24 @@ class TransportScheduleRegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $booking =  $this->bookingRepository->find($id);
-        $redirectLink = '/booking/transport/schedule/registration?bookingNo='.$booking->booking_no;
-        if ($booking && $request->has('schedules')) {
+        
+        $redirectLink = '/booking/transport/schedule/registration?';
+        $queryString = '';
+        if ($request->has('search')){
+            $params = json_decode($request->get('search'),true);
+            foreach($params as $key => $value){
+                $queryString = $queryString. "&".$key."=".$value;
+            }
+            $redirectLink = $redirectLink.$queryString;
+        }
+        
+        if ($request->has('schedules')) {
             try {
                 $driver = '';
                 $container = '';
-                if ($request->has('container')) {
+                /* if ($request->has('container')) {
                     $container = $this->fixedAssetRepository->find($request->container);
                     if ($container) {
                         $redirectLink = $redirectLink.'&containerTruckNo='.$container->fixed_asset_code;
@@ -198,8 +206,8 @@ class TransportScheduleRegistrationController extends Controller
                     if ($driver) {
                         $redirectLink = $redirectLink.'&driverNo='.$driver->employee_code;
                     }
-                }
-
+                } */
+                
                 $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
 
                 return redirect($redirectLink)->with('status', 'message.save_success');

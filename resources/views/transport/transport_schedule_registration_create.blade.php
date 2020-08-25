@@ -23,9 +23,9 @@
                                                             <label class="col-form-label" for="pick_up_dt_from">BKG Created Date </label>
                                                         </div>
                                                         <div class="input-group col-md-4 input-daterange pr-0">
-                                                            <input class="form-control" id="bkg_created_date_from" value="{{$search['bkg_created_date_from'] ?? ''}}" name="bkg_created_date_from" type="text">
+                                                            <input class="form-control" id="bkg_created_date_from" value="{{ isset($params['bkg_created_date_from']) ? $params['bkg_created_date_from'] : date('d/m/Y') }}" name="bkg_created_date_from" type="text">
                                                             <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
-                                                            <input class="form-control" id="bkg_created_date_to" value="{{$search['bkg_created_date_to'] ?? ''}}" type="text" name="bkg_created_date_to">
+                                                            <input class="form-control" id="bkg_created_date_to" value="{{ isset($params['bkg_created_date_to']) ? $params['bkg_created_date_to'] : date('d/m/Y') }}" type="text" name="bkg_created_date_to">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -34,7 +34,7 @@
                                                         </div>
                                                         <div class="col-md-2 col-sm-3">
                                                             <input class="form-control @if(isset($searchError['booking'])) is-invalid @endif" class="booking_no" type="text" name="booking_no"
-                                                            value="{{ isset($bookingNo) ? $bookingNo : '' }}" >
+                                                            value="{{ isset($params['booking_no']) ? $params['booking_no'] : '' }}" >
                                                             @if(isset($searchError['booking']))<div class="invalid-feedback">{{ $searchError['booking'] }}</div>@endif
                                                         </div>
                                                         <div class="col-md-2">
@@ -64,11 +64,11 @@
                                                     </thead>
                                                 @if (isset($bookingContainerDetails))
                                       
-                                                        <form class="form-transport-container" action="/booking/transport/schedule/registration{{ isset($bookingContainerDetail['id']) ? '/'.$bookingContainerDetail['id'] :''}}" method="post">
+                                                        <form class="form-transport-container" action="/booking/transport/schedule/registration" method="post">
                                                         
                                                         @csrf
                                                         @method('PUT')
-                                                        
+                                                        <input type="hidden" name="search" value="{{ isset($params) ? json_encode($params) : '' }}">
                                                         @php
                                                             $listContainers = [];
                                                             $addFull = false;
@@ -80,7 +80,7 @@
                                                                             @php
                                                                                 $containerCode = isset($containerBooking['container']) && !empty($containerBooking['container']) ? $containerBooking['container']['container_code']:'';
                                                                                 $vol = $containerBooking['vol'];
-                                                                                if (is_array($containerBooking['details'])) {
+                                                                                if (is_array($containerBooking['details']) && !empty($containerBooking['details'])) {
                                                                                     foreach ($containerBooking['details'] as $detail) {
                                                                                         $detail['container_code'] = $containerCode;
                                                                                         if ($detail['schedules']) {
@@ -95,7 +95,7 @@
                                                                                             $detail['driver_name'] = $detail['schedules']['driver_name'];
                                                                                             $detail['pickup_plan'] = $detail['schedules']['pickup_plan'];
                                                                                             $detail['delivery_plan'] = $detail['schedules']['delivery_plan'];
-                                                                                            $detail['container_no'] = $detail['schedules']['container_no'];
+                                                                                            $detail['container_no'] = $detail['container_no'];
                                                                                             $detail['completed_date'] = $detail['schedules']['completed_date'];
                                                                                             $detail['transport_cost'] = $detail['schedules']['transport_cost'];
                                                                                             $detail['pickup_address'] = $detail['schedules']['pickup_address'];
@@ -120,16 +120,39 @@
                                                                                         $listContainers[] = $detail;
                                                                                         $vol--;
                                                                                     }
+                                                                                }else{
+                                                                                	for($row = 1; $row <= $vol; $row++){
+                                                                                		$detail['booking_container_detail_id'] = null;
+                                                                                		$detail['container_id'] = null;
+                                                                                		$detail['booking_id'] = $containerBooking['booking_id'];
+                                                                                		$detail['booking_no'] = $bookingContainerDetail['booking_no'];
+                                                                                		$detail['booking_container_id'] = $containerBooking['id'];
+                                                                                		$detail['container_code'] = $containerBooking['container']['container_code'];
+                                                                                		
+                                                                                        $detail['container_no'] = '';
+                                                                                        $detail['container_truck_code'] = '';
+                                                                                        $detail['container_truck_id'] = '';
+                                                                                        $detail['driver_code'] = '';
+                                                                                        $detail['driver_name'] = '';
+                                                                                        $detail['driver_id'] = '';
+                                                                                        $detail['id'] = '';
+                                                                                        $detail['pickup_plan'] = '';
+                                                                                        $detail['delivery_plan'] = '';
+                                                                                        $detail['completed_date'] = '';
+                                                                                        $detail['transport_cost'] = '';
+                                                                                        $detail['pickup_address'] = '';
+                                                                                        $detail['delivery_address'] = '';
+                                                                                        $listContainers[] = $detail;
+                                                                                	}
                                                                                 }
                                                                             @endphp
                                                                         @endforeach
                                                             
 
                                                                 <tbody>
-                                                                @php
-                                                                    //$booking_status = isset($booking)?$booking->booking_status:$bookingContainerDetail['booking_status'];
-                                                                    //$readonly = $booking_status !== $statusApproved?'':'readonly';
-                                                                @endphp
+																@php
+																	//dd($listContainers)
+																@endphp
                                                                 @foreach($listContainers as $list)
                                                                     <tr>
                                                                         <input type="hidden" name="schedules[<?=$i?>][container_id]" value="{{ $list['container_id'] }}">
@@ -248,18 +271,19 @@
     </style>
 <script type="text/javascript">
 	$('#sidebar').removeClass('c-sidebar-lg-show');
+	$(function () {
+		$('#bkg_created_date_from').datetimepicker({
+			viewMode: 'days',
+	        format: 'dd/mm/yyyy',
+	        date: new Date()
+	    });
 
-	$('#bkg_created_date_from').datetimepicker({
-		viewMode: 'days',
-        format: 'dd/mm/yyyy',
-        date: new Date()
-    });
-
-	$('#bkg_created_date_to').datetimepicker({
-		viewMode: 'days',
-        format: 'dd/mm/yyyy',
-        date: new Date()
-    });
+		$('#bkg_created_date_to').datetimepicker({
+			viewMode: 'days',
+	        format: 'dd/mm/yyyy',
+	        date: new Date()
+	    });
+	});
     
     $('#bkg_created_date_from').on('dp.change', function(e){
         $('#bkg_created_date_to').data("DateTimePicker").minDate(e.date)
@@ -371,7 +395,7 @@
             let delivery_plan = $(pickup_plan).closest('tr').find('.delivery_plan');
             let completed_date = $(pickup_plan).closest('tr').find('.completed_date');
             $(pickup_plan).datetimepicker({
-                format: 'dd/mm/yyyy hh:ii',
+                format: 'dd/mm/yyyy hh:mm',
                 startDate: moment().toDate(),
                 useCurrent: false,
                 // todayBtn: true,
@@ -382,7 +406,7 @@
                 callIsUsedProperty(index);
             });
             $(delivery_plan).datetimepicker({
-                format: 'dd/mm/yyyy hh:ii',
+                format: 'dd/mm/yyyy hh:mm',
                 // todayBtn: true,
                 startDate: moment().toDate(),
                 autoclose: true,
@@ -395,7 +419,7 @@
             });
 
             $(completed_date).datetimepicker({
-                format: 'dd/mm/yyyy hh:ii',
+                format: 'dd/mm/yyyy hh:mm',
                 // todayBtn: true,
                 startDate: moment().toDate(),
                 autoclose: true,
