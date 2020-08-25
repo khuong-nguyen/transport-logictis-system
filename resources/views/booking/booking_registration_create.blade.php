@@ -295,6 +295,8 @@
                                                                                 <input type="hidden" value="{{$container['text']}}" name="container[{{$id}}][text]">
                                                                                 @else
                                                                                     <input type="hidden" value="{{$container->id}}" id="container_id_{{$container->container_id}}" name="container[{{$container->container_id}}][id]">
+                                                                                    <input type="hidden" value="{{$container->container->container_code}}" id="container_id_{{$id}}" name="container[{{$id}}][container_code]">
+                                                                                    <input type="hidden" value="{{$container->container->container_code}}" name="container[{{$id}}][text]">
                                                                                 @endif
                                                                                 <label class="col-form-label">{{$container['text']??$container->container->container_code}}</label>
                                                                             </td>
