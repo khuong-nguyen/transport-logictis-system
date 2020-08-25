@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use App\BookingContainerDetail;
 
 class EloquentScheduleTransportContainerRepository extends EloquentBaseRepository implements ScheduleTransportContainerRepository
 {
@@ -34,10 +35,11 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
     }
 
     public function saveBooking($request, $container = '', $driver = '') {
-        
+
         DB::beginTransaction();
         try {
             $result = [];
+            
             foreach ($request->schedules as $data) {
                 if ($data['delivery_plan'] && $data['pickup_plan']) {
                     $delivery_plan = Carbon::createFromFormat('d/m/Y H:i', $data['delivery_plan']);
@@ -66,16 +68,30 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                         } else {
 
                             $filter = collect([$data])
-                                ->whereNotNull('booking_container_detail_id')
                                 ->whereNotNull('booking_id')
                                 ->whereNotNull('booking_no')
-                                ->whereNotNull('container_id')
                                 ->whereNotNull('booking_container_id')
                                 ->whereNotNull('container_truck_code')
                                 ->whereNotNull('driver_name')
                                 ->values()->pop();
-
+                            
+                            // insert booking_container_detail
+                            if(empty($data['booking_container_detail_id'])){
+                                $booking_container_detail = [
+                                    'booking_container_id' => $filter['booking_container_id'],
+                                    'booking_id' => $filter['booking_id'],
+                                    'booking_no' => $filter['booking_no'],
+                                    'measure' => 1,
+                                    'package' => 1,
+                                ];
+                                $booking_container_detail = BookingContainerDetail::create($booking_container_detail);
+                                if($booking_container_detail){
+                                    $filter['booking_container_detail_id'] = $booking_container_detail->id;
+                                }
+                            }
+                            
                             if ($filter) {
+                                
                                 $record = $this->create($filter);
                                 $data['id'] = $record->id;
                                 $result[] = $data;

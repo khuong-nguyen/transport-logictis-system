@@ -141,7 +141,17 @@ class BookingRegistrationController extends Controller
 
         $booking =   $this->bookingRepository->create($bookingRequest);
         
-        $shipper = $this->customerRepository->find($bookingRequest['shipper_id'])->toArray();
+        if ($bookingRequest['shipper_id'] != null){
+            $shipper = $this->customerRepository->find($bookingRequest['shipper_id'])->toArray();
+            unset($shipper["id"]);
+            unset($shipper["created_by"]);
+            unset($shipper["updated_by"]);
+            unset($shipper["created_at"]);
+            unset($shipper["updated_at"]);
+            
+            $shipper["booking_id"] = $booking->id;
+            $this->shipperBookingRepository->create($shipper);
+        }
         
         if ($bookingRequest['consignee_id'] != null){
             $consignee = $this->customerRepository->find($bookingRequest['consignee_id'])->toArray();
@@ -154,6 +164,7 @@ class BookingRegistrationController extends Controller
             $consignee["booking_id"] = $booking->id;
             $this->consigneeBookingRepository->create($consignee);
         }
+        
         if ($bookingRequest['forwarder_id'] != null)
         {
             $forwarder = $this->customerRepository->find($bookingRequest['forwarder_id'])->toArray();
@@ -176,16 +187,6 @@ class BookingRegistrationController extends Controller
                 $this->bookingContainerRepository->create($container);
             }
         }
-
-        $shipper["booking_id"] = $booking->id;
-
-        unset($shipper["id"]);
-        unset($shipper["created_by"]);
-        unset($shipper["updated_by"]);
-        unset($shipper["created_at"]);
-        unset($shipper["updated_at"]);
-
-        $this->shipperBookingRepository->create($shipper);
 
         return redirect('/booking/registration/'.$booking->id)->with('status','message.save_success');
     }
@@ -234,11 +235,30 @@ class BookingRegistrationController extends Controller
         $forwarderRequest =  $request['forwarder'];
 
         $booking =   $this->bookingRepository->update($booking,$bookingRequest);
-
-        $shipper =   $this->shipperBookingRepository->update($this->shipperBookingRepository->findByAttributes(['booking_id'=>$booking->id]),$shipperRequest);
+        
+        if ($bookingRequest['shipper_id'] != null){
+            $shipper = $this->shipperBookingRepository->findByAttributes(['booking_id'=>$booking->id]);
+            if ($shipper){
+                $this->shipperBookingRepository->update($shipper,$shipperRequest);
+            }else{
+                $shipper = $this->customerRepository->find($bookingRequest['shipper_id'])->toArray();
+                
+                unset($shipper["id"]);
+                unset($shipper["created_by"]);
+                unset($shipper["updated_by"]);
+                unset($shipper["created_at"]);
+                unset($shipper["updated_at"]);
+                
+                $shipper['booking_id'] = $booking->id;
+                $this->shipperBookingRepository->create($shipper);
+            } 
+        }
+        
         
         if ($bookingRequest['consignee_id'] != null){
+            
             $consignee = $this->consigneeBookingRepository->findByAttributes(['booking_id'=>$booking->id]);
+            
             if ($consignee){
                 $this->consigneeBookingRepository->update($consignee,$consigneeRequest);
             }else{

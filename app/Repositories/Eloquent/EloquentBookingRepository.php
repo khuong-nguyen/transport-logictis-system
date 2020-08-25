@@ -119,11 +119,14 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
 
         if ($string != '')
         {
-            return $this->model->with(['containerBookings' => function($q) {
+            $result = $this->model->with(['containerBookings' => function($q) {
                 $q->with(['details' => function($q) {
                     $q->with('schedules');
                 }, 'container']);
             }])->where('booking_no', "{$string}")->first();
+            
+            return $result;
+            
         }
         return [];
 
@@ -133,23 +136,30 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
      * @param string|null $string
      * @return array|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
-    public function fullSearch(?string $string, $driverId = '', $containerTruckId = '')
+    public function fullSearch($params)
     {
         try {
-            if ($string != '')
+            if (!empty($params))
             {
-                 return $this->model->with(['shipper', 'consignee', 'containerBookings' => function($q) use ($driverId, $containerTruckId) {
-                    $q->with(['details' => function($q) use ($driverId, $containerTruckId) {
-                        $q->with(['schedules' => function($q) use ($driverId, $containerTruckId) {
-                            if ($driverId) {
-                                $q->where('driver_id', $driverId);
-                            }
-                            if ($driverId) {
-                                $q->where('container_truck_id', $containerTruckId);
-                            }
+                $query = $this->model->with(['shipper', 'consignee', 'containerBookings' => function($q) {
+                    $q->with(['details' => function($q) {
+                        $q->with(['schedules' => function($q) {
                         }]);
                     }, 'container']);
-                }])->where('booking_no', $string)->first();
+                }]);
+                
+                if(!empty($params['booking_no'])){
+                    $query = $query->where('booking_no', $params['booking_no']);
+                }
+                
+                if(!empty($params['bkg_created_date_from']) & !empty($params['bkg_created_date_to'])){
+                    $query = $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y') >= '".$params['bkg_created_date_from'].
+                        "' AND DATE_FORMAT(created_at,'%d/%m/%Y') <= '" . $params['bkg_created_date_to']."'"
+                        );
+                }   
+                $result = $query->get();
+
+                return $result;
             }
             return [];
         } catch (\Exception $e) {

@@ -33,6 +33,9 @@ class TransportScheduleRequest extends FormRequest
             'schedules.*.transport_cost' => 'nullable',
             'schedules.*.delivery_address' => 'nullable',
             'schedules.*.pickup_address' => 'nullable',
+            'schedules.*.container_no' => 'nullable',
+            'schedules.*.container_id' => 'nullable',
+            'schedules.*.booking_container_detail_id' => 'nullable'
         ];
     }
 
