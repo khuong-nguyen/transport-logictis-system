@@ -18,29 +18,65 @@
                                         <div class="main-form" class="row">
                                             <div class="col">
                                                 <div class="full-search">
-                                                	<div class="form-group row">
-                                                        <div class="col-md-2 pr-0">
-                                                            <label class="col-form-label" for="pick_up_dt_from">BKG Created Date </label>
+                                                <div class="row">
+                                                	<div class="col-md-6">
+                                                    	<div class="form-group row">
+                                                            <div class="col-md-3 pr-0">
+                                                                <label class="col-form-label" for="pick_up_dt_from">BKG Created Date </label>
+                                                            </div>
+                                                            <div class="input-group col-md-6 input-daterange pr-0">
+                                                                <input class="form-control" id="bkg_created_date_from" value="{{ isset($params['bkg_created_date_from']) ? $params['bkg_created_date_from'] : date('d/m/Y') }}" name="bkg_created_date_from" type="text">
+                                                                <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
+                                                                <input class="form-control" id="bkg_created_date_to" value="{{ isset($params['bkg_created_date_to']) ? $params['bkg_created_date_to'] : date('d/m/Y') }}" type="text" name="bkg_created_date_to">
+                                                            </div>
                                                         </div>
-                                                        <div class="input-group col-md-4 input-daterange pr-0">
-                                                            <input class="form-control" id="bkg_created_date_from" value="{{ isset($params['bkg_created_date_from']) ? $params['bkg_created_date_from'] : date('d/m/Y') }}" name="bkg_created_date_from" type="text">
-                                                            <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
-                                                            <input class="form-control" id="bkg_created_date_to" value="{{ isset($params['bkg_created_date_to']) ? $params['bkg_created_date_to'] : date('d/m/Y') }}" type="text" name="bkg_created_date_to">
+                                                        <div class="form-group row">
+                                                            <div class="col-md-3 col-sm-2">
+                                                                <label class="col-form-label required" for="booking_no">Booking No:</label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-3">
+                                                                <input class="form-control @if(isset($searchError['booking'])) is-invalid @endif" class="booking_no" type="text" name="booking_no"
+                                                                value="{{ isset($params['booking_no']) ? $params['booking_no'] : '' }}" >
+                                                                @if(isset($searchError['booking']))<div class="invalid-feedback">{{ $searchError['booking'] }}</div>@endif
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button type="button" class="btn btn-primary btn-search-booking">Search</button>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <div class="col-md-2 col-sm-2">
-                                                            <label class="col-form-label required" for="booking_no">Booking No:</label>
-                                                        </div>
-                                                        <div class="col-md-2 col-sm-3">
-                                                            <input class="form-control @if(isset($searchError['booking'])) is-invalid @endif" class="booking_no" type="text" name="booking_no"
-                                                            value="{{ isset($params['booking_no']) ? $params['booking_no'] : '' }}" >
-                                                            @if(isset($searchError['booking']))<div class="invalid-feedback">{{ $searchError['booking'] }}</div>@endif
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <button type="button" class="btn btn-primary btn-search-booking">Search</button>
-                                                        </div>
-                                                    </div>
+                                                	</div>
+                                                	<div class="col-md-4">
+                                                	
+                                                    		<div class="form-group row">
+                                                				<div class="col-md-4 pr-0">
+                                                                	<label class="col-form-label" for="view_booking_no">Booking No: </label>
+                                                                </div>
+                                                                <div class="col-md-5 pr-0">
+                                                                	<label class="col-form-label" name= "view_booking_no" id= "view_booking_no"></label>
+                                                                </div>
+                                                    		</div>
+                                                    		
+                                                    		<div class="form-group row">
+                                                				<div class="col-md-4 pr-0">
+                                                                	<label class="col-form-label" for="view_sailling_due_date">Sailling due date: </label>
+                                                                </div>
+                                                				<div class="col-md-5 pr-0">
+                                                                	<label class="col-form-label" name = "view_sailling_due_date" id = "view_sailling_due_date"></label>
+                                                                </div>
+                                                    		</div>
+    
+                                  
+                                                    		<div class="form-group row">
+                                                				<div class="col-md-4 pr-0">
+                                                                	<label class="col-form-label" for="view_pick_up_dt">Pickup date: </label>
+                                                                </div>
+                                                                <div class="col-md-5 pr-0">
+                                                                	<label class="col-form-label" name = "view_pick_up_dt" id = "view_pick_up_dt"></label>
+                                                                </div>
+                                                    		</div>
+                                             
+                                                		</div>
+                                                	</div>
+                                                	</div>
                                                 </div>
                                                 <table class="table table-bordered table-container-list table-responsive">
                                                     <thead>
@@ -71,10 +107,13 @@
                                                         <input type="hidden" name="search" value="{{ isset($params) ? json_encode($params) : '' }}">
                                                         @php
                                                             $listContainers = [];
+                                                            $viewDetailBooking = [];
                                                             $addFull = false;
                                                             $i = 1;
                                                         @endphp
                                                         @foreach($bookingContainerDetails as $bookingContainerDetail)
+                                                        
+                                                                        @php $viewDetailBooking[$bookingContainerDetail['id']] = $bookingContainerDetail; @endphp
                                                                         
                                                                         @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)
                                                                             @php
@@ -146,15 +185,15 @@
                                                                                 	}
                                                                                 }
                                                                             @endphp
+                                                                            
                                                                         @endforeach
-                                                            
+                                
 
                                                                 <tbody>
-																@php
-																	//dd($listContainers)
-																@endphp
+																
                                                                 @foreach($listContainers as $list)
-                                                                    <tr>
+                                                                	
+                                                                    <tr onmouseOver = "viewBookingDetail({{json_encode($viewDetailBooking) }}, {{ $list['booking_id'] }})">
                                                                         <input type="hidden" name="schedules[<?=$i?>][container_id]" value="{{ $list['container_id'] }}">
                                                                         <input type="hidden" name="schedules[<?=$i?>][container_no]" value="{{ $list['container_no'] }}">
                                                                         <input type="hidden" name="schedules[<?=$i?>][booking_container_detail_id]" value="{{ $list['booking_container_detail_id'] }}">
@@ -271,6 +310,14 @@
     </style>
 <script type="text/javascript">
 	$('#sidebar').removeClass('c-sidebar-lg-show');
+
+	function viewBookingDetail(bookings, booking_id){
+		
+		$('#view_booking_no').text(bookings[booking_id].booking_no);
+		$('#view_pick_up_dt').text(bookings[booking_id].pick_up_dt);
+		$('#view_sailling_due_date').text(bookings[booking_id].sailling_due_date);
+	}
+	
 	$(function () {
 		$('#bkg_created_date_from').datetimepicker({
 			viewMode: 'days',
