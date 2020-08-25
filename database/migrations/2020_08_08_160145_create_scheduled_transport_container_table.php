@@ -17,10 +17,10 @@ class CreateScheduledTransportContainerTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('booking_id');
             $table->string('booking_no', 50);
-            $table->foreignId('container_id');
+            $table->foreignId('container_id')->nullable();
             $table->foreignId('booking_container_id');
-            $table->foreignId('booking_container_detail_id');
-            $table->string('container_no', 50);
+            $table->foreignId('booking_container_detail_id')->nullable();
+            $table->string('container_no', 50)->nullable();
             $table->datetime('pickup_plan');
             $table->datetime('act_td')->nullable();
             $table->datetime('delivery_plan');

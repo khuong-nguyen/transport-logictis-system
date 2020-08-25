@@ -23,7 +23,7 @@ class CreateBookingTable extends Migration
             $table->string('pol_1', 30);
             $table->string('pol_2', 30)->nullable();
             $table->string('pod_1', 30);
-            $table->string('pod_2', 30);
+            $table->string('pod_2', 30)->nullable();
             $table->string('del_1', 30);
             $table->string('del_2', 30)->nullable();
             $table->string('r_d_term_1', 30)->nullable();
@@ -48,7 +48,7 @@ class CreateBookingTable extends Migration
             $table->text('ext_remark')->nullable();
             $table->text('int_remark')->nullable();
             $table->string('booking_status',8)->default('ORDER')->comment('[ORDER,APPROVED]');
-            $table->foreignId('shipper_id');
+            $table->foreignId('shipper_id')->nullable();
             $table->foreignId('forwarder_id')->nullable();
             $table->foreignId('consignee_id')->nullable();
             $table->foreignId('created_by')->nullable();
