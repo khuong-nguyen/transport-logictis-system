@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
         $this->call(ContainerTableSeeder::class);
         Model::reguard();
+        $this->call(LocationCodeTableSeeder::class);
+        Model::reguard();
     }
 }
