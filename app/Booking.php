@@ -53,7 +53,7 @@ class Booking extends Model
 
     public  function forwarders()
     {
-       return $this->hasMany('App\ForwarderBooking','booking_id');
+       return $this->hasOne('App\ForwarderBooking','booking_id');
     }
 
     public  function consignee()

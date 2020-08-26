@@ -74,11 +74,14 @@
                                                                 <label class="col-form-label required" for="por_1">POR</label>
                                                             </div>
                                                             <div class="col-md-2 p-0">
-                                                                <input class="form-control @if($errors->has('booking.por_1')) is-invalid @endif" id="por_1" type="text" name="booking[por_1]" value="{{ old('booking.por_1') ?? $booking->por_1 ?? '' }}">
-                                                                @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                            	<!--div class = "container"-->
+                                                                	<input class="form-control por_booking @if($errors->has('booking.por_1')) is-invalid @endif" id="por_1" type="text" name="booking[por_1]" value="{{ old('booking.por_1') ?? $booking->por_1 ?? '' }}" autocomplete="off">
+                                                                	@error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                                <!--/div-->
+                                                                
                                                             </div>
                                                             <div class="col-md-2 pr-0">
-                                                                <input class="form-control @if($errors->has('booking.por_2')) is-invalid @endif" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}">
+                                                                <input class="form-control @if($errors->has('booking.por_2')) is-invalid @endif" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}" autocomplete="off">
                                                                 @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             </div>
                                                             <div class="col-md-6">
@@ -87,7 +90,7 @@
                                                                         <label class="col-form-label required" for="pol_1">POL</label>
                                                                     </div>
                                                                     <div class="col-md-4 pl-0">
-                                                                        <input class="form-control  @if($errors->has('booking.pol_1')) is-invalid @endif" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}">
+                                                                        <input class="form-control pol_booking @if($errors->has('booking.pol_1')) is-invalid @endif" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}" autocomplete="off">
                                                                         @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                                     </div>
                                                                     <div class="col-md-4 pl-0">
@@ -103,7 +106,7 @@
                                                                 <div class="row">
                                                                         <label class=" col-md-4 pr-0 col-form-label required" for="pod_1">POD</label>
                                                                     <div class="col-md-4 p-0">
-                                                                        <input class="form-control @if($errors->has('booking.pod_1')) is-invalid @endif" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}">
+                                                                        <input class="form-control pod_booking @if($errors->has('booking.pod_1')) is-invalid @endif" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}" autocomplete="off">
                                                                         @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                                     </div>
                                                                     <div class="col-md-4 pr-0">
@@ -118,7 +121,7 @@
                                                                         <label class="col-form-label required" for="del_1">DEL</label>
                                                                     </div>
                                                                     <div class="col-md-4 pl-0">
-                                                                        <input class="form-control @if($errors->has('booking.del_1')) is-invalid @endif" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}">
+                                                                        <input class="form-control del_booking @if($errors->has('booking.del_1')) is-invalid @endif" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}" autocomplete="off">
                                                                         @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                                     </div>
                                                                     <div class="col-md-4 pl-0">
@@ -775,6 +778,8 @@
             </div>
         </div>
     </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     <script type="text/javascript">
 
         $('#sidebar').removeClass('c-sidebar-lg-show');
@@ -941,6 +946,77 @@
             $(elem).parent('td').parent('tr').remove();
         }
     </script>
+    
+    <script type="text/javascript">
+
+        var driver_code_path = "{{ route('autocompleteNodeCode') }}";
+        $('input.por_booking').typeahead({
+            source:  function (query, process) {
+            return $.get(driver_code_path, { query: query }, function (data) {
+                    return process(data);
+                });
+            }
+        });
+
+        $('input.pol_booking').typeahead({
+            source:  function (query, process) {
+            return $.get(driver_code_path, { query: query }, function (data) {
+                    return process(data);
+                });
+            }
+        });
+
+        $('input.pod_booking').typeahead({
+            source:  function (query, process) {
+            return $.get(driver_code_path, { query: query }, function (data) {
+                    return process(data);
+                });
+            }
+        });
+
+        $('input.del_booking').typeahead({
+            source:  function (query, process) {
+            return $.get(driver_code_path, { query: query }, function (data) {
+                    return process(data);
+                });
+            }
+        });
+
+
+        $('.por_booking').on('change', function() {
+            por = $('#por_1').val(); 
+            por1 = por.substr(0,5);
+            por2 = por.substr(5,2);
+            $('#por_1').val(por1);
+            $('#por_2').val(por2);
+        });
+
+        $('.pol_booking').on('change', function() {
+        	pol = $('#pol_1').val(); 
+        	pol1 = pol.substr(0,5);
+        	pol2 = pol.substr(5,2);
+            $('#pol_1').val(pol1);
+            $('#pol_2').val(pol2);
+        });
+
+        $('.pod_booking').on('change', function() {
+        	pod = $('#pod_1').val(); 
+        	pod1 = pod.substr(0,5);
+        	pod2 = pod.substr(5,2);
+            $('#pod_1').val(pod1);
+            $('#pod_2').val(pod2);
+        });
+
+        $('.del_booking').on('change', function() {
+        	del = $('#del_1').val(); 
+        	del1 = del.substr(0,5);
+        	del2 = del.substr(5,2);
+            $('#del_1').val(del1);
+            $('#del_2').val(del2);
+        });
+	</script>
+
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     <script src="{{ asset('js/select2.full.min.js') }}"></script>
+
 @endsection

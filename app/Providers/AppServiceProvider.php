@@ -45,6 +45,10 @@ use App\Repositories\AdvanceMoneyRepository;
 use App\Repositories\Eloquent\EloquentAdvanceMoneyRepository;
 use App\AdvanceMoney;
 
+use App\Repositories\LocationCodeRepository;
+use App\Repositories\Eloquent\EloquentLocationCodeRepository;
+use App\LocationCode;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -134,6 +138,13 @@ class AppServiceProvider extends ServiceProvider
                 return  new EloquentScheduleTransportContainerRepository(new ScheduleTransportContainer());
             }
         );
+        
+        $this->app->bind(
+            LocationCodeRepository::class,
+            function () {
+                return  new EloquentLocationCodeRepository(new LocationCode());
+            }
+            );
     }
 
     /**
