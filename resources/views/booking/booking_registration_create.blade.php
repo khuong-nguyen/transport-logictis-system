@@ -471,14 +471,14 @@
                                                                         <label class="col-form-label required" for="shipper_country">Shipper</label>
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
-                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_country" value="{{old('shipper_country') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_country" @if(isset($booking)) readonly @endif>
+                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_country" value="{{old('shipper_country') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_country" @if(isset($shipper)) readonly @endif>
                                                                         @error('booking.shipper_id')<div class="invalid-feedback" style="position: relative; width:400%">{{ $message }}</div>@enderror
                                                                     </div>
                                                                     <div class="col-md-3 pr-0">
-                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_code" value="{{old('shipper_code') ?? $shipper->customer_code ?? ''}}" type="text" name="shipper_code" @if(isset($booking)) readonly @endif>
+                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_code" value="{{old('shipper_code') ?? $shipper->customer_code ?? ''}}" type="text" name="shipper_code" @if(isset($shipper)) readonly @endif>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <button type="button" class="btn btn-primary" id="shipper_search" @if(isset($booking)) disabled @endif>Search</button>
+                                                                        <button type="button" class="btn btn-primary" id="shipper_search" @if(isset($shipper)) disabled @endif>Search</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
