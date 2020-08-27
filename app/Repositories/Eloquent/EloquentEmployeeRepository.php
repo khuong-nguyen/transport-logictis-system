@@ -54,4 +54,22 @@ class EloquentEmployeeRepository extends EloquentBaseRepository implements Emplo
     public function search($data) {
         return $this->model->where(['employee_code' => $data['code'], 'department_code' => $data['type']])->first();
     }
+    
+    public function inquirySearch(Request $request) :LengthAwarePaginator
+    {
+        $query = $this->model->query();
+        
+        $search = $request->get('search');
+        
+        if (isset($search['columns'])) {
+            foreach ($search['columns'] as $key => $value)
+            {
+                if ($value != null)
+                {
+                    $query->where($key,'=',$value);
+                }
+            }
+        }
+        return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
+    }
 }

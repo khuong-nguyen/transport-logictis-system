@@ -387,7 +387,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-4 pt-0 pr-0 col-form-label @if($errors->has('booking.sailling_due_date')) is-invalid @endif" for="pick_up_dt">M'Ty Pick up DT </label>
+                                                            <label class="col-md-4 pt-0 pr-0 col-form-label @if($errors->has('booking.pick_up_dt')) is-invalid @endif" for="pick_up_dt">M'Ty Pick up DT </label>
                                                             <div class="col-md-8">
                                                                 <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]">
                                                             </div>

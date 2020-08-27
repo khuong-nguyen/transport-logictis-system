@@ -119,17 +119,6 @@ class TransportScheduleRegistrationController extends Controller
                 $errorFlash['booking'] = 'Could not find this Booking No.';
             }
             
-            /* if ($driverNo) {
-                $bookingContainerDetails['data_driver'] = $this->employeeRepository->search(['code' => $driverNo, 'type' => 'DRIVER']);
-                if (!$bookingContainerDetails['data_driver']) {
-                    $errorFlash['driver'] = 'Could not find this Driver No.';
-                }
-            } else if ($containerTruckNo) {
-                $bookingContainerDetails['data_container_truck'] = $this->fixedAssetRepository->search(['code' => $containerTruckNo, 'type' => 'TRUCK']);
-                if (!$bookingContainerDetails['data_container_truck']) {
-                    $errorFlash['container_truck'] = 'Could not find this Container Truck.';
-                }
-            } */
         }
         
         
@@ -194,19 +183,6 @@ class TransportScheduleRegistrationController extends Controller
             try {
                 $driver = '';
                 $container = '';
-                /* if ($request->has('container')) {
-                    $container = $this->fixedAssetRepository->find($request->container);
-                    if ($container) {
-                        $redirectLink = $redirectLink.'&containerTruckNo='.$container->fixed_asset_code;
-                    }
-                }
-
-                if ($request->has('driver')) {
-                    $driver = $this->employeeRepository->find($request->driver);
-                    if ($driver) {
-                        $redirectLink = $redirectLink.'&driverNo='.$driver->employee_code;
-                    }
-                } */
                 
                 $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
 

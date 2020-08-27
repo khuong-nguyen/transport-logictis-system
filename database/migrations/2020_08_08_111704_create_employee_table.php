@@ -20,11 +20,15 @@ class CreateEmployeeTable extends Migration
             $table->string('employee_code', 50)->unique();
             $table->string('email', 100)->nullable();
             $table->string('tel', 30)->nullable();
+            $table->date('birthday')->nullable();
+            $table->string('sex',10)->default('MALE')->nullable()->comment('[MALE - FEMALE]');
+            $table->string('card_no',50)->nullable();
             $table->string('tax_code', 50)->nullable();
             $table->string('country_code', 30)->nullable();
             $table->string('city', 30)->nullable();
             $table->string('zip_code', 50)->nullable();
             $table->string('department_code', 30)->comment('[DRIVER - HR - TRANSPORT - ACCOUNTING]');
+            $table->decimal('basic_salary',16,2)->default(0)->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->timestamp('deleted_at')->nullable();

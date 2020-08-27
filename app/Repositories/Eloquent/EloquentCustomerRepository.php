@@ -54,61 +54,6 @@ class EloquentCustomerRepository extends EloquentBaseRepository implements Custo
             }
         }
 
-        if (isset($search['shipper_customer_code']) && $search['shipper_customer_code'] != null)
-        {
-            $customer_code = $search['shipper_customer_code'];
-            $query->whereHas('shipper',function($q)use ($customer_code){
-                $q->where('customer_code', $customer_code);
-            });
-        }
-
-        if (isset($search['consignee_customer_code']) && $search['consignee_customer_code'] != null)
-        {
-            $customer_code = $search['consignee_customer_code'];
-            $query->whereHas('consignee',function($q) use ($customer_code){
-                $q->where('customer_code', $customer_code);
-            });
-        }
-
-        if (isset($search['forwarder_customer_code']) && $search['forwarder_customer_code'] != null)
-        {
-            $customer_code = $search['forwarder_customer_code'];
-            $query->whereHas('forwarders',function($q) use ($customer_code){
-                $q->where('customer_code', $customer_code);
-            });
-        }
-
-        if (isset($search['sailling_due_date'])) {
-            if ($search['sailling_due_date']['from'] != null)
-            {
-                $query->where('sailling_due_date','>=',$search['sailling_due_date']['from']);
-            }
-            if ($search['sailling_due_date']['to'] != null)
-            {
-                $query->where('sailling_due_date','<=',$search['sailling_due_date']['to']);
-            }
-        }
-
-        if (isset($search['pick_up_dt'])) {
-            if ($search['pick_up_dt']['from'] != null)
-            {
-                $query->where('pick_up_dt','>=',$search['pick_up_dt']['from']);
-            }
-            if ($search['pick_up_dt']['to'] != null)
-            {
-                $query->where('pick_up_dt','<=',$search['pick_up_dt']['to']);
-            }
-        }
-
-        if (isset($search['pol']) && $search['pol'] != null)
-        {
-            $query->where(DB::raw("CONCAT_WS( '' ,pol_1,pol_2)"), '=', $search['pol']);
-        }
-
-        if (isset($search['pod']) && $search['pod'] != null)
-        {
-            $query->where(DB::raw("CONCAT_WS( '' ,pod_1,pod_2)"), '=', $search['pol']);
-        }
         return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
     }
 

@@ -107,11 +107,11 @@
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.setting_employee')</a>
                 </li>
-<!--                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/employee/inquiry">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.employee_inquiry')</a>
-                </li> -->
+                </li>
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/fixed_asset/registration">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>

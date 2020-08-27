@@ -44,13 +44,37 @@
                                                     <div class="card-body border">
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <div class="form-group row">
+                                                            	<div class="form-group row">
                                                                     <div class="col-md-3">
                                                                         <label class="col-form-label required" for="employee_name">Employee Name</label>
                                                                     </div>
                                                                     <div class="col-md-9">
                                                                         <input class="form-control @if($errors->has('employee.employee_name')) is-invalid @endif" id="employee_name" value="{{old('employee.employee_name') ?? $employee->employee_name ?? ''}}" type="text" name="employee[employee_name]" required>
                                                                         @error('employee.employee_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="sex">Sex</label>
+                                                                    </div>
+                                                                    <div class="col-md-3 pr-0">
+                                                                        {{ Form::select('employee[sex]', $sexOptions,(empty($employee->sex) ? $sexOptionDefault : $selectedSexOption), ['class'=>'form-control']) }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="birthday">Birthday</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input class="form-control" id="birthday" value="{{old('employee.birthday') ?? $employee->birthday ?? ''}}" type="text" name="employee[birthday]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="card_no">Card No</label>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <input class="form-control" id="card_no" value="{{old('employee.card_no') ?? $employee->card_no ?? ''}}" type="text" name="employee[card_no]">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -137,6 +161,18 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="row">
+                                                        	<div class="col-md-6">
+                                                        		<div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="basic_salary">Basic Salary</label>
+                                                                    </div>
+                                                                    <div class="col-md-3 pr-0">
+                                                                        <input type="number" min="0" type="text" style="min-width: 100px" id = "basic_salary" value="{{old('employee.basic_salary') ?? $employee->basic_salary ?? 0}}" name="employee[basic_salary]">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -162,7 +198,20 @@
             </div>
         </div>
     </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     <script type="text/javascript">
+
     $('#sidebar').removeClass('c-sidebar-lg-show');
+
+    $(function () {
+
+        $('#birthday').datetimepicker({
+			viewMode: 'days',
+			format: 'DD/MM/YYYY'
+	    });
+    });
     </script>
+    
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/select2.full.min.js') }}"></script>
 @endsection

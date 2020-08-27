@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Http\Requests\EmployeeRequest;
+use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
@@ -72,14 +73,25 @@ class EmployeeController extends Controller
             "ACCOUNTING" => "Accounting",
         ];
         $departmentCodeOptionDefault = "DRIVER";
+        
+        //load default options for sex
+        $sexOptions = [
+            "MALE" => "Male",
+            "FEMALE" => "Female",
+        ];
+        $sexOptionDefault = "MALE";
 
-        return view('employee.employee_create',['countryCodeOptions' => $countryCodeOptions,
-                                                'countryCodeOptionDefault' => $countryCodeOptionDefault,
-                                                'cityCodeOptions' => $cityCodeOptions,
-                                                'cityCodeOptionDefault' => $cityCodeOptionDefault,
-                                                'departmentCodeOptions' => $departmentCodeOptions,
-                                                'departmentCodeOptionDefault' => $departmentCodeOptionDefault
-                                                ]);
+        return view('employee.employee_create',[
+            'countryCodeOptions' => $countryCodeOptions,
+            'countryCodeOptionDefault' => $countryCodeOptionDefault,
+            'cityCodeOptions' => $cityCodeOptions,
+            'cityCodeOptionDefault' => $cityCodeOptionDefault,
+            'departmentCodeOptions' => $departmentCodeOptions,
+            'departmentCodeOptionDefault' => $departmentCodeOptionDefault,
+            'sexOptions' => $sexOptions,
+            'sexOptionDefault' => $sexOptionDefault
+        ]);
+        
     }
 
     /**
@@ -95,6 +107,10 @@ class EmployeeController extends Controller
          $employeeCode = $this->employeeRepository->employeeCode();
 
          $employeeRequest["employee_code"] = $employeeCode;
+         
+         $birthday = !empty($employeeRequest["birthday"])? Carbon::createFromFormat('d/m/Y', $employeeRequest["birthday"]) : null ;
+         $employeeRequest["birthday"] = !empty($birthday) ? $birthday->format('Y-m-d'):null;
+         
          $employee =   $this->employeeRepository->create($employeeRequest);
 
          return redirect('/employee/registration/'.$employee->id);
@@ -133,14 +149,26 @@ class EmployeeController extends Controller
             "ACCOUNTING" => "Accounting",
         ];
         $selectedDepartmentCodeOption = $employee->department_code;
-
+        
+        //load default options for sex
+        $sexOptions = [
+            "MALE" => "Male",
+            "FEMALE" => "Female"
+        ];
+        $selectedSexOption = $employee->sex;
+        
+        $birthday= !empty($employee->birthday) ? Carbon::createFromFormat('Y-m-d', $employee->birthday) : "";
+        $employee->birthday = !empty($birthday) ? $birthday->format('d/m/Y') : "";
+        
         return view('employee.employee_create',['employee' => $employee,
             'countryCodeOptions' => $countryCodeOptions,
             'selectedCountryCodeOption' => $selectedCountryCodeOption,
             'cityCodeOptions' => $cityCodeOptions,
             'selectedCityCodeOption' => $selectedCityCodeOption,
             'departmentCodeOptions' => $departmentCodeOptions,
-            'selectedDepartmentCodeOption' => $selectedDepartmentCodeOption
+            'selectedDepartmentCodeOption' => $selectedDepartmentCodeOption,
+            'sexOptions' => $sexOptions,
+            'selectedSexOption' => $selectedSexOption
         ]);
     }
 
@@ -154,7 +182,12 @@ class EmployeeController extends Controller
     public function update(EmployeeRequest $request,$id)
     {
         $request = $request->all();
+        
         $employeeRequest =  $request['employee'];
+        
+        $birthday = !empty($employeeRequest["birthday"])? Carbon::createFromFormat('d/m/Y', $employeeRequest["birthday"]) : null ;
+        $employeeRequest["birthday"] = !empty($birthday) ? $birthday->format('Y-m-d'):null;
+        
         $employee =   $this->employeeRepository->update($this->employeeRepository->find($id),$employeeRequest);
 
         //load default options for country_code
@@ -181,6 +214,13 @@ class EmployeeController extends Controller
             "ACCOUNTING" => "Accounting",
         ];
         $selectedDepartmentCodeOption = $employee->department_code;
+        
+        //load default options for sex
+        $sexOptions = [
+            "MALE" => "Male",
+            "FEMALE" => "Female"
+        ];
+        $selectedSexOption = $employee->sex;
 
         return view('employee.employee_create',['employee' => $employee,
             'countryCodeOptions' => $countryCodeOptions,
@@ -188,7 +228,9 @@ class EmployeeController extends Controller
             'cityCodeOptions' => $cityCodeOptions,
             'selectedCityCodeOption' => $selectedCityCodeOption,
             'departmentCodeOptions' => $departmentCodeOptions,
-            'selectedDepartmentCodeOption' => $selectedDepartmentCodeOption
+            'selectedDepartmentCodeOption' => $selectedDepartmentCodeOption,
+            'sexOptions' => $sexOptions,
+            'selectedSexOption' => $selectedSexOption
         ]);
     }
 
