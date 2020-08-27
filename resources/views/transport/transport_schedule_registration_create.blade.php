@@ -209,13 +209,13 @@
                                                                         <td>{{ $list['container_no'] }}</td>
                                                                         <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
                                                                         <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$i?>][pickup_plan]" class="form-control pickup_plan">
+                                                                            <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$i?>][pickup_plan]" class="form-control pickup_plan" autocomplete = "off">
                                                                         </td>
                                                                         <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$i?>][delivery_plan]" class="form-control delivery_plan">
+                                                                            <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$i?>][delivery_plan]" class="form-control delivery_plan" autocomplete = "off">
                                                                         </td>
                                                                         <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$i?>][completed_date]" class="form-control completed_date">
+                                                                            <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$i?>][completed_date]" class="form-control completed_date" autocomplete = "off">
                                                                         </td>
                                                                         <td style="position: relative">
                                                                             <input type="number" min="0" type="text" style="min-width: 100px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$i?>][transport_cost]" class="form-control transport_cost">
