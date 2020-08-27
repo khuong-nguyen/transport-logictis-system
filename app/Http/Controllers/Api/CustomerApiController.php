@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Repositories\CustomerRepository;
 use Illuminate\Http\Request;
+use App\Customer;
 
 class CustomerApiController extends Controller
 {
@@ -32,9 +33,17 @@ class CustomerApiController extends Controller
      */
     public function search(Request $request)
     {
-        if($request->get('country') && $request->get('code'))
+        if($request->get('code'))
             {
-                return $this->customerRepository->search($request->get('country'), $request->get('code'));
+                return $this->customerRepository->search($request->get('code'));
             }
+    }
+    
+    public function autocompleteCustomerNo(Request $request){
+        $data = Customer::select("customer_code as name")
+        ->where("customer_code","LIKE","%{$request->input('query')}%")
+        ->get();
+        
+        return response()->json($data);
     }
 }

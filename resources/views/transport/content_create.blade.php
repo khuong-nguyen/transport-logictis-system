@@ -5,8 +5,8 @@
                 <label class="col-form-label required" for="booking_no">Booking No:</label>
             </div>
             <div class="col-md-2 col-sm-3">
-                <input class="form-control @if(isset($searchError)) is-invalid @endif" id="booking_no" type="text" name="booking_no" @if (isset($booking)) disabled @endif
-                       value="{{ isset($search) ? $search : '' }}" >
+                <input class="form-control booking_no @if(isset($searchError)) is-invalid @endif" id="booking_no" type="text" name="booking_no" @if (isset($booking)) disabled @endif
+                       value="{{ isset($search) ? $search : '' }}" autocomplete = "off">
                 @if(isset($searchError))<div class="invalid-feedback">{{ $searchError }}</div>@endif
             </div>
             <div class="col-md-2">
@@ -414,4 +414,14 @@
             }
         })
     })
+</script>
+<script type="text/javascript">
+    var path = "{{ route('autocompleteBookingNo') }}";
+    $('input.booking_no').typeahead({
+        source:  function (query, process) {
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
 </script>

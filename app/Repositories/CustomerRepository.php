@@ -14,7 +14,7 @@ interface CustomerRepository extends BaseRepository
      */
     public function serverPaginationFilteringFor(Request $request) :LengthAwarePaginator;
 
-    public function search(string $country, string $code);
+    public function search(string $code);
     
     public function inquirySearch(Request $request):LengthAwarePaginator;
 

@@ -112,7 +112,7 @@ class CustomerController extends Controller
         //load default options for country_code
         $countryCodeOptions = [
             "VN" => "Viet Nam",
-            "HK" => "Hong Khong"
+            "HK" => "Hong Kong"
         ];
         $selectedCountryCodeOption = $customer->country_code;
 
@@ -161,7 +161,7 @@ class CustomerController extends Controller
             //load default options for country_code
             $countryCodeOptions = [
                 "VN" => "Viet Nam",
-                "HK" => "Hong Khong"
+                "HK" => "Hong Kong"
             ];
             $selectedCountryCodeOption = $customer->country_code;
 

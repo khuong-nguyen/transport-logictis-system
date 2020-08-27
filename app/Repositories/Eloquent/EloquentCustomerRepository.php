@@ -26,9 +26,9 @@ class EloquentCustomerRepository extends EloquentBaseRepository implements Custo
         return $categories->paginate($request->get('per_page', 10));
     }
 
-    public function search(string $country, string $code)
+    public function search(string $code)
     {
-        $query =  $this->model->query()->where('customer_code','=',$country.$code);
+        $query =  $this->model->query()->where('customer_code','=',$code);
 
         return $query ? $query->first() :[];
     }

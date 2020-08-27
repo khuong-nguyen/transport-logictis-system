@@ -15,8 +15,11 @@
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('coreui/css/coreui.css') }}" rel="stylesheet">
+    <link href="{{ asset('bootstrap/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" />
+    
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
 </head>
 <body class="c-app">
 @include('layout.sidebar')

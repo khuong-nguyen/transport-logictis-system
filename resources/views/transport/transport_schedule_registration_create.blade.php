@@ -288,7 +288,6 @@
 @push('scripts')
     <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     <style>
         .form-control.is-warning {
             padding-right: calc(1.5em + 0.75rem);

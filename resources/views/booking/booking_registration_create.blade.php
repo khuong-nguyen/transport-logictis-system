@@ -188,53 +188,42 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-2 pr-0">
-                                                                <label class="col-form-label">SHBR</label>
+                                                                <label class="col-form-label required">SHBR</label>
                                                             </div>
 
                                                             <div class="col-md-2 pr-0">
-                                                                <input class="form-control" id="SHBR_country_code" type="text"  value="{{ $shipper->country_code ?? ''}}" name="SHBR[country]" readonly >
-                                                            </div>
-
-                                                            <div class="col-md-2 pr-0">
-                                                                <input class="form-control" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" readonly >
+                                                            	<div class = "container "><input class="form-control shipper" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" autocomplete = "off" ></div>
+                                                                
                                                             </div>
 
                                                             <div class="col-md-4 pr-0">
-                                                                <input class="form-control" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" readonly >
+                                                                <input class="form-control" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" >
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-2 pr-0">
-                                                                <label class="col-form-label" >FWDR</label>
+                                                                <label class="col-form-label required" >FWDR</label>
                                                             </div>
 
                                                             <div class="col-md-2 pr-0">
-                                                                <input class="form-control" id="FWDR_country_code" type="text" value="{{ $forwarder->country_code ?? ''}}" name="FWDR[country]" readonly>
-                                                            </div>
-
-                                                            <div class="col-md-2 pr-0">
-                                                                <input class="form-control" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" readonly>
+                                                                <div class = "container "><input class="form-control forwarder" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" autocomplete = "off"></div>
                                                             </div>
 
                                                             <div class="col-md-4 pr-0">
-                                                                <input class="form-control" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]" readonly>
+                                                                <input class="form-control" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-2 pr-0">
-                                                                <label class="col-form-label" >CNEE</label>
+                                                                <label class="col-form-label required" >CNEE</label>
                                                             </div>
 
                                                             <div class="col-md-2 pr-0">
-                                                                <input class="form-control" id="CNEE_country_code" type="text" value="{{ $consignee->country_code ?? ''}}" name="CNEE[country]" readonly>
-                                                            </div>
-
-                                                            <div class="col-md-2 pr-0">
-                                                                <input class="form-control" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" readonly>
+                                                                <div class = "container "><input class="form-control consignee" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" autocomplete = "off"></div>
                                                             </div>
 
                                                             <div class="col-md-4 pr-0">
-                                                                <input class="form-control" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]" readonly>
+                                                                <input class="form-control" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -470,16 +459,6 @@
                                                                         <input type="hidden" value="{{old('booking.shipper_id')??$booking->shipper_id ?? ''}}" id="shipper_id" name="booking[shipper_id]">
                                                                         <label class="col-form-label required" for="shipper_country">Shipper</label>
                                                                     </div>
-                                                                    <div class="col-md-3 pr-0">
-                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_country" value="{{old('shipper_country') ?? $shipper->country_code ?? ''}}" type="text" name="shipper_country" @if(isset($shipper)) readonly @endif>
-                                                                        @error('booking.shipper_id')<div class="invalid-feedback" style="position: relative; width:400%">{{ $message }}</div>@enderror
-                                                                    </div>
-                                                                    <div class="col-md-3 pr-0">
-                                                                        <input class="form-control @if($errors->has('booking.shipper_id')) is-invalid @endif" id="shipper_code" value="{{old('shipper_code') ?? $shipper->customer_code ?? ''}}" type="text" name="shipper_code" @if(isset($shipper)) readonly @endif>
-                                                                    </div>
-                                                                    <div class="col-md-3">
-                                                                        <button type="button" class="btn btn-primary" id="shipper_search" @if(isset($shipper)) disabled @endif>Search</button>
-                                                                    </div>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
@@ -584,16 +563,6 @@
                                                                     <div class="col-md-3">
                                                                         <input type="hidden" value="{{old('booking.consignee_id')??$booking->consignee_id ?? ''}}" name="booking[consignee_id]"  id="consignee_id">
                                                                         <label class="col-form-label" for="text-input">Consignee</label>
-                                                                    </div>
-                                                                    <div class="col-md-3 pr-0">
-                                                                        <input class="form-control @if($errors->has('booking.consignee_id')) is-invalid @endif" id="consignee_country" value="{{old('consignee_country') ?? $consignee->country_code ?? ''}}" type="text" name="consignee_country" @if(isset($booking)) @endif>
-                                                                        @error('booking.consignee_id')<div class="invalid-feedback" style="position: relative; width:400%">{{ $message }}</div>@enderror
-                                                                    </div>
-                                                                    <div class="col-md-3 pr-0">
-                                                                        <input class="form-control @if($errors->has('booking.consignee_id')) is-invalid @endif" id="consignee_code" value="{{old('consignee_code') ?? $consignee->customer_code ?? ''}}" type="text" name="consignee_code" @if(isset($booking)) @endif>
-                                                                    </div>
-                                                                    <div class="col-md-3">
-                                                                        <button type="button" class="btn btn-primary" id="consignee_search" @if(isset($consignee)) disabled @endif>Search</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -701,19 +670,6 @@
                                                             <div class="col-md-3">
                                                                 <label class="col-form-label" for="forwarder_country">Forwarder</label>
                                                                 <input type="hidden" value="{{old('booking.forwarder_id')??$booking->forwarder_id ?? ''}}" name="booking[forwarder_id]" id="forwarder_id">
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                <div class="form-row row">
-                                                                    <div class="col-sm-4">
-                                                                        <input class="form-control" id="forwarder_country" value="{{old('forwarder.country') ?? $forwarder->country_code ?? ''}}" type="text" name="forwarder[country]" @if(isset($forwarder)) @endif>
-                                                                    </div>
-                                                                    <div class="col-sm-4">
-                                                                        <input class="form-control" id="forwarder_code" value="{{old('forwarder.customer_code') ?? $forwarder->customer_code ?? ''}}" type="text" name="forwarder[code]" @if(isset($forwarder)) @endif>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <button type="button" class="btn btn-primary" id="forwarder_search" @if(isset($forwarder)) disabled @endif>Search</button>
-                                                                    </div>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -877,7 +833,7 @@
                         $.each(result, function (key, value) {
                             $('#'+key).val(value);
                         })
-                        $('#SHBR_country_code').val(result.country_code)
+                        
                         $('#SHBR_customer_code').val(result.customer_code)
                         $('#SHBR_customer_legal_english_name').val(result.customer_legal_english_name)
                     }
@@ -945,6 +901,62 @@
         	}
             $(elem).parent('td').parent('tr').remove();
         }
+
+        $('#SHBR_customer_code').change(function (){
+            $.ajax({
+                url: "/api/customer/code",
+                dataType: "json",
+                method: 'get',
+                data: {
+                    code: $('#SHBR_customer_code').val()
+                },
+                success: function (result) {
+                    
+                    $('#shipper_id').val(result.id);
+                    $.each(result, function (key, value) {
+                        $('#'+key).val(value);
+                    })
+                    $('#SHBR_customer_code').val(result.customer_code)
+                    $('#SHBR_customer_legal_english_name').val(result.customer_legal_english_name)
+                }
+            });
+        })
+        
+        $('#CNEE_customer_code').change(function (){
+                $.ajax({
+                    url: "/api/customer/code",
+                    dataType: "json",
+                    method: 'get',
+                    data: {
+                        code: $('#CNEE_customer_code').val()
+                    },
+                    success: function (result) {
+                        $('#consignee_id').val(result.id);
+                        $.each(result, function (key, value) {
+                            $('#consignee_'+key).val(value);
+                        })
+                        $('#CNEE_customer_code').val(result.customer_code)
+                        $('#CNEE_customer_legal_english_name').val(result.customer_legal_english_name)
+                    }
+                });
+            })
+            
+            $('#FWDR_customer_code').change(function (){
+                $.ajax({
+                    url: "/api/customer/code",
+                    dataType: "json",
+                    method: 'get',
+                    data: {
+                        code: $('#FWDR_customer_code').val()
+                    },
+                    success: function (result) {
+                        $('#forwarder_id').val(result.id);
+                        $('#forwarder_customer_address').val(result.customer_address);
+                        $('#FWDR_customer_code').val(result.customer_code)
+                        $('#FWDR_customer_legal_english_name').val(result.customer_legal_english_name)
+                    }
+                });
+            })
     </script>
     
     <script type="text/javascript">
@@ -1015,7 +1027,30 @@
             $('#del_2').val(del2);
         });
 	</script>
-
+	<script type="text/javascript">
+    var path = "{{ route('autocompleteCustomerNo') }}";
+    $('input.shipper').typeahead({
+        source:  function (query, process) {
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+    $('input.consignee').typeahead({
+        source:  function (query, process) {
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+    $('input.forwarder').typeahead({
+        source:  function (query, process) {
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+    </script>
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     <script src="{{ asset('js/select2.full.min.js') }}"></script>
 
