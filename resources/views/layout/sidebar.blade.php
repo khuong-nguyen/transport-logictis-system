@@ -117,11 +117,11 @@
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.setting_fixed_asset')</a>
                 </li>
-<!--                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/fixed_asset/inquiry">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.fixed_asset_inquiry')</a>
-                </li> -->
+                </li>
             </ul>
         </li>
     </ul>

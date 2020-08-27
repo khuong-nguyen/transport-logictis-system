@@ -34,4 +34,22 @@ class EloquentFixedAssetRepository extends EloquentBaseRepository implements Fix
     public function search($data) {
         return $this->model->where(['fixed_asset_code' => $data['code'], 'fixed_asset_type' => $data['type']])->first();
     }
+    
+    public function inquirySearch(Request $request) :LengthAwarePaginator
+    {
+        $query = $this->model->query();
+        
+        $search = $request->get('search');
+        
+        if (isset($search['columns'])) {
+            foreach ($search['columns'] as $key => $value)
+            {
+                if ($value != null)
+                {
+                    $query->where($key,'=',$value);
+                }
+            }
+        }
+        return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
+    }
 }

@@ -13,5 +13,7 @@ interface FixedAssetRepository extends BaseRepository
      * @return LengthAwarePaginator
      */
     public function serverPaginationFilteringFor(Request $request) :LengthAwarePaginator;
+    
+    public function inquirySearch(Request $request):LengthAwarePaginator;
 
 }
