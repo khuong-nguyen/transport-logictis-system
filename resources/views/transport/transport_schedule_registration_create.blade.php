@@ -40,6 +40,7 @@
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <button type="button" class="btn btn-primary btn-search-booking">Search</button>
+                                                                
                                                             </div>
                                                         </div>
                                                 	</div>
@@ -77,6 +78,97 @@
                                                 	</div>
                                                 	</div>
                                                 </div>
+@php
+	$listContainers = [];
+	$recordNumber = 0;
+@endphp
+                                                
+@if (isset($bookingContainerDetails))
+    @//dd($bookingContainerDetails);
+    @foreach($bookingContainerDetails as $bookingContainerDetail)
+             
+        @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)
+            @php
+                $containerCode = isset($containerBooking['container']) && !empty($containerBooking['container']) ? $containerBooking['container']['container_code']:'';
+                
+                $vol = $containerBooking['vol'];
+                
+                for($row = 1; $row <= $vol; $row++){
+                	if (is_array($containerBooking['details']) && !empty($containerBooking['details'])) {
+                        foreach ($containerBooking['details'] as $detail) {
+                            $detail['container_code'] = $containerCode;
+                            if ($detail['schedules']) {
+                                $driver = \App\Employee::find($detail['schedules']['driver_id']);
+                                $truck = \App\FixedAsset::find($detail['schedules']['container_truck_id']);
+                                $detail['container_truck_id'] = $detail['schedules']['container_truck_id'];
+                                $detail['id'] = $detail['schedules']['id'];
+                                $detail['booking_container_detail_id'] = $detail['schedules']['booking_container_detail_id'];
+                                $detail['container_truck_code'] = $truck->fixed_asset_code;
+                                $detail['driver_id'] = $detail['schedules']['driver_id'];
+                                $detail['driver_code'] = $driver->employee_code;
+                                $detail['driver_name'] = $detail['schedules']['driver_name'];
+                                $detail['pickup_plan'] = $detail['schedules']['pickup_plan'];
+                                $detail['delivery_plan'] = $detail['schedules']['delivery_plan'];
+                                $detail['container_no'] = $detail['container_no'];
+                                $detail['completed_date'] = $detail['schedules']['completed_date'];
+                                $detail['transport_cost'] = $detail['schedules']['transport_cost'];
+                                $detail['pickup_address'] = $detail['schedules']['pickup_address'];
+                                $detail['delivery_address'] = $detail['schedules']['delivery_address'];
+                            } else {
+                                $detail['booking_container_detail_id'] = $detail['id'];
+                                $detail['container_no'] = $detail['container_no'];
+                                $detail['container_truck_code'] = '';
+                                $detail['container_truck_id'] = '';
+                                $detail['driver_code'] = '';
+                                $detail['driver_name'] = '';
+                                $detail['driver_id'] = '';
+                                $detail['id'] = '';
+                                $detail['pickup_plan'] = '';
+                                $detail['delivery_plan'] = '';
+                                $detail['completed_date'] = '';
+                                $detail['transport_cost'] = '';
+                                $detail['pickup_address'] = '';
+                                $detail['delivery_address'] = '';
+                            }
+    						$row++;
+                            $listContainers[] = $detail;
+    
+                        }
+                	}else{
+                	
+                		$detail['booking_container_detail_id'] = null;
+                		$detail['container_id'] = null;
+                		$detail['booking_id'] = $containerBooking['booking_id'];
+                		$detail['booking_no'] = $bookingContainerDetail['booking_no'];
+                		$detail['booking_container_id'] = $containerBooking['id'];
+                		$detail['container_code'] = $containerBooking['container']['container_code'];
+                		
+                        $detail['container_no'] = '';
+                        $detail['container_truck_code'] = '';
+                        $detail['container_truck_id'] = '';
+                        $detail['driver_code'] = '';
+                        $detail['driver_name'] = '';
+                        $detail['driver_id'] = '';
+                        $detail['id'] = '';
+                        $detail['pickup_plan'] = '';
+                        $detail['delivery_plan'] = '';
+                        $detail['completed_date'] = '';
+                        $detail['transport_cost'] = '';
+                        $detail['pickup_address'] = '';
+                        $detail['delivery_address'] = '';
+                        $listContainers[] = $detail;
+                	}
+                }
+        	@endphp
+        @endforeach
+    
+     @endforeach
+@endif
+
+                                                <form class="form-transport-container" action="/booking/transport/schedule/registration" method="post">
+    												@csrf
+    												@method('PUT')
+    												
                                                 <table class="table table-bordered table-container-list table-responsive">
                                                     <thead>
                                                     <tr>
@@ -97,170 +189,77 @@
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
-                                                @if (isset($bookingContainerDetails))
-                                      
-                                                        <form class="form-transport-container" action="/booking/transport/schedule/registration" method="post">
-                                                        
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <input type="hidden" name="search" value="{{ isset($params) ? json_encode($params) : '' }}">
-                                                        @php
-                                                            $listContainers = [];
-                                                            $addFull = false;
-                                                            $i = 1;
-                                                        @endphp
-                                                        @foreach($bookingContainerDetails as $bookingContainerDetail)
-                                                        
-                                                                        @php $viewDetailBooking[$bookingContainerDetail['id']] = $bookingContainerDetail; @endphp
-                                                                        
-                                                                        @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)
-                                                                            @php
-                                                                                $containerCode = isset($containerBooking['container']) && !empty($containerBooking['container']) ? $containerBooking['container']['container_code']:'';
-                                                                                $vol = $containerBooking['vol'];
-                                                                                if (is_array($containerBooking['details']) && !empty($containerBooking['details'])) {
-                                                                                    foreach ($containerBooking['details'] as $detail) {
-                                                                                        $detail['container_code'] = $containerCode;
-                                                                                        if ($detail['schedules']) {
-                                                                                            $driver = \App\Employee::find($detail['schedules']['driver_id']);
-                                                                                            $truck = \App\FixedAsset::find($detail['schedules']['container_truck_id']);
-                                                                                            $detail['container_truck_id'] = $detail['schedules']['container_truck_id'];
-                                                                                            $detail['id'] = $detail['schedules']['id'];
-                                                                                            $detail['booking_container_detail_id'] = $detail['schedules']['booking_container_detail_id'];
-                                                                                            $detail['container_truck_code'] = $truck->fixed_asset_code;
-                                                                                            $detail['driver_id'] = $detail['schedules']['driver_id'];
-                                                                                            $detail['driver_code'] = $driver->employee_code;
-                                                                                            $detail['driver_name'] = $detail['schedules']['driver_name'];
-                                                                                            $detail['pickup_plan'] = $detail['schedules']['pickup_plan'];
-                                                                                            $detail['delivery_plan'] = $detail['schedules']['delivery_plan'];
-                                                                                            $detail['container_no'] = $detail['container_no'];
-                                                                                            $detail['completed_date'] = $detail['schedules']['completed_date'];
-                                                                                            $detail['transport_cost'] = $detail['schedules']['transport_cost'];
-                                                                                            $detail['pickup_address'] = $detail['schedules']['pickup_address'];
-                                                                                            $detail['delivery_address'] = $detail['schedules']['delivery_address'];
-                                                                                        } else {
-                                                                                            $detail['booking_container_detail_id'] = $detail['id'];
-                                                                                            $detail['container_no'] = $detail['container_no'];
-                                                                                            $detail['container_truck_code'] = '';
-                                                                                            $detail['container_truck_id'] = '';
-                                                                                            $detail['driver_code'] = '';
-                                                                                            $detail['driver_name'] = '';
-                                                                                            $detail['driver_id'] = '';
-                                                                                            $detail['id'] = '';
-                                                                                            $detail['pickup_plan'] = '';
-                                                                                            $detail['delivery_plan'] = '';
-                                                                                            $detail['completed_date'] = '';
-                                                                                            $detail['transport_cost'] = '';
-                                                                                            $detail['pickup_address'] = '';
-                                                                                            $detail['delivery_address'] = '';
-                                                                                        }
-
-                                                                                        $listContainers[] = $detail;
-                                                                                        $vol--;
-                                                                                    }
-                                                                                }else{
-                                                                                	for($row = 1; $row <= $vol; $row++){
-                                                                                		$detail['booking_container_detail_id'] = null;
-                                                                                		$detail['container_id'] = null;
-                                                                                		$detail['booking_id'] = $containerBooking['booking_id'];
-                                                                                		$detail['booking_no'] = $bookingContainerDetail['booking_no'];
-                                                                                		$detail['booking_container_id'] = $containerBooking['id'];
-                                                                                		$detail['container_code'] = $containerBooking['container']['container_code'];
-                                                                                		
-                                                                                        $detail['container_no'] = '';
-                                                                                        $detail['container_truck_code'] = '';
-                                                                                        $detail['container_truck_id'] = '';
-                                                                                        $detail['driver_code'] = '';
-                                                                                        $detail['driver_name'] = '';
-                                                                                        $detail['driver_id'] = '';
-                                                                                        $detail['id'] = '';
-                                                                                        $detail['pickup_plan'] = '';
-                                                                                        $detail['delivery_plan'] = '';
-                                                                                        $detail['completed_date'] = '';
-                                                                                        $detail['transport_cost'] = '';
-                                                                                        $detail['pickup_address'] = '';
-                                                                                        $detail['delivery_address'] = '';
-                                                                                        $listContainers[] = $detail;
-                                                                                	}
-                                                                                }
-                                                                            @endphp
-                                                                            
-                                                                        @endforeach
-                                
-
-                                                                <tbody>
-																
-                                                                @foreach($listContainers as $list)
-                                                                	
-                                                                    <tr onmouseOver = "viewBookingDetail({{ $list['booking_id'] }})">
-                                                                        <input type="hidden" name="schedules[<?=$i?>][container_id]" value="{{ $list['container_id'] }}">
-                                                                        <input type="hidden" name="schedules[<?=$i?>][container_no]" value="{{ $list['container_no'] }}">
-                                                                        <input type="hidden" name="schedules[<?=$i?>][booking_container_detail_id]" value="{{ $list['booking_container_detail_id'] }}">
-                                                                        <input type="hidden" name="schedules[<?=$i?>][booking_id]" value="{{ $list['booking_id'] }}">
-                                                                        <input type="hidden" name="schedules[<?=$i?>][booking_container_id]" value="{{ $list['booking_container_id'] }}">
-                                                                        <input type="hidden" name="schedules[<?=$i?>][booking_no]" value="{{ $list['booking_no'] }}">
-                                                                        <input type="hidden" name="schedules[<?=$i?>][position]" value="{{ $i }}">
-                                                                        <input type="hidden" name="schedules[<?=$i?>][driver_name]" class="driver_name" value="{{ $list['driver_name'] }}">
-                                                                        <input type="hidden" class="driver_id" name="schedules[<?=$i?>][driver_id]" class="driver_id" value="{{ $list['driver_id'] }}">
-                                                                        <input type="hidden" class="id" name="schedules[<?=$i?>][id]" value="{{ $list['id'] }}">
-                                                                        <input type="hidden" class="container_truck_id" name="schedules[<?=$i?>][container_truck_id]" value="{{ $list['container_truck_id'] }}">
-                                                                        <td>{{ $i }}</td>
-                                                                        <td>{{ $bookingContainerDetail['booking_no'] }}</td>
-                                                                        <td>{{ $list['container_code'] }}</td>
-                                                                        <td>{{ $list['container_no'] }}</td>
-                                                                        <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
-                                                                        <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$i?>][pickup_plan]" class="form-control pickup_plan" autocomplete = "off">
-                                                                        </td>
-                                                                        <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$i?>][delivery_plan]" class="form-control delivery_plan" autocomplete = "off">
-                                                                        </td>
-                                                                        <td style="position: relative">
-                                                                            <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$i?>][completed_date]" class="form-control completed_date" autocomplete = "off">
-                                                                        </td>
-                                                                        <td style="position: relative">
-                                                                            <input type="number" min="0" type="text" style="min-width: 100px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$i?>][transport_cost]" class="form-control transport_cost">
-                                                                        </td>
-                                                                        <td style="position: relative">
-                                                                            <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$i?>][pickup_address]" class="form-control pickup_address">
-                                                                        </td>
-                                                                       <td style="position: relative">
-                                                                            <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$i?>][delivery_address]" class="form-control delivery_address">
-                                                                        </td>
-                                                                        <td style="position: relative">
-                                                                            <div class = "container">
-                                                                            	<input type="text" style="min-width: 150px" name="schedules[<?=$i?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code" autocomplete="off">
-                                                                            </div>
-                                                                    	</td>
-                                                                        <td style="position: relative">
-                                                                        	<div class = "container">
-                                                                        		<input type="text" style="min-width: 150px" name="schedules[<?=$i?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code" autocomplete="off">
-                                                                    		</div>
-                                                                		</td>
-                                                                    		
-                                                                        <td class="driver_name_text">{{ $list['driver_name'] }}</td>
-                                                                        <td>@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
-                                                                    </tr>
-                                                                    @php
-                                                                        $i++;
-                                                                    @endphp
-                                                                @endforeach
-                                                                </tbody>
-
-                                                             @endforeach
-                                                         </table>
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="float-right">
-                                                                        @if ($i !== 1)
-                                                                        <button type="submit"  class="btn btn-primary">Save</button>
-                                                                    @endif
-                                                                        <a href="{{ asset('booking/transport/schedule/registration') }}" class="btn btn-secondary">Close</a>
-                                                                    </div>
+                                                    
+                                                    <tbody>
+                                                    @foreach($listContainers as $list)
+                                                    	
+                                                        <tr>
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][container_id]" value="{{ $list['container_id'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][container_no]" value="{{ $list['container_no'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_detail_id]" value="{{ $list['booking_container_detail_id'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_id]" value="{{ $list['booking_id'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_id]" value="{{ $list['booking_container_id'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_no]" value="{{ $list['booking_no'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][position]" value="{{ $recordNumber }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][driver_name]" class="driver_name" value="{{ $list['driver_name'] }}">
+                                                            <input type="hidden" class="driver_id" name="schedules[<?=$recordNumber?>][driver_id]" class="driver_id" value="{{ $list['driver_id'] }}">
+                                                            <input type="hidden" class="id" name="schedules[<?=$recordNumber?>][id]" value="{{ $list['id'] }}">
+                                                            <input type="hidden" class="container_truck_id" name="schedules[<?=$recordNumber?>][container_truck_id]" value="{{ $list['container_truck_id'] }}">
+                                                            <td>{{ $recordNumber + 1}}</td>
+                                                            <td>{{ $list['booking_no'] }}</td>
+                                                            <td>{{ $list['container_code'] }}</td>
+                                                            <td>{{ $list['container_no'] }}</td>
+                                                            <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
+                                                            <td style="position: relative">
+                                                                <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$recordNumber?>][pickup_plan]" class="form-control pickup_plan" autocomplete = "off">
+                                                            </td>
+                                                            <td style="position: relative">
+                                                                <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$recordNumber?>][delivery_plan]" class="form-control delivery_plan" autocomplete = "off">
+                                                            </td>
+                                                            <td style="position: relative">
+                                                                <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$recordNumber?>][completed_date]" class="form-control completed_date" autocomplete = "off">
+                                                            </td>
+                                                            <td style="position: relative">
+                                                                <input type="number" min="0" type="text" style="min-width: 100px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$recordNumber?>][transport_cost]" class="form-control transport_cost">
+                                                            </td>
+                                                            <td style="position: relative">
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$recordNumber?>][pickup_address]" class="form-control pickup_address">
+                                                            </td>
+                                                           <td style="position: relative">
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$recordNumber?>][delivery_address]" class="form-control delivery_address">
+                                                            </td>
+                                                            <td style="position: relative">
+                                                                <div class = "container">
+                                                                	<input type="text" style="min-width: 150px" name="schedules[<?=$recordNumber?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code" autocomplete="off">
                                                                 </div>
-                                                            </div>
-                                                           
-                                                        </form> 
-                                                @endif
+                                                        	</td>
+                                                            <td style="position: relative">
+                                                            	<div class = "container">
+                                                            		<input type="text" style="min-width: 150px" name="schedules[<?=$recordNumber?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code" autocomplete="off">
+                                                        		</div>
+                                                    		</td>
+                                                        		
+                                                            <td class="driver_name_text">{{ $list['driver_name'] }}</td>
+                                                            <td>@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
+                                                        </tr>
+                                                        @php
+                                                            $recordNumber++;
+                                                        @endphp
+                                                    @endforeach
+                                                    </tbody>
+                                                 </table>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="float-right">
+                                                        @if ($recordNumber !== 1)
+                                                            <button type="submit"  class="btn btn-primary">Save</button>
+                                                        @endif
+                                                            <a href="{{ asset('booking/transport/schedule/registration') }}" class="btn btn-secondary">Close</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="search" value="{{ isset($params) ? json_encode($params) : '' }}">           
+                                            </form> 
                                             </div>
                                         </div>
                                     </div>
@@ -318,18 +317,7 @@
 <script type="text/javascript">
 	$('#sidebar').removeClass('c-sidebar-lg-show');
 
-	function viewBookingDetail(booking_id){
-		$.ajax({
-            url:"/api/booking/" + booking_id,
-            type: 'get',
-            dataType: "json",
-            success: function( result) {
-            	$('#view_booking_no').text(result.data.booking_no);
-        		$('#view_pick_up_dt').text(result.data.pick_up_dt);
-        		$('#view_sailling_due_date').text(result.data.sailling_due_date);
-            }
-		});
-	}
+	var indexCurrentRow = -1;
 	
 	$(function () {
 		$('#bkg_created_date_from').datetimepicker({
@@ -492,72 +480,16 @@
             });
         });
 
-        $('.container_truck_code').on('change', function() {
-            let tr = $(this).closest('tr');
-            let val = $(this).val()
-            if (val !== '') {
-                $.ajax({
-                    url: '/fixed_asset/search',
-                    dataType: "json",
-                    method: 'GET',
-                    data: {
-                        'code': val,
-                        'type': 'TRUCK'
-                    },
-                    success: function (result) {
-                        if (result.data !== null) {
-                            tr.find('.container_truck_id').val(result.data.id)
-                            tr.find('.container_truck_code').removeClass('is-warning')
-                            tr.find('.container_truck_code').removeClass('is-invalid')
-                            tr.find('.container_truck_code').addClass('is-valid')
-                            callIsUsedProperty(tr.index());
-                        }
-                    },
-                    error: err => {
-                        tr.find('.container_truck_code').removeClass('is-warning')
-                        tr.find('.container_truck_code').removeClass('is-valid')
-                        tr.find('.container_truck_code').addClass('is-invalid')
-                        toastr.error(err.responseJSON.message)
-                    }
-                });
-            }
+        $('.driver_code').on('focus', function() {
+        		let tr = $(this).closest('tr');
+        		indexCurrentRow = tr.index();
+            });
+        $('.container_truck_code').on('focus', function() {
+    		let tr = $(this).closest('tr');
+    		indexCurrentRow = tr.index();
         });
 
-        $('.driver_code').on('change', function() {
-            let tr = $(this).closest('tr');
-            let val = $(this).val()
-            if (val !== '') {
-                $.ajax({
-                    url: '/employee/search',
-                    dataType: "json",
-                    method: 'GET',
-                    data: {
-                        'code': val,
-                        'type': 'DRIVER'
-                    },
-                    success: function (result) {
-                        if (result.data !== null) {
-                            tr.find('.driver_id').val(result.data.id);
-                            tr.find('.driver_name').val(result.data.employee_name);
-                            tr.find('.driver_name_text').html(result.data.employee_name);
-                            tr.find('.driver_code').removeClass('is-warning');
-                            tr.find('.driver_code').removeClass('is-invalid');
-                            tr.find('.driver_code').addClass('is-valid');
-                            callIsUsedProperty(tr.index());
-                        }
-                    },
-                    error: err => {
-                        tr.find('.driver_name_text').html('');
-                        tr.find('.driver_code').removeClass('is-warning')
-                        tr.find('.driver_code').removeClass('is-valid')
-                        tr.find('.driver_code').addClass('is-invalid')
-                        toastr.error(err.responseJSON.message)
-                    }
-                });
-            }
-
-        });
-
+        
         $('.btn-search-booking').on('click', e => {
 
             let bookingNo = $('input[name="booking_no"]:visible').val();
@@ -589,6 +521,27 @@
         return $.get(container_truck_code_path, { query: query }, function (data) {
                 return process(data);
             });
+        },
+        afterSelect: function (item) {
+        	$.ajax({
+                url: '/fixed_asset/search',
+                dataType: "json",
+                method: 'GET',
+                data: {
+                    'code': item.name,
+                    'type': 'TRUCK'
+                },
+                success: function (result) {
+                    if (result.data !== null) {
+                    	let tr = $('.table-container-list:visible tbody tr').eq(indexCurrentRow);
+                        tr.find('.container_truck_id').val(result.data.id)
+                        tr.find('.container_truck_code').removeClass('is-warning')
+                        tr.find('.container_truck_code').removeClass('is-invalid')
+                        tr.find('.container_truck_code').addClass('is-valid')
+                        callIsUsedProperty(indexCurrentRow);
+                    }
+                }
+            });
         }
     });
 
@@ -597,6 +550,30 @@
         source:  function (query, process) {
         return $.get(driver_code_path, { query: query }, function (data) {
                 return process(data);
+            });
+        },
+        afterSelect: function (item) {
+        	$.ajax({
+                url: '/employee/search',
+                dataType: "json",
+                method: 'GET',
+                data: {
+                    'code': item.name,
+                    'type': 'DRIVER'
+                },
+                success: function (result) {
+                    if (result.data !== null) {
+                    	let tr = $('.table-container-list:visible tbody tr').eq(indexCurrentRow);
+                    	
+                        tr.find('.driver_id').val(result.data.id);
+                        tr.find('.driver_name').val(result.data.employee_name);
+                        tr.find('.driver_name_text').html(result.data.employee_name);
+                        tr.find('.driver_code').removeClass('is-warning');
+                        tr.find('.driver_code').removeClass('is-invalid');
+                        tr.find('.driver_code').addClass('is-valid');
+                        callIsUsedProperty(indexCurrentRow);
+                    }
+                }
             });
         }
     });
