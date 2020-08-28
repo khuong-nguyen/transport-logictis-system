@@ -22,10 +22,10 @@ class CreateBookingContainerDetailsTable extends Migration
             $table->string('container_no', 50)->nullable();
             $table->string('seal_no_1', 50)->nullable();
             $table->string('seal_no_2', 50)->nullable();
-            $table->integer('package');
+            $table->integer('package')->nullable();;
             $table->decimal('weight')->nullable();
             $table->decimal('vgm')->nullable();
-            $table->decimal('measure');
+            $table->decimal('measure')->nullable();
             $table->string('st', 30)->nullable(); //[MT,OP,OC,VL,IC,ID]
             $table->boolean('rf')->default(false)->nullable();
             $table->boolean('scheduled')->default(false);

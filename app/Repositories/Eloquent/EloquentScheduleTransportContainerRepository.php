@@ -48,7 +48,6 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                     
                     $completed_date = !empty($data['completed_date'])? Carbon::createFromFormat('d/m/Y H:i', $data['completed_date']) : null ;
                     
-//                    unset($data['container_truck_code']);
                     if ($delivery_plan->gt($pickup_plan)) {
                         if ($container) {
                             $data['container_truck_id'] = $container->id;
@@ -64,7 +63,17 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                         
                         if ($data['id']) {
                             $oldContainer = $this->find($data['id']);
+                            
+                            //update booking container detail
+                            if(empty($oldContainer->container_no)){
+                                $old = BookingContainerDetail::find($oldContainer->booking_container_detail_id);
+                                if(!empty($old)){
+                                    $old->update(['container_no'=> $data['container_no'] ]);
+                                }
+                            }
+                            
                             $this->update($oldContainer, $data);
+                            
                         } else {
 
                             $filter = collect([$data])
@@ -83,6 +92,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                                     'booking_no' => $filter['booking_no'],
                                     'measure' => 1,
                                     'package' => 1,
+                                    'container_no' => $filter['container_no']
                                 ];
                                 $booking_container_detail = BookingContainerDetail::create($booking_container_detail);
                                 if($booking_container_detail){

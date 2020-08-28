@@ -84,7 +84,7 @@
 @endphp
                                                 
 @if (isset($bookingContainerDetails))
-    @//dd($bookingContainerDetails);
+	@//dd($bookingContainerDetails);
     @foreach($bookingContainerDetails as $bookingContainerDetail)
              
         @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)
@@ -92,9 +92,9 @@
                 $containerCode = isset($containerBooking['container']) && !empty($containerBooking['container']) ? $containerBooking['container']['container_code']:'';
                 
                 $vol = $containerBooking['vol'];
-                
-                for($row = 1; $row <= $vol; $row++){
-                	if (is_array($containerBooking['details']) && !empty($containerBooking['details'])) {
+                $containerDetailNum = 0;
+                $noContainerDetailNum = 0;
+                if (is_array($containerBooking['details']) && !empty($containerBooking['details'])) {
                         foreach ($containerBooking['details'] as $detail) {
                             $detail['container_code'] = $containerCode;
                             if ($detail['schedules']) {
@@ -130,34 +130,35 @@
                                 $detail['pickup_address'] = '';
                                 $detail['delivery_address'] = '';
                             }
-    						$row++;
+    						$containerDetailNum++;
                             $listContainers[] = $detail;
     
                         }
-                	}else{
-                	
-                		$detail['booking_container_detail_id'] = null;
-                		$detail['container_id'] = null;
-                		$detail['booking_id'] = $containerBooking['booking_id'];
-                		$detail['booking_no'] = $bookingContainerDetail['booking_no'];
-                		$detail['booking_container_id'] = $containerBooking['id'];
-                		$detail['container_code'] = $containerBooking['container']['container_code'];
-                		
-                        $detail['container_no'] = '';
-                        $detail['container_truck_code'] = '';
-                        $detail['container_truck_id'] = '';
-                        $detail['driver_code'] = '';
-                        $detail['driver_name'] = '';
-                        $detail['driver_id'] = '';
-                        $detail['id'] = '';
-                        $detail['pickup_plan'] = '';
-                        $detail['delivery_plan'] = '';
-                        $detail['completed_date'] = '';
-                        $detail['transport_cost'] = '';
-                        $detail['pickup_address'] = '';
-                        $detail['delivery_address'] = '';
-                        $listContainers[] = $detail;
-                	}
+            	}
+            	$noContainerDetailNum = $vol - $containerDetailNum;
+            	
+                for($row = 1; $row <= $noContainerDetailNum; $row++){
+                	$detail['booking_container_detail_id'] = null;
+            		$detail['container_id'] = null;
+            		$detail['booking_id'] = $containerBooking['booking_id'];
+            		$detail['booking_no'] = $bookingContainerDetail['booking_no'];
+            		$detail['booking_container_id'] = $containerBooking['id'];
+            		$detail['container_code'] = $containerBooking['container']['container_code'];
+            		
+                    $detail['container_no'] = '';
+                    $detail['container_truck_code'] = '';
+                    $detail['container_truck_id'] = '';
+                    $detail['driver_code'] = '';
+                    $detail['driver_name'] = '';
+                    $detail['driver_id'] = '';
+                    $detail['id'] = '';
+                    $detail['pickup_plan'] = '';
+                    $detail['delivery_plan'] = '';
+                    $detail['completed_date'] = '';
+                    $detail['transport_cost'] = '';
+                    $detail['pickup_address'] = '';
+                    $detail['delivery_address'] = '';
+                    $listContainers[] = $detail;
                 }
         	@endphp
         @endforeach
@@ -207,8 +208,12 @@
                                                             <input type="hidden" class="container_truck_id" name="schedules[<?=$recordNumber?>][container_truck_id]" value="{{ $list['container_truck_id'] }}">
                                                             <td>{{ $recordNumber + 1}}</td>
                                                             <td>{{ $list['booking_no'] }}</td>
-                                                            <td>{{ $list['container_code'] }}</td>
-                                                            <td>{{ $list['container_no'] }}</td>
+                                                            <td>
+                                                            	{{ $list['container_code'] }}
+                                                            </td>
+                                                            <td>
+                                                            	<input type="text" style="min-width: 100px" name="schedules[<?=$recordNumber?>][container_no]" value="{{ $list['container_no'] }}" class="form-control container_no" autocomplete="off">
+                                                            </td>
                                                             <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
                                                             <td style="position: relative">
                                                                 <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$recordNumber?>][pickup_plan]" class="form-control pickup_plan" autocomplete = "off">
@@ -251,7 +256,7 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="float-right">
-                                                        @if ($recordNumber !== 1)
+                                                        @if ($recordNumber+1 > 0)
                                                             <button type="submit"  class="btn btn-primary">Save</button>
                                                         @endif
                                                             <a href="{{ asset('booking/transport/schedule/registration') }}" class="btn btn-secondary">Close</a>
