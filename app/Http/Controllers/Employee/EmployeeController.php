@@ -113,7 +113,7 @@ class EmployeeController extends Controller
          
          $employee =   $this->employeeRepository->create($employeeRequest);
 
-         return redirect('/employee/registration/'.$employee->id);
+         return redirect('/employee/registration');
     }
 
     /**

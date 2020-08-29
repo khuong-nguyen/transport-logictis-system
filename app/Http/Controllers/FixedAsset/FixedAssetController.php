@@ -80,7 +80,7 @@ class FixedAssetController extends Controller
 
          $fixed_asset=   $this->fixedAssetRepository->create($fixedAssetRequest);
 
-         return redirect('/fixed_asset/registration/'.$fixed_asset->id);
+         return redirect('/fixed_asset/registration');
     }
 
     /**
