@@ -16,4 +16,6 @@ interface AdvanceMoneyRepository extends BaseRepository
     
     public function advanceMoneyCode():string;
     
+    public function inquirySearch(Request $request):LengthAwarePaginator;
+    
 }
