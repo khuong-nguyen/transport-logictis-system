@@ -48,5 +48,23 @@ class EloquentAdvanceMoneyRepository extends EloquentBaseRepository implements A
     public function advanceMoneyForBooking($booking_id){
         return $this->model->where('booking_id',$booking_id)->get();
     }
+    
+    public function inquirySearch(Request $request) :LengthAwarePaginator
+    {
+        $query = $this->model->query();
+        
+        $search = $request->get('search');
+        
+        if (isset($search['columns'])) {
+            foreach ($search['columns'] as $key => $value)
+            {
+                if ($value != null)
+                {
+                    $query->where($key,'=',$value);
+                }
+            }
+        }
+        return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
+    }
 
 }

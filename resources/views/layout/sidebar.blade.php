@@ -71,7 +71,7 @@
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.transport_advance_money_registration')</a>
                 </li>
-            	<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+            	<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/advance_money/inquiry">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.transport_advance_money_inquiry')</a>
