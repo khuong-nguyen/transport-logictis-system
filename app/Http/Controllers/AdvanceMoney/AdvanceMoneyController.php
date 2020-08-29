@@ -120,9 +120,9 @@ class AdvanceMoneyController extends Controller
     {
         $request = $request->all();
         $advanceMoneyRequest =  $request['advance_money'];
-        unset($request['_token']);
+        /* unset($request['_token']);
         unset($request['_method']);
-        unset($request['customer']);
+        unset($request['customer']); */
         $params = http_build_query($request);
         DB::beginTransaction();
         try {
@@ -149,8 +149,8 @@ class AdvanceMoneyController extends Controller
     {
         DB::beginTransaction();
         try {
-            $customer = $this->customerRepository->find($id);
-            $this->customerRepository->destroy($customer);
+            $advance_money = $this->advanceMoneyRepository->find($id);
+            $this->advanceMoneyRepository->destroy($advance_money);
             DB::commit();
             if ($request->ajax()) {
                 return response()->json([
@@ -159,7 +159,7 @@ class AdvanceMoneyController extends Controller
                     'data' => true
                 ], 200);
             }
-            return redirect('/customer/inquiry')->with('status', 'message.save_success');
+            return redirect('/advance_money/inquiry')->with('status', 'message.save_success');
         } catch (\Exception $e) {
             DB::rollBack();
             if ($request->ajax()) {
@@ -169,7 +169,7 @@ class AdvanceMoneyController extends Controller
                     'data' => false
                 ], 403);
             }
-            return redirect('/customer/inquiry')->with('status', 'message.save_error');
+            return redirect('/advance_money/inquiry')->with('status', 'message.save_error');
         }
     }
 }

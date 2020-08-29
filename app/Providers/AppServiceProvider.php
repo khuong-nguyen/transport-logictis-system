@@ -49,6 +49,10 @@ use App\Repositories\LocationCodeRepository;
 use App\Repositories\Eloquent\EloquentLocationCodeRepository;
 use App\LocationCode;
 
+use App\Repositories\RefundMoneyRepository;
+use App\Repositories\Eloquent\EloquentRefundMoneyRepository;
+use App\RefundMoney;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -145,6 +149,13 @@ class AppServiceProvider extends ServiceProvider
                 return  new EloquentLocationCodeRepository(new LocationCode());
             }
             );
+        
+        $this->app->bind(
+            RefundMoneyRepository::class,
+            function () {
+                return  new EloquentRefundMoneyRepository(new RefundMoney());
+            }
+        );
     }
 
     /**

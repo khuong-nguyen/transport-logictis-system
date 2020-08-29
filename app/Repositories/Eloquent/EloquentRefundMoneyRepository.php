@@ -1,11 +1,11 @@
 <?php
 namespace App\Repositories\Eloquent;
 
-use App\Repositories\AdvanceMoneyRepository;
+use App\Repositories\RefundMoneyRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class EloquentAdvanceMoneyRepository extends EloquentBaseRepository implements AdvanceMoneyRepository
+class EloquentRefundMoneyRepository extends EloquentBaseRepository implements RefundMoneyRepository
 {
 
     /**
@@ -26,28 +26,26 @@ class EloquentAdvanceMoneyRepository extends EloquentBaseRepository implements A
         return $categories->paginate($request->get('per_page', 10));
     }
     
-    public function advanceMoneyCode():string{
+    public function refundMoneyCode():string{
         
         $currentMonth = date('m');
         $currentYear = date('Y');
 
-        $advanceMoneyCode = $currentYear.$currentMonth;
+        $refundMoneyCode = $currentYear.$currentMonth;
         
-        $advanceMoneyCodeInMonthCount = $this->model->withTrashed()
+        $refundMoneyCodeInMonthCount = $this->model
             ->whereYear('created_at',$currentYear)
             ->whereMonth('created_at',$currentMonth)
             ->count();
             
-        $newCode = $advanceMoneyCodeInMonthCount + 1;
-        
+        $newCode = $refundMoneyCodeInMonthCount + 1;
         $numberCode = substr("00000".$newCode,strlen($newCode));
+        $refundMoneyCode .= $numberCode;
         
-        $advanceMoneyCode .= $numberCode;
-        
-        return $advanceMoneyCode;
+        return $refundMoneyCode;
     }
     
-    public function advanceMoneyForBooking($booking_id){
+    public function refundMoneyForBooking($booking_id){
         return $this->model->where('booking_id',$booking_id)->get();
     }
     

@@ -76,7 +76,12 @@
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.transport_advance_money_inquiry')</a>
                 </li>
-                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/refund_money/registration">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.transport_refund_money_registration')</a>
+                </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/refund_money/inquiry">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.transport_refund_money_inquiry')</a>

@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header">@lang('sidebar.advance_money_inquiry')</div>
+                <div class="card-header">@lang('advance_money.advance_money_inquiry')</div>
                 <div class="card-body container-fluid">
                     <div class="alert alert-success d-none" id="msg"></div>
                     @csrf

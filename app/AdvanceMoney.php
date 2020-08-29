@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AdvanceMoney extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'advance_money';
     /**
      * The attributes that are mass assignable.

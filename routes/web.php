@@ -80,4 +80,14 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
         Route::get('/registration/{id}', 'AdvanceMoneyController@edit');
         Route::put('/registration/{id}', 'AdvanceMoneyController@update');
         Route::get('/inquiry', 'AdvanceMoneyInquiryController@index');
+        Route::delete('/registration/{id}', 'AdvanceMoneyController@destroy');
     });
+    
+        Route::group(['prefix' => 'refund_money','namespace' => 'RefundMoney'],function (){
+            Route::get('/registration', 'RefundMoneyController@create');
+            Route::post('/registration', 'RefundMoneyController@store');
+            Route::get('/registration/{id}', 'RefundMoneyController@edit');
+            Route::put('/registration/{id}', 'RefundMoneyController@update');
+            Route::get('/inquiry', 'RefundMoneyInquiryController@index');
+            Route::delete('/registration/{id}', 'RefundMoneyInquiryController@destroy');
+        });

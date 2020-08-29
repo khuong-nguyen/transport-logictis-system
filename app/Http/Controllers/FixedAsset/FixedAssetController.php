@@ -74,10 +74,6 @@ class FixedAssetController extends Controller
 
          $fixedAssetRequest =  $request['fixed_asset'];
 
-         //$fixedAssetCount = $this->fixedAssetRepository->countFixedAsset();
-
-         //$fixedAssetRequest["fixed_asset_code"] = $employeeRequest["fixed_asset_type"]. ($fixedAssetCount + 1);
-
          $fixed_asset=   $this->fixedAssetRepository->create($fixedAssetRequest);
 
          return redirect('/fixed_asset/registration/'.$fixed_asset->id);
@@ -117,20 +113,27 @@ class FixedAssetController extends Controller
     {
         $request = $request->all();
         $fixedAssetRequest =  $request['fixed_asset'];
+        $params = http_build_query($request);
+        
         $fixed_asset =   $this->fixedAssetRepository->update($this->fixedAssetRepository->find($id),$fixedAssetRequest);
-
-        //load default options for fixed asset type
-        $fixedAssetTypeOptions = [
-            "TRUCK" => "Truck",
-            "MOOC" => "Mooc",
-            "RO-MOOC" => "Ro-Mooc"
-        ];
-        $selectedFixedAssetTypeOption = $fixed_asset->fixed_asset_type;
-
-        return view('fixed_asset.fixed_asset_create',['fixed_asset' => $fixed_asset,
-            'fixedAssetTypeOptions' => $fixedAssetTypeOptions,
-            'selectedFixedAssetTypeOption' => $selectedFixedAssetTypeOption
-        ]);
+        
+        if(!empty($params)){
+            return redirect('/fixed_asset/inquiry?'.$params)->with('status','Updated success!');
+        }else{
+            //load default options for fixed asset type
+            $fixedAssetTypeOptions = [
+                "TRUCK" => "Truck",
+                "MOOC" => "Mooc",
+                "RO-MOOC" => "Ro-Mooc"
+            ];
+            $selectedFixedAssetTypeOption = $fixed_asset->fixed_asset_type;
+            
+            return view('fixed_asset.fixed_asset_create',['fixed_asset' => $fixed_asset,
+                'fixedAssetTypeOptions' => $fixedAssetTypeOptions,
+                'selectedFixedAssetTypeOption' => $selectedFixedAssetTypeOption
+            ]);
+        }
+        
     }
 
     /**
@@ -158,5 +161,33 @@ class FixedAssetController extends Controller
             'message' => 'This container truck code was not found!',
             'data' => false
         ], 403);
+    }
+    
+    public function destroy(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $fixed_asset = $this->fixedAssetRepository->find($id);
+            $this->fixedAssetRepository->destroy($fixed_asset);
+            DB::commit();
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => null,
+                    'message' => 'success',
+                    'data' => true
+                ], 200);
+            }
+            return redirect('/fixed_asset/inquiry')->with('status', 'message.save_success');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage(),
+                    'data' => false
+                ], 403);
+            }
+            return redirect('/fixed_asset/inquiry')->with('status', 'message.save_error');
+        }
     }
 }
