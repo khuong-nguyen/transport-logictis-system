@@ -129,11 +129,11 @@ class AdvanceMoneyController extends Controller
             $advance_money = $this->advanceMoneyRepository->update($this->advanceMoneyRepository->find($id),$advanceMoneyRequest);
             if ($advance_money) {
                 DB::commit();
-                return redirect('/$advance_money/inquiry?'.$params)->with('status','Updated success!');
+                return redirect('/advance_money/inquiry?'.$params)->with('status','Updated success!');
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect('/$advance_money/inquiry?'.$params)->with('status','Updated no success!');
+            return redirect('/advance_money/inquiry?'.$params)->with('status','Updated no success!');
         }
 
     }
