@@ -15,7 +15,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label" for="booking_no">BKG No</label>
                                 <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="booking_no" name="booking_no" type="text" value="{{ old('booking.booking_no') ?? $params['booking_no']}}">
+                                	<input class="form-control booking_no" id="booking_no" name="booking_no" type="text" value="{{ old('booking.booking_no') ?? $params['booking_no']}}" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -33,15 +33,15 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label" for="shipper_customer_code">SHBR</label>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" name="shipper_customer_code" id="shipper_customer_code" type="text" value="{{$params['shipper_customer_code'] ??''}}">
+                                    <input class="form-control shipper" name="shipper_customer_code" id="shipper_customer_code" type="text" value="{{$params['shipper_customer_code'] ??''}}" autocomplete="off">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label required" for="consignee_customer_code">CNEE</label>
+                                <label class="col-md-4 pr-0 col-form-label" for="consignee_customer_code">CNEE</label>
                                 <div class="col-md-8 p-0">
-                                    <input class="form-control" name="consignee_customer_code" id="consignee_customer_code" type="text" value="{{$params['consignee_customer_code'] ??''}}">
+                                    <input class="form-control consignee" name="consignee_customer_code" id="consignee_customer_code" type="text" value="{{$params['consignee_customer_code'] ??''}}" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             <div class="row">
                                 <label class="col-md-4 pr-0 col-form-label required" for="forwarder_customer_code">FWDR</label>
                                 <div class="col-md-8 p-0">
-                                    <input class="form-control" name="forwarder_customer_code" id="forwarder_customer_code" type="text" value="{{$params['forwarder_customer_code'] ??''}}">
+                                    <input class="form-control forwarder" name="forwarder_customer_code" id="forwarder_customer_code" type="text" value="{{$params['forwarder_customer_code'] ??''}}" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -334,6 +334,39 @@
             });
         });
 
+    </script>
+<script type="text/javascript">
+    var booking_path = "{{ route('autocompleteBookingNo')}}";
+    $('input.booking_no').typeahead({
+        source:  function (query, process) {
+        return $.get(booking_path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+    var path = "{{ route('autocompleteCustomerNo') }}";
+    $('input.shipper').typeahead({
+        source:  function (query, process) {
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+    $('input.consignee').typeahead({
+        source:  function (query, process) {
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+    $('input.forwarder').typeahead({
+        source:  function (query, process) {
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
     </script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/dataTables.bootstrap4.min.js') }}"></script>

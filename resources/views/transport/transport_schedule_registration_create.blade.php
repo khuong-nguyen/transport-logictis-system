@@ -25,9 +25,9 @@
                                                                 <label class="col-form-label" for="pick_up_dt_from">BKG Created Date </label>
                                                             </div>
                                                             <div class="input-group col-md-6 input-daterange pr-0">
-                                                                <input class="form-control" id="bkg_created_date_from" value="{{ isset($params['bkg_created_date_from']) ? $params['bkg_created_date_from'] : date('d/m/Y') }}" name="bkg_created_date_from" type="text" autocomplete="off">
+                                                                <input class="form-control" id="bkg_created_date_from" value="{{ isset($params['bkg_created_date_from']) ? $params['bkg_created_date_from'] : '' }}" name="bkg_created_date_from" type="text" autocomplete="off">
                                                                 <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
-                                                                <input class="form-control" id="bkg_created_date_to" value="{{ isset($params['bkg_created_date_to']) ? $params['bkg_created_date_to'] : date('d/m/Y') }}" type="text" name="bkg_created_date_to" autocomplete="off">
+                                                                <input class="form-control" id="bkg_created_date_to" value="{{ isset($params['bkg_created_date_to']) ? $params['bkg_created_date_to'] : '' }}" type="text" name="bkg_created_date_to" autocomplete="off">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
