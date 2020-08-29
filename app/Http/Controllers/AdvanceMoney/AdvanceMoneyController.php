@@ -116,56 +116,24 @@ class AdvanceMoneyController extends Controller
      *
      * @return View
      */
-    public function update(CustomerRequest $request,$id)
+    public function update(AdvanceMoneyRequest $request,$id)
     {
         $request = $request->all();
-        $customerRequest =  $request['customer'];
+        $advanceMoneyRequest =  $request['advance_money'];
         unset($request['_token']);
         unset($request['_method']);
         unset($request['customer']);
         $params = http_build_query($request);
         DB::beginTransaction();
         try {
-            $customer = $this->customerRepository->update($this->customerRepository->find($id),$customerRequest);
-            if ($customer) {
+            $advance_money = $this->advanceMoneyRepository->update($this->advanceMoneyRepository->find($id),$advanceMoneyRequest);
+            if ($advance_money) {
                 DB::commit();
-                return redirect('/customer/inquiry?'.$params)->with('status','Updated success!');
+                return redirect('/advance_money/inquiry?'.$params)->with('status','Updated success!');
             }
-
-
-            //load default options for country_code
-            $countryCodeOptions = [
-                "VN" => "Viet Nam",
-                "HK" => "Hong Khong"
-            ];
-            $selectedCountryCodeOption = $customer->country_code;
-
-            //load default options for city
-            $cityCodeOptions = [
-                "SGN" => "Sai Gon",
-                "HN" => "Ha Noi",
-                "HP" => "Hai Phong"
-            ];
-
-            $selectedCityCodeOption = $customer->city;
-
-
-            return view('customer.customer_create', ["customer" => $customer,
-                'countryCodeOptions' => $countryCodeOptions,
-                'selectedCountryCodeOption' => $selectedCountryCodeOption,
-                'cityCodeOptions' => $cityCodeOptions,
-                'selectedCityCodeOption' => $selectedCityCodeOption,
-                'params' => $params
-            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return view('customer.customer_create', ["customer" => $customer,
-                'countryCodeOptions' => $countryCodeOptions,
-                'selectedCountryCodeOption' => $selectedCountryCodeOption,
-                'cityCodeOptions' => $cityCodeOptions,
-                'selectedCityCodeOption' => $selectedCityCodeOption,
-                'params' => $params
-            ]);
+            return redirect('/advance_money/inquiry?'.$params)->with('status','Updated no success!');
         }
 
     }
