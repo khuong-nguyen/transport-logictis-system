@@ -24,7 +24,7 @@ class CreateRefundMoneyTable extends Migration
             $table->string('refund_money_employee_name', 200)->comment('employee_name');
             $table->string('recieve_money_employee_name', 200)->comment('employee_name');
             $table->timestamp('refund_money_date');
-            $table->decimal('refund_money',16.2);
+            $table->decimal('refund_money',16,2);
             $table->decimal('balance_money',16,2);
             $table->string('invoice_attach_file', 200)->nullable();
             $table->string('refund_money_reason',255)->nullable();

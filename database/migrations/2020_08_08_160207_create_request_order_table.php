@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBookingTable extends Migration
+class CreateRequestOrderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateBookingTable extends Migration
      */
     public function up()
     {
-        Schema::create('booking', function (Blueprint $table) {
+        Schema::create('request_order', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('booking_no', 100)->unique()->nullable();
-            $table->foreignId('virtual_booking_id')->nullable();
-            $table->foreignId('request_order_id')->nullable();
-            $table->string('virtual_booking_no', 100)->nullable();
-            $table->string('request_order_no', 100)->nullable();
+            $table->string('request_order_no')->unique();
             $table->string('tvvd', 50)->nullable();
             $table->string('por_1', 30);
             $table->string('por_2', 30)->nullable();
@@ -74,6 +70,6 @@ class CreateBookingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('booking');
+        Schema::dropIfExists('request_order');
     }
 }

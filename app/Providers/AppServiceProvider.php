@@ -49,6 +49,14 @@ use App\Repositories\LocationCodeRepository;
 use App\Repositories\Eloquent\EloquentLocationCodeRepository;
 use App\LocationCode;
 
+use App\Repositories\RequestOrderRepository;
+use App\Repositories\Eloquent\EloquentRequestOrderRepository;
+use App\RequestOrder;
+
+use App\Repositories\VirtualBookingRepository;
+use App\Repositories\Eloquent\EloquentVirtualBookingRepository;
+use App\VirtualBooking;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -144,7 +152,22 @@ class AppServiceProvider extends ServiceProvider
             function () {
                 return  new EloquentLocationCodeRepository(new LocationCode());
             }
-            );
+        );
+        
+        $this->app->bind(
+            RequestOrderRepository::class,
+            function () {
+                return  new EloquentRequestOrderRepository(new RequestOrder());
+            }
+        );
+        
+        $this->app->bind(
+            VirtualBookingRepository::class,
+            function () {
+                return  new EloquentVirtualBookingRepository(new VirtualBooking());
+            }
+        );       
+        
     }
 
     /**

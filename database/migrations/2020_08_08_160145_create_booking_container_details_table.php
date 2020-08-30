@@ -31,6 +31,7 @@ class CreateBookingContainerDetailsTable extends Migration
             $table->boolean('scheduled')->default(false);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
+            $table->datetime('deleted_at')->nullable();
             $table->timestamps();
         });
     }

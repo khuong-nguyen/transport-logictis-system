@@ -86,7 +86,7 @@
 @if (isset($bookingContainerDetails))
 
     @foreach($bookingContainerDetails as $bookingContainerDetail)
-             
+
         @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)
             @php
                 $containerCode = isset($containerBooking['container']) && !empty($containerBooking['container']) ? $containerBooking['container']['container_code']:'';
@@ -112,8 +112,8 @@
                                 $detail['container_no'] = $detail['container_no'];
                                 $detail['completed_date'] = $detail['schedules']['completed_date'];
                                 $detail['transport_cost'] = $detail['schedules']['transport_cost'];
-                                $detail['pickup_address'] = $detail['schedules']['pickup_address'];
-                                $detail['delivery_address'] = $detail['schedules']['delivery_address'];
+                                $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
+                                $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';
                             } else {
                                 $detail['booking_container_detail_id'] = $detail['id'];
                                 $detail['container_no'] = $detail['container_no'];
@@ -127,8 +127,8 @@
                                 $detail['delivery_plan'] = '';
                                 $detail['completed_date'] = '';
                                 $detail['transport_cost'] = '';
-                                $detail['pickup_address'] = '';
-                                $detail['delivery_address'] = '';
+                                $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
+                                $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';
                             }
     						$containerDetailNum++;
                             $listContainers[] = $detail;
@@ -156,8 +156,8 @@
                     $detail['delivery_plan'] = '';
                     $detail['completed_date'] = '';
                     $detail['transport_cost'] = '';
-                    $detail['pickup_address'] = '';
-                    $detail['delivery_address'] = '';
+                    $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
+                    $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';;
                     $listContainers[] = $detail;
                 }
         	@endphp
@@ -180,13 +180,13 @@
                                                         <th>Router</th>
                                                         <th>Pickup Plan</th>
                                                         <th>Delivery Plan</th>
+                                                        <th>Container Truck</th>
+                                                        <th>Driver</th>
+                                                        <th>Driver Name</th>
                                                         <th>Completed Time</th>
                                                         <th>Transport Cost</th>
                                                         <th>Pickup Address</th>
                                                         <th>Delivery Address</th>
-                                                        <th>Container Truck</th>
-                                                        <th>Driver</th>
-                                                        <th>Driver Name</th>
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
@@ -216,35 +216,35 @@
                                                             </td>
                                                             <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
                                                             <td style="position: relative">
-                                                                <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$recordNumber?>][pickup_plan]" class="form-control pickup_plan" autocomplete = "off">
+                                                                <input style="min-width: 100px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$recordNumber?>][pickup_plan]" class="form-control pickup_plan" autocomplete = "off">
                                                             </td>
                                                             <td style="position: relative">
-                                                                <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$recordNumber?>][delivery_plan]" class="form-control delivery_plan" autocomplete = "off">
+                                                                <input style="min-width: 100px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$recordNumber?>][delivery_plan]" class="form-control delivery_plan" autocomplete = "off">
                                                             </td>
                                                             <td style="position: relative">
-                                                                <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$recordNumber?>][completed_date]" class="form-control completed_date" autocomplete = "off">
+                                                                <div class = "container">
+                                                                	<input type="text" style="min-width: 100px" name="schedules[<?=$recordNumber?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code" autocomplete="off">
+                                                                </div>
+                                                        	</td>
+                                                            <td style="position: relative">
+                                                            	<div class = "container">
+                                                            		<input type="text" style="min-width: 100px" name="schedules[<?=$recordNumber?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code" autocomplete="off" readonly>
+                                                        		</div>
+                                                    		</td>	
+                                                            <td class="driver_name_text"  style="min-width: 160px">{{ $list['driver_name'] }}</td>
+                                                            <td style="position: relative">
+                                                                <input style="min-width: 100px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$recordNumber?>][completed_date]" class="form-control completed_date" autocomplete = "off">
                                                             </td>
                                                             <td style="position: relative">
                                                                 <input type="number" min="0" type="text" style="min-width: 100px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$recordNumber?>][transport_cost]" class="form-control transport_cost">
                                                             </td>
                                                             <td style="position: relative">
-                                                                <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$recordNumber?>][pickup_address]" class="form-control pickup_address">
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$recordNumber?>][pickup_address]" class="form-control pickup_address" readonly>
                                                             </td>
                                                            <td style="position: relative">
-                                                                <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$recordNumber?>][delivery_address]" class="form-control delivery_address">
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$recordNumber?>][delivery_address]" class="form-control delivery_address" readonly>
                                                             </td>
-                                                            <td style="position: relative">
-                                                                <div class = "container">
-                                                                	<input type="text" style="min-width: 150px" name="schedules[<?=$recordNumber?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code" autocomplete="off">
-                                                                </div>
-                                                        	</td>
-                                                            <td style="position: relative">
-                                                            	<div class = "container">
-                                                            		<input type="text" style="min-width: 150px" name="schedules[<?=$recordNumber?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code" autocomplete="off">
-                                                        		</div>
-                                                    		</td>
-                                                        		
-                                                            <td class="driver_name_text">{{ $list['driver_name'] }}</td>
+                                                            
                                                             <td>@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
                                                         </tr>
                                                         @php
@@ -543,6 +543,10 @@
                         tr.find('.container_truck_code').removeClass('is-warning')
                         tr.find('.container_truck_code').removeClass('is-invalid')
                         tr.find('.container_truck_code').addClass('is-valid')
+                        tr.find('.driver_id').val(result.data.driver_id);
+                        tr.find('.driver_code').val(result.data.driver_code);
+                        tr.find('.driver_name_text').html(result.data.driver_name);
+                        tr.find('.driver_name').val(result.data.driver_name);
                         callIsUsedProperty(indexCurrentRow);
                     }
                 }

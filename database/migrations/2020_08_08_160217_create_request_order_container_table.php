@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBookingContainerTable extends Migration
+class CreateRequestOrderContainerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateBookingContainerTable extends Migration
      */
     public function up()
     {
-        Schema::create('booking_container', function (Blueprint $table) {
+        Schema::create('request_order_container', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('booking_id');
+            $table->foreignId('request_order_id');
             $table->foreignId('container_id');
             $table->string('container_code',30)->nullable();
             $table->integer('vol');
@@ -35,6 +35,6 @@ class CreateBookingContainerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('booking_container');
+        Schema::dropIfExists('virtual_booking_container');
     }
 }

@@ -23,6 +23,7 @@ class CreateVirtualBookingContainerTable extends Migration
             $table->decimal('soc')->default(0);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
+            $table->datetime('deleted_at')->nullable();
             $table->timestamps();
         });
     }

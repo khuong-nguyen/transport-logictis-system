@@ -4,9 +4,12 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ScheduleTransportContainer extends Model
 {
+    use SoftDeletes;
+    
     protected $table ='scheduled_transport_container';
     /**
      * The attributes that are mass assignable.

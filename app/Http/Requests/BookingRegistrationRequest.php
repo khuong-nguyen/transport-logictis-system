@@ -26,7 +26,7 @@ class BookingRegistrationRequest extends FormRequest
         $id = $this->route('id');
 
         $validate = [
-            'booking.booking_no' => 'required|unique:booking,booking_no,'.$id.'|max:100',
+            //'booking.booking_no' => 'required|unique:booking,booking_no,'.$id.'|max:100',
             'booking.tvvd' => 'required|max:50',
             'booking.por_1' => 'required|max:50',
             'booking.pol_1' => 'required|max:30',
