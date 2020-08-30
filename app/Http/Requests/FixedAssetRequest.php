@@ -25,7 +25,6 @@ class FixedAssetRequest extends FormRequest
     {
         return [
             'fixed_asset.fixed_asset_code' => 'required|max:50',
-            'fixed_asset.fixed_asset_name' => 'required|max:200',
             'fixed_asset.fixed_asset_type' => 'required|max:30'
         ];
     }

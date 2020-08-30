@@ -13,7 +13,8 @@ class FixedAsset extends Model
      * @var array
      */
     protected $fillable = [
-        'fixed_asset_name','manuafacture','fixed_asset_code', 'desc','fixed_asset_type',
+        'manuafacture','fixed_asset_code', 'desc','fixed_asset_type','driver_id',
+        'driver_code', 'driver_name',
         'created_by',
         'updated_by',
     ];

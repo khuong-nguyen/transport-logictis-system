@@ -35,7 +35,7 @@ class EloquentFixedAssetRepository extends EloquentBaseRepository implements Fix
         return $this->model->where(['fixed_asset_code' => $data['code'], 'fixed_asset_type' => $data['type']])->first();
     }
     
-    public function inquirySearch(Request $request) :LengthAwarePaginator
+    public function inquirySearch(Request $request)
     {
         $query = $this->model->query();
         
@@ -50,6 +50,7 @@ class EloquentFixedAssetRepository extends EloquentBaseRepository implements Fix
                 }
             }
         }
-        return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
+        
+        return $query->orderBy('created_at', 'desc')->get();
     }
 }

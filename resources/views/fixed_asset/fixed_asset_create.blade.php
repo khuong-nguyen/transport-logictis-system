@@ -46,19 +46,18 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label required" for="fixed_asset_name">Fixed Asset Name</label>
-                                                                    </div>
-                                                                    <div class="col-md-9">
-                                                                        <input class="form-control @if($errors->has('fixed_asset.fixed_asset_name')) is-invalid @endif" id="fixed_asset_name" value="{{old('fixed_asset.fixed_asset_name') ?? $fixed_asset->fixed_asset_name ?? ''}}" type="text" name="fixed_asset[fixed_asset_name]" required>
-                                                                        @error('fixed_asset.fixed_asset_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-md-3">
                                                                         <label class="col-form-label" for="fixed_asset_code">Fixed Asset Code</label>
                                                                     </div>
                                                                     <div class="col-md-9">
                                                                         <input class="form-control" id="fixed_asset_code" value="{{old('fixed_asset.fixed_asset_code') ?? $fixed_asset->fixed_asset_code ?? ''}}" type="text" name="fixed_asset[fixed_asset_code]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label required" for="fixed_asset_name">Driver Name</label>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        {{ Form::select('fixed_asset[driver_id]', $driverOptions,(empty($fixed_asset->driver_id) ? $driverOptionDefault : $selectedDriverOption), array('placeholder' => 'Please select a driver', 'class' => 'form-control')) }}
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">

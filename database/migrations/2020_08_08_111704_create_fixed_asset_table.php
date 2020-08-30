@@ -15,7 +15,9 @@ class CreateFixedAssetTable extends Migration
     {
         Schema::create('fixed_asset', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('fixed_asset_name', 200);
+            $table->string('driver_name', 200)->nullable()->comment('employee name');
+            $table->foreignId('driver_id')->nullable()->comment('employee id');
+            $table->string('driver_code', 50)->nullable()->comment('employee code');
             $table->string('manuafacture', 300)->nullable();
             $table->string('fixed_asset_code', 50)->unique();
             $table->string('desc', 255)->nullable();

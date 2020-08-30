@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Http\Requests\FixedAssetRequest;
+use App\Employee;
 
 class FixedAssetController extends Controller
 {
@@ -56,10 +57,27 @@ class FixedAssetController extends Controller
             "RO-MOOC" => "Ro-Mooc"
         ];
         $fixedAssetTypeOptionDefault = "TRUCK";
-
-        return view('fixed_asset.fixed_asset_create',['fixedAssetTypeOptions' => $fixedAssetTypeOptions,
-                                                'fixedAssetTypeOptionDefault' => $fixedAssetTypeOptionDefault
-                                                ]);
+        
+        //load driver list
+        $driverOptions = [];
+        
+        $driver_list = Employee::where('department_code', 'DRIVER')->get();
+        if($driver_list){
+            foreach($driver_list as $driver){
+                $driverOptions[]= [
+                    $driver->id => $driver->employee_name
+                ];
+            }
+            
+        }
+        $driverOptionDefault = 0;
+        
+        return view('fixed_asset.fixed_asset_create',[
+            'fixedAssetTypeOptions' => $fixedAssetTypeOptions,
+            'fixedAssetTypeOptionDefault' => $fixedAssetTypeOptionDefault,
+            'driverOptions' => $driverOptions,
+            'driverOptionDefault' => $driverOptionDefault
+            ]);
     }
 
     /**
@@ -74,9 +92,17 @@ class FixedAssetController extends Controller
 
          $fixedAssetRequest =  $request['fixed_asset'];
 
-         $fixed_asset=   $this->fixedAssetRepository->create($fixedAssetRequest);
+         if($fixedAssetRequest['driver_id']>0){
+             $driver = Employee::find($fixedAssetRequest['driver_id']);
+             if($driver){
+                 $fixedAssetRequest['driver_code'] = $driver->employee_code;
+                 $fixedAssetRequest['driver_name'] = $driver->employee_name;
+             }
+         }
 
-         return redirect('/fixed_asset/registration/'.$fixed_asset->id);
+         $fixed_asset = $this->fixedAssetRepository->create($fixedAssetRequest);
+
+         return redirect('/fixed_asset/registration');
     }
 
     /**
@@ -95,10 +121,35 @@ class FixedAssetController extends Controller
             "RO-MOOC" => "Ro-Mooc"
         ];
         $selectedFixedAssetTypeOption = $fixed_asset->fixed_asset_type;
+        
+        //load driver list
+        $driverOptions = [];
+        
+        $driver_list = Employee::where('department_code', 'DRIVER')->get();
+        if($driver_list){
+            foreach($driver_list as $driver){
+                $driverOptions[]= [
+                    $driver->id => $driver->employee_name
+                ];
+            }
+            
+        }
+        $driverOptionDefault = 0;
+        if(!empty($fixed_asset->driver_id)){
+            $selectedDriverOption = $fixed_asset->driver_id;
+        }else{
+            $selectedDriverOption = 0;
+        }
+        
 
-        return view('fixed_asset.fixed_asset_create',['fixed_asset' => $fixed_asset,
+        return view('fixed_asset.fixed_asset_create',[
+            'fixed_asset' => $fixed_asset,
             'fixedAssetTypeOptions' => $fixedAssetTypeOptions,
-            'selectedFixedAssetTypeOption' => $selectedFixedAssetTypeOption
+            'selectedFixedAssetTypeOption' => $selectedFixedAssetTypeOption,
+            'driverOptions' => $driverOptions,
+            'selectedDriverOption' => $selectedDriverOption,
+            'driverOptionDefault' => $driverOptionDefault
+            
         ]);
     }
 
@@ -115,25 +166,55 @@ class FixedAssetController extends Controller
         $fixedAssetRequest =  $request['fixed_asset'];
         $params = http_build_query($request);
         
+        if($fixedAssetRequest['driver_id']>0){
+            $driver = Employee::find($fixedAssetRequest['driver_id']);
+            if($driver){
+                $fixedAssetRequest['driver_code'] = $driver->employee_code;
+                $fixedAssetRequest['driver_name'] = $driver->employee_name;
+            }
+        }
         $fixed_asset =   $this->fixedAssetRepository->update($this->fixedAssetRepository->find($id),$fixedAssetRequest);
-        
-        if(!empty($params)){
+
+        if (!empty($params)) {
             return redirect('/fixed_asset/inquiry?'.$params)->with('status','Updated success!');
-        }else{
-            //load default options for fixed asset type
-            $fixedAssetTypeOptions = [
-                "TRUCK" => "Truck",
-                "MOOC" => "Mooc",
-                "RO-MOOC" => "Ro-Mooc"
-            ];
-            $selectedFixedAssetTypeOption = $fixed_asset->fixed_asset_type;
-            
-            return view('fixed_asset.fixed_asset_create',['fixed_asset' => $fixed_asset,
-                'fixedAssetTypeOptions' => $fixedAssetTypeOptions,
-                'selectedFixedAssetTypeOption' => $selectedFixedAssetTypeOption
-            ]);
         }
         
+        //load default options for fixed asset type
+        $fixedAssetTypeOptions = [
+            "TRUCK" => "Truck",
+            "MOOC" => "Mooc",
+            "RO-MOOC" => "Ro-Mooc"
+        ];
+        $selectedFixedAssetTypeOption = $fixed_asset->fixed_asset_type;
+        
+        //load driver list
+        $driverOptions = [];
+        
+        $driver_list = Employee::where('department_code', 'DRIVER')->get();
+        if($driver_list){
+            foreach($driver_list as $driver){
+                $driverOptions[]= [
+                    $driver->id => $driver->employee_name
+                ];
+            }
+            
+        }
+        $driverOptionDefault = 0;
+        
+        if(!empty($fixed_asset->driver_id)){
+            $selectedDriverOption = $fixed_asset->driver_id;
+        }else{
+            $selectedDriverOption = 0;
+        }
+
+        return view('fixed_asset.fixed_asset_create',['fixed_asset' => $fixed_asset,
+            'fixedAssetTypeOptions' => $fixedAssetTypeOptions,
+            'selectedFixedAssetTypeOption' => $selectedFixedAssetTypeOption,
+            'driverOptions' => $driverOptions,
+            'selectedDriverOption' => $selectedDriverOption,
+            'driverOptionDefault' => $driverOptionDefault
+        ]);
+
     }
 
     /**

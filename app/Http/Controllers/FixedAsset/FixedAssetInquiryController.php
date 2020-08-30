@@ -38,6 +38,7 @@ class FixedAssetInquiryController extends Controller
 
     public function index(Request $request)
     {
+        
         if($request->ajax())
         {
             $params = '';
@@ -51,16 +52,16 @@ class FixedAssetInquiryController extends Controller
             }
             else
             {
-                $data = $this->fixedAssetRepository->serverPaginationFilteringFor($request);
+                $data = $this->fixedAssetRepository->inquirySearch($request);
             }
-
-            return datatables()->of($data->items())
+            
+            return datatables()->of($data)
                 ->with([
-                    "recordsTotal"    => $data->total(),
-                    "recordsFiltered" => $data->total(),
+                    "recordsTotal"    => count($data),
+                    "recordsFiltered" => count($data),
                 ])
                 ->addColumn('action', function($row) use ($params) {
-                    $url = '/fixed_asset/registration/'.$row->id.'?'.$params;
+                    $url = '/fixed_asset/registration/'.$row->id.'?'.$params."from=inquiry";
                     return '<a href="'.$url.'" class="edit btn btn-success btn-sm">Edit</a>
                         <button class="delete btn btn-danger btn-sm" data-remote="'. $url.'">Delete</button>';
                 })

@@ -55,7 +55,7 @@ class EloquentEmployeeRepository extends EloquentBaseRepository implements Emplo
         return $this->model->where(['employee_code' => $data['code'], 'department_code' => $data['type']])->first();
     }
     
-    public function inquirySearch(Request $request) :LengthAwarePaginator
+    public function inquirySearch(Request $request)
     {
         $query = $this->model->query();
         
@@ -70,6 +70,6 @@ class EloquentEmployeeRepository extends EloquentBaseRepository implements Emplo
                 }
             }
         }
-        return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
+        return $query->orderBy('created_at', 'desc')->get();
     }
 }

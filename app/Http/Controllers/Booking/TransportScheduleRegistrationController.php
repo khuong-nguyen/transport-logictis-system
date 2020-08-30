@@ -87,12 +87,16 @@ class TransportScheduleRegistrationController extends Controller
             $params['booking_no'] = $request->booking_no;
         }
         
-        if($request->has('bkg_created_date_from') && $request->bkg_created_date_from != ''){
+        if($request->has('bkg_created_date_from')){
             $params['bkg_created_date_from'] = $request->bkg_created_date_from;
+        }else{
+            $params['bkg_created_date_from'] = date("d/m/Y");
         }
         
-        if($request->has('bkg_created_date_to') && $request->bkg_created_date_to != ''){
+        if($request->has('bkg_created_date_to')){
             $params['bkg_created_date_to'] = $request->bkg_created_date_to;
+        }else{
+            $params['bkg_created_date_to'] = date("d/m/Y");
         }
         
         $bookingNo = $request->has('booking_no')?$request->booking_no:'';

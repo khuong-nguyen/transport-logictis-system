@@ -51,13 +51,13 @@ class EmployeeInquiryController extends Controller
             }
             else
             {
-                $data = $this->employeeRepository->serverPaginationFilteringFor($request);
+                $data = $this->employeeRepository->inquirySearch($request);
             }
 
-            return datatables()->of($data->items())
+            return datatables()->of($data)
                 ->with([
-                    "recordsTotal"    => $data->total(),
-                    "recordsFiltered" => $data->total(),
+                    "recordsTotal"    => count($data),
+                    "recordsFiltered" => count($data),
                 ])
                 ->addColumn('action', function($row) use ($params) {
                     $url = '/employee/registration/'.$row->id.'?'.$params;

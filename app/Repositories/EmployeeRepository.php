@@ -14,6 +14,6 @@ interface EmployeeRepository extends BaseRepository
      */
     public function serverPaginationFilteringFor(Request $request) :LengthAwarePaginator;
     
-    public function inquirySearch(Request $request):LengthAwarePaginator;
+    public function inquirySearch(Request $request);
 
 }
