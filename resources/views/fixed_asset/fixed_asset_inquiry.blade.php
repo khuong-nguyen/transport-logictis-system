@@ -19,10 +19,10 @@
                      </div>
                      <div class="row form-group">
                      	<div class="col-md-2 pr-0">
-                            <label class="col-form-label"  for="fixed_asset_name">Fixed Asset Name</label>
+                            <label class="col-form-label"  for="driver_name">Driver Name</label>
                         </div>
                         <div class="col-md-4 pr-0">
-                            <input class="form-control" id="fixed_asset_name" type="text" name="fixed_asset_name" value="{{ old('fixed_asset.fixed_asset_name')?old('fixed_asset.fixed_asset_name'):app('request')->input('fixed_asset_name') }}">
+                            <input class="form-control" id="driver_name" type="text" name="fixed_asset_name" value="{{ old('fixed_asset.driver_name')?old('fixed_asset.driver_name'):app('request')->input('driver_name') }}">
                         </div>
                      </div>
 					<div class="form-group text-center">
@@ -39,7 +39,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Fixed Asset Code.</th>
-                                <th>Fixed Asset Name</th>
+                                <th>Driver Name</th>
                                 <th>Manuafacture</th>
                                 <th>Action</th>
                             </tr>
@@ -65,7 +65,7 @@
                 var search = {
                     columns:{
                         fixed_asset_code: $('#fixed_asset_code').val(),
-                        fixed_asset_name: $('#fixed_asset_name').val(),
+                        driver_name: $('#driver_name').val(),
                     },
                 };
                 var dataTable = $('#inquiryDatatable').DataTable({
@@ -89,8 +89,8 @@
                             name:'fixed_asset_code'
                         },
                         {
-                            data:'fixed_asset_name',
-                            name:'fixed_asset_name'
+                            data:'driver_name',
+                            name:'driver_name'
                         },
                         {
                             data:'manuafacture',

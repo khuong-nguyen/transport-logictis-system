@@ -84,7 +84,7 @@
 @endphp
                                                 
 @if (isset($bookingContainerDetails))
-	@//dd($bookingContainerDetails);
+
     @foreach($bookingContainerDetails as $bookingContainerDetail)
              
         @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)

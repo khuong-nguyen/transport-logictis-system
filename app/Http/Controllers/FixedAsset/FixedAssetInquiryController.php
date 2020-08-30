@@ -61,7 +61,7 @@ class FixedAssetInquiryController extends Controller
                     "recordsFiltered" => count($data),
                 ])
                 ->addColumn('action', function($row) use ($params) {
-                    $url = '/fixed_asset/registration/'.$row->id.'?'.$params;
+                    $url = '/fixed_asset/registration/'.$row->id.'?'.$params."from=inquiry";
                     return '<a href="'.$url.'" class="edit btn btn-success btn-sm">Edit</a>
                         <button class="delete btn btn-danger btn-sm" data-remote="'. $url.'">Delete</button>';
                 })

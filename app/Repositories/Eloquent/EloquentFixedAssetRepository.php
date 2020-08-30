@@ -50,7 +50,7 @@ class EloquentFixedAssetRepository extends EloquentBaseRepository implements Fix
                 }
             }
         }
-        //return $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
+        
         return $query->orderBy('created_at', 'desc')->get();
     }
 }
