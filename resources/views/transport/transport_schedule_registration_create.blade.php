@@ -84,7 +84,7 @@
 @endphp
                                                 
 @if (isset($bookingContainerDetails))
-
+	@//dd($bookingContainerDetails);
     @foreach($bookingContainerDetails as $bookingContainerDetail)
 
         @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)
@@ -114,6 +114,9 @@
                                 $detail['transport_cost'] = $detail['schedules']['transport_cost'];
                                 $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
                                 $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';
+                                $detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
+            												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
+															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
                             } else {
                                 $detail['booking_container_detail_id'] = $detail['id'];
                                 $detail['container_no'] = $detail['container_no'];
@@ -129,6 +132,9 @@
                                 $detail['transport_cost'] = '';
                                 $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
                                 $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';
+                                $detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
+            												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
+															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
                             }
     						$containerDetailNum++;
                             $listContainers[] = $detail;
@@ -141,7 +147,9 @@
                 	$detail['booking_container_detail_id'] = null;
             		$detail['container_id'] = null;
             		$detail['booking_id'] = $containerBooking['booking_id'];
-            		$detail['booking_no'] = $bookingContainerDetail['booking_no'];
+            		$detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
+            												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
+															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
             		$detail['booking_container_id'] = $containerBooking['id'];
             		$detail['container_code'] = $containerBooking['container']['container_code'];
             		
