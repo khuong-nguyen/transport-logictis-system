@@ -786,7 +786,6 @@
         </div>
     </div>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     <script type="text/javascript">
 
         $('#sidebar').removeClass('c-sidebar-lg-show');
@@ -1104,7 +1103,6 @@
         }
     });
     </script>
-    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/select2.full.min.js') }}"></script>
+
 
 @endsection

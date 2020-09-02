@@ -153,10 +153,13 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
                 }
                 
                 if(!empty($params['bkg_created_date_from']) & !empty($params['bkg_created_date_to'])){
+                    $params['bkg_created_date_from'] = Carbon::createFromFormat('d/m/Y', $params['bkg_created_date_from'])->format('Y-m-d');
+                    $params['bkg_created_date_to'] = Carbon::createFromFormat('d/m/Y', $params['bkg_created_date_to'])->format('Y-m-d');
                     $query = $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y') >= '".$params['bkg_created_date_from'].
-                        "' AND DATE_FORMAT(created_at,'%d/%m/%Y') <= '" . $params['bkg_created_date_to']."'"
+                        "' AND DATE_FORMAT(created_at,'%Y-%m-%d') <= '" . $params['bkg_created_date_to']."'"
                         );
-                }   
+                }
+                
                 $result = $query->get();
 
                 return $result;

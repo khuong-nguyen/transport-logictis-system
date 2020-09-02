@@ -38,7 +38,7 @@
             }
         @endphp
     @endforeach
-    <table class="table table-bordered hr-table-detail">
+    <table class="table table-bordered table-container-list table-responsive">
         <thead>
         <tr>
             <th>No.</th>
@@ -78,7 +78,7 @@
                     {{ $list['completed_date'] }}
                 </td>
                 <td>
-                    {{ $list['transport_cost'] }}
+                    <span class="currency_label">{{ $list['transport_cost'] }}</span>
                 </td>
                 <td>
                     {{ $list['pickup_address'] }}
