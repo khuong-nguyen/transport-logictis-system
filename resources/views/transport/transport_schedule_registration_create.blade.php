@@ -351,11 +351,12 @@
 	});
     
     $('#bkg_created_date_from').on('changeDate', function(e){
-        $('#bkg_created_date_to').data("DateTimePicker").minDate(e.date)
-    })
+    	 $('#bkg_created_date_to').datetimepicker('setStartDate', $('#bkg_created_date_from').data("datetimepicker").getDate());
+    	 $('#bkg_created_date_to').val('');
+    });
     $('#bkg_created_date_to').on('changeDate', function(e){
-        $('#bkg_created_date_from').data("DateTimePicker").maxDate(e.date)
-    })
+    	$('#bkg_created_date_from').datetimepicker('setEndDate', $('#bkg_created_date_to').data("datetimepicker").getDate());
+    });
     
     function onDelete(e) {
         let ID = $(e).attr('data-id');
@@ -363,65 +364,6 @@
         $('#confirmDeleteModal').modal('show');
     }
     $(function () {
-/*         function getAllValues(element) {
-            var inputValues = element.find('input').map(function() {
-                var type = $(this).prop("type");
-
-                // checked radios/checkboxes
-                if ((type === "checkbox" || type === "radio") && this.checked) {
-                    return {name: $(this).prop("name"), value: $(this).val()};
-                }
-                // all other fields, except buttons
-                else if (type !== "button" && type !== "submit") {
-                    return {name: $(this).prop("name"), value: $(this).val()};
-                }
-            });
-            return inputValues;
-        } */
-
-/*         function callIsUsedProperty(index) {
-            let tr = $('.table-container-list:visible tbody tr').eq(index);
-            let pickup_plan = tr.find('.pickup_plan').val();
-            let delivery_plan = tr.find('.delivery_plan').val();
-            let container_truck_code = tr.find('.container_truck_id').val();
-            let driver_code = tr.find('.driver_id').val();
-            if (pickup_plan !== '' && delivery_plan !== '' && (container_truck_code !== '' || driver_code !== '')) {
-                let form = getAllValues(tr)
-                form.push({name: '_token', value:$('meta[name="csrf-token"]').attr('content')})
-                $.ajax({
-                    url: '/booking/transport/schedule/useds',
-                    dataType: "json",
-                    method: 'post',
-                    data: form,
-                    success: function (result) {
-                        $.each(result.data, (index, item) => {
-                            let tr = $('.table-container-list tbody tr:nth-child('+parseInt(item.position)+')');
-                            var input = $("<button type=\"button\" onclick=\"onDelete(this)\" data-id=\""+item.id+"\" class=\"btn btn-sm btn-danger action-delete\">Del</button>")
-                            tr.find('td:last-child').html(input);
-                        });
-                        toastr.success(result.message)
-                    },
-                    error: err => {
-                        $.each(err.responseJSON.errors, (index, item) => {
-                            let lip = index.split('.');
-                            let name = lip[0]+'['+lip[1]+']'+'['+lip[2]+']';
-                            let element = $('.form-transport-container:visible').find('input[name="'+name+'"]');
-                            if (lip[2] === 'container_truck_code' || lip[2] === 'driver_code') {
-                                element.removeClass('is-invalid')
-                                element.removeClass('is-valid')
-                                element.addClass('is-warning')
-                                toastr.warning(item[0]);
-                            } else {
-                                element.removeClass('is-valid')
-                                element.addClass('is-invalid')
-                                toastr.error(item[0]);
-                            }
-                        })
-                        // toastr.error(err.responseJSON.message)
-                    }
-                });
-            }
-        } */
         $('#delete').on('click', e => {
             let ID = e.target.getAttribute('data-id');
             if (typeof ID !== undefined) {
@@ -449,13 +391,6 @@
             }
         })
 
-        /* $('.pickup_plan').change(function(e) {
-
-            callIsUsedProperty($(this).closest('tr').index());
-        }); */
-        /* $('.delivery_plan').change(function(e) {
-            callIsUsedProperty($(this).closest('tr').index());
-        }); */
         $('.pickup_plan').each((index, pickup_plan) => {
             
             let delivery_plan = $(pickup_plan).closest('tr').find('.delivery_plan');
@@ -685,39 +620,6 @@
     });
     webshims.polyfill('forms forms-ext');
     
-    /* var container_truck_code_path = "{{ route('autocompleteTruckNo') }}";
-    $('input.container_truck_code').typeahead({
-        source:  function (query, process) {
-        return $.get(container_truck_code_path, { query: query }, function (data) {
-                return process(data);
-            });
-        },
-        afterSelect: function (item) {
-        	$.ajax({
-                url: '/fixed_asset/search',
-                dataType: "json",
-                method: 'GET',
-                data: {
-                    'code': item.name,
-                    'type': 'TRUCK'
-                },
-                success: function (result) {
-                    if (result.data !== null) {
-                    	let tr = $('.table-container-list:visible tbody tr').eq(indexCurrentRow);
-                        tr.find('.container_truck_id').val(result.data.id)
-                        tr.find('.container_truck_code').removeClass('is-warning')
-                        tr.find('.container_truck_code').removeClass('is-invalid')
-                        tr.find('.container_truck_code').addClass('is-valid')
-                        tr.find('.driver_id').val(result.data.driver_id);
-                        tr.find('.driver_code').val(result.data.driver_code);
-                        tr.find('.driver_name_text').html(result.data.driver_name);
-                        tr.find('.driver_name').val(result.data.driver_name);
-                        callIsUsedProperty(indexCurrentRow);
-                    }
-                }
-            });
-        }
-    }); */
 </script>
 
 @endpush
