@@ -35,6 +35,7 @@ Route::group(['prefix' => 'booking','namespace' => 'Booking'],function (){
         Route::get('/registration/{id}', 'BookingContainerRegistrationController@edit');
         Route::put('/registration/{id}', 'BookingContainerRegistrationController@update');
         Route::delete('/registration/{id}', 'BookingContainerRegistrationController@destroy');
+        
         Route::group(['prefix' => 'schedule'],function (){
             Route::get('/registration', 'TransportScheduleRegistrationController@create');
             Route::post('/registration', 'TransportScheduleRegistrationController@store');

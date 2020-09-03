@@ -15,8 +15,11 @@ class CreateBookingTable extends Migration
     {
         Schema::create('booking', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('booking_no', 100)->unique();
+            $table->string('booking_no', 100)->unique()->nullable();
             $table->foreignId('virtual_booking_id')->nullable();
+            $table->foreignId('request_order_id')->nullable();
+            $table->string('virtual_booking_no', 100)->nullable();
+            $table->string('request_order_no', 100)->nullable();
             $table->string('tvvd', 50)->nullable();
             $table->string('por_1', 30);
             $table->string('por_2', 30)->nullable();
@@ -47,7 +50,8 @@ class CreateBookingTable extends Migration
             $table->string('bkg_contact_tel', 30)->nullable();
             $table->text('ext_remark')->nullable();
             $table->text('int_remark')->nullable();
-            $table->string('booking_status',8)->default('ORDER')->comment('[ORDER,APPROVED]');
+            $table->string('booking_status',8)->default('ORDER')->comment('[ORDER,VIRTUAL,BOOKING]');
+            $table->string('booking_type',8)->default('IMPORT')->comment('[IMPORT, EXPORT]');
             $table->foreignId('shipper_id')->nullable();
             $table->foreignId('forwarder_id')->nullable();
             $table->foreignId('consignee_id')->nullable();
@@ -55,6 +59,10 @@ class CreateBookingTable extends Migration
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('approved_by')->nullable();
             $table->string('schedule_status')->default('EMPTY')->comment('[EMPTY,PARTIAL,FULL]');
+            $table->string('pickup_address', 300)->nullable();
+            $table->string('delivery_address', 300)->nullable();
+            $table->datetime('deleted_at')->nullable();
+            $table->datetime('closing_time')->nullable();
             $table->timestamps();
         });
     }

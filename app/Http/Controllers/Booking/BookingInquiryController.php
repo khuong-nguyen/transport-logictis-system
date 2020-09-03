@@ -64,6 +64,9 @@ class BookingInquiryController extends Controller
                 ->editColumn('pod_1', function ($row) {
                     return $row->pod_1.$row->pod_2;
                 })
+                ->editColumn('booking_no', function ($row) {
+                    return !empty($row->booking_no)? $row->booking_no : (!empty($row->booking_virtual_no) ? $row->booking_virtual_no : $row->request_order_no);
+                })
                 ->addColumn('action', function($row){
                     $url = '/booking/registration/'.$row->id;
                     return '<button class="edit btn btn-success btn-sm" data-remote="'. $url.'">Edit</button>

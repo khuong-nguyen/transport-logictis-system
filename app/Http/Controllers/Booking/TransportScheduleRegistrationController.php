@@ -108,7 +108,7 @@ class TransportScheduleRegistrationController extends Controller
         $containerTruckNo = $request->has('containerTruckNo')?$request->containerTruckNo:'';
         
         $bookingContainerDetails = [];
-        $example = [];
+        //$example = [];
         $errorFlash = [];
         $statusApproved = Booking::STATUS_APPROVED;
         if (!empty($params)) {
@@ -125,9 +125,11 @@ class TransportScheduleRegistrationController extends Controller
             
         }
         
+        $listTransportSummary = [];
         
+        $listTransportSummary = $this->scheduleTransportContainerRepository->listTransportSummary();
 
-        return view('transport.transport_schedule_registration_create', compact('bookingContainerDetails', 'params', 'driverNo', 'containerTruckNo', 'example', 'statusApproved'))->with('searchError', $errorFlash);
+        return view('transport.transport_schedule_registration_create', compact('bookingContainerDetails', 'params', 'driverNo', 'containerTruckNo', 'statusApproved','listTransportSummary'))->with('searchError', $errorFlash);
     }
 
     /**

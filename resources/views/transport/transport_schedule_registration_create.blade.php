@@ -11,7 +11,8 @@
                         <div class="col ">
                             <div class="nav-tabs-boxed form-group">
                                 <ul class="nav nav-tabs" role="tablist" >
-                                    <li class="nav-item"><a class="nav-link @if(!$driverNo && !$containerTruckNo) active @endif" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">Booking Schedule Tab</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">Booking Schedule Tab</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="transport_summary_tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="profile">Transport Summary</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane @if(!$driverNo && !$containerTruckNo) active @endif" id="tab1" role="tabpanel" aria-labelledby="bkg_tab">
@@ -40,44 +41,12 @@
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <button type="button" class="btn btn-primary btn-search-booking">Search</button>
-                                                                
                                                             </div>
                                                         </div>
-                                                	</div>
-                                                	<div class="col-md-4">
-                                                	
-                                                    		<div class="form-group row">
-                                                				<div class="col-md-4 pr-0">
-                                                                	<label class="col-form-label" for="view_booking_no">Booking No: </label>
-                                                                </div>
-                                                                <div class="col-md-5 pr-0">
-                                                                	<label class="col-form-label" name= "view_booking_no" id= "view_booking_no"></label>
-                                                                </div>
-                                                    		</div>
-                                                    		
-                                                    		<div class="form-group row">
-                                                				<div class="col-md-4 pr-0">
-                                                                	<label class="col-form-label" for="view_sailling_due_date">Sailling due date: </label>
-                                                                </div>
-                                                				<div class="col-md-5 pr-0">
-                                                                	<label class="col-form-label" name = "view_sailling_due_date" id = "view_sailling_due_date"></label>
-                                                                </div>
-                                                    		</div>
-    
-                                  
-                                                    		<div class="form-group row">
-                                                				<div class="col-md-4 pr-0">
-                                                                	<label class="col-form-label" for="view_pick_up_dt">Pickup date: </label>
-                                                                </div>
-                                                                <div class="col-md-5 pr-0">
-                                                                	<label class="col-form-label" name = "view_pick_up_dt" id = "view_pick_up_dt"></label>
-                                                                </div>
-                                                    		</div>
-                                             
-                                                		</div>
-                                                	</div>
-                                                	</div>
-                                                </div>
+                                            		</div>
+                                            	</div>
+                                        	</div>
+                                        </div>
 @php
 	$listContainers = [];
 	$recordNumber = 0;
@@ -86,7 +55,7 @@
 @if (isset($bookingContainerDetails))
 
     @foreach($bookingContainerDetails as $bookingContainerDetail)
-             
+
         @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)
             @php
                 $containerCode = isset($containerBooking['container']) && !empty($containerBooking['container']) ? $containerBooking['container']['container_code']:'';
@@ -112,8 +81,11 @@
                                 $detail['container_no'] = $detail['container_no'];
                                 $detail['completed_date'] = $detail['schedules']['completed_date'];
                                 $detail['transport_cost'] = $detail['schedules']['transport_cost'];
-                                $detail['pickup_address'] = $detail['schedules']['pickup_address'];
-                                $detail['delivery_address'] = $detail['schedules']['delivery_address'];
+                                $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
+                                $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';
+                                $detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
+            												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
+															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
                             } else {
                                 $detail['booking_container_detail_id'] = $detail['id'];
                                 $detail['container_no'] = $detail['container_no'];
@@ -127,8 +99,11 @@
                                 $detail['delivery_plan'] = '';
                                 $detail['completed_date'] = '';
                                 $detail['transport_cost'] = '';
-                                $detail['pickup_address'] = '';
-                                $detail['delivery_address'] = '';
+                                $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
+                                $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';
+                                $detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
+            												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
+															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
                             }
     						$containerDetailNum++;
                             $listContainers[] = $detail;
@@ -141,7 +116,9 @@
                 	$detail['booking_container_detail_id'] = null;
             		$detail['container_id'] = null;
             		$detail['booking_id'] = $containerBooking['booking_id'];
-            		$detail['booking_no'] = $bookingContainerDetail['booking_no'];
+            		$detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
+            												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
+															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
             		$detail['booking_container_id'] = $containerBooking['id'];
             		$detail['container_code'] = $containerBooking['container']['container_code'];
             		
@@ -156,8 +133,8 @@
                     $detail['delivery_plan'] = '';
                     $detail['completed_date'] = '';
                     $detail['transport_cost'] = '';
-                    $detail['pickup_address'] = '';
-                    $detail['delivery_address'] = '';
+                    $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
+                    $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';;
                     $listContainers[] = $detail;
                 }
         	@endphp
@@ -170,7 +147,7 @@
     												@csrf
     												@method('PUT')
     												
-                                                <table class="table table-bordered table-container-list table-responsive">
+                                                <table class="table table-bordered table-container-list table-responsive" style="overflow-y:scroll">
                                                     <thead>
                                                     <tr>
                                                         <th>No.</th>
@@ -180,13 +157,13 @@
                                                         <th>Router</th>
                                                         <th>Pickup Plan</th>
                                                         <th>Delivery Plan</th>
+                                                        <th>Container Truck</th>
+                                                        <th>Driver</th>
+                                                        <th>Driver Name</th>
                                                         <th>Completed Time</th>
                                                         <th>Transport Cost</th>
                                                         <th>Pickup Address</th>
                                                         <th>Delivery Address</th>
-                                                        <th>Container Truck</th>
-                                                        <th>Driver</th>
-                                                        <th>Driver Name</th>
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
@@ -195,12 +172,12 @@
                                                     @foreach($listContainers as $list)
                                                     	
                                                         <tr>
-                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][container_id]" value="{{ $list['container_id'] }}">
-                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][container_no]" value="{{ $list['container_no'] }}">
-                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_detail_id]" value="{{ $list['booking_container_detail_id'] }}">
-                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_id]" value="{{ $list['booking_id'] }}">
-                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_id]" value="{{ $list['booking_container_id'] }}">
-                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_no]" value="{{ $list['booking_no'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][container_id]" id = "container_id_<?=$recordNumber?>" value="{{ $list['container_id'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][container_no]" id = "container_no_<?=$recordNumber?>" value="{{ $list['container_no'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_detail_id]" id = "booking_container_detail_id_<?=$recordNumber?> "value="{{ $list['booking_container_detail_id'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_id]" id = "booking_id_<?=$recordNumber?>" value="{{ $list['booking_id'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_id]" id = "booking_container_id_<?=$recordNumber?>" value="{{ $list['booking_container_id'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_no]" id = "booking_no_<?=$recordNumber?>" value="{{ $list['booking_no'] }}">
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][position]" value="{{ $recordNumber }}">
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][driver_name]" class="driver_name" value="{{ $list['driver_name'] }}">
                                                             <input type="hidden" class="driver_id" name="schedules[<?=$recordNumber?>][driver_id]" class="driver_id" value="{{ $list['driver_id'] }}">
@@ -216,35 +193,34 @@
                                                             </td>
                                                             <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
                                                             <td style="position: relative">
-                                                                <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$recordNumber?>][pickup_plan]" class="form-control pickup_plan" autocomplete = "off">
+                                                                <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$recordNumber?>][pickup_plan]" class="form-control pickup_plan date" autocomplete = "off">
                                                             </td>
                                                             <td style="position: relative">
                                                                 <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$recordNumber?>][delivery_plan]" class="form-control delivery_plan" autocomplete = "off">
                                                             </td>
                                                             <td style="position: relative">
-                                                                <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$recordNumber?>][completed_date]" class="form-control completed_date" autocomplete = "off">
-                                                            </td>
-                                                            <td style="position: relative">
-                                                                <input type="number" min="0" type="text" style="min-width: 100px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$recordNumber?>][transport_cost]" class="form-control transport_cost">
-                                                            </td>
-                                                            <td style="position: relative">
-                                                                <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$recordNumber?>][pickup_address]" class="form-control pickup_address">
-                                                            </td>
-                                                           <td style="position: relative">
-                                                                <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$recordNumber?>][delivery_address]" class="form-control delivery_address">
-                                                            </td>
-                                                            <td style="position: relative">
-                                                                <div class = "container">
-                                                                	<input type="text" style="min-width: 150px" name="schedules[<?=$recordNumber?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code" autocomplete="off">
-                                                                </div>
+                                                            	<select class="form-control" style="min-width: 150px" name="select_truck_<?=$recordNumber?>" id="select_truck_<?=$recordNumber?>" onclick = "loadOptionTruck(<?=$recordNumber?>)" onchange = "selectTruckCodeAndDriver(<?=$recordNumber?>)" placeholder = "Select Truck"></select>
+                                                            	<input type="text" style="min-width: 150px" name="schedules[<?=$recordNumber?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code" autocomplete="off" readonly>
                                                         	</td>
                                                             <td style="position: relative">
                                                             	<div class = "container">
-                                                            		<input type="text" style="min-width: 150px" name="schedules[<?=$recordNumber?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code" autocomplete="off">
+                                                            		<input type="text" style="min-width: 120px" name="schedules[<?=$recordNumber?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code" autocomplete="off" readonly>
                                                         		</div>
-                                                    		</td>
-                                                        		
-                                                            <td class="driver_name_text">{{ $list['driver_name'] }}</td>
+                                                    		</td>	
+                                                            <td class="driver_name_text"  style="min-width: 160px">{{ $list['driver_name'] }}</td>
+                                                            <td style="position: relative">
+                                                                <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$recordNumber?>][completed_date]" class="form-control completed_date" autocomplete = "off">
+                                                            </td>
+                                                            <td style="position: relative">
+                                                                <input type="number" min="0" type="text" style="min-width: 120px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$recordNumber?>][transport_cost]" class="form-control currency transport_cost">
+                                                            </td>
+                                                            <td style="position: relative">
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$recordNumber?>][pickup_address]" class="form-control pickup_address" readonly>
+                                                            </td>
+                                                           <td style="position: relative">
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$recordNumber?>][delivery_address]" class="form-control delivery_address" readonly>
+                                                            </td>
+                                                            
                                                             <td>@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
                                                         </tr>
                                                         @php
@@ -267,7 +243,41 @@
                                             </form> 
                                             </div>
                                         </div>
+                                    <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="transport_summary_tab">
+                                    	<table class="table table-bordered table-container-list table-responsive" style="overflow-y:scroll">
+                                            <thead>
+                                                <tr>
+                                                    <th>No.</th>
+                                                    <th>Truck Code</th>
+                                                    <th>Drive Code</th>
+                                                    <th>Driver Name</th>
+                                                    <th>Transport Schedule Nearly</th>
+                                                    <th>Transport Status Today</th>
+                                                    <th>Import Transport Total</th>
+                                                    <th>Export Transport Total</th>
+                                                    <th>Transport Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            	@php $record = 0; @endphp
+                                            	@foreach($listTransportSummary as $transportSummary)
+                                            		@php $record++; @endphp
+                                            		<tr>
+                                                		<td>{{ $record}}</td>
+                                                		<td>{{ $transportSummary['fixed_asset_code'] }}</td>
+                                                        <td>{{ $transportSummary['driver_code'] }}</td>
+                                                        <td>{{ $transportSummary['driver_name'] }}</td>
+                                                        <td>{{ $transportSummary['transport_schedule_nearly'] }}</td>
+                                                        <td>{{ $transportSummary['transport_status_today'] }}</td>
+                                                        <td>{{ $transportSummary['import_transport_total'] }}</td>
+                                                        <td>{{ $transportSummary['export_transport_total'] }}</td>
+                                                        <td>{{ $transportSummary['transport_total'] }}</td>
+                                                     </tr>
+                                            	@endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
+                                </div>
     <!-- Modal -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -326,22 +336,24 @@
 	
 	$(function () {
 		$('#bkg_created_date_from').datetimepicker({
-			viewMode: 'days',
 	        format: 'dd/mm/yyyy',
-	        date: new Date()
+	        date: new Date(),
+	        minView:2,
+	        autoclose: true
 	    });
 
 		$('#bkg_created_date_to').datetimepicker({
-			viewMode: 'days',
 	        format: 'dd/mm/yyyy',
-	        date: new Date()
+	        minView:2,
+	        date: new Date(),
+	        autoclose: true
 	    });
 	});
     
-    $('#bkg_created_date_from').on('dp.change', function(e){
+    $('#bkg_created_date_from').on('changeDate', function(e){
         $('#bkg_created_date_to').data("DateTimePicker").minDate(e.date)
     })
-    $('#bkg_created_date_to').on('dp.change', function(e){
+    $('#bkg_created_date_to').on('changeDate', function(e){
         $('#bkg_created_date_from').data("DateTimePicker").maxDate(e.date)
     })
     
@@ -351,7 +363,7 @@
         $('#confirmDeleteModal').modal('show');
     }
     $(function () {
-        function getAllValues(element) {
+/*         function getAllValues(element) {
             var inputValues = element.find('input').map(function() {
                 var type = $(this).prop("type");
 
@@ -365,9 +377,9 @@
                 }
             });
             return inputValues;
-        }
+        } */
 
-        function callIsUsedProperty(index) {
+/*         function callIsUsedProperty(index) {
             let tr = $('.table-container-list:visible tbody tr').eq(index);
             let pickup_plan = tr.find('.pickup_plan').val();
             let delivery_plan = tr.find('.delivery_plan').val();
@@ -409,7 +421,7 @@
                     }
                 });
             }
-        }
+        } */
         $('#delete').on('click', e => {
             let ID = e.target.getAttribute('data-id');
             if (typeof ID !== undefined) {
@@ -437,51 +449,53 @@
             }
         })
 
-        $('.pickup_plan').change(function(e) {
+        /* $('.pickup_plan').change(function(e) {
 
             callIsUsedProperty($(this).closest('tr').index());
-        });
-        $('.delivery_plan').change(function(e) {
+        }); */
+        /* $('.delivery_plan').change(function(e) {
             callIsUsedProperty($(this).closest('tr').index());
-        });
+        }); */
         $('.pickup_plan').each((index, pickup_plan) => {
+            
             let delivery_plan = $(pickup_plan).closest('tr').find('.delivery_plan');
             let completed_date = $(pickup_plan).closest('tr').find('.completed_date');
+            
             $(pickup_plan).datetimepicker({
                 format: 'dd/mm/yyyy hh:mm',
                 startDate: moment().toDate(),
-                useCurrent: false,
-                // todayBtn: true,
-                autoclose: true
+                minView:1,
+                autoclose: true,
+                todayHighlight: true,
             }).on('changeDate', function (selected) {
+				
                 var minDate = new Date(selected.date.valueOf());
                 $(delivery_plan).datetimepicker('setStartDate', $(pickup_plan).data("datetimepicker").getDate());
-                callIsUsedProperty(index);
+                $(delivery_plan).val('');
+                $('#select_truck_'+ index).empty();
+                saveSchedule(index);
             });
+                
             $(delivery_plan).datetimepicker({
                 format: 'dd/mm/yyyy hh:mm',
-                // todayBtn: true,
                 startDate: moment().toDate(),
+                minView:1,
                 autoclose: true,
-                useCurrent: false,
                 todayHighlight: true,
             }).on('changeDate', function (selected) {
                 var maxDate = new Date(selected.date.valueOf());
                 $(pickup_plan).datetimepicker('setEndDate', $(delivery_plan).data("datetimepicker").getDate());
-                callIsUsedProperty(index);
+                $('#select_truck_'+ index).empty();
+                saveSchedule(index);
             });
+                
 
             $(completed_date).datetimepicker({
                 format: 'dd/mm/yyyy hh:mm',
-                // todayBtn: true,
+                minView:1,
                 startDate: moment().toDate(),
                 autoclose: true,
-                useCurrent: false,
                 todayHighlight: true,
-            }).on('changeDate', function (selected) {
-                var maxDate = new Date(selected.date.valueOf());
-                $(pickup_plan).datetimepicker('setEndDate', $(completed_date).data("datetimepicker").getDate());
-                callIsUsedProperty(index);
             });
         });
 
@@ -508,6 +522,151 @@
             document.location.search = query
         });
     });
+
+    var trucks = [];
+    function loadOptionTruck(index){
+    	trucks = [];
+    	$('#select_truck_'+ index).empty();
+    	let tr = $('.table-container-list:visible tbody tr').eq(index);
+    	let pickup_plan = tr.find('.pickup_plan').val();
+    	let delivery_plan = tr.find('.delivery_plan').val();
+    	if(pickup_plan !== "" && delivery_plan !== ""){
+    		let path = "{{ route('loadTruckSchedule') }}";
+    		$.get(path, { pickup_plan: pickup_plan, delivery_plan:delivery_plan }, function (data) {
+    				trucks = data;
+    				$('#select_truck_'+ index).append($('<option>', { 
+				        value: 0,
+				        text : 'Select Truck'
+				    }));
+    				for(var key in trucks){
+    					$('#select_truck_'+ index).append($('<option>', { 
+					        value: trucks[key].id,
+					        text : trucks[key].fixed_asset_code 
+					    }));
+    				}
+        		}
+    		);
+    	}
+    }
+
+    function selectTruckCodeAndDriver(index){
+        
+    	let tr = $('.table-container-list:visible tbody tr').eq(index);
+    	
+    	for(var key in trucks){
+        	
+			if($('#select_truck_'+ index).val() == trucks[key].id){
+				tr.find('.container_truck_code').val(trucks[key].fixed_asset_code);
+				tr.find('.container_truck_id').val(trucks[key].id);
+				tr.find('.driver_id').val(trucks[key].driver_id);
+                tr.find('.driver_code').val(trucks[key].driver_code);
+                tr.find('.driver_name_text').html(trucks[key].driver_name);
+                tr.find('.driver_name').val(trucks[key].driver_name);
+                saveSchedule(index);
+			}
+		}	
+    }
+
+    function saveSchedule(index)
+    {
+    	let tr = $('.table-container-list:visible tbody tr').eq(index);
+    	let booking_id = $('#booking_id_' + index).val();
+    	let booking_no = $('#booking_no_' + index).val();
+    	let container_id = $('#container_id_' + index).val();
+    	let booking_container_id = $('#booking_container_id_' + index).val();
+    	let booking_container_detail_id = $('#booking_container_detail_id_' + index).val();
+    	let container_no = $('#container_no_' + index).val();
+		
+    	let container_truck_id = tr.find('.container_truck_id').val();
+    	let container_truck_code = tr.find('.container_truck_code').val();
+		
+    	let driver_id = tr.find('.driver_id').val();
+    	let driver_code = tr.find('.driver_code').val();
+        let driver_name = tr.find('.driver_name').val();
+        let pickup_address = tr.find('.pickup_address').val();
+        let delivery_address = tr.find('.delivery_address').val();
+        let transport_cost = tr.find('.transport_cost').val();
+          
+    	let pickup_plan = tr.find('.pickup_plan').val();
+    	let delivery_plan = tr.find('.delivery_plan').val();
+    	let completed_date = tr.find('.completed_date').val();
+    	let id = tr.find('.id').val();
+    	
+    	if(pickup_plan !== "" && delivery_plan !== "" 
+        	&& driver_id !== "" && container_truck_id !=="")
+    	{
+        	if(id !== "")
+            {
+        		var path = "{{ route('updateSchedule') }}"; 
+        		$.ajax({
+                    url: path,
+                    dataType: "json",
+                    method: 'PUT',
+                    data: {
+                        'schedules': [{ 
+                            	"id": id,
+                            	"booking_id":booking_id,
+                            	"booking_no":booking_no,
+                            	"container_id":container_id,
+                            	"booking_container_id": booking_container_id,
+                            	"booking_container_detail_id": booking_container_detail_id,
+                            	"container_no": container_no,
+                            	"container_truck_id": container_truck_id,
+                            	"container_truck_code": container_truck_code,
+                            	"driver_id": driver_id,
+                            	"driver_code": driver_code,
+                            	"driver_name": driver_name,
+                            	"pickup_address": pickup_address,
+                            	"delivery_address": delivery_address,
+                            	"transport_cost": transport_cost,
+                            	"pickup_plan": pickup_plan,
+                            	"delivery_plan": delivery_plan,
+                            	"completed_date": completed_date
+                        }]
+                    },
+                    success: function (result) {
+                    },
+                    error: function (result){
+                    }
+            	});
+            }else
+            	var path = "{{ route('createSchedule') }}"; 
+            	$.ajax({
+                    url: path,
+                    dataType: "json",
+                    method: 'POST',
+                    data: {
+                    	'schedules': [{ 
+                        	"id": id,
+                        	"booking_id":booking_id,
+                        	"booking_no":booking_no,
+                        	"container_id":container_id,
+                        	"booking_container_id": booking_container_id,
+                        	"booking_container_detail_id": booking_container_detail_id,
+                        	"container_no": container_no,
+                        	"container_truck_id": container_truck_id,
+                        	"container_truck_code": container_truck_code,
+                        	"driver_id": driver_id,
+                        	"driver_code": driver_code,
+                        	"driver_name": driver_name,
+                        	"pickup_address": pickup_address,
+                        	"delivery_address": delivery_address,
+                        	"transport_cost": transport_cost,
+                        	"pickup_plan": pickup_plan,
+                        	"delivery_plan": delivery_plan,
+                        	"completed_date": completed_date
+                    	}]
+                    },
+                    success: function (result) {
+                    },
+                    error: function (result){
+                    }
+            	});
+            {
+                
+            }
+    	}
+    }
 </script>
 
 <script type="text/javascript">
@@ -520,7 +679,13 @@
         }
     });
 
-    var container_truck_code_path = "{{ route('autocompleteTruckNo') }}";
+    webshims.setOptions('forms-ext', {
+        replaceUI: 'auto',
+        types: 'number'
+    });
+    webshims.polyfill('forms forms-ext');
+    
+    /* var container_truck_code_path = "{{ route('autocompleteTruckNo') }}";
     $('input.container_truck_code').typeahead({
         source:  function (query, process) {
         return $.get(container_truck_code_path, { query: query }, function (data) {
@@ -543,47 +708,16 @@
                         tr.find('.container_truck_code').removeClass('is-warning')
                         tr.find('.container_truck_code').removeClass('is-invalid')
                         tr.find('.container_truck_code').addClass('is-valid')
+                        tr.find('.driver_id').val(result.data.driver_id);
+                        tr.find('.driver_code').val(result.data.driver_code);
+                        tr.find('.driver_name_text').html(result.data.driver_name);
+                        tr.find('.driver_name').val(result.data.driver_name);
                         callIsUsedProperty(indexCurrentRow);
                     }
                 }
             });
         }
-    });
-
-    var driver_code_path = "{{ route('autocompleteDriverNo') }}";
-    $('input.driver_code').typeahead({
-        source:  function (query, process) {
-        return $.get(driver_code_path, { query: query }, function (data) {
-                return process(data);
-            });
-        },
-        afterSelect: function (item) {
-        	$.ajax({
-                url: '/employee/search',
-                dataType: "json",
-                method: 'GET',
-                data: {
-                    'code': item.name,
-                    'type': 'DRIVER'
-                },
-                success: function (result) {
-                    if (result.data !== null) {
-                    	let tr = $('.table-container-list:visible tbody tr').eq(indexCurrentRow);
-                    	
-                        tr.find('.driver_id').val(result.data.id);
-                        tr.find('.driver_name').val(result.data.employee_name);
-                        tr.find('.driver_name_text').html(result.data.employee_name);
-                        tr.find('.driver_code').removeClass('is-warning');
-                        tr.find('.driver_code').removeClass('is-invalid');
-                        tr.find('.driver_code').addClass('is-valid');
-                        callIsUsedProperty(indexCurrentRow);
-                    }
-                }
-            });
-        }
-    });
-
-    
+    }); */
 </script>
 
 @endpush

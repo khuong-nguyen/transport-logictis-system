@@ -2,11 +2,11 @@
 
 namespace App;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Booking extends Model
 {
-
+    use SoftDeletes;
     protected $table ='booking';
 
     const STATUS_APPROVED = 'APPROVED';
@@ -19,13 +19,15 @@ class Booking extends Model
     protected $fillable = [
         'booking_no', 'tvvd', 'por_1', 'por_2', 'pol_1', 'pol_2', 'pod_1', 'pod_2', 'del_1', 'del_2',
         'r_d_term_1', 'r_d_term_2', 'b_l_no', 'cmdt_1', 'cmdt_2', 'unit', 'lofc_1', 'lofc_2', 'pick_up_cy', 'full_return_cy',
-        'bkg_contact_name', 'bkg_contact_email', 'bkg_contact_tel',
-        'ext_remark',
+        'bkg_contact_name', 'bkg_contact_email', 'bkg_contact_tel', 'booking_status',
+        'ext_remark','booking_type',
         'int_remark',
         'booking_status','si', 'brd', 'fh',
         'weight',
         'shipper_id','forwarder_id','consignee_id','created_by','updated_by','approved_by','virtual_booking_id',
-        'sailling_due_date','pick_up_dt'
+        'sailling_due_date','pick_up_dt','request_order_no','request_order_id','virtual_booking_no',
+        'pickup_address', 'delivery_address'
+        
     ];
     /**
      * Indicates if the model should be timestamped.

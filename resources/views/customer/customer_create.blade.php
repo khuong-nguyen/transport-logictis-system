@@ -136,7 +136,8 @@
                                                                         <label class="col-form-label" for="email">Email</label>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        <input class="form-control" id="email" value="{{old('customer.email') ?? $customer->email ?? ''}}" type="email" name="customer[email]">
+                                                                        <input class="form-control  @if($errors->has('customer.email')) is-invalid @endif" id="email" value="{{old('customer.email') ?? $customer->email ?? ''}}" type="email" name="customer[email]">
+                                                                        @error('customer.email')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -177,8 +178,33 @@
                                                                         @error('customer.sale_rep_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                                     </div>
                                                                 </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="customer_store_address1">Store Address 1</label>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <input class="form-control" id="customer_store_address1" value="{{old('customer.customer_store_address1') ?? $customer->customer_store_address1 ?? ''}}" type="text" name="customer[customer_store_address1]">
+                                                                    </div>
+                                                               </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="customer_store_address2">Store Address 2</label>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <input class="form-control" id="customer_store_address2" value="{{old('customer.customer_store_address2') ?? $customer->customer_store_address2 ?? ''}}" type="text" name="customer[customer_store_address2]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                        <label class="col-form-label" for="customer_store_address3">Store Address 3</label>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <input class="form-control" id="customer_store_address3" value="{{old('customer.customer_store_address3') ?? $customer->customer_store_address3 ?? ''}}" type="text" name="customer[customer_store_address3]">
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                   
                                                     </div>
                                                 </div>
                                             </div>

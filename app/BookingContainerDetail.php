@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BookingContainerDetail extends Model
 {
     protected $table ='booking_container_details';
-
+    use SoftDeletes;
+    
     /**
      * The attributes that are mass assignable.
      *

@@ -22,7 +22,7 @@ class CreateVirtualBookingTable extends Migration
             $table->string('pol_1', 30);
             $table->string('pol_2', 30)->nullable();
             $table->string('pod_1', 30);
-            $table->string('pod_2', 30);
+            $table->string('pod_2', 30)->nullable();
             $table->string('del_1', 30);
             $table->string('del_2', 30)->nullable();
             $table->string('r_d_term_1', 30)->nullable();
@@ -46,14 +46,19 @@ class CreateVirtualBookingTable extends Migration
             $table->string('bkg_contact_tel', 30)->nullable();
             $table->text('ext_remark')->nullable();
             $table->text('int_remark')->nullable();
-            $table->string('booking_status',8)->default('ORDER')->comment('[ORDER,APPROVED]');
-            $table->foreignId('shipper_id');
+            $table->string('booking_status',8)->default('ORDER')->comment('[ORDER,VIRTUAL,BOOKING]');
+            $table->string('booking_type',8)->default('IMPORT')->comment('[IMPORT, EXPORT]');
+            $table->foreignId('shipper_id')->nullable();
             $table->foreignId('forwarder_id')->nullable();
             $table->foreignId('consignee_id')->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('approved_by')->nullable();
             $table->string('schedule_status')->default('EMPTY')->comment('[EMPTY,PARTIAL,FULL]');
+            $table->string('pickup_address', 300)->nullable();
+            $table->string('delivery_address', 300)->nullable();
+            $table->datetime('deleted_at')->nullable();
+            $table->datetime('closing_time')->nullable();
             $table->timestamps();
         });
     }

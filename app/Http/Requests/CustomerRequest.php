@@ -29,6 +29,7 @@ class CustomerRequest extends FormRequest
             'customer.city' => 'required|max:30',
             'customer.sale_office_code' => 'required|max:50',
             'customer.sale_rep_code' => 'required|max:50',
+            'customer.email' => 'required|max:100',
         ];
     }
 }

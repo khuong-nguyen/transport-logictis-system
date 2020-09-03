@@ -48,6 +48,7 @@
                                             <div class="form-row">
                                                 <div class="row col-md-12">
                                                     <div class="col-md-5">
+                                                    	@if(isset($booking) && $booking->booking_status == "BOOKING")
                                                         <div class="form-group row">
                                                             <label class="col-md-2 pr-0 col-form-label required" for="booking_no">BKG No</label>
                                                             <div class="col-md-4 p-0">
@@ -55,12 +56,46 @@
                                                                        value="{{ old('booking.booking_no') ?? $booking->booking_no ?? '' }}" required>
                                                                 @error('booking.booking_no')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                             </div>
-                                                            <div class="col-md-2">
-                                                                <label class="col-form-label"  for="virtual_booking_no">Virtual BKG No</label>
-                                                            </div>
-                                                            <div class="col-md-4 pl-0">
-                                                                <input class="form-control" id="virtual_booking_no" type="text" name="virtual_booking_no">
-                                                            </div>
+                                                        </div>
+                                                        @elseif(isset($booking) && $booking->booking_status == "VIRTUAL")
+                                                        <div class="form-group row">
+                                                        	<label class="col-md-3 pr-0 col-form-label" for="virtual_booking_no">Virtual BKG No: </label>
+                                                            <label class="col-md-5 pr-0 col-form-label" for="virtual_booking_no">{{$booking->virtual_booking_no ?? '' }} </label>
+                                                        </div>
+                                                        @elseif(isset($booking) && $booking->booking_status == "ORDER")
+                                                        <div class="form-group row">
+                                                        	<label class="col-md-3 pr-0 col-form-label" for="request_order_no">Request No: </label>
+                                                            <label class="col-md-5 pr-0 col-form-label" for="request_order_no">{{$booking->request_order_no ?? '' }} </label>
+                                                        </div>
+                                                        @endif
+                                                        
+                                                        @if(isset($booking))
+                                                        <div class="form-group row">
+                                                        	<div class="col-md-3 pr-0">
+                                                        		<label class="form-label" for="request_order_no">Booking Status </label>
+                                                        	</div>
+                                                        	<div class="col-md-3 pr-0">
+                                                        		{{ Form::radio('booking[booking_status]', 'ORDER', $booking->booking_status == 'ORDER'?true:false )}} Order
+                                                        	</div>
+                                                        	<div class="col-md-3 pr-0">
+                                                        		{{ Form::radio('booking[booking_status]', 'VIRTUAL', $booking->booking_status == 'VIRTUAL'?true:false )}} Virtual
+                                                        	</div>
+                                                        	<div class="col-md-3 pr-0">
+                                                        		{{ Form::radio('booking[booking_status]', 'BOOKING', $booking->booking_status == 'BOOKING'?true:false )}} Booking
+                                                        	</div>
+                                                            
+                                                        </div>
+                                                        @endif
+                                                        <div class="form-group row">
+                                                        	<div class="col-md-3 pr-0">
+                                                        		<label class="form-label" for="request_order_no">Booking Type </label>
+                                                        	</div>
+                                                        	<div class="col-md-3 pr-0">
+                                                        		{{ Form::radio('booking[booking_type]', 'IMPORT', isset($booking->booking_type) ? ($booking->booking_type == 'IMPORT' ? true:false) : true)}} Import
+                                                        	</div>
+                                                        	<div class="col-md-3 pr-0">
+                                                        		{{ Form::radio('booking[booking_type]', 'EXPORT', isset($booking->booking_type) ? ($booking->booking_type == 'EXPORT'?true:false) : false )}} Export
+                                                        	</div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-md-2 pr-0 col-form-label required" for="tvvd">T/VVD:</label>
@@ -188,7 +223,7 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-2 pr-0">
-                                                                <label class="col-form-label required">SHBR</label>
+                                                                <label class="col-form-label">SHBR</label>
                                                             </div>
 
                                                             <div class="col-md-2 pr-0">
@@ -202,7 +237,7 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-2 pr-0">
-                                                                <label class="col-form-label required" >FWDR</label>
+                                                                <label class="col-form-label" >FWDR</label>
                                                             </div>
 
                                                             <div class="col-md-2 pr-0">
@@ -215,7 +250,7 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-2 pr-0">
-                                                                <label class="col-form-label required" >CNEE</label>
+                                                                <label class="col-form-label" >CNEE</label>
                                                             </div>
 
                                                             <div class="col-md-2 pr-0">
@@ -224,6 +259,22 @@
 
                                                             <div class="col-md-4 pr-0">
                                                                 <input class="form-control" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                        	<div class="col-md-2 pr-0">
+                                                                <label class="col-form-label" >Pickup Address</label>
+                                                            </div>
+                                                            <div class="col-md-6 pr-0">
+                                                                <input class="form-control" id="pickup_address" type="text" value="{{ $booking->pickup_address ?? ''}}" name="booking[pickup_address]">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                        	<div class="col-md-2 pr-0">
+                                                                <label class="col-form-label" >Delivery Address</label>
+                                                            </div>
+                                                            <div class="col-md-6 pr-0">
+                                                                <input class="form-control" id="delivery_address" type="text" value="{{ $booking->delivery_address ?? ''}}" name="booking[delivery_address]">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -735,7 +786,6 @@
         </div>
     </div>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     <script type="text/javascript">
 
         $('#sidebar').removeClass('c-sidebar-lg-show');
@@ -918,6 +968,7 @@
                     })
                     $('#SHBR_customer_code').val(result.customer_code)
                     $('#SHBR_customer_legal_english_name').val(result.customer_legal_english_name)
+                    $('#pickup_address').val(result.customer_store_address1)
                 }
             });
         })
@@ -937,6 +988,7 @@
                         })
                         $('#CNEE_customer_code').val(result.customer_code)
                         $('#CNEE_customer_legal_english_name').val(result.customer_legal_english_name)
+                        $('#delivery_address').val(result.customer_store_address1)
                     }
                 });
             })
@@ -1051,7 +1103,6 @@
         }
     });
     </script>
-    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/select2.full.min.js') }}"></script>
+
 
 @endsection
