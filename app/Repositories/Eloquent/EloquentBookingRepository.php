@@ -49,6 +49,8 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
         {
                 $booking_no = $search['booking_no'];
                 $query->where('booking_no','LIKE', "$booking_no%");
+                $query->orWhere('request_order_no','LIKE', "$booking_no%");
+                $query->orWhere('virtual_booking_no','LIKE', "$booking_no%");
         }
 
         if (isset($search['shipper_customer_code']) && $search['shipper_customer_code'] != null)
