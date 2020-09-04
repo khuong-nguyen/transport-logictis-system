@@ -199,7 +199,7 @@
                                                                 <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$recordNumber?>][delivery_plan]" class="form-control delivery_plan" autocomplete = "off">
                                                             </td>
                                                             <td style="position: relative">
-                                                            	<select class="form-control" style="min-width: 150px" name="select_truck_<?=$recordNumber?>" id="select_truck_<?=$recordNumber?>" onclick = "loadOptionTruck(<?=$recordNumber?>)" onchange = "selectTruckCodeAndDriver(<?=$recordNumber?>)" placeholder = "Select Truck"></select>
+                                                            	<select class="form-control" style="min-width: 150px" name="select_truck_<?=$recordNumber?>" id="select_truck_<?=$recordNumber?>" onfocus = "loadOptionTruck(<?=$recordNumber?>)" onchange = "selectTruckCodeAndDriver(<?=$recordNumber?>)" placeholder = "Select Truck"></select>
                                                             	<input type="text" style="min-width: 150px" name="schedules[<?=$recordNumber?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code" autocomplete="off" readonly>
                                                         	</td>
                                                             <td style="position: relative">
@@ -465,20 +465,22 @@
     	let tr = $('.table-container-list:visible tbody tr').eq(index);
     	let pickup_plan = tr.find('.pickup_plan').val();
     	let delivery_plan = tr.find('.delivery_plan').val();
+    	let id =  tr.find('.id').val();
     	if(pickup_plan !== "" && delivery_plan !== ""){
     		let path = "{{ route('loadTruckSchedule') }}";
+			$('#select_truck_'+ index).append($('<option>', { 
+		        value: 0,
+		        text : 'Select Truck'
+		    }));
     		$.get(path, { pickup_plan: pickup_plan, delivery_plan:delivery_plan }, function (data) {
     				trucks = data;
-    				$('#select_truck_'+ index).append($('<option>', { 
-				        value: 0,
-				        text : 'Select Truck'
-				    }));
     				for(var key in trucks){
     					$('#select_truck_'+ index).append($('<option>', { 
 					        value: trucks[key].id,
 					        text : trucks[key].fixed_asset_code 
 					    }));
     				}
+    				
         		}
     		);
     	}
@@ -535,8 +537,8 @@
         		var path = "{{ route('updateSchedule') }}"; 
         		$.ajax({
                     url: path,
-                    dataType: "json",
                     method: 'PUT',
+                    contentType: 'application/json',
                     data: {
                         'schedules': [{ 
                             	"id": id,
@@ -560,6 +562,7 @@
                         }]
                     },
                     success: function (result) {
+                    	tr.find('.id').val(result.schedule_id);
                     },
                     error: function (result){
                     }
@@ -593,6 +596,7 @@
                     	}]
                     },
                     success: function (result) {
+                    	tr.find('.id').val(result.schedule_id);
                     },
                     error: function (result){
                     }

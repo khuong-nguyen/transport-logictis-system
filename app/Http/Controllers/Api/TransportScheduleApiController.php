@@ -96,12 +96,14 @@ class TransportScheduleApiController extends BaseApiController
                 $driver = '';
                 $container = '';
                 
-                $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
+                $schedule = $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
                 
-                return response()->json(["statusCode" => "OK"]);
+                return response()->json(["statusCode" => "OK",
+                    "schedule_id" => $schedule[0]["id"]
+                ]);
                 
             } catch (\Exception $e) {
-                return response()->json(["statusCode" => "NG"]);
+                return response()->json(["statusCode" => "NG","errorMessge" => $e->getMessage()]);
             }
         }
         
@@ -113,12 +115,14 @@ class TransportScheduleApiController extends BaseApiController
                 $driver = '';
                 $container = '';
                 
-                $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
+                $schedule = $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
                 
-                return response()->json(["statusCode" => "OK"]);
+                return response()->json(["statusCode" => "OK",
+                    "schedule_id" => $schedule[0]["id"]
+                ]);
                 
             } catch (\Exception $e) {
-                return response()->json(["statusCode" => "NG"]);
+                return response()->json(["statusCode" => "NG","errorMessge" => $e->getMessage()]);
             }
         }
         

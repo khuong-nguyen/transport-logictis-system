@@ -31,5 +31,6 @@ Route::group(['namespace' => 'Api'], function($lang=null) {
     Route::get('autocompleteCustomerNo', ['as'=>'autocompleteCustomerNo', 'uses'=>'CustomerApiController@autocompleteCustomerNo']);
     Route::get('loadTruckSchedule', ['as'=>'loadTruckSchedule', 'uses'=>'TransportScheduleApiController@getContainerTrucksForSchedule']);
     Route::post('createSchedule', ['as'=>'createSchedule', 'uses'=>'TransportScheduleApiController@createSchedule']);
+    Route::put('updateSchedule', ['as'=>'updateSchedule', 'uses'=>'TransportScheduleApiController@updateSchedule']);
     Route::post('updateSchedule', ['as'=>'updateSchedule', 'uses'=>'TransportScheduleApiController@updateSchedule']);
 });

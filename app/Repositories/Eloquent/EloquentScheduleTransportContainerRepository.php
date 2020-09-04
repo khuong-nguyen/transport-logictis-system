@@ -73,6 +73,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                             }
                             
                             $this->update($oldContainer, $data);
+                            $result[] = $data;
                             
                         } else {
 
