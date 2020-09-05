@@ -650,6 +650,7 @@
                     	$('#booking_container_detail_id_' + index).val(result.booking_container_detail_id);
                     },
                     error: function (result){
+                    	toastr.error(result.responseJSON.errorMessge)
                     }
             	});
             {

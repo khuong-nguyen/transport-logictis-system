@@ -95,16 +95,31 @@ class TransportScheduleApiController extends BaseApiController
             try {
                 $driver = '';
                 $container = '';
+                // validate full schedule for booking
+                $isFullScheduleForBookingContainer = true;
+                
+                $booking_id = !empty($request->schedules) ? $request->schedules[0]['booking_id']??'' : '';
+                $container_id = !empty($request->schedules) ? $request->schedules[0]['container_id']??'' : '';
+                
+                if(empty($booking_id) || empty($container_id)){
+                    return response()->json(["statusCode" => "NG_BOOKING_CONTAINER","errorMessge" => "Booking Container is not valid"], 400);
+                }
+                
+                $isFullScheduleForBookingContainer = $this->scheduleTransportContainerRepository->isFullScheduleForBookingContainer($booking_id,$container_id);
+                
+                if($isFullScheduleForBookingContainer){
+                    return response()->json(["statusCode" => "NG_FULL_SCHEDULE","errorMessge" => "Booking had been scheduled fully"], 400);
+                }
                 
                 $schedule = $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
                 
                 return response()->json(["statusCode" => "OK",
                     "schedule_id" => $schedule[0]["id"],
                     "booking_container_detail_id" => $schedule[0]["booking_container_detail_id"]
-                ]);
+                ], 200);
                 
             } catch (\Exception $e) {
-                return response()->json(["statusCode" => "NG","errorMessge" => $e->getMessage()]);
+                return response()->json(["statusCode" => "NG","errorMessge" => $e->getMessage()], 400);
             }
         }
         

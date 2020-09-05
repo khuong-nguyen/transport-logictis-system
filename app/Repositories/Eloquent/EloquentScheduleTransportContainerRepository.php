@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use App\BookingContainerDetail;
+use App\ContainerBooking;
 use App\FixedAsset;
 class EloquentScheduleTransportContainerRepository extends EloquentBaseRepository implements ScheduleTransportContainerRepository
 {
@@ -259,9 +260,31 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
         if(!empty($schedule)){
             $exportTransportTotal = $schedule;
         }
-        
-        
+
         Return $exportTransportTotal;
+    }
+    
+    public function isFullScheduleForBookingContainer($booking_id,$container_id){
+        $isFullScheduleForBookingContainer = true;
         
+        if(!empty($booking_id) && !empty($container_id)){
+            $booking_container = ContainerBooking::where('booking_id',$booking_id)
+                                                    ->where('container_id', $container_id)
+                                                    ->first();
+            
+            if(!empty($booking_container)){
+                // get schedule count for booking base on container_id.
+                $scheduledBookingContainerCount = $this->model
+                ->where('booking_id', $booking_id)
+                ->where('container_id',$booking_container->container_id)
+                ->count();
+                
+                if($scheduledBookingContainerCount < $booking_container->vol){
+                    $isFullScheduleForBookingContainer = false;
+                }
+            }
+        }
+        
+        return $isFullScheduleForBookingContainer;
     }
 }
