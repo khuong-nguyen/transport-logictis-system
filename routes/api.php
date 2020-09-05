@@ -33,4 +33,5 @@ Route::group(['namespace' => 'Api'], function($lang=null) {
     Route::post('createSchedule', ['as'=>'createSchedule', 'uses'=>'TransportScheduleApiController@createSchedule']);
     Route::put('updateSchedule', ['as'=>'updateSchedule', 'uses'=>'TransportScheduleApiController@updateSchedule']);
     Route::post('updateSchedule', ['as'=>'updateSchedule', 'uses'=>'TransportScheduleApiController@updateSchedule']);
+    Route::get('getLocationCode', ['as'=>'getLocationCode', 'uses'=>'LocationCodeApiController@getLocationCode']);
 });

@@ -983,7 +983,10 @@
                     })
                     $('#SHBR_customer_code').val(result.customer_code)
                     $('#SHBR_customer_legal_english_name').val(result.customer_legal_english_name)
-                    $('#pickup_address').val(result.customer_store_address1)
+                    if($('input[name="booking[booking_type]"]:checked').val() == 'EXPORT')
+                    {
+                    	$('#pickup_address').val(result.customer_store_address1)
+                    }
                 }
             });
         })
@@ -1001,9 +1004,12 @@
                         $.each(result, function (key, value) {
                             $('#consignee_'+key).val(value);
                         })
-                        $('#CNEE_customer_code').val(result.customer_code)
+                        $('#CNEE_customer_code').val(result.customer_code);
                         $('#CNEE_customer_legal_english_name').val(result.customer_legal_english_name)
-                        $('#delivery_address').val(result.customer_store_address1)
+                        if($('input[name="booking[booking_type]"]:checked').val() == 'IMPORT')
+                        {
+                        	$('#delivery_address').val(result.customer_store_address1);
+                        }
                     }
                 });
             })
@@ -1076,6 +1082,22 @@
         	pol2 = pol.substr(5,2);
             $('#pol_1').val(pol1);
             $('#pol_2').val(pol2);
+         // if IMPORT, get pickup_address
+         	if($('input[name="booking[booking_type]"]:checked').val() == 'EXPORT')
+         	{
+         		var pathNodeCode = "{{ route('getLocationCode')}}";
+         		$.ajax({
+                    url: pathNodeCode,
+                    dataType: "json",
+                    method: 'get',
+                    data: {
+                        nodeCode: $('#pol_1').val() + $('#pol_2').val()
+                    },
+                    success: function (result) {
+                        $('#delivery_address').val(result.address)
+                    }
+                });
+            }
         });
 
         $('.pod_booking').on('change', function() {
@@ -1084,6 +1106,7 @@
         	pod2 = pod.substr(5,2);
             $('#pod_1').val(pod1);
             $('#pod_2').val(pod2);
+            
         });
 
         $('.del_booking').on('change', function() {
@@ -1092,6 +1115,23 @@
         	del2 = del.substr(5,2);
             $('#del_1').val(del1);
             $('#del_2').val(del2);
+            
+         	// if IMPORT, get pickup_address
+         	if($('input[name="booking[booking_type]"]:checked').val() == 'IMPORT')
+         	{
+         		var pathNodeCode = "{{ route('getLocationCode')}}";
+         		$.ajax({
+                    url: pathNodeCode,
+                    dataType: "json",
+                    method: 'get',
+                    data: {
+                        nodeCode: $('#del_1').val() + $('#del_2').val()
+                    },
+                    success: function (result) {
+                        $('#pickup_address').val(result.address)
+                    }
+                });
+            }
         });
 	</script>
 	<script type="text/javascript">

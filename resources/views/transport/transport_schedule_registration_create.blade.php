@@ -91,8 +91,8 @@
                                 $detail['container_no'] = $detail['container_no'];
                                 $detail['completed_date'] = $detail['schedules']['completed_date'];
                                 $detail['transport_cost'] = $detail['schedules']['transport_cost'];
-                                $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
-                                $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';
+                                $detail['pickup_address'] = $detail['schedules']['pickup_address']?$detail['schedules']['pickup_address'] : '';
+                                $detail['delivery_address'] = $detail['schedules']['delivery_address'] ? $detail['schedules']['delivery_address'] : '';
                                 $detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
             												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
 															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
@@ -109,8 +109,8 @@
                                 $detail['delivery_plan'] = '';
                                 $detail['completed_date'] = '';
                                 $detail['transport_cost'] = '';
-                                $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
-                                $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';
+                                $detail['pickup_address'] = $bookingContainerDetail['pickup_address'] ? $bookingContainerDetail['pickup_address'] : '';
+                                $detail['delivery_address'] = $bookingContainerDetail['delivery_address'] ? $bookingContainerDetail['delivery_address'] : '';
                                 $detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
             												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
 															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
@@ -143,8 +143,8 @@
                     $detail['delivery_plan'] = '';
                     $detail['completed_date'] = '';
                     $detail['transport_cost'] = '';
-                    $detail['pickup_address'] = $bookingContainerDetail['booking_type'] == 'EXPORT' ? $bookingContainerDetail['pickup_address'] : '';
-                    $detail['delivery_address'] = $bookingContainerDetail['booking_type'] == 'IMPORT' ? $bookingContainerDetail['delivery_address'] : '';;
+                    $detail['pickup_address'] = $bookingContainerDetail['pickup_address'] ? $bookingContainerDetail['pickup_address'] : '';
+                    $detail['delivery_address'] = $bookingContainerDetail['delivery_address'] ? $bookingContainerDetail['delivery_address'] : '';;
                     $listContainers[] = $detail;
                 }
         	@endphp
@@ -242,10 +242,10 @@
                                                                 <input type="number" min="0" type="text" style="min-width: 120px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$recordNumber?>][transport_cost]" class="form-control currency transport_cost">
                                                             </td>
                                                             <td style="position: relative">
-                                                                <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$recordNumber?>][pickup_address]" class="form-control pickup_address" readonly>
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$recordNumber?>][pickup_address]" class="form-control pickup_address">
                                                             </td>
                                                            <td style="position: relative">
-                                                                <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$recordNumber?>][delivery_address]" class="form-control delivery_address" readonly>
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$recordNumber?>][delivery_address]" class="form-control delivery_address">
                                                             </td>
                                                             
                                                             <td>@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>

@@ -35,4 +35,11 @@ class LocationCodeApiController extends BaseApiController
                     
         return response()->json($data);
     }
+    
+    public function getLocationCode(Request $request){
+        $data = LocationCode::where("node_code",$request->input('nodeCode'))->first();
+        
+        return response()->json($data);
+    }
+    
 }

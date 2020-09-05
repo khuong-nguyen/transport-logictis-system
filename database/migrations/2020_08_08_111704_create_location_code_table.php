@@ -18,6 +18,7 @@ class CreateLocationCodeTable extends Migration
             $table->string('seq', 30);
             $table->string('node_code', 30)->unique();
             $table->string('node_name', 255)->nullable();
+            $table->string('address', 255)->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->timestamp('deleted_at')->nullable();
