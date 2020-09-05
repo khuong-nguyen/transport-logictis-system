@@ -11,7 +11,7 @@
                         <div class="col ">
                             <div class="nav-tabs-boxed form-group">
                                 <ul class="nav nav-tabs" role="tablist" >
-                                    <li class="nav-item"><a class="nav-link" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">Booking Schedule Tab</a></li>
+                                    <li class="nav-item table-success"><a class="nav-link" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">Booking Schedule Tab</a></li>
                                     <li class="nav-item"><a class="nav-link" id="transport_summary_tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="profile">Transport Summary</a></li>
                                 </ul>
                                 <div class="tab-content">
@@ -26,9 +26,19 @@
                                                                 <label class="col-form-label" for="pick_up_dt_from">BKG Created Date </label>
                                                             </div>
                                                             <div class="input-group col-md-6 input-daterange pr-0">
-                                                                <input class="form-control" id="bkg_created_date_from" value="{{ isset($params['bkg_created_date_from']) ? $params['bkg_created_date_from'] : '' }}" name="bkg_created_date_from" type="text" autocomplete="off">
-                                                                <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
-                                                                <input class="form-control" id="bkg_created_date_to" value="{{ isset($params['bkg_created_date_to']) ? $params['bkg_created_date_to'] : '' }}" type="text" name="bkg_created_date_to" autocomplete="off">
+                                                            	<div class='input-group date'>
+                                                                    <input class="form-control" id="bkg_created_date_from" value="{{ isset($params['bkg_created_date_from']) ? $params['bkg_created_date_from'] : '' }}" name="bkg_created_date_from" type="text" autocomplete="off">
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar">
+                                                                        </span>
+                                                                    </span>
+                                                                    
+                                                                    <input class="form-control" id="bkg_created_date_to" value="{{ isset($params['bkg_created_date_to']) ? $params['bkg_created_date_to'] : '' }}" type="text" name="bkg_created_date_to" autocomplete="off">
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar">
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -53,7 +63,7 @@
 @endphp
                                                 
 @if (isset($bookingContainerDetails))
-
+	
     @foreach($bookingContainerDetails as $bookingContainerDetail)
 
         @foreach($bookingContainerDetail['container_bookings'] as $containerBooking)
@@ -147,9 +157,9 @@
     												@csrf
     												@method('PUT')
     												
-                                                <table class="table table-bordered table-container-list table-responsive" style="overflow-y:scroll">
+                                                <table class="table table-container-list table-bordered table-striped table-inverse table-hover table-responsive" style="overflow-y:scroll">
                                                     <thead>
-                                                    <tr>
+                                                    <tr class="table-success">
                                                         <th>No.</th>
                                                         <th>BKG No</th>
                                                         <th>Con</th>
@@ -169,6 +179,7 @@
                                                     </thead>
                                                     
                                                     <tbody>
+                                                    
                                                     @foreach($listContainers as $list)
                                                     	
                                                         <tr>
@@ -193,23 +204,39 @@
                                                             </td>
                                                             <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
                                                             <td style="position: relative">
-                                                                <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$recordNumber?>][pickup_plan]" class="form-control pickup_plan date" autocomplete = "off">
+                                                            	<div class='input-group date'>
+                                                                    <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$recordNumber?>][pickup_plan]" class="form-control pickup_plan date" autocomplete = "off">
+                                                                	<span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar">
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
                                                             </td>
                                                             <td style="position: relative">
-                                                                <input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$recordNumber?>][delivery_plan]" class="form-control delivery_plan" autocomplete = "off">
+                                                            	<div class='input-group date'>
+                                                                	<input style="min-width: 150px" type="text" value="{{ $list['delivery_plan'] }}" name="schedules[<?=$recordNumber?>][delivery_plan]" class="form-control delivery_plan" autocomplete = "off">
+                                                            		<span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar">
+                                                                        </span>
+                                                                    </span>
+                                                            	</div>
                                                             </td>
                                                             <td style="position: relative">
                                                             	<select class="form-control" style="min-width: 150px" name="select_truck_<?=$recordNumber?>" id="select_truck_<?=$recordNumber?>" onfocus = "loadOptionTruck(<?=$recordNumber?>)" onchange = "selectTruckCodeAndDriver(<?=$recordNumber?>)" placeholder = "Select Truck"></select>
                                                             	<input type="text" style="min-width: 150px" name="schedules[<?=$recordNumber?>][container_truck_code]" value="{{ $list['container_truck_code'] }}" class="form-control container_truck_code" autocomplete="off" readonly>
                                                         	</td>
                                                             <td style="position: relative">
-                                                            	<div class = "container">
-                                                            		<input type="text" style="min-width: 120px" name="schedules[<?=$recordNumber?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code" autocomplete="off" readonly>
-                                                        		</div>
+                                                        		<input type="text" style="min-width: 120px" name="schedules[<?=$recordNumber?>][driver_code]"  value="{{ $list['driver_code'] }}" class="form-control driver_code" autocomplete="off" readonly>
                                                     		</td>	
                                                             <td class="driver_name_text"  style="min-width: 160px">{{ $list['driver_name'] }}</td>
                                                             <td style="position: relative">
-                                                                <input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$recordNumber?>][completed_date]" class="form-control completed_date" autocomplete = "off">
+                                                            	<div class='input-group date'>
+                                                                	<input style="min-width: 150px" type="text" value="{{ $list['completed_date'] }}" name="schedules[<?=$recordNumber?>][completed_date]" class="form-control completed_date" autocomplete = "off">
+                                                            		<span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar">
+                                                                        </span>
+                                                                    </span>
+                                                            	</div>
                                                             </td>
                                                             <td style="position: relative">
                                                                 <input type="number" min="0" type="text" style="min-width: 120px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$recordNumber?>][transport_cost]" class="form-control currency transport_cost">
@@ -464,6 +491,7 @@
     	$('#select_truck_'+ index).empty();
     	let tr = $('.table-container-list:visible tbody tr').eq(index);
     	let pickup_plan = tr.find('.pickup_plan').val();
+    	
     	let delivery_plan = tr.find('.delivery_plan').val();
     	let id =  tr.find('.id').val();
     	if(pickup_plan !== "" && delivery_plan !== ""){
@@ -562,12 +590,16 @@
                         }]
                     },
                     success: function (result) {
+                    	let tr = $('.table-container-list:visible tbody tr').eq(index);
                     	tr.find('.id').val(result.schedule_id);
+                    	$('#booking_container_detail_id_' + index).val(result.booking_container_detail_id);
+                    	
                     },
                     error: function (result){
                     }
             	});
             }else
+                
             	var path = "{{ route('createSchedule') }}"; 
             	$.ajax({
                     url: path,
@@ -596,7 +628,9 @@
                     	}]
                     },
                     success: function (result) {
+                    	let tr = $('.table-container-list:visible tbody tr').eq(index);
                     	tr.find('.id').val(result.schedule_id);
+                    	$('#booking_container_detail_id_' + index).val(result.booking_container_detail_id);
                     },
                     error: function (result){
                     }

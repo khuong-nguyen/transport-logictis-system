@@ -16,6 +16,7 @@
     <link href="{{ asset('/bootstrap/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('/coreui/css/coreui.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         .dollars:before { content:''; }
     </style>
@@ -25,6 +26,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js-webshim/minified/polyfiller.js') }}"></script>
 </head>
 <body class="c-app">
 @include('layout.sidebar')
@@ -48,7 +50,6 @@
 <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('bootstrap/js/moment.min.js') }}"></script>
 <script src="{{ asset('bootstrap/js/bootstrap-datetimepicker.min.js') }}"></script>
-<script src="{{ asset('js-webshim/minified/polyfiller.js') }}"></script>
 
 <script src="{{ asset('coreui/js/coreui.bundle.min.js') }}"></script>
 <script src="{{ asset('js/toastr.min.js') }}"></script>

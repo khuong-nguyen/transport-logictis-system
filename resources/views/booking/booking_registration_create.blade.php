@@ -200,7 +200,7 @@
                                                     </div>
                                                     <div class="col-md-7">
                                                         <div class="form-group row">
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-3">
                                                                 <label class="col-form-label" for="b_l_no">B/L No</label>
                                                             </div>
 
@@ -222,58 +222,58 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <div class="col-md-2 pr-0">
+                                                            <div class="col-md-3 pr-0">
                                                                 <label class="col-form-label">SHBR</label>
                                                             </div>
 
                                                             <div class="col-md-2 pr-0">
-                                                            	<div class = "container "><input class="form-control shipper" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" autocomplete = "off" ></div>
+                                                            	<div class = "input-group"><input class="form-control shipper" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" autocomplete = "off" ></div>
                                                                 
                                                             </div>
 
-                                                            <div class="col-md-4 pr-0">
+                                                            <div class="col-md-5 pr-0">
                                                                 <input class="form-control" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" >
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <div class="col-md-2 pr-0">
+                                                            <div class="col-md-3 pr-0">
                                                                 <label class="col-form-label" >FWDR</label>
                                                             </div>
 
                                                             <div class="col-md-2 pr-0">
-                                                                <div class = "container "><input class="form-control forwarder" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" autocomplete = "off"></div>
+                                                                <div class = "input-group"><input class="form-control forwarder" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" autocomplete = "off"></div>
                                                             </div>
 
-                                                            <div class="col-md-4 pr-0">
+                                                            <div class="col-md-5 pr-0">
                                                                 <input class="form-control" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <div class="col-md-2 pr-0">
+                                                            <div class="col-md-3 pr-0">
                                                                 <label class="col-form-label" >CNEE</label>
                                                             </div>
 
                                                             <div class="col-md-2 pr-0">
-                                                                <div class = "container "><input class="form-control consignee" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" autocomplete = "off"></div>
+                                                                <div class = "input-group"><input class="form-control consignee" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" autocomplete = "off"></div>
                                                             </div>
 
-                                                            <div class="col-md-4 pr-0">
+                                                            <div class="col-md-5 pr-0">
                                                                 <input class="form-control" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                        	<div class="col-md-2 pr-0">
+                                                        	<div class="col-md-3 pr-0">
                                                                 <label class="col-form-label" >Pickup Address</label>
                                                             </div>
-                                                            <div class="col-md-6 pr-0">
+                                                            <div class="col-md-7 pr-0">
                                                                 <input class="form-control" id="pickup_address" type="text" value="{{ $booking->pickup_address ?? ''}}" name="booking[pickup_address]">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                        	<div class="col-md-2 pr-0">
+                                                        	<div class="col-md-3 pr-0">
                                                                 <label class="col-form-label" >Delivery Address</label>
                                                             </div>
-                                                            <div class="col-md-6 pr-0">
+                                                            <div class="col-md-7 pr-0">
                                                                 <input class="form-control" id="delivery_address" type="text" value="{{ $booking->delivery_address ?? ''}}" name="booking[delivery_address]">
                                                             </div>
                                                         </div>
@@ -409,10 +409,15 @@
                                                             <label class="col-md-12 col-form-label" for="text-input">Planned Delivery Schedule</label>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-4 pr-0 col-form-label required" for="sailling_due_date">Sailling Due Date</label>
-                                                            <div class="col-md-8 input-group date">
-                                                                <input class="form-control @if($errors->has('booking.sailling_due_date')) is-invalid @endif " id="sailling_due_date" required type="text" name="booking[sailling_due_date]">
-                                                                @error('booking.sailling_due_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                        	<div class='input-group date'>
+                                                                <label class="col-md-5 pr-0 col-form-label required" for="sailling_due_date">Sailling Due Date</label>
+                                                                <div class="col-md-6 input-group date">
+                                                                    <input class="form-control" id="sailling_due_date" required type="text" name="booking[sailling_due_date]">
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar">
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -421,21 +426,31 @@
                                                             <label class="col-md-12 col-form-label" for="text-input">Empty CNTR P/Up & RTN CY</label>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-4 pt-0 pr-0 col-form-label" for="pick_up_cy">M'Ty Pick up CY </label>
-                                                            <div class="col-md-8">
-                                                                <input class="form-control " id="pick_up_cy" type="text" name="booking[pick_up_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
+                                                        	<div class="input-group">
+                                                                <label class="col-md-4 pt-0 pr-0 col-form-label" for="pick_up_cy">M'Ty Pick up CY </label>
+                                                                <div class=" input-group date col-md-7">
+                                                                    <input class="form-control " id="pick_up_cy" type="text" name="booking[pick_up_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-4 pt-0 pr-0 col-form-label @if($errors->has('booking.pick_up_dt')) is-invalid @endif" for="pick_up_dt">M'Ty Pick up DT </label>
-                                                            <div class="col-md-8">
+                                                        	<div class="input-group date">
+                                                        		<label class="col-md-4 pt-0 pr-0 col-form-label @if($errors->has('booking.pick_up_dt')) is-invalid @endif" for="pick_up_dt">M'Ty Pick up DT </label>
+                                                            	<div class="input-group date col-md-7">
                                                                 <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]">
+                                                                <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-calendar">
+                                                                    </span>
+                                                                </span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-4 pt-0 pr-0 col-form-label" for="full_return_cy">Full Return CY</label>
-                                                            <div class="col-md-8">
-                                                                <input class="form-control" id="full_return_cy" type="text" name="booking[full_return_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
+                                                            <div class="input-group">
+                                                                <label class="col-md-4 pt-0 pr-0 col-form-label" for="full_return_cy">Full Return CY</label>
+                                                                <div class="input-group col-md-7">
+                                                                    <input class="form-control" id="full_return_cy" type="text" name="booking[full_return_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -533,7 +548,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="city">City/Stage</label>
+                                                                        <label class="col-form-label" for="city">City</label>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <input class="form-control" id="city" value="{{old('shipper.city') ?? $shipper->city ?? ''}}" type="text" name="shipper[city]" @if(!isset($booking)) @endif>
@@ -611,7 +626,7 @@
                                                         <div class="form-group row">
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-4">
                                                                         <input type="hidden" value="{{old('booking.consignee_id')??$booking->consignee_id ?? ''}}" name="booking[consignee_id]"  id="consignee_id">
                                                                         <label class="col-form-label" for="text-input">Consignee</label>
                                                                     </div>
@@ -639,7 +654,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="row">
                                                                     <div class="col-md-3">
-                                                                        <label class="col-form-label" for="consignee_city">City/Stage</label>
+                                                                        <label class="col-form-label" for="consignee_city">City</label>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <input class="form-control" id="consignee_city" value="{{old('consignee.city') ?? $consignee->city ?? ''}}" type="text" name="consignee[city]" @if(!isset($booking)) @endif>
@@ -718,7 +733,7 @@
                                                 <div class="form-group col-md-4">
                                                     <div class="card-body border">
                                                         <div class="form-group row">
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <label class="col-form-label" for="forwarder_country">Forwarder</label>
                                                                 <input type="hidden" value="{{old('booking.forwarder_id')??$booking->forwarder_id ?? ''}}" name="booking[forwarder_id]" id="forwarder_id">
                                                             </div>

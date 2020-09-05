@@ -71,8 +71,9 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                                     $old->update(['container_no'=> $data['container_no'] ]);
                                 }
                             }
-                            
+                            $data['booking_container_detail_id'] = $oldContainer->booking_container_detail_id;
                             $this->update($oldContainer, $data);
+                            
                             $result[] = $data;
                             
                         } else {
@@ -106,6 +107,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                                 
                                 $record = $this->create($filter);
                                 $data['id'] = $record->id;
+                                $data['booking_container_detail_id'] = $record->booking_container_detail_id;
                                 $result[] = $data;
                             }
                         }

@@ -124,7 +124,7 @@
                                                                         <label class="col-form-label" for="advance_money">Advance money</label>
                                                                     </div>
                                                                     <div class="col-md-5">
-                                                                        <input type="number" min="0" value="{{old('advance_money.advance_money') ?? $advance_money->advance_money?? ''}}" type="text" class="form-control" id="advance_money" name="advance_money[advance_money]">
+                                                                        <input type="number" min="0" type="text" style="min-width: 120px" value="{{old('advance_money.advance_money') ?? $advance_money->advance_money?? ''}}"  class="form-control currency" id="advance_money" name="advance_money[advance_money]">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -245,7 +245,12 @@
             }
         });
     });
-    
+
+    webshims.setOptions('forms-ext', {
+        replaceUI: 'auto',
+        types: 'number'
+    });
+    webshims.polyfill('forms forms-ext');
     </script>
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     <script src="{{ asset('js/select2.full.min.js') }}"></script>

@@ -80,7 +80,7 @@ class TransportScheduleApiController extends BaseApiController
         
         $pickup_plan = $request->get('pickup_plan');
         $delivery_plan = $request->get('delivery_plan');
-
+        
         if(empty($pickup_plan) || empty($delivery_plan)){
             return [];
         }
@@ -99,7 +99,8 @@ class TransportScheduleApiController extends BaseApiController
                 $schedule = $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
                 
                 return response()->json(["statusCode" => "OK",
-                    "schedule_id" => $schedule[0]["id"]
+                    "schedule_id" => $schedule[0]["id"],
+                    "booking_container_detail_id" => $schedule[0]["booking_container_detail_id"]
                 ]);
                 
             } catch (\Exception $e) {
@@ -118,7 +119,8 @@ class TransportScheduleApiController extends BaseApiController
                 $schedule = $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
                 
                 return response()->json(["statusCode" => "OK",
-                    "schedule_id" => $schedule[0]["id"]
+                    "schedule_id" => $schedule[0]["id"],
+                    "booking_container_detail_id" => $schedule[0]["booking_container_detail_id"]
                 ]);
                 
             } catch (\Exception $e) {
