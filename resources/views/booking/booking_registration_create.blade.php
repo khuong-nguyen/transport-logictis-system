@@ -1,29 +1,10 @@
 @extends('layout.app')
 @section('title', 'Booking Registration')
 @section('content')
-    <style type="text/css">
-        .required:after{
-            content:"*";
-            color:red;
-        }
-        .error-messages {
-            color: red;
-            font-size: 12px;
-        }
-        .nav-tabs .nav-item .active{
-            background:#0E0EFF !important;
-            color:#fff !important;
-            font-weight: bold;
-            border-color: #0E0EFF;
-        }
-        .nav-tabs-boxed .nav-tabs .nav-link {
-            color: #768192
-        }
-    </style>
     <div class="row">
         <div class="col">
             <div class="card">
-                <!-- <div class="card-header">@lang('sidebar.booking_registration')</div> -->
+                
                 <div class="card-body container-fluid">
                     @if (session('status'))
                         <div class="alert alert-success">@lang(session('status'))</div>
@@ -291,7 +272,7 @@
                                             <div class="form-row">
                                                 <div class="row col-md-12">
                                                     <div class="form-group row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-5">
                                                             <label class="col-md-12 col-form-label" for="TotalVol">Total Vol</label>
                                                         </div>
                                                         <div class="col-md-5">
@@ -368,7 +349,7 @@
                                                             <div class="row">
                                                                 <div class="col-md-4"></div>
                                                                 <div class="col-md-4">
-                                                                    <div class="custom-control custom-checkbox col-md-2">
+                                                                    <div class="custom-control custom-checkbox col-md-3">
                                                                         <input class="custom-control-input" id="fh" @if(old('booking.fh') == 1 || (isset($booking) && $booking->fh ==1) )checked @endif type="checkbox" value="1" name="booking[fh]">
                                                                         <label class="custom-control-label" for="fh">Fh</label>
                                                                     </div>
@@ -435,7 +416,7 @@
                                                         </div>
                                                         <div class="form-group row">
                                                         	<div class="input-group date">
-                                                        		<label class="col-md-4 pt-0 pr-0 col-form-label @if($errors->has('booking.pick_up_dt')) is-invalid @endif" for="pick_up_dt">M'Ty Pick up DT </label>
+                                                        		<label class="col-md-4 pt-0 pr-0 col-form-label @if($errors->has('booking.pick_up_dt')) is-invalid @endif" for="pick_up_dt">Container Delivery Plan</label>
                                                             	<div class="input-group date col-md-7">
                                                                 <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]">
                                                                 <span class="input-group-addon">

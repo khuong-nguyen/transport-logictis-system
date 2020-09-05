@@ -99,10 +99,20 @@
                                         <label class="col-form-label" for="sailling_due_date_from">Sailling Due Date</label>
                                     </div>
                                     <div class="input-group col-md-8 input-daterange pr-0">
-{{--                                        <div class="input-group-prepend d-block"><div class="input-group-text">From</div></div>--}}
-                                        <input class="form-control" id="sailling_due_date_from" value="{{$params['sailling_due_date']['from'] ?? ''}}" name="sailling_due_date[from]" type="text">
-                                        <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
-                                        <input class="form-control" id="sailling_due_date_to" value="{{$params['sailling_due_date']['to'] ?? ''}}" name="sailling_due_date[to]" type="text">
+										<div class="input-group date">
+											<input class="form-control" id="sailling_due_date_from" value="{{$params['sailling_due_date']['from'] ?? ''}}" name="sailling_due_date[from]" type="text">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar">
+                                                </span>
+                                            </span>
+                                            <input class="form-control" id="sailling_due_date_to" value="{{$params['sailling_due_date']['to'] ?? ''}}" name="sailling_due_date[to]" type="text">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar">
+                                                </span>
+                                            </span>
+										</div>
+                                        
+                                        
                                     </div>
                                 </div>
                         </div>
@@ -111,13 +121,19 @@
                             <div class="col-md-5">
                                 <div class="row">
                                     <div class="col-md-4 pr-0">
-                                        <label class="col-form-label" for="pick_up_dt_from">M'Ty Pick up DT </label>
+                                        <label class="col-form-label" for="pick_up_dt_from">Container Delivery Plan</label>
                                     </div>
                                     <div class="input-group col-md-8 input-daterange pr-0">
-{{--                                        <div class="input-group-prepend d-block"><div class="input-group-text">From</div></div>--}}
                                         <input class="form-control" id="pick_up_dt_from" value="{{$params['pick_up_dt']['from'] ?? ''}}" name="pick_up_dt[from]" type="text">
-                                        <div class="input-group-prepend d-block"><div class="input-group-text">To</div></div>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar">
+                                            </span>
+                                        </span>
                                         <input class="form-control" id="pick_up_dt_to" value="{{$params['pick_up_dt']['to'] ?? ''}}" type="text" name="pick_up_dt[to]">
+                                    	<span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar">
+                                            </span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +153,7 @@
                                 <th>No.</th>
                                 <th>BKG No.</th>
                                 <th>Sailling Due Date</th>
-                                <th>M'Ty Pick up DT </th>
+                                <th>Container Delivery Plan </th>
                                 <th>POL</th>
                                 <th>POD</th>
                                 <th>Action</th>

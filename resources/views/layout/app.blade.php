@@ -19,8 +19,27 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         .dollars:before { content:''; }
+                .required:after{
+            content:"*";
+            color:red;
+        }
+        .error-messages {
+            color: red;
+            font-size: 12px;
+        }
+        .nav-tabs .nav-item .active{
+            background:#020267 !important;
+            color:#fff !important;
+            font-weight: bold;
+            border-color: #0E0EFF;
+        }
+        .nav-tabs-boxed .nav-tabs .nav-link {
+            color: #768192
+        }
+        .table-success{
+          background-color: #02115f;
+        }
     </style>
-    
     
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>

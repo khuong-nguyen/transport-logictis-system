@@ -11,7 +11,7 @@
                         <div class="col ">
                             <div class="nav-tabs-boxed form-group">
                                 <ul class="nav nav-tabs" role="tablist" >
-                                    <li class="nav-item table-success"><a class="nav-link" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">Booking Schedule Tab</a></li>
+                                    <li class="nav-item"><a class="nav-link active" id="bkg_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home">Booking Schedule Tab</a></li>
                                     <li class="nav-item"><a class="nav-link" id="transport_summary_tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="profile">Transport Summary</a></li>
                                 </ul>
                                 <div class="tab-content">
@@ -159,7 +159,7 @@
     												
                                                 <table class="table table-container-list table-bordered table-striped table-inverse table-hover table-responsive" style="overflow-y:scroll">
                                                     <thead>
-                                                    <tr class="table-success">
+                                                    <tr style = "background-color:#020267; color:white;">
                                                         <th>No.</th>
                                                         <th>BKG No</th>
                                                         <th>Con</th>
@@ -271,9 +271,9 @@
                                             </div>
                                         </div>
                                     <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="transport_summary_tab">
-                                    	<table class="table table-bordered table-container-list table-responsive" style="overflow-y:scroll">
+                                    	<table class="table table-container-list table-bordered table-striped table-inverse table-hover table-responsive" style="overflow-y:scroll">
                                             <thead>
-                                                <tr>
+                                                <tr style = "background-color:#020267; color:white;">
                                                     <th>No.</th>
                                                     <th>Truck Code</th>
                                                     <th>Drive Code</th>
@@ -286,9 +286,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            	@php $record = 0; @endphp
+                                            	@php 
+                                            		$record = 0;
+                                            		$exportTotal = 0;
+                                            		$importTotal = 0;
+                                            		$transportTotal = 0;
+                                            	@endphp
                                             	@foreach($listTransportSummary as $transportSummary)
-                                            		@php $record++; @endphp
+                                            		@php 
+                                            			$record++; 
+                                            			$exportTotal = $exportTotal + $transportSummary['export_transport_total'];
+                                            			$importTotal = $importTotal + $transportSummary['import_transport_total']
+                                            		@endphp
                                             		<tr>
                                                 		<td>{{ $record}}</td>
                                                 		<td>{{ $transportSummary['fixed_asset_code'] }}</td>
@@ -301,6 +310,12 @@
                                                         <td>{{ $transportSummary['transport_total'] }}</td>
                                                      </tr>
                                             	@endforeach
+                                            		<tr>
+                                            			<td colspan = 6></td>
+                                            			<td><b>{{$importTotal}}</b></td>
+                                            			<td><b>{{$exportTotal}}</b></td>
+                                            			<td><b>{{$exportTotal + $importTotal}}</b></td>
+                                            		</tr>
                                             </tbody>
                                         </table>
                                     </div>
