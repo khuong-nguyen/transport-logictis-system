@@ -109,6 +109,7 @@
                                 $detail['delivery_plan'] = '';
                                 $detail['completed_date'] = '';
                                 $detail['transport_cost'] = '';
+                                $detail['container_id'] = $containerBooking['container_id'];
                                 $detail['pickup_address'] = $bookingContainerDetail['pickup_address'] ? $bookingContainerDetail['pickup_address'] : '';
                                 $detail['delivery_address'] = $bookingContainerDetail['delivery_address'] ? $bookingContainerDetail['delivery_address'] : '';
                                 $detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
@@ -143,6 +144,7 @@
                     $detail['delivery_plan'] = '';
                     $detail['completed_date'] = '';
                     $detail['transport_cost'] = '';
+                    $detail['container_id'] = $containerBooking['container_id'];
                     $detail['pickup_address'] = $bookingContainerDetail['pickup_address'] ? $bookingContainerDetail['pickup_address'] : '';
                     $detail['delivery_address'] = $bookingContainerDetail['delivery_address'] ? $bookingContainerDetail['delivery_address'] : '';;
                     $listContainers[] = $detail;
@@ -165,9 +167,9 @@
                                                         <th>Con</th>
                                                         <th>Con No</th>
                                                         <th>Router</th>
-                                                        <th>Pickup Plan</th>
-                                                        <th>Delivery Plan</th>
-                                                        <th>Container Truck</th>
+                                                        <th class = "required">Pickup Plan</th>
+                                                        <th class = "required">Delivery Plan</th>
+                                                        <th class = "required">Container Truck</th>
                                                         <th>Driver</th>
                                                         <th>Driver Name</th>
                                                         <th>Completed Time</th>
@@ -184,7 +186,7 @@
                                                     	
                                                         <tr>
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][container_id]" id = "container_id_<?=$recordNumber?>" value="{{ $list['container_id'] }}">
-                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][container_no]" id = "container_no_<?=$recordNumber?>" value="{{ $list['container_no'] }}">
+                                                            <!--input type="hidden" name="schedules[<?=$recordNumber?>][container_no]" id = "container_no_<?=$recordNumber?>" value="{{ $list['container_no'] }}"-->
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_detail_id]" id = "booking_container_detail_id_<?=$recordNumber?> "value="{{ $list['booking_container_detail_id'] }}">
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][booking_id]" id = "booking_id_<?=$recordNumber?>" value="{{ $list['booking_id'] }}">
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_id]" id = "booking_container_id_<?=$recordNumber?>" value="{{ $list['booking_container_id'] }}">
@@ -200,7 +202,7 @@
                                                             	{{ $list['container_code'] }}
                                                             </td>
                                                             <td>
-                                                            	<input type="text" style="min-width: 100px" name="schedules[<?=$recordNumber?>][container_no]" value="{{ $list['container_no'] }}" class="form-control container_no" autocomplete="off">
+                                                            	<input type="text" style="min-width: 100px" id= "container_no_<?=$recordNumber?>" name="schedules[<?=$recordNumber?>][container_no]" value="{{ $list['container_no'] }}" class="form-control container_no" onblur = "saveSchedule(<?=$recordNumber?>)" autocomplete="off">
                                                             </td>
                                                             <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
                                                             <td style="position: relative">
@@ -242,10 +244,10 @@
                                                                 <input type="number" min="0" type="text" style="min-width: 120px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$recordNumber?>][transport_cost]" class="form-control currency transport_cost">
                                                             </td>
                                                             <td style="position: relative">
-                                                                <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" name="schedules[<?=$recordNumber?>][pickup_address]" class="form-control pickup_address">
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" id = "pickup_address_<?=$recordNumber?>" name="schedules[<?=$recordNumber?>][pickup_address]" onblur = "saveSchedule(<?=$recordNumber?>)" class="form-control pickup_address">
                                                             </td>
                                                            <td style="position: relative">
-                                                                <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" name="schedules[<?=$recordNumber?>][delivery_address]" class="form-control delivery_address">
+                                                                <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" id = "delivery_address_<?=$recordNumber?>" name="schedules[<?=$recordNumber?>][delivery_address]" onblur = "saveSchedule(<?=$recordNumber?>)" class="form-control delivery_address">
                                                             </td>
                                                             
                                                             <td>@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
@@ -260,9 +262,9 @@
                                                     <div class="col-12">
                                                         <div class="float-right">
                                                         @if ($recordNumber+1 > 0)
-                                                            <button type="submit"  class="btn btn-primary">Save</button>
+                                                            <!--button type="submit"  class="btn btn-primary">Save</button-->
                                                         @endif
-                                                            <a href="{{ asset('booking/transport/schedule/registration') }}" class="btn btn-secondary">Close</a>
+                                                            <a href="/" class="btn btn-secondary">Close</a>
                                                         </div>
                                                     </div>
                                                 </div>

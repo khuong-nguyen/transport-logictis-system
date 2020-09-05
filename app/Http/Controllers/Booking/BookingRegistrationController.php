@@ -221,6 +221,7 @@ class BookingRegistrationController extends Controller
                 {
                     $container['booking_id'] = $booking->id;
                     $container['container_id'] = $key;
+                    $container['container_code'] = $container['text'];
                     $this->bookingContainerRepository->create($container);
                 }
             }
@@ -370,6 +371,7 @@ class BookingRegistrationController extends Controller
                     }else{
                         $container['booking_id'] = $booking->id;
                         $container['container_id'] = $key;
+                        $container['container_code'] = $container['text'];
                         $this->bookingContainerRepository->create($container);
                     }
                 }

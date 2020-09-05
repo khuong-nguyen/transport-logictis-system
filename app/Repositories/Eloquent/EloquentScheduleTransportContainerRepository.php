@@ -94,7 +94,8 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                                     'booking_no' => $filter['booking_no'],
                                     'measure' => 1,
                                     'package' => 1,
-                                    'container_no' => $filter['container_no']
+                                    'container_no' => $filter['container_no'],
+                                    'container_id' => $filter['container_id'],
                                 ];
                                 
                                 $booking_container_detail = BookingContainerDetail::create($booking_container_detail);
