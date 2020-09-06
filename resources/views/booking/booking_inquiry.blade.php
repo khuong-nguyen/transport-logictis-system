@@ -100,7 +100,7 @@
                                     </div>
                                     <div class="input-group col-md-8 input-daterange pr-0">
 										<div class="input-group date">
-											<input class="form-control" id="sailling_due_date_from" value="{{$params['sailling_due_date']['from'] ?? ''}}" name="sailling_due_date[from]" type="text">
+											<input class="form-control" id="sailling_due_date_from" value="{{$params['sailling_due_date']['from'] ?? ''}}" name="sailling_due_date[from]" type="text" autocomplete="off">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar">
                                                 </span>

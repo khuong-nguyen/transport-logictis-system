@@ -125,7 +125,10 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
                 $q->with(['details' => function($q) {
                     $q->with('schedules');
                 }, 'container']);
-            }])->where('booking_no', "{$string}")->first();
+            }])->where('booking_no', "{$string}")
+               ->orWhere('request_order_no', "{$string}")
+               ->orwhere('virtual_booking_no', "{$string}")
+               ->first();
             
             return $result;
             

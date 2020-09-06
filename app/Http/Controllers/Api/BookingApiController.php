@@ -71,7 +71,19 @@ class BookingApiController extends BaseApiController
         $data = Booking::select("booking_no as name")
                     ->where("booking_no","LIKE","%{$request->input('query')}%")
                     ->get();
-                    
+        
+        if(count($data) == 0){
+            $data = Booking::select("virtual_booking_no as name")
+            ->where("virtual_booking_no","LIKE","%{$request->input('query')}%")
+            ->get();
+        }
+        
+        if(count($data) == 0){
+            $data = Booking::select("request_order_no as name")
+            ->where("request_order_no","LIKE","%{$request->input('query')}%")
+            ->get();
+        }
+        
         return response()->json($data);
     }
 

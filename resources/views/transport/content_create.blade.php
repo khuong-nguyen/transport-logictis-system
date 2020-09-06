@@ -1,3 +1,7 @@
+@push('scripts')
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+@endpush
 <div id="main-form" class="row">
     <div class="col">
         <div class="form-group row">
@@ -73,7 +77,11 @@
                         </table>
                     </div>
                     <div class="col-sm-6">
-                        <label for="">Route {{ '{'.$bookingContainerDetails['por_1'].'}'.'{'.$bookingContainerDetails['por_2'].'}'.'{'.$bookingContainerDetails['pol_1'].'}'.'{'.$bookingContainerDetails['pol_2'].'} ~ '.'{'.$bookingContainerDetails['pod_1'].'}'.'{'.$bookingContainerDetails['pod_2'].'}'.'{'.$bookingContainerDetails['del_1'].'}'.'{'.$bookingContainerDetails['del_2'].'}' }}</label>
+                    	@if($bookingContainerDetails['booking_type'] == 'IMPORT')
+                        <label for="">Route {{$bookingContainerDetails['pod_1'].$bookingContainerDetails['pod_2'].' ~ '.$bookingContainerDetails['del_1'].$bookingContainerDetails['del_2']}}</label>
+                    	@elseif($bookingContainerDetails['booking_type'] == 'EXPORT')
+                    	<label for="">Route {{$bookingContainerDetails['por_1'].$bookingContainerDetails['por_2'].' ~ '.$bookingContainerDetails['pol_1'].$bookingContainerDetails['pol_2']}}</label>
+                    	@endif
                     </div>
                 </div>
                 <table class="table table-bordered table-container-list">
@@ -211,6 +219,7 @@
         </div>
     </div>
 </div>
+
 <style>
     .btn-primary:disabled {
         cursor: no-drop;
