@@ -281,7 +281,7 @@
                                                                 <input type="text" style="min-width: 300px" value="{{ $list['delivery_address'] }}" id = "delivery_address_<?=$recordNumber?>" name="schedules[<?=$recordNumber?>][delivery_address]" onblur = "saveSchedule(<?=$recordNumber?>)" class="form-control delivery_address">
                                                             </td>
                                                             
-                                                            <td>@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
+                                                            <td class = "schedule_action" >@if($list['id'])<button type="button" onclick="onDelete(this)" data-id="{{ $list['id'] }}" class="btn btn-sm btn-danger action-delete">Del</button>@endif</td>
                                                         </tr>
                                                         @php
                                                             $recordNumber++;
@@ -506,7 +506,6 @@
             }).on('changeDate', function (selected) {
                 var maxDate = new Date(selected.date.valueOf());
                 $(pickup_plan).datetimepicker('setEndDate', $(delivery_plan).data("datetimepicker").getDate());
-                $('#select_truck_'+ index).empty();
                 saveSchedule(index);
             });
                 
@@ -517,6 +516,11 @@
                 startDate: moment().toDate(),
                 autoclose: true,
                 todayHighlight: true,
+            }).on('changeDate', function (selected) {
+                var maxDate = new Date(selected.date.valueOf());
+                $(pickup_plan).datetimepicker('setEndDate', $(delivery_plan).data("datetimepicker").getDate());
+                $('#select_truck_'+ index).empty();
+                saveSchedule(index);
             });
         });
 
@@ -688,6 +692,8 @@
                     	let tr = $('.table-container-list:visible tbody tr').eq(index);
                     	tr.find('.id').val(result.schedule_id);
                     	$('#booking_container_detail_id_' + index).val(result.booking_container_detail_id);
+                    	let delbtn = '<button type="button" onclick="onDelete(this)" data-id="' + result.schedule_id +'" class="btn btn-sm btn-danger action-delete">Del</button>';
+                    	tr.find('.schedule_action').html(delbtn);
                     },
                     error: function (result){
                     	toastr.error(result.responseJSON.errorMessge)
