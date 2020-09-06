@@ -136,8 +136,10 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
         $noHaveScheduleContainerTruck = FixedAsset::where('fixed_asset_type','TRUCK')
                                              ->whereNotIn('id', function($query) use($pickup_plan,$delivery_plan){
                                                     $query->select('container_truck_id')->from('scheduled_transport_container')
-                                                                ->whereRaw("pickup_plan >= '".$pickup_plan."' and pickup_plan <= '".$delivery_plan."'")
-                                                                ->orWhereRaw("delivery_plan > '".$pickup_plan."' and delivery_plan <= '".$delivery_plan."'");
+                                                                ->whereRaw("((pickup_plan >= '".$pickup_plan."' and pickup_plan <= '".$delivery_plan."')")
+                                                                ->orWhereRaw("(delivery_plan > '".$pickup_plan."' and delivery_plan <= '".$delivery_plan."'))")
+                                                                ->whereNull('scheduled_transport_container.deleted_at');
+                                                    ;
                                         })->get();
                                                                           
         // get Rank of Container Trucks in current month

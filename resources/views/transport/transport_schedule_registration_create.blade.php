@@ -214,7 +214,7 @@
                                                         <tr>
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][container_id]" id = "container_id_<?=$recordNumber?>" value="{{ $list['container_id'] }}">
                                                             <!--input type="hidden" name="schedules[<?=$recordNumber?>][container_no]" id = "container_no_<?=$recordNumber?>" value="{{ $list['container_no'] }}"-->
-                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_detail_id]" id = "booking_container_detail_id_<?=$recordNumber?> "value="{{ $list['booking_container_detail_id'] }}">
+                                                            <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_detail_id]" id = "booking_container_detail_id_<?=$recordNumber?>" value="{{ $list['booking_container_detail_id'] }}">
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][booking_id]" id = "booking_id_<?=$recordNumber?>" value="{{ $list['booking_id'] }}">
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][booking_container_id]" id = "booking_container_id_<?=$recordNumber?>" value="{{ $list['booking_container_id'] }}">
                                                             <input type="hidden" name="schedules[<?=$recordNumber?>][booking_no]" id = "booking_no_<?=$recordNumber?>" value="{{ $list['booking_no'] }}">
@@ -455,10 +455,18 @@
                     },
                     success: function (result) {
                         let btnDel = $('.action-delete').filter('[data-id="'+ID+'"]');
-                        btnDel.closest('tr').find('td input').each((index, item) => {
+                        /* btnDel.closest('tr').find('td input').each((index, item) => {
                             item.value = '';
-                        });
+                        }); */
                         btnDel.closest('tr').find('.id').val('');
+                        btnDel.closest('tr').find('.pickup_plan').val('');
+                        btnDel.closest('tr').find('.delivery_plan').val('');
+                        btnDel.closest('tr').find('.container_truck_code').val('');
+                        btnDel.closest('tr').find('.container_truck_id').val('');
+                        btnDel.closest('tr').find('.driver_code').val('');
+                        btnDel.closest('tr').find('.driver_name').val('');
+                        btnDel.closest('tr').find('.driver_name_text').html('');
+                        
                         btnDel.remove();
                         toastr.success('Deleted success!');
                     },
@@ -592,7 +600,6 @@
     	let booking_container_id = $('#booking_container_id_' + index).val();
     	let booking_container_detail_id = $('#booking_container_detail_id_' + index).val();
     	let container_no = $('#container_no_' + index).val();
-		
     	let container_truck_id = tr.find('.container_truck_id').val();
     	let container_truck_code = tr.find('.container_truck_code').val();
 		
@@ -650,7 +657,6 @@
                     }
             	});
             }else
-                
             	var path = "{{ route('createSchedule') }}"; 
             	$.ajax({
                     url: path,
