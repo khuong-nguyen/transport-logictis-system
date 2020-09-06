@@ -4,7 +4,23 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                
+                <div class="panel panel-default">
+                  <div class="panel-heading" style="color:#d81c61">Booking Action</div>
+                  <div class="panel-body">
+                  	<div class="form-group row">
+                        <div class="col-md-1 col-sm-2">
+                            <label class="col-form-label required" for="booking_no">Booking No:</label>
+                        </div>
+                        <div class="col-md-2 col-sm-3">
+                            <input class="form-control edit_booking_no" id="edit_booking_no" type="text" name="edit_booking_no" autocomplete = "off">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary btn-edit-booking">Show</button>
+                            <button type="button" class="btn btn-primary btn-new-booking">Registration</button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="card-body container-fluid">
                     @if (session('status'))
                         <div class="alert alert-success">@lang(session('status'))</div>
@@ -934,6 +950,49 @@
                 }
                 window.location.replace(url);
             });
+
+            $('.btn-new-booking').click(function (){
+                window.location.replace('/booking/registration');
+            });
+
+            $('.btn-edit-booking').click(function (){
+            	let bookingNo = $('#edit_booking_no').val();
+            	//document.location.search = 'search='+bookingNo
+                if (bookingNo !== '') {
+                    $.ajax({
+                        url: "/api/booking/code",
+                        dataType: "json",
+                        method: 'get',
+                        data: {
+                            search: bookingNo
+                        },
+                        success: function (result) {
+                            window.location.replace('/booking/registration/' + result.data.id);
+                        },
+                        error: err => {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr.error(err.responseJSON.message)
+                        }
+                    });
+                }  
+            });
+            
         });
         function remove(elem,id){
             var vol = $('#container_vol_'+id).val();
@@ -1138,6 +1197,16 @@
             });
         }
     });
+
+    var pathEditBooking = "{{ route('autocompleteBookingNo') }}";
+    $('input.edit_booking_no').typeahead({
+        source:  function (query, process) {
+        return $.get(pathEditBooking, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+    
     </script>
 
 
