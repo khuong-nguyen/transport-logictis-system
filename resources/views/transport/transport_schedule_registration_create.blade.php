@@ -96,6 +96,15 @@
                                 $detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
             												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
 															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
+								$detail['booking_type'] = $bookingContainerDetail['booking_type'];
+								$detail['por_1'] = $bookingContainerDetail['por_1'];
+								$detail['por_2'] = $bookingContainerDetail['por_2'];
+								$detail['pol_1'] = $bookingContainerDetail['pol_1'];
+								$detail['pol_2'] = $bookingContainerDetail['pol_2'];
+								$detail['pod_1'] = $bookingContainerDetail['pod_1'];
+								$detail['pod_2'] = $bookingContainerDetail['pod_2'];
+								$detail['del_1'] = $bookingContainerDetail['del_1'];
+								$detail['del_2'] = $bookingContainerDetail['del_1'];
                             } else {
                                 $detail['booking_container_detail_id'] = $detail['id'];
                                 $detail['container_no'] = $detail['container_no'];
@@ -115,6 +124,15 @@
                                 $detail['booking_no'] = !empty($bookingContainerDetail['booking_no']) 
             												? $bookingContainerDetail['booking_no'] : (!empty($bookingContainerDetail['virtual_booking_no'])
 															? $bookingContainerDetail['virtual_booking_no'] : $bookingContainerDetail['request_order_no']);
+                            	$detail['booking_type'] = $bookingContainerDetail['booking_type'];
+								$detail['por_1'] = $bookingContainerDetail['por_1'];
+								$detail['por_2'] = $bookingContainerDetail['por_2'];
+								$detail['pol_1'] = $bookingContainerDetail['pol_1'];
+								$detail['pol_2'] = $bookingContainerDetail['pol_2'];
+								$detail['pod_1'] = $bookingContainerDetail['pod_1'];
+								$detail['pod_2'] = $bookingContainerDetail['pod_2'];
+								$detail['del_1'] = $bookingContainerDetail['del_1'];
+								$detail['del_2'] = $bookingContainerDetail['del_1'];
                             }
     						$containerDetailNum++;
                             $listContainers[] = $detail;
@@ -146,7 +164,16 @@
                     $detail['transport_cost'] = '';
                     $detail['container_id'] = $containerBooking['container_id'];
                     $detail['pickup_address'] = $bookingContainerDetail['pickup_address'] ? $bookingContainerDetail['pickup_address'] : '';
-                    $detail['delivery_address'] = $bookingContainerDetail['delivery_address'] ? $bookingContainerDetail['delivery_address'] : '';;
+                    $detail['delivery_address'] = $bookingContainerDetail['delivery_address'] ? $bookingContainerDetail['delivery_address'] : '';
+                    $detail['booking_type'] = $bookingContainerDetail['booking_type'];
+					$detail['por_1'] = $bookingContainerDetail['por_1'];
+					$detail['por_2'] = $bookingContainerDetail['por_2'];
+					$detail['pol_1'] = $bookingContainerDetail['pol_1'];
+					$detail['pol_2'] = $bookingContainerDetail['pol_2'];
+					$detail['pod_1'] = $bookingContainerDetail['pod_1'];
+					$detail['pod_2'] = $bookingContainerDetail['pod_2'];
+					$detail['del_1'] = $bookingContainerDetail['del_1'];
+					$detail['del_2'] = $bookingContainerDetail['del_1'];
                     $listContainers[] = $detail;
                 }
         	@endphp
@@ -204,7 +231,11 @@
                                                             <td>
                                                             	<input type="text" style="min-width: 100px" id= "container_no_<?=$recordNumber?>" name="schedules[<?=$recordNumber?>][container_no]" value="{{ $list['container_no'] }}" class="form-control container_no" onblur = "saveSchedule(<?=$recordNumber?>)" autocomplete="off">
                                                             </td>
-                                                            <td style="min-width: 150px" >{{ $bookingContainerDetail['por_1'].$bookingContainerDetail['por_2'].$bookingContainerDetail['pol_1'].$bookingContainerDetail['pol_2'].' ~ '.$bookingContainerDetail['pod_1'].$bookingContainerDetail['pod_2'].$bookingContainerDetail['del_1'].$bookingContainerDetail['del_2'] }}</td>
+                                                            @if($list['booking_type'] == 'IMPORT')
+                                                        	<td style="min-width: 150px" >{{ $list['pod_1'].$list['pod_2'].' ~ '.$list['del_1'].$list['del_2']}}</td>
+                                                        	@elseif($list['booking_type'] == 'EXPORT')
+                                                        	<td style="min-width: 150px" >{{ $list['por_1'].$list['por_2'].' ~ '.$list['pol_1'].$list['pol_2']}}</td>
+                                                        	@endif
                                                             <td style="position: relative">
                                                             	<div class='input-group date'>
                                                                     <input style="min-width: 150px" type="text" value="{{ $list['pickup_plan'] }}"  name="schedules[<?=$recordNumber?>][pickup_plan]" class="form-control pickup_plan date" autocomplete = "off">
@@ -344,6 +375,8 @@
     </div>
 @endsection
 @push('scripts')
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <style>
@@ -373,9 +406,7 @@
             padding: 2rem 1.25rem;
         }
     </style>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
 	$('#sidebar').removeClass('c-sidebar-lg-show');
 

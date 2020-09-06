@@ -211,11 +211,10 @@ class TransportScheduleRegistrationController extends Controller
     {
         DB::beginTransaction();
         try {
-            $booking = $this->scheduleTransportContainerRepository->find($id);
-            if ($booking->booking_status !== Booking::STATUS_APPROVED) {
-                $this->bookingContainerDetailRepository->destroy($booking);
-                DB::commit();
-            }
+            $transport_schedule_booking = $this->scheduleTransportContainerRepository->find($id);
+            $this->scheduleTransportContainerRepository->destroy($transport_schedule_booking);
+            DB::commit();
+            
             if ($request->ajax()) {
                 return response()->json([
                     'error' => null,
