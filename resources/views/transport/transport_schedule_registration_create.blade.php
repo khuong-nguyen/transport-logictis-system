@@ -272,7 +272,7 @@
                                                             	</div>
                                                             </td>
                                                             <td style="position: relative">
-                                                                <input type="number" min="0" type="text" style="min-width: 120px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$recordNumber?>][transport_cost]" class="form-control currency transport_cost">
+                                                                <input type="number" min="0" type="text" style="min-width: 120px" value="{{ $list['transport_cost'] }}" name="schedules[<?=$recordNumber?>][transport_cost]" onblur = "saveSchedule(<?=$recordNumber?>)" class="form-control currency transport_cost">
                                                             </td>
                                                             <td style="position: relative">
                                                                 <input type="text" style="min-width: 300px" value="{{ $list['pickup_address'] }}" id = "pickup_address_<?=$recordNumber?>" name="schedules[<?=$recordNumber?>][pickup_address]" onblur = "saveSchedule(<?=$recordNumber?>)" class="form-control pickup_address">
