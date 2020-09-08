@@ -250,7 +250,7 @@ class BookingRegistrationController extends Controller
         $shipper =   $this->shipperBookingRepository->findByAttributes(['booking_id'=>$booking->id]);
         $consignee =   $this->consigneeBookingRepository->findByAttributes(['booking_id'=>$booking->id]);
         $containers =   $this->bookingContainerRepository->getWithContainerByBookingId($booking->id);
-        $search = $booking->booking_no;
+        $search = !empty($booking->booking_no) ? $booking->booking_no : (!empty($booking->virtual_booking_no) ? $booking->virtual_booking_no : $booking->request_order_no );
         $bookingContainerDetails = $this->bookingRepository->search($search,'');
         $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails->toArray():[];
 

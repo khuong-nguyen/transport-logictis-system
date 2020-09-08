@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\BaseApiController;
 use App\Repositories\ScheduleTransportContainerRepository;
+use App\Repositories\BookingContainerDetailRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ScheduleTransportContainer;
@@ -14,6 +15,11 @@ class TransportScheduleApiController extends BaseApiController
      * @var ScheduleTransportContainerRepository
      */
     private $scheduleTransportContainerRepository;
+    
+    /**
+     * @var BookingContainerDetailRepository
+     */
+    private $bookingContainerDetailRepository;
 
     /**
      * Create a new controller instance.
@@ -22,10 +28,12 @@ class TransportScheduleApiController extends BaseApiController
      * @return void
      */
     public function __construct(
-        ScheduleTransportContainerRepository $scheduleTransportContainerRepository
+        ScheduleTransportContainerRepository $scheduleTransportContainerRepository,
+        BookingContainerDetailRepository $bookingContainerDetailRepository
     )
     {
         $this->scheduleTransportContainerRepository = $scheduleTransportContainerRepository;
+        $this->bookingContainerDetailRepository = $bookingContainerDetailRepository;
     }
 
     /**
@@ -100,6 +108,8 @@ class TransportScheduleApiController extends BaseApiController
                 
                 $booking_id = !empty($request->schedules) ? $request->schedules[0]['booking_id']??'' : '';
                 $container_id = !empty($request->schedules) ? $request->schedules[0]['container_id']??'' : '';
+                $container_no = !empty($request->schedules) ? $request->schedules[0]['container_no']??'' : '';
+                $booking_container_detail_id = !empty($request->schedules) ? $request->schedules[0]['booking_container_detail_id']??'' : '';
                 
                 if(empty($booking_id) || empty($container_id)){
                     return response()->json(["statusCode" => "NG_BOOKING_CONTAINER","errorMessge" => "Booking Container is not valid"], 400);
@@ -111,6 +121,11 @@ class TransportScheduleApiController extends BaseApiController
                     return response()->json(["statusCode" => "NG_FULL_SCHEDULE","errorMessge" => "Booking had been scheduled fully"], 400);
                 }
                 
+                //validate container_no duplidate in Bookig
+                $isDuplicateContainerInBooking = $this->bookingContainerDetailRepository->isDuplicateContainerNoInBooking($booking_id,$container_no,$booking_container_detail_id);
+                if($isDuplicateContainerInBooking){
+                    return response()->json(["statusCode" => "NG_DUPLICATE_CONTAINER_NO","errorMessge" => "Container No ".$container_no." has been duplicated"], 400);
+                }
                 $schedule = $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
                 
                 return response()->json(["statusCode" => "OK",
@@ -130,6 +145,17 @@ class TransportScheduleApiController extends BaseApiController
             try {
                 $driver = '';
                 $container = '';
+                
+                $booking_id = !empty($request->schedules) ? $request->schedules[0]['booking_id']??'' : '';
+                $container_id = !empty($request->schedules) ? $request->schedules[0]['container_id']??'' : '';
+                $container_no = !empty($request->schedules) ? $request->schedules[0]['container_no']??'' : '';
+                $booking_container_detail_id = !empty($request->schedules) ? $request->schedules[0]['booking_container_detail_id']??'' : '';
+                //validate container_no duplidate in Bookig
+                $isDuplicateContainerInBooking = $this->bookingContainerDetailRepository->isDuplicateContainerNoInBooking($booking_id,$container_no,$booking_container_detail_id);
+                
+                if($isDuplicateContainerInBooking){
+                    return response()->json(["statusCode" => "NG_DUPLICATE_CONTAINER_NO","errorMessge" => "Container No ".$container_no." has been duplicated"], 400);
+                }
                 
                 $schedule = $this->scheduleTransportContainerRepository->saveBooking($request, $container, $driver);
                 

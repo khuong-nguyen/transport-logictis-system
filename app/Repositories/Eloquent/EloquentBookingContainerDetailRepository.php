@@ -65,24 +65,71 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
     public function fullSearch($bookingId, $driverNo = '', $containerTruckNo = '')
     {
         try {
-
                 return $this->model->where('booking_id', $bookingId)->with(['container', 'schedules' => function($q) use ($driverNo, $containerTruckNo) {
-//                            $q->with(['driver' => function($q) use ($driverNo) {
-//                                if ($driverNo) {
-//                                    $q->where('employee_code', $driverNo);
-//                                }
-//                            },'containerTruck' => function($q) use ($containerTruckNo) {
-//                                if ($containerTruckNo) {
-//                                    $q->where('fixed_asset_code', $containerTruckNo);
-//                                }
-//                            }]);
-            }])->get();
-
-            return [];
+                                                                            }])->get();
+                return [];
         } catch (\Exception $e) {
             return false;
         }
+    }
 
-
+    public function isDuplicateContainerNoInBooking($booking_id, $container_no, $id = null){
+        
+        $isDuplicateContainerInBooking = true;
+        
+        if(empty($container_no)){
+            return false;
+        }
+        
+        if(empty($id)){
+            $bookingContainerDetailCount = $this->model->where('booking_id', $booking_id)
+                                                        ->where('container_no',$container_no)
+                                                        ->count();
+        }else{
+            $bookingContainerDetailCount = $this->model->where('booking_id', $booking_id)
+                                                        ->where('container_no',$container_no)
+                                                        ->where('id','<>',$id)
+                                                        ->count();
+        }
+        
+        if($bookingContainerDetailCount == 0){
+            $isDuplicateContainerInBooking = false;
+        }
+        return $isDuplicateContainerInBooking;
+    }
+    
+    public function checkDuplicateBookingContainerDetail(array $bookingContainerDetails = []){
+        $result = [
+            "isDuplicated" => true,
+            "errorMessage" => ""
+        ];
+        
+        $groupedContainerNos = [];
+        $errorMessage = "";
+        
+        foreach($bookingContainerDetails as $bookingContainerDetail){
+            $groupedContainerNos[$bookingContainerDetail['container_no']][] = $bookingContainerDetail;
+        }
+        foreach($groupedContainerNos as $container_no => $groupedContainerNo){
+            if(count($groupedContainerNo) > 1 && !empty($container_no)){
+                $errorMessage = $errorMessage . $container_no . ",";
+            }
+        }
+        if(!empty($errorMessage)){
+            $errorMessage = substr($errorMessage, 0, strlen($errorMessage) - 1);
+            $errorMessage = "Container No (" . $errorMessage . ") has been duplicated in booking";
+            $result = [
+                "isDuplicated" => true,
+                "errorMessage" => $errorMessage
+            ];
+        }else{
+            $result = [
+                "isDuplicated" => false,
+                "errorMessage" => ""
+            ];
+        }
+        
+        
+        return $result;
     }
 }

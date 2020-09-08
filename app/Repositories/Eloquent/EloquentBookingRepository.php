@@ -122,7 +122,7 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
         if ($string != '')
         {
             $result = $this->model->with(['containerBookings' => function($q) {
-                $q->with(['details' => function($q) {
+                    $q->with(['details' => function($q) {
                     $q->with('schedules');
                 }, 'container']);
             }])->where('booking_no', "{$string}")
@@ -131,7 +131,6 @@ class EloquentBookingRepository extends EloquentBaseRepository implements Bookin
                ->first();
             
             return $result;
-            
         }
         return [];
 

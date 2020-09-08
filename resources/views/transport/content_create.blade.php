@@ -59,7 +59,10 @@
 
                                         for ($i = 0; $i < $vol; $i++) {
                                             $example['booking_container_id'] = $containerBooking['id'];
-                                            $example['booking_no'] = $bookingContainerDetails['booking_no'];
+                                            $example['booking_no'] = !empty($bookingContainerDetails['booking_no']) ?
+                                            							$bookingContainerDetails['booking_no'] : 
+                                            							(!empty($bookingContainerDetails['virtual_booking_no']) ? 
+                                            							$bookingContainerDetails['virtual_booking_no'] : $bookingContainerDetails['request_order_no']);
                                             $example['container_id'] = $containerBooking['container_id'];
                                             $example['booking_id'] = $containerBooking['booking_id'];
                                             $example['container_code'] = $containerCode;
@@ -320,7 +323,29 @@
         });
         $('#save-container').on('click', e => {
             e.preventDefault();
-            if ($('#is-booking').length > 0) {
+            var inputValues = getAllValues();
+            inputValues.push({name: 'save-container', value:true})
+            inputValues.push({name: '_token', value:$('input[name="_token"]').val()})
+            inputValues.push({name: '_method', value:$('input[name="_method"]').val()})
+            let bookingID = $('#hr-booking-id').val();
+            $.ajax({
+                url: '/booking/transport/registration/'+bookingID,
+                dataType: "json",
+                method: 'post',
+                data: inputValues,
+                success: function (result) {
+                    $.each(result.data, (index, item) => {
+                        let tr = $('.table-container-list tbody tr:nth-child('+parseInt(item.position)+')');
+                        var input = $("<button type=\"button\" onclick=\"onDelete(this)\" data-id=\""+item.id+"\" class=\"btn btn-sm btn-danger action-delete\">Del</button>")
+                        tr.find('td:last-child').html(input);
+                    });
+                    toastr.success(result.message)
+                },
+                error: err => {
+                    toastr.error(err.responseJSON.message)
+                }
+            });
+            /* if ($('#is-booking').length > 0) {
                 var inputValues = getAllValues();
                 inputValues.push({name: 'save-container', value:true})
                 inputValues.push({name: '_token', value:$('input[name="_token"]').val()})
@@ -345,7 +370,7 @@
                 });
             } else {
                 $('#form-transport-container').submit();
-            }
+            } */
         });
         $('#booking_no').on('keyup', e => {
            if (e.target.value !== '') {

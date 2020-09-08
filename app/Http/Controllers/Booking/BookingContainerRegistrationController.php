@@ -121,6 +121,15 @@ class BookingContainerRegistrationController extends Controller
             try {
                 $data = [];
                 if ($booking->booking_status !== Booking::STATUS_APPROVED) {
+                    // validate duplicate container no in booking
+                    $result = $this->bookingContainerDetailRepository->checkDuplicateBookingContainerDetail($request->containerbookingdetail);
+                    if($result['isDuplicated'] == true){
+                        return response()->json([
+                            'error' => true,
+                            'message' => $result['errorMessage'],
+                            'data' => false
+                        ], 403);
+                    }
                     $data = $this->bookingContainerDetailRepository->saveBooking($request);
                 }
                 return response()->json([
@@ -160,14 +169,22 @@ class BookingContainerRegistrationController extends Controller
         }
         if ($booking && $request->has('containerbookingdetail') && $booking->booking_status !== Booking::STATUS_APPROVED) {
             try {
+                // validate duplicate container no in booking
+                $result = $this->bookingContainerDetailRepository->checkDuplicateBookingContainerDetail($request->containerbookingdetail);
+                if($result['isDuplicated'] == true){
+                    return redirect('/booking/transport/registration?search='.(!empty($booking->booking_no) ? $booking->booking_no : (!empty($booking->virtual_booking_no) ? $booking->virtual_booking_no : $booking->request_order_no)))->with('status', '$result.errorMessage');
+                    
+                }
+                
                 $this->bookingContainerDetailRepository->saveBooking($request);
-                return redirect('/booking/transport/registration?search='.$booking->booking_no)->with('status', 'message.save_success');
+                
+                return redirect('/booking/transport/registration?search='.(!empty($booking->booking_no) ? $booking->booking_no : (!empty($booking->virtual_booking_no) ? $booking->virtual_booking_no : $booking->request_order_no)))->with('status', 'message.save_success');
             } catch (\Exception $e) {
                 DB::rollBack();
-                return redirect('/booking/transport/registration?search='.$booking->booking_no)->with('status', 'message.save_error');
+                return redirect('/booking/transport/registration?search='.(!empty($booking->booking_no) ? $booking->booking_no : (!empty($booking->virtual_booking_no) ? $booking->virtual_booking_no : $booking->request_order_no)))->with('status', 'message.save_error');
             }
         }
-        return redirect('/booking/transport/registration?search='.$booking->booking_no)->with('status', 'message.save_error');
+        return redirect('/booking/transport/registration?search='.(!empty($booking->booking_no) ? $booking->booking_no : (!empty($booking->virtual_booking_no) ? $booking->virtual_booking_no : $booking->request_order_no)))->with('status', 'message.save_error');
     }
 
     /**
