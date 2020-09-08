@@ -82,3 +82,12 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
         Route::put('/registration/{id}', 'AdvanceMoneyController@update');
         Route::get('/inquiry', 'AdvanceMoneyInquiryController@index');
     });
+
+        Route::group(['prefix' => 'location_code','namespace' => 'LocationCode'],function (){
+            Route::get('/registration', 'LocationCodeController@create');
+            Route::post('/registration', 'LocationCodeController@store');
+            Route::get('/registration/{id}', 'LocationCodeController@edit');
+            Route::put('/registration/{id}', 'LocationCodeController@update');
+            Route::get('/search', 'LocationCodeController@search');
+            Route::get('/inquiry', 'LocationCodeInquiryController@index');
+        });

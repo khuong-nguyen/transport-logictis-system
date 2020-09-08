@@ -122,6 +122,16 @@
                             <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
                         </svg>@lang('sidebar.fixed_asset_inquiry')</a>
                 </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/location_code/registration">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.setting_location_code')</a>
+                </li>
+                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/location_code/inquiry">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.location_code_inquiry')</a>
+                </li>
             </ul>
         </li>
     </ul>
