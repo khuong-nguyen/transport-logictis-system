@@ -46,7 +46,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <input class="form-control @if($errors->has('location_code.node_code')) is-invalid @endif" id="node_code" value="{{old('location_code.node_code') ?? $location_code->node_code ?? ''}}" type="text" name="location_code[node_code]" required>
-                                                        @error('location_code.location_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                        @error('location_code.node_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">

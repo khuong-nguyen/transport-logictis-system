@@ -24,7 +24,7 @@ class LocationCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'location_code.node_code' => 'required|max:30'
+            'location_code.node_code' => 'required|unique:location_code,node_code|max:30'
         ];
     }
 }
