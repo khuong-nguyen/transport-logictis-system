@@ -54,7 +54,6 @@
                                 <th>No.</th>
                                 <th>Node Code.</th>
                                 <th>Node Name</th>
-                                <th>Birthday</th>
                                 <th>Address</th>
                                 <th>Action</th>
                             </tr>

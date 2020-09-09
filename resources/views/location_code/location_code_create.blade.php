@@ -30,7 +30,7 @@
                     @endif
                     <form action="/location_code/registration{{ isset($location_code) ? '/'.$location_code->id :''}}" method="post">
                         @csrf
-                        @if(isset($employee))  @method('PUT') @endif
+                        @if(isset($location_code))  @method('PUT') @endif
                         <div class="nav-tabs-boxed form-group">
                             <ul class="nav nav-tabs" role="tablist" >
                                 <li class="nav-item"><a class="nav-link active" id="employee_tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="profile">Location Creation</a></li>
