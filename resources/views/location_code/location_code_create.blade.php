@@ -28,7 +28,7 @@
                     @if (session('status'))
                         <div class="alert alert-success">@lang(session('status'))</div>
                     @endif
-                    <form action="/employee/registration{{ isset($employee) ? '/'.$employee->id :''}}" method="post">
+                    <form action="/location_code/registration{{ isset($location_code) ? '/'.$location_code->id :''}}" method="post">
                         @csrf
                         @if(isset($employee))  @method('PUT') @endif
                         <div class="nav-tabs-boxed form-group">
@@ -42,9 +42,9 @@
                                             <div class="card-body border">
                                             	<div class="form-group row">
                                                     <div class="col-md-3">
-                                                        <label class="col-form-label required" for="node_code">Location Code</label>
+                                                        <label class="col-form-label required" for="node_code">Node Code</label>
                                                     </div>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-3">
                                                         <input class="form-control @if($errors->has('location_code.node_code')) is-invalid @endif" id="node_code" value="{{old('location_code.node_code') ?? $location_code->node_code ?? ''}}" type="text" name="location_code[node_code]" required>
                                                         @error('location_code.location_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                     </div>
@@ -68,19 +68,19 @@
                                     		</div>
                                 		</div>
                             		</div>
-                                <div class="card-footer">
-                                    <div class="form-row float-right">
-                                        <div class="form-group  float-right">
-                                            <div class="btn-group">
-                                                <button class="btn btn-primary" type="submit"> Save</button>
-                                            </div>
-                                            <div class="btn-group">
-                                                <a class="btn btn-primary" href="/" role="button">Close</a>
+	                        		<div class="card-footer">
+                                        <div class="form-row float-right">
+                                            <div class="form-group">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-primary" type="submit"> Save</button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a class="btn btn-primary" href="/" role="button">Close</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                        </div>
+                        		</div>
                     		</div>
                 		</div>
                     </form>

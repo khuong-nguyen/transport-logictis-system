@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\LocationCode;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\EmployeeRepository;
+use App\Repositories\LocationCodeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
@@ -12,28 +12,28 @@ use Illuminate\View\View;
 class LocationCodeInquiryController extends Controller
 {
     /**
-     * @var EmployeeRepository
+     * @var LocationCodeRepository
      */
-    private $employeeRepository;
+    private $locationCodeRepository;
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/employee';
+    protected $redirectTo = '/location_code';
 
     /**
      * Create a new controller instance.
-     * @param EmployeeRepository $employeeRepository
+     * @param LocationCodeRepository $locationCodeRepository
      *
      * @return void
      */
     public function __construct(
-        EmployeeRepository $employeeRepository
+        LocationCodeRepository $locationCodeRepository
     )
     {
-        $this->employeeRepository = $employeeRepository;
+        $this->locationCodeRepository = $locationCodeRepository;
     }
 
     public function index(Request $request)
@@ -47,11 +47,11 @@ class LocationCodeInquiryController extends Controller
                 if (isset($search['columns'])) {
                     $params = http_build_query($search['columns']);
                 }
-                $data = $this->employeeRepository->inquirySearch($request);
+                $data = $this->locationCodeRepository->inquirySearch($request);
             }
             else
             {
-                $data = $this->employeeRepository->inquirySearch($request);
+                $data = $this->locationCodeRepository->inquirySearch($request);
             }
 
             return datatables()->of($data)
@@ -60,13 +60,13 @@ class LocationCodeInquiryController extends Controller
                     "recordsFiltered" => count($data),
                 ])
                 ->addColumn('action', function($row) use ($params) {
-                    $url = '/employee/registration/'.$row->id.'?'.$params;
+                    $url = '/location_code/registration/'.$row->id.'?'.$params;
                     return '<a href="'.$url.'" class="edit btn btn-success btn-sm">Edit</a>
                         <button class="delete btn btn-danger btn-sm" data-remote="'. $url.'">Delete</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('employee.employee_inquiry');
+        return view('location_code.location_code_inquiry');
     }
 }

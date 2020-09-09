@@ -25,4 +25,22 @@ class EloquentLocationCodeRepository extends EloquentBaseRepository implements L
         }
         return $categories->paginate($request->get('per_page', 10));
     }
+    
+    public function inquirySearch(Request $request)
+    {
+        $query = $this->model->query();
+        
+        $search = $request->get('search');
+        
+        if (isset($search['columns'])) {
+            foreach ($search['columns'] as $key => $value)
+            {
+                if ($value != null)
+                {
+                    $query->where($key,'=',$value);
+                }
+            }
+        }
+        return $query->orderBy('created_at', 'desc')->get();
+    }
 }

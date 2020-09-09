@@ -63,8 +63,7 @@ class LocationCodeController extends Controller
     {
          $request = $request->all();
          $locationCodeRequest =  $request['location_code'];
-         
-         $location_code=   $this->locationCodeRepository->create($locationCodeRequest);
+         $location_code =   $this->locationCodeRepository->create($locationCodeRequest);
 
          return redirect('/location_code/registration');
     }

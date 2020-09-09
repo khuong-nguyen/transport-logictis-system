@@ -15,7 +15,6 @@ class CreateLocationCodeTable extends Migration
     {
         Schema::create('location_code', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('seq', 30);
             $table->string('node_code', 30)->unique();
             $table->string('node_name', 255)->nullable();
             $table->string('address', 255)->nullable();

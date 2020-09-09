@@ -13,7 +13,7 @@ class LocationCode extends Model
      * @var array
      */
     protected $fillable = [
-        'seq','node_code','node_name','address',
+        'node_code','node_name','address',
         'created_by',
         'updated_by',
     ];

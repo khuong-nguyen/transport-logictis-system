@@ -1,40 +1,30 @@
 @extends('layout.app')
-@section('title', 'Employee Inquiry')
+@section('title', 'Location Inquiry')
 @section('content')
     <link href="{{ asset('bootstrap/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header">@lang('sidebar.employee_inquiry')</div>
+                <div class="card-header">@lang('sidebar.location_code_inquiry')</div>
                 <div class="card-body container-fluid">
                     <div class="alert alert-success d-none" id="msg"></div>
                     @csrf
                     <div class="row form-group">
                         <div class="col-sm-3">
                             <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label" for="employee_code">Employee Code</label>
+                                <label class="col-md-4 pr-0 col-form-label" for="employee_code">Node Code</label>
                                 <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="employee_code" name="employee_code" type="text" value="{{ old('employee.employee_code')?old('employee.employee_code'):app('request')->input('employee_code')  }}">
+                                    <input class="form-control" id="node_code" name="node_code" type="text" value="{{ old('location_code.node_code')?old('location_code.node_code'):app('request')->input('node_code')  }}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="row">
                                 <div class="col-md-4 pr-0">
-                                    <label class="col-form-label"  for="employee_name">Employee Name</label>
+                                    <label class="col-form-label"  for="node_name">Node Name</label>
                                 </div>
                                 <div class="col-md-8 pr-0">
-                                    <input class="form-control" id="employee_name" type="text" name="employee_name" value="{{ old('employee.employee_name')?old('employee.employee_name'):app('request')->input('employee_name') }}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="row">
-                                <div class="col-md-4 pr-0">
-                                    <label class="col-form-label"  for="employee_language_name">Birthday</label>
-                                </div>
-                                <div class="col-md-8 pr-0">
-                                    <input class="form-control" id="birthday" type="text" name="birthday" value="{{ old('birthday')?old('birthday'):app('request')->input('birthday') }}">
+                                    <input class="form-control" id="node_name" type="text" name="node_name" value="{{ old('location_code.node_name')?old('location_code.node_name'):app('request')->input('node_name') }}">
                                 </div>
                             </div>
                         </div>
@@ -42,19 +32,9 @@
                     <div class="row form-group">
                         <div class="col-sm-3">
                             <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label" for="tax">Employee Address</label>
+                                <label class="col-md-4 pr-0 col-form-label" for="address">Address</label>
                                 <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="employee_address" name="employee_address" type="text" value="{{ old('employee.employee_address')?old('employee.employee_address'):app('request')->input('employee_address')}}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-3">
-                            <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label" for="tax">Card No</label>
-                                <div class="col-md-8 pr-0 ">
-                                    <input class="form-control" id="card_no" name="card_no" type="text" value="{{ old('employee.card_no')?old('employee.card_no'):app('request')->input('card_no')}}">
+                                    <input class="form-control" id="address" name="address" type="text" value="{{ old('location_code.address')?old('location_code.address'):app('request')->input('address')}}">
                                 </div>
                             </div>
                         </div>
@@ -72,11 +52,10 @@
                             <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Employee Code.</th>
-                                <th>Employee Name</th>
+                                <th>Node Code.</th>
+                                <th>Node Name</th>
                                 <th>Birthday</th>
-                                <th>Employee Address</th>
-                                <th>Card No</th>
+                                <th>Address</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -100,11 +79,9 @@
             {
                 var search = {
                     columns:{
-                        employee_code: $('#employee_code').val(),
-                        employee_name: $('#employee_name').val(),
-                        birthday: $('#birthday').val(),
-                        employee_address: $('#employee_address').val(),
-                        card_no: $('#card_no').val(),
+                        node_code: $('#node_code').val(),
+                        node_name: $('#node_name').val(),
+                        address: $('#address').val(),
                     },
                 };
                 var dataTable = $('#inquiryDatatable').DataTable({
@@ -115,7 +92,7 @@
                     "iDisplayLength": 10,
                     dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
                     ajax:{
-                        url: "/employee/inquiry",
+                        url: "/location_code/inquiry",
                         data: {search: search}
                     },
                     columns: [
@@ -124,24 +101,16 @@
                             name:'id'
                         },
                         {
-                            data:'employee_code',
-                            name:'employee_code'
+                            data:'node_code',
+                            name:'node_code'
                         },
                         {
-                            data:'employee_name',
-                            name:'employee_name'
+                            data:'node_name',
+                            name:'node_name'
                         },
                         {
-                            data:'birthday',
-                            name:'birthday'
-                        },
-                        {
-                            data:'employee_address',
-                            name:'employee_address'
-                        },
-                        {
-                            data:'card_no',
-                            name:'card_no'
+                            data:'address',
+                            name:'address'
                         },
                         {
                             data: 'action',

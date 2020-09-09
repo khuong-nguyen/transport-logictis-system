@@ -196,3 +196,4 @@
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/dataTables.bootstrap4.min.js') }}"></script>
 @endsection
+
