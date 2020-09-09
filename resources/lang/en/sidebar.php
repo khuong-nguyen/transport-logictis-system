@@ -29,6 +29,8 @@ return [
     'setting_employee' => 'Employee Creation',
     'employee_inquiry' => 'Employee Inquiry',
     'setting_fixed_asset' => 'Fixed Asset Creation',
-    'fixed_asset_inquiry' => 'Fixed Asset Inquiry'
+    'fixed_asset_inquiry' => 'Fixed Asset Inquiry',
+    'setting_location_code' => 'Location Creation',
+    'location_code_inquiry' => 'Location Inquiry'
 
 ];
