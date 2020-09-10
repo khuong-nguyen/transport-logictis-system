@@ -32,6 +32,13 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
     {
         return $this->model->query()->with('container')->where('booking_id',$id)->get();
     }
+    
+    public function getBookingContainerDetailByBookingId($id)
+    {
+        return $this->model->where('booking_id',$id)
+                            ->join('container','container.id','=','booking_container_details.container_id')
+                            ->get();
+    }
 
     public function saveBooking($request) {
         DB::beginTransaction();

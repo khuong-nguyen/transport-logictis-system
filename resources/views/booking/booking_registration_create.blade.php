@@ -773,7 +773,7 @@
                                                     <button class="btn btn-primary" type="button" @if(!isset($booking)) disabled @endif>Split</button>
                                                 </div>
                                                 <div class="btn-group">
-                                                    <button class="btn btn-primary" type="button" @if(!isset($booking)) disabled @endif>Fax/EDI</button>
+                                                    <button class="btn btn-primary print" type="button" @if(!isset($booking)) disabled @endif>Print</button>
                                                 </div>
                                                 <div class="btn-group">
                                                     <button class="btn btn-primary" type="button" @if(!isset($booking)) disabled @endif>Copy</button>
@@ -1205,6 +1205,11 @@
                 return process(data);
             });
         }
+    });
+
+    $('.print').click(function(){
+        let booking_id = {{ isset($booking)?$booking->id : ''}} ;
+	    window.document.location = "/print_document/booking/" + booking_id;
     });
     
     </script>

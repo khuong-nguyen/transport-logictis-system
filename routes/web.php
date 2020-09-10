@@ -83,11 +83,15 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
         Route::get('/inquiry', 'AdvanceMoneyInquiryController@index');
     });
 
-        Route::group(['prefix' => 'location_code','namespace' => 'LocationCode'],function (){
-            Route::get('/registration', 'LocationCodeController@create');
-            Route::post('/registration', 'LocationCodeController@store');
-            Route::get('/registration/{id}', 'LocationCodeController@edit');
-            Route::put('/registration/{id}', 'LocationCodeController@update');
-            Route::get('/search', 'LocationCodeController@search');
-            Route::get('/inquiry', 'LocationCodeInquiryController@index');
-        });
+    Route::group(['prefix' => 'location_code','namespace' => 'LocationCode'],function (){
+        Route::get('/registration', 'LocationCodeController@create');
+        Route::post('/registration', 'LocationCodeController@store');
+        Route::get('/registration/{id}', 'LocationCodeController@edit');
+        Route::put('/registration/{id}', 'LocationCodeController@update');
+        Route::get('/search', 'LocationCodeController@search');
+        Route::get('/inquiry', 'LocationCodeInquiryController@index');
+    });
+    
+    Route::group(['prefix' => 'print_document','namespace' => 'PrintDocument'],function (){
+        Route::get('/booking/{booking_id}', 'PrintDocumentController@printBooking');
+    });
