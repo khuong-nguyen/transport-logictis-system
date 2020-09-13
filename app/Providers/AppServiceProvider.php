@@ -17,21 +17,24 @@ use App\ShipperBooking;
 use App\Customer;
 
 use App\Booking;
-use App\Container;
+
 use App\Repositories\Eloquent\EloquentConsigneeBookingRepository;
 use App\Repositories\Eloquent\EloquentForwarderBookingRepository;
 use App\Repositories\Eloquent\EloquentShipperBookingRepository;
 use App\Repositories\Eloquent\EloquentCustomerRepository;
 use App\Repositories\Eloquent\EloquentBookingRepository;
 use App\Repositories\ForwarderBookingRepository;
-use App\Repositories\Eloquent\EloquentContainerRepository;
+
 
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\ConsigneeBookingRepository;
 use App\Repositories\ShipperBookingRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\BookingRepository;
+
 use App\Repositories\ContainerRepository;
+use App\Repositories\Eloquent\EloquentContainerRepository;
+use App\Container;
 
 use App\Repositories\EmployeeRepository;
 use App\Repositories\Eloquent\EloquentEmployeeRepository;
@@ -52,6 +55,10 @@ use App\LocationCode;
 use App\Repositories\RequestOrderRepository;
 use App\Repositories\Eloquent\EloquentRequestOrderRepository;
 use App\RequestOrder;
+
+use App\Repositories\RequestOrderContainerRepository;
+use App\Repositories\Eloquent\EloquentRequestOrderContainerRepository;
+use App\RequestOrderContainer;
 
 use App\Repositories\VirtualBookingRepository;
 use App\Repositories\Eloquent\EloquentVirtualBookingRepository;
@@ -160,6 +167,13 @@ class AppServiceProvider extends ServiceProvider
                 return  new EloquentRequestOrderRepository(new RequestOrder());
             }
         );
+        
+        $this->app->bind(
+            RequestOrderContainerRepository::class,
+            function () {
+                return  new EloquentRequestOrderContainerRepository(new RequestOrderContainer());
+            }
+            );
         
         $this->app->bind(
             VirtualBookingRepository::class,

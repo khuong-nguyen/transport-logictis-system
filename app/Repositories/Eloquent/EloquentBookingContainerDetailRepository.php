@@ -35,8 +35,10 @@ class EloquentBookingContainerDetailRepository extends EloquentBaseRepository im
     
     public function getBookingContainerDetailByBookingId($id)
     {
-        return $this->model->where('booking_id',$id)
+        return $this->model->where('booking_container_details.booking_id',$id)
                             ->join('container','container.id','=','booking_container_details.container_id')
+                            ->join('booking_container','booking_container.id','=','booking_container_details.booking_container_id')
+                            ->whereNull('booking_container.deleted_at')
                             ->get();
     }
 

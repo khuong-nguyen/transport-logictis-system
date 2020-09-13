@@ -69,7 +69,7 @@
                                                         @if(isset($booking))
                                                         <div class="form-group row">
                                                         	<div class="col-md-3 pr-0">
-                                                        		<label class="form-label" for="request_order_no">Booking Status </label>
+                                                        		<label class="form-label" for="booking_status">Booking Status </label>
                                                         	</div>
                                                         	<div class="col-md-3 pr-0">
                                                         		{{ Form::radio('booking[booking_status]', 'ORDER', $booking->booking_status == 'ORDER'?true:false )}} Order
@@ -85,7 +85,7 @@
                                                         @endif
                                                         <div class="form-group row">
                                                         	<div class="col-md-3 pr-0">
-                                                        		<label class="form-label" for="request_order_no">Booking Type </label>
+                                                        		<label class="form-label" for="booking_type">Booking Type </label>
                                                         	</div>
                                                         	<div class="col-md-3 pr-0">
                                                         		{{ Form::radio('booking[booking_type]', 'IMPORT', isset($booking->booking_type) ? ($booking->booking_type == 'IMPORT' ? true:false) : true)}} Import
@@ -317,7 +317,7 @@
                                                                     <td colspan="5">
                                                                         <span class="error-messages">The TP/SZ has already been taken</span>
                                                                     </td>
-                                                                    <input type="hidden" value="" id="deletedBookingContainer" name="deletedBookingContainer[]">
+                                                                    <input type="hidden" value="" id="deletedBookingContainer" name="deletedBookingContainer">
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
@@ -994,15 +994,16 @@
             });
             
         });
-        function remove(elem,id){
-            var vol = $('#container_vol_'+id).val();
+        function remove(elem,container_id){
+            var vol = $('#container_vol_'+ container_id).val();
             var total = parseFloat($('#TotalVol').val());
             total -= parseFloat(vol);
             $('#TotalVol').val(total);
-            containerId.splice(containerId.indexOf(id), 1);
-            if (typeof $('#container_id_'+id).val() !== 'undefined' && $('#container_id_'+id).val() == null) {
-            	deletedBookingContainer.push($('#container_id_'+id).val());
-                $('#deletedBookingContainer').val(deletedBookingContainer);
+            containerId.splice(containerId.indexOf(container_id), 1);
+            if (typeof $('#container_id_'+ container_id).val() !== 'undefined') {
+				
+            	deletedBookingContainer.push(container_id);
+                $('#deletedBookingContainer').val(JSON.stringify(deletedBookingContainer));
         	}
             $(elem).parent('td').parent('tr').remove();
         }
@@ -1208,7 +1209,7 @@
     });
 
     $('.print').click(function(){
-        let booking_id = {{ isset($booking)?$booking->id : ''}} ;
+        let booking_id = {{ isset($booking)?$booking->id : "no_bboking"}} ;
 	    window.document.location = "/print_document/booking/" + booking_id;
     });
     

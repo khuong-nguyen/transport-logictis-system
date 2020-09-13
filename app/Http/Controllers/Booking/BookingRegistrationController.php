@@ -22,6 +22,7 @@ use App\Http\Requests\BookingRegistrationRequest;
 use App\RequestOrder;
 use App\VirtualBooking;
 use App\Repositories\RequestOrderRepository;
+use App\Repositories\RequestOrderContainerRepository;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\VirtualBookingRepository;
 
@@ -79,6 +80,11 @@ class BookingRegistrationController extends Controller
     private $requestOrderRepository;
     
     /**
+     * @var RequestOrderContainerRepository
+     */
+    private $requestOrderContainerRepository;
+    
+    /**
      * @var VirtualBookingRepository
      */
     private $virtualBookingRepository;
@@ -103,6 +109,7 @@ class BookingRegistrationController extends Controller
      * @param BookingContainerDetailRepository $bookingContainerDetailRepository
      * @param AdvanceMoneyRepository $advanceMoneyRepository
      * @param RequestOrderRepository $requestOrderRepository
+     * @param RequestOrderContainerRepository $requestOrderContainerRepository
      * @param VirtualBookingRepository $virtualBookingRepository
      * @return void
      */
@@ -117,6 +124,7 @@ class BookingRegistrationController extends Controller
         BookingContainerDetailRepository $bookingContainerDetailRepository,
         AdvanceMoneyRepository $advanceMoneyRepository,
         RequestOrderRepository $requestOrderRepository,
+        RequestOrderContainerRepository $requestOrderContainerRepository,
         VirtualBookingRepository $virtualBookingRepository
     )
     {
@@ -130,6 +138,8 @@ class BookingRegistrationController extends Controller
         $this->bookingContainerDetailRepository = $bookingContainerDetailRepository;
         $this->advanceMoneyRepository = $advanceMoneyRepository;
         $this->requestOrderRepository = $requestOrderRepository;
+        $this->requestOrderContainerRepository = $requestOrderContainerRepository;
+        
         $this->virtualBookingRepository = $virtualBookingRepository;
     }
 
@@ -223,6 +233,12 @@ class BookingRegistrationController extends Controller
                     $container['container_id'] = $key;
                     $container['container_code'] = $container['text'];
                     $this->bookingContainerRepository->create($container);
+                    
+                    $container['request_order_id'] = $request_order->id;
+                    $container['container_id'] = $key;
+                    $container['container_code'] = $container['text'];
+                    $this->requestOrderContainerRepository->create($container);
+                    
                 }
             }
             DB::commit();
@@ -284,8 +300,19 @@ class BookingRegistrationController extends Controller
             $forwarderRequest =  $request['forwarder'];
             
             $booking =   $this->bookingRepository->update($booking,$bookingRequest);
+            $request_order = RequestOrder::where('id',$booking->request_order_id)->first();
             
-            if(empty($booking->virtual_booking_id)){
+            if(!empty($booking->request_order_id) && $booking->booking_status == "ORDER"){
+
+                //update request_order
+                
+                unset($bookingRequest["booking_no"]);
+                $bookingRequest["id"] = $booking->request_order_id;
+                $request_order->update($bookingRequest);
+                
+            }
+            
+            if(empty($booking->virtual_booking_id) && $booking->booking_status == "VIRTUAL"){
                 //Create Virtual Booking
                 unset($bookingRequest["booking_no"]);
                 
@@ -366,24 +393,58 @@ class BookingRegistrationController extends Controller
                 {
                     if (isset($container['id'])){
                         $oldContainer = $this->bookingContainerRepository->find($container['id']);
-                        $this->containerRepository->update($oldContainer,$container);
+                        $this->bookingContainerRepository->update($oldContainer,$container);
+                        
+                        if($booking->booking_status == "ORDER"){
+                            
+                            $oldRequestOrderContainer = $this->requestOrderContainerRepository->findByAttributes(["container_code" => $oldContainer->container_code,
+                                "request_order_id" => $request_order->id
+                            ]);
+                            
+                            $this->requestOrderContainerRepository->update($oldRequestOrderContainer,$container);
+                        }
                         
                     }else{
                         $container['booking_id'] = $booking->id;
                         $container['container_id'] = $key;
                         $container['container_code'] = $container['text'];
                         $this->bookingContainerRepository->create($container);
+                        
+                        if($booking->booking_status == "ORDER"){
+                            $container['request_order_id'] = $request_order->id;
+                            $container['container_id'] = $key;
+                            $container['container_code'] = $container['text'];
+                            $this->requestOrderContainerRepository->create($container);
+                        }
                     }
                 }
             }
             
-            if(empty($request['deletedBookingContainer'])){
-                foreach ($request['deletedBookingContainer'] as $key => $bookingContainer)
+            if(!empty($request['deletedBookingContainer'])){
+                $deletedBookingContainers = json_decode($request['deletedBookingContainer']);
+                
+                foreach ($deletedBookingContainers as $key => $container_id)
                 {
-                    if(!empty($bookingContainer)){
-                        $deletedBookingContainer = $this->bookingContainerRepository->find($bookingContainer);
+                    if(!empty($container_id)){
+                        
+                        $deletedBookingContainer = $this->bookingContainerRepository->findByAttributes(["container_id" =>$container_id,
+                            "booking_id" => $booking->id
+                        ]);
+                        
                         if(!empty($deletedBookingContainer)){
                             $deletedBookingContainer->delete();
+                        }
+                        
+                        if($booking->booking_status == "ORDER"){
+                            
+                            $deletedRequestOrderContainer = $this->requestOrderContainerRepository->findByAttributes(
+                                ["container_id" => $container_id,
+                                "request_order_id" => $request_order->id
+                            ]);
+                            
+                            if(!empty($deletedRequestOrderContainer)){
+                                $deletedRequestOrderContainer->delete();
+                            }
                         }
                     }
                     
