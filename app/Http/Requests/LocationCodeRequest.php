@@ -23,8 +23,9 @@ class LocationCodeRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('id');
         return [
-            'location_code.node_code' => 'required|unique:location_code,node_code|max:30'
+            'location_code.node_code' => 'required|unique:location_code,node_code,'.$id.'|max:30'
         ];
     }
 }

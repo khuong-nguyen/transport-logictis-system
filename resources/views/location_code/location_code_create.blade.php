@@ -68,20 +68,20 @@
                                     		</div>
                                 		</div>
                             		</div>
-	                        		<div class="card-footer">
-                                        <div class="form-row float-right">
-                                            <div class="form-group">
-                                                <div class="btn-group">
-                                                    <button class="btn btn-primary" type="submit"> Save</button>
-                                                </div>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-primary" href="/" role="button">Close</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                         		</div>
                     		</div>
+                			<div class="card-footer">
+                                <div class="form-row float-right">
+                                    <div class="form-group">
+                                        <div class="btn-group">
+                                            <button class="btn btn-primary" type="submit"> Save</button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <a class="btn btn-primary" href="/" role="button">Close</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                 		</div>
                     </form>
                 </div>
