@@ -64,6 +64,10 @@ use App\Repositories\VirtualBookingRepository;
 use App\Repositories\Eloquent\EloquentVirtualBookingRepository;
 use App\VirtualBooking;
 
+use App\Repositories\VirtualBookingContainerRepository;
+use App\Repositories\Eloquent\EloquentVirtualBookingContainerRepository;
+use App\VirtualBookingContainer;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -180,7 +184,14 @@ class AppServiceProvider extends ServiceProvider
             function () {
                 return  new EloquentVirtualBookingRepository(new VirtualBooking());
             }
-        );       
+        ); 
+        
+        $this->app->bind(
+            VirtualBookingContainerRepository::class,
+            function () {
+                return  new EloquentVirtualBookingContainerRepository(new VirtualBookingContainer());
+            }
+        ); 
         
     }
 

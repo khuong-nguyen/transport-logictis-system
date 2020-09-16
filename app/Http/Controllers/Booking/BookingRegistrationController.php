@@ -25,6 +25,8 @@ use App\Repositories\RequestOrderRepository;
 use App\Repositories\RequestOrderContainerRepository;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\VirtualBookingRepository;
+use App\Repositories\VirtualBookingContainerRepository;
+
 
 
 class BookingRegistrationController extends Controller
@@ -89,6 +91,10 @@ class BookingRegistrationController extends Controller
      */
     private $virtualBookingRepository;
 
+    /**
+     * @var VirtualBookingContainerRepository
+     */
+    private $virtualBookingContainerRepository;
 
     /**
      * Where to redirect users after login.
@@ -111,6 +117,7 @@ class BookingRegistrationController extends Controller
      * @param RequestOrderRepository $requestOrderRepository
      * @param RequestOrderContainerRepository $requestOrderContainerRepository
      * @param VirtualBookingRepository $virtualBookingRepository
+     * @param VirtualBookingContainerRepository $virtualBookingContainerRepository
      * @return void
      */
     public function __construct(
@@ -125,7 +132,8 @@ class BookingRegistrationController extends Controller
         AdvanceMoneyRepository $advanceMoneyRepository,
         RequestOrderRepository $requestOrderRepository,
         RequestOrderContainerRepository $requestOrderContainerRepository,
-        VirtualBookingRepository $virtualBookingRepository
+        VirtualBookingRepository $virtualBookingRepository,
+        VirtualBookingContainerRepository $virtualBookingContainerRepository
     )
     {
         $this->customerRepository = $customerRepository;
@@ -141,6 +149,7 @@ class BookingRegistrationController extends Controller
         $this->requestOrderContainerRepository = $requestOrderContainerRepository;
         
         $this->virtualBookingRepository = $virtualBookingRepository;
+        $this->virtualBookingContainerRepository = $virtualBookingContainerRepository;
     }
 
     public function index()
@@ -319,13 +328,21 @@ class BookingRegistrationController extends Controller
                 $bookingRequest['virtual_booking_no'] = $this->virtualBookingRepository->virtualBookingCode('HCM');
                 $virtual_booking = VirtualBooking::create($bookingRequest);
                 
-                //update request_order_id to booking
+                //update virtual_booking_id to booking
                 
                 $booking= $this->bookingRepository->update(
                     $booking,
                     ['virtual_booking_id' => $virtual_booking->id,
-                        'virtual_booking_no' => $virtual_booking->request_order_no
+                     'virtual_booking_no' => $virtual_booking->virtual_booking_no
                     ]);
+                
+            }elseif(!empty($booking->virtual_booking_id) && $booking->booking_status == "VIRTUAL"){
+                //update virtual_booking
+                $virtual_booking = VirtualBooking::where('id',$booking->virtual_booking_id)->first();
+                
+                unset($bookingRequest["booking_no"]);
+                $bookingRequest["id"] = $booking->virtual_booking_id;
+                $virtual_booking->update($bookingRequest);
             }
             
             if ($bookingRequest['shipper_id'] != null){
@@ -403,6 +420,22 @@ class BookingRegistrationController extends Controller
                             
                             $this->requestOrderContainerRepository->update($oldRequestOrderContainer,$container);
                         }
+                        if($booking->booking_status == "VIRTUAL"){
+                            
+                            $oldVirtualBookingContainer = $this->virtualBookingContainerRepository->findByAttributes(["container_code" => $oldContainer->container_code,
+                                "virtual_booking_id" => $booking->virtual_booking_id
+                            ]);
+                            if(!empty($oldVirtualBookingContainer)){
+                                $this->virtualBookingContainerRepository->update($oldVirtualBookingContainer,$container);
+                            }else{
+                                $container['virtual_booking_id'] = $booking->virtual_booking_id;
+                                $container['container_id'] = $key;
+                                $container['container_code'] = $container['text'];
+                                $this->virtualBookingContainerRepository->create($container);
+                            }
+                            
+                        }
+                        
                         
                     }else{
                         $container['booking_id'] = $booking->id;
@@ -415,6 +448,13 @@ class BookingRegistrationController extends Controller
                             $container['container_id'] = $key;
                             $container['container_code'] = $container['text'];
                             $this->requestOrderContainerRepository->create($container);
+                        }
+                        
+                        if($booking->booking_status == "VIRTUAL"){
+                            $container['virtual_booking_id'] = $booking->virtual_booking_id;
+                            $container['container_id'] = $key;
+                            $container['container_code'] = $container['text'];
+                            $this->virtualBookingContainerRepository->create($container);
                         }
                     }
                 }
@@ -444,6 +484,18 @@ class BookingRegistrationController extends Controller
                             
                             if(!empty($deletedRequestOrderContainer)){
                                 $deletedRequestOrderContainer->delete();
+                            }
+                        }
+                        
+                        if($booking->booking_status == "VIRTUAL"){
+                            
+                            $deletedVirtuakBookingContainer = $this->virtualBookingContainerRepository->findByAttributes(
+                                ["container_id" => $container_id,
+                                    "virtual_booking_id" => $booking->virtual_booking_id
+                                ]);
+                            
+                            if(!empty($deletedVirtuakBookingContainer)){
+                                $deletedVirtuakBookingContainer->delete();
                             }
                         }
                     }
