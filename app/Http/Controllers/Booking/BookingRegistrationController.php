@@ -301,6 +301,7 @@ class BookingRegistrationController extends Controller
         try{
             DB::beginTransaction();
             $booking = $this->bookingRepository->find($id);
+            
             $url = $request->getRequestUri();
             $request = $request->all();
             $bookingRequest =  $request['booking'];
@@ -308,6 +309,15 @@ class BookingRegistrationController extends Controller
             $consigneeRequest =  $request['consignee'];
             $forwarderRequest =  $request['forwarder'];
             
+            if($booking->booking_status =='BOOKING' && $bookingRequest['booking_status'] == 'BOOKING'){
+                $v = \Validator::make($request, [
+                    'booking.booking_no' => 'required|unique:booking,booking_no,'.$booking->id.'|max:100',
+                ]);
+                if ($v->fails())
+                {
+                    return redirect()->back()->withErrors($v->errors());
+                }
+            }
             $booking =   $this->bookingRepository->update($booking,$bookingRequest);
             $request_order = RequestOrder::where('id',$booking->request_order_id)->first();
             
@@ -428,9 +438,11 @@ class BookingRegistrationController extends Controller
                             if(!empty($oldVirtualBookingContainer)){
                                 $this->virtualBookingContainerRepository->update($oldVirtualBookingContainer,$container);
                             }else{
+                                
                                 $container['virtual_booking_id'] = $booking->virtual_booking_id;
                                 $container['container_id'] = $key;
-                                $container['container_code'] = $container['text'];
+                                $container_code = isset($container['text']) ? $container['text'] : ($this->containerRepository->find($key)->container_code);
+                                $container['container_code'] = $container_code;
                                 $this->virtualBookingContainerRepository->create($container);
                             }
                             
@@ -453,7 +465,8 @@ class BookingRegistrationController extends Controller
                         if($booking->booking_status == "VIRTUAL"){
                             $container['virtual_booking_id'] = $booking->virtual_booking_id;
                             $container['container_id'] = $key;
-                            $container['container_code'] = $container['text'];
+                            $container_code = isset($container['text']) ? $container['text'] : ($this->containerRepository->find($key)->container_code);
+                            $container['container_code'] = $container_code;
                             $this->virtualBookingContainerRepository->create($container);
                         }
                     }
