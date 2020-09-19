@@ -590,6 +590,7 @@
                 tr.find('.driver_code').val(trucks[key].driver_code);
                 tr.find('.driver_name_text').html(trucks[key].driver_name);
                 tr.find('.driver_name').val(trucks[key].driver_name);
+                tr.find('.container_truck_code').focus();
                 saveSchedule(index);
 			}
 		}	
