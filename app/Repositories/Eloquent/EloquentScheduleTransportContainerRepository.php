@@ -8,6 +8,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use App\BookingContainerDetail;
 use App\ContainerBooking;
+use App\Booking;
 use App\FixedAsset;
 class EloquentScheduleTransportContainerRepository extends EloquentBaseRepository implements ScheduleTransportContainerRepository
 {
@@ -115,7 +116,9 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                         }
                     }
                 }
+                $this->updateScheduleStatusForBooking($data["booking_id"]);
             }
+            
             DB::commit();
             return $result;
         } catch (\Exception $e) {
@@ -288,5 +291,65 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
         }
         
         return $isFullScheduleForBookingContainer;
+    }
+    
+    public function updateScheduleStatusForBooking($booking_id){
+        
+        $scheduleStatus = 'FULL';
+        $hasEmpty = false;
+        $hasFull = false;
+        
+        if(!empty($booking_id)){
+            $booking_containers = ContainerBooking::where('booking_id',$booking_id)
+            ->get();    
+            // get schedule count for booking base on container_id.
+            foreach($booking_containers as $booking_container){
+                $scheduledBookingContainerCount = $this->model
+                ->where('booking_id', $booking_id)
+                ->where('container_id',$booking_container->container_id)
+                ->whereNull('deleted_at')
+                ->count();
+                
+                if($scheduledBookingContainerCount == 0){
+                    $scheduleStatus = 'EMPTY';
+                    $hasEmpty = true;
+                }elseif($scheduledBookingContainerCount == $booking_container->vol && $scheduledBookingContainerCount > 0){
+                    $hasFull = true;
+                }
+                
+                if($scheduledBookingContainerCount < $booking_container->vol && $scheduledBookingContainerCount > 0){
+                    // Update Partial
+                    $scheduleStatus = "PARTIAL";
+                   
+                    $booking = Booking::find($booking_id);
+                    $booking->update(["schedule_status" => $scheduleStatus]);
+                    return $scheduleStatus;
+                    
+                }elseif($scheduledBookingContainerCount == $booking_container->vol &&  $scheduleStatus == 'EMPTY'){
+                    // Update Partial
+                    $scheduleStatus = "PARTIAL";
+                    
+                    $booking = Booking::find($booking_id);
+                    $booking->update(["schedule_status" => $scheduleStatus]);
+                    
+                    return $scheduleStatus;
+                    
+                }elseif($hasEmpty && $hasFull){
+                    // Update Partial
+                    $scheduleStatus = "PARTIAL";
+                    
+                    $booking = Booking::find($booking_id);
+                    $booking->update(["schedule_status" => $scheduleStatus]);
+                    
+                    return $scheduleStatus;
+                }
+            }
+            
+            $booking = Booking::find($booking_id);
+            $booking->update(["schedule_status" => $scheduleStatus]);
+            
+            return $scheduleStatus;
+            
+        }
     }
 }

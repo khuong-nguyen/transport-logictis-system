@@ -22,7 +22,7 @@ class Booking extends Model
         'bkg_contact_name', 'bkg_contact_email', 'bkg_contact_tel', 'booking_status',
         'ext_remark','booking_type',
         'int_remark',
-        'booking_status','si', 'brd', 'fh',
+        'schedule_status','si', 'brd', 'fh',
         'weight',
         'shipper_id','forwarder_id','consignee_id','created_by','updated_by','approved_by','virtual_booking_id',
         'sailling_due_date','pick_up_dt','request_order_no','request_order_id','virtual_booking_no',

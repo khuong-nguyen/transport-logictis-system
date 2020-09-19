@@ -223,6 +223,6 @@ class TransportScheduleApiController extends BaseApiController
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

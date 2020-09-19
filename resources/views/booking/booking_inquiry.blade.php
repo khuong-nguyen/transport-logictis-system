@@ -81,12 +81,24 @@
                         </div>
                         <div class="col-md-4">
                             <div class="row">
-                                <label class="col-md-4 pr-0 col-form-label required" for="booking_status">BKG Status</label>
+                                <label class="col-md-4 pr-0 col-form-label" for="booking_status">BKG Status</label>
                                 <div class="col-md-8 p-0">
                                     <select class="form-control" id="booking_status" name="booking_status">
                                         <option value="">Please select</option>
                                         <option value="ORDER" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 'ORDER') selected @endif>Order</option>
-                                        <option value="APPROVED" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 'APPROVED') selected @endif>Approved</option>
+                                        <option value="VIRTUAL" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 'VIRTUAL') selected @endif>Virtual</option>
+                                    	<option value="BOOKING" @if(isset($params['columns']['booking_status']) && $params['columns']['booking_status'] == 'BOOKING') selected @endif>Booking</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:15px">
+                                <label class="col-md-4 pr-0 col-form-label" for="schedule_status">Schedule Status</label>
+                                <div class="col-md-8 p-0">
+                                    <select class="form-control" id="schedule_status" name="schedule_status">
+                                        <option value="">Please select</option>
+                                        <option value="EMPTY" @if(isset($params['columns']['schedule_status']) && $params['columns']['schedule_status'] == 'EMPTY') selected @endif>Empty</option>
+                                        <option value="PARTIAL" @if(isset($params['columns']['schedule_status']) && $params['columns']['schedule_status'] == 'PARTIAL') selected @endif>Partial</option>
+                                    	<option value="FULL" @if(isset($params['columns']['schedule_status']) && $params['columns']['schedule_status'] == 'FULL') selected @endif>Full</option>
                                     </select>
                                 </div>
                             </div>
@@ -266,6 +278,7 @@
                         b_l_no: $('#b_l_no').val(),
                         tvvd: $('#tvvd').val(),
                         booking_status: $('#booking_status').val(),
+                        schedule_status: $('#schedule_status').val(),
                     },
                     booking_no: $('#booking_no').val(),
                     shipper_customer_code: $('#shipper_customer_code').val(),

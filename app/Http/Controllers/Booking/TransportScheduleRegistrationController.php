@@ -213,6 +213,7 @@ class TransportScheduleRegistrationController extends Controller
         try {
             $transport_schedule_booking = $this->scheduleTransportContainerRepository->find($id);
             $this->scheduleTransportContainerRepository->destroy($transport_schedule_booking);
+            $this->scheduleTransportContainerRepository->updateScheduleStatusForBooking($transport_schedule_booking->booking_id);
             DB::commit();
             
             if ($request->ajax()) {
