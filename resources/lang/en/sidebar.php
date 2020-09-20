@@ -21,6 +21,9 @@ return [
     
     'inventory_module' => 'Inventory Module',
     
+    'report_module' => 'Report Module',
+    'salary_monthly_driver' => 'Salary Monthly Driver',
+    
     'setting_module' => 'Setting Module',
     'setting_customer' => 'Customer Creation',
     'setting_container' => 'Container Creation',

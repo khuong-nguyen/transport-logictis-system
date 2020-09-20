@@ -88,7 +88,16 @@
             <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">@lang('sidebar.inventory_module')</a>
             <ul class="c-sidebar-nav-dropdown-items"></ul>
         </li>
-
+		<li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">@lang('sidebar.report_module')</a>
+            <ul class="c-sidebar-nav-dropdown-items">
+            	<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/report/salary-monthly-driver">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
+                        </svg>@lang('sidebar.salary_monthly_driver')</a>
+                </li>
+            </ul>
+        </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
             <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">@lang('sidebar.setting_module')</a>
             <ul class="c-sidebar-nav-dropdown-items">

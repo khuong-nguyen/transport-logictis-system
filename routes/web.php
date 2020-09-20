@@ -95,3 +95,7 @@ Route::group(['prefix' => 'customer','namespace' => 'Customer'],function (){
     Route::group(['prefix' => 'print_document','namespace' => 'PrintDocument'],function (){
         Route::get('/booking/{booking_id}', 'PrintDocumentController@printBooking');
     });
+    
+    Route::group(['prefix' => 'report','namespace' => 'Report'],function (){
+        Route::get('/report/salary-monthly-driver', 'ReportController@reportSalaryMonthlyForDriver');
+    });
