@@ -131,6 +131,7 @@ class BookingContainerRegistrationController extends Controller
                         ], 403);
                     }
                     $data = $this->bookingContainerDetailRepository->saveBooking($request);
+                    
                 }
                 return response()->json([
                     'error' => null,

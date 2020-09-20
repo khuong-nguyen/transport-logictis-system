@@ -26,8 +26,7 @@ use App\Repositories\RequestOrderContainerRepository;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\VirtualBookingRepository;
 use App\Repositories\VirtualBookingContainerRepository;
-
-
+use App\Repositories\ScheduleTransportContainerRepository;
 
 class BookingRegistrationController extends Controller
 {
@@ -95,6 +94,11 @@ class BookingRegistrationController extends Controller
      * @var VirtualBookingContainerRepository
      */
     private $virtualBookingContainerRepository;
+    
+    /**
+     * @var ScheduleTransportContainerRepository
+     */
+    private $scheduleTransportContainerRepository;
 
     /**
      * Where to redirect users after login.
@@ -118,6 +122,7 @@ class BookingRegistrationController extends Controller
      * @param RequestOrderContainerRepository $requestOrderContainerRepository
      * @param VirtualBookingRepository $virtualBookingRepository
      * @param VirtualBookingContainerRepository $virtualBookingContainerRepository
+     * @param ScheduleTransportContainerRepository $scheduleTransportContainerRepository
      * @return void
      */
     public function __construct(
@@ -133,7 +138,8 @@ class BookingRegistrationController extends Controller
         RequestOrderRepository $requestOrderRepository,
         RequestOrderContainerRepository $requestOrderContainerRepository,
         VirtualBookingRepository $virtualBookingRepository,
-        VirtualBookingContainerRepository $virtualBookingContainerRepository
+        VirtualBookingContainerRepository $virtualBookingContainerRepository,
+        ScheduleTransportContainerRepository $scheduleTransportContainerRepository
     )
     {
         $this->customerRepository = $customerRepository;
@@ -150,6 +156,7 @@ class BookingRegistrationController extends Controller
         
         $this->virtualBookingRepository = $virtualBookingRepository;
         $this->virtualBookingContainerRepository = $virtualBookingContainerRepository;
+        $this->scheduleTransportContainerRepository = $scheduleTransportContainerRepository;
     }
 
     public function index()
@@ -515,6 +522,8 @@ class BookingRegistrationController extends Controller
                     
                 }
             }
+            // update schedule status for booking
+            $this->scheduleTransportContainerRepository->updateScheduleStatusForBooking($booking->id);
             DB::commit();
             return redirect($url)->with('status','message.save_success');
         }catch (\Exception $e) {
