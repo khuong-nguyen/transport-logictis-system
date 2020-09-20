@@ -64,7 +64,7 @@ class PrintDocumentController extends Controller
         $booking_consignee = $this->consigneeBookingRepository->findByAttributes(['booking_id'=> $booking->id]);
         
         $booking_container_details = $this->bookingContainerDetailRepository->getBookingContainerDetailByBookingId($booking->id);
-        //dd($booking_container_details);
+        
         $detail_booking = view('print_booking.detail_booking',compact('booking','booking_shipper','booking_consignee','booking_container_details') )->render();
         
         return view('print_booking.print_booking',[
