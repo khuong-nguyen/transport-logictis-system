@@ -13,6 +13,8 @@ use App\Repositories\ShipperBookingRepository;
 use App\Repositories\ConsigneeBookingRepository;
 use App\Repositories\BookingContainerDetailRepository;
 use App\Repositories\ScheduleTransportContainerRepository;
+use App\Repositories\EmployeeRepository;
+use App\Employee;
 
 class ReportController extends Controller
 {
@@ -43,6 +45,11 @@ class ReportController extends Controller
     private $scheduleTransportContainerRepository;
     
     /**
+     * @var EmployeeRepository
+     */
+    private $employeeRepository;
+    
+    /**
      * Create a new controller instance.
      * @return void
      */
@@ -50,14 +57,17 @@ class ReportController extends Controller
         ShipperBookingRepository $shipperBookingRepository,
         ConsigneeBookingRepository $consigneeBookingRepository,
         BookingContainerDetailRepository $bookingContainerDetailRepository,
-        BookingContainerDetailRepository $bookingContainerDetailRepository
+        ScheduleTransportContainerRepository $scheduleTransportContainerRepository,
+        EmployeeRepository $employeeRepository
         )
     {
-        dd('11');
+        
         $this->bookingRepository = $bookingRepository;
         $this->shipperBookingRepository = $shipperBookingRepository;
         $this->consigneeBookingRepository = $consigneeBookingRepository;
+        $this->bookingContainerDetailRepository = $bookingContainerDetailRepository;
         $this->scheduleTransportContainerRepository = $scheduleTransportContainerRepository;
+        $this->employeeRepository = $employeeRepository;
     }
     
     /**
@@ -68,7 +78,33 @@ class ReportController extends Controller
     public function reportSalaryMonthlyForDriver(Request $request){
         
         $params = [];
-        dd('333');
+        
+        if($request->has('salary_month_from')){
+            $params['salary_month_from'] = $request->salary_month_from;
+        }else{
+            $params['salary_month_from'] = date("m/Y");
+        }
+        
+        if($request->has('salary_month_to')){
+            $params['salary_month_to'] = $request->salary_month_to;
+        }else{
+            $params['salary_month_to'] = date("m/Y");
+        }
+        
+        if($request->has('driver_code')){
+            $params['driver_code'] = $request->driver_code;
+        }else{
+            $params['driver_code'] = '';
+        }
+        
+        if($request->has('driver_name')){
+            $params['driver_name'] = $request->driver_name;
+        }else{
+            $params['driver_name'] = '';
+        }
+        
+        $salary_monthly_driver = $this->employeeRepository->salaryMonthlyForDriverSearch($params);
+        
         return view('report.report_salary_monthly_driver',[
             'salary_monthly_driver' => $salary_monthly_driver,
             'params' => $params

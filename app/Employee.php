@@ -26,5 +26,9 @@ class Employee extends Model
      * @var bool
      */
     public $timestamps = true;
+    
+    public function scheduleTransportContainer(){
+        return $this->hasMany(ScheduleTransportContainer::class, 'driver_id', 'id');
+    }
 
 }
