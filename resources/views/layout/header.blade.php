@@ -13,22 +13,25 @@
         </svg>
     </button>
     <ul class="c-header-nav ml-auto mr-4">
-        <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <div class="c-avatar"><img class="c-avatar-img" src="/assets/img/avatars/6.jpg" alt="user@email.com"></div>
+    	@guest
+    	<li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>         
+        @else
+        <li class="nav-item dropdown">
+            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+            {{ Auth::user()->name }}
             </a>
-            <div class="dropdown-menu dropdown-menu-right pt-0">
-                <div class="dropdown-header bg-light py-2"><strong>Account</strong></div><a class="dropdown-item" href="#">
-                    <svg class="c-icon mr-2">
-                        <use xlink:href="/assets/icons/sprites/free.svg#cil-user"></use>
-                    </svg> Profile</a><a class="dropdown-item" href="#">
-                    <svg class="c-icon mr-2">
-                        <use xlink:href="/assets/icons/sprites/free.svg#cil-settings"></use>
-                    </svg> Settings</a><a class="dropdown-item" href="#">
-                    <svg class="c-icon mr-2">
-                        <use xlink:href="/assets/icons/sprites/free.svg#cil-account-logout"></use>
-                    </svg> Logout</a>
-            </div>
+        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            	<a class="dropdown-item" href="{{ route('logout') }}"
+                	onclick="event.preventDefault();
+            	    document.getElementById('logout-form').submit();">
+                	{{ __('Logout') }}
+            	</a>
+            	<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            	@csrf
+            	</form>
+        	</div>
         </li>
+        @endguest
     </ul>
     <div class="c-subheader px-3">
         <!-- Breadcrumb-->

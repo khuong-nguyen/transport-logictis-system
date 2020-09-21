@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Booking;
 
+use App\Http\Controllers\Controller;
+
 use App\Booking;
 use App\BookingContainerDetail;
-use App\Http\Controllers\Controller;
 use App\Repositories\BookingContainerDetailRepository;
 use App\Repositories\BookingContainerRepository;
 use App\Repositories\ContainerRepository;
