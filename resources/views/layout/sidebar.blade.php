@@ -11,7 +11,10 @@
             </a>
         </li>
         <li class=" c-sidebar-nav-item c-sidebar-nav-dropdown">
-            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#"> @lang('sidebar.booking_module')</a>
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+            <svg class="c-sidebar-nav-icon">
+                <use xlink:href="/assets/icons/sprites/free.svg#cil-house"></use>
+            </svg> @lang('sidebar.booking_module')</a>
             <ul class="c-sidebar-nav-dropdown-items">
 <!--                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
                         <svg class="c-sidebar-nav-icon">
@@ -47,7 +50,10 @@
         </li>
 
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">@lang('sidebar.transportation_module')</a>
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-bus-alt"></use>
+                </svg>@lang('sidebar.transportation_module')</a>
             <ul class="c-sidebar-nav-dropdown-items">
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/booking/transport/registration">
                         <svg class="c-sidebar-nav-icon">
@@ -85,11 +91,17 @@
         </li>
 
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">@lang('sidebar.inventory_module')</a>
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+            <svg class="c-sidebar-nav-icon">
+                <use xlink:href="/assets/icons/sprites/free.svg#cil-house"></use>
+            </svg>@lang('sidebar.inventory_module')</a>
             <ul class="c-sidebar-nav-dropdown-items"></ul>
         </li>
 		<li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">@lang('sidebar.report_module')</a>
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+            	<svg class="c-sidebar-nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-book"></use>
+                </svg>@lang('sidebar.report_module')</a>
             <ul class="c-sidebar-nav-dropdown-items">
             	<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/report/salary-monthly-driver">
                         <svg class="c-sidebar-nav-icon">
@@ -99,7 +111,11 @@
             </ul>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">@lang('sidebar.setting_module')</a>
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-settings"></use>
+                </svg>@lang('sidebar.setting_module')
+            </a>
             <ul class="c-sidebar-nav-dropdown-items">
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/customer/registration">
                         <svg class="c-sidebar-nav-icon">
