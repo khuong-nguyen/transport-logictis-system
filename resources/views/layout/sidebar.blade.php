@@ -10,6 +10,8 @@
                 </svg>@lang('sidebar.dashboard')
             </a>
         </li>
+        @guest
+        @else
         <li class=" c-sidebar-nav-item c-sidebar-nav-dropdown">
             <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
             <svg class="c-sidebar-nav-icon">
@@ -159,6 +161,7 @@
                 </li>
             </ul>
         </li>
+        @endguest
     </ul>
     <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
 </div>
