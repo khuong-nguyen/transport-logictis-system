@@ -99,3 +99,11 @@ Route::group(['prefix' => 'print_document','namespace' => 'PrintDocument'],funct
 Route::group(['prefix' => 'report','namespace' => 'Report'],function (){
     Route::get('/salary-monthly-driver', 'ReportController@reportSalaryMonthlyForDriver');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('roles','RoleController');
+    Route::resource('users','UserController');
+});
