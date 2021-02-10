@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Employee;
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\EmployeeRepository;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Http\Requests\EmployeeRequest;
 use Carbon\Carbon;
+use Hash;
 
 class EmployeeController extends Controller
 {
@@ -112,6 +114,16 @@ class EmployeeController extends Controller
          $employeeRequest["birthday"] = !empty($birthday) ? $birthday->format('Y-m-d'):null;
          
          $employee =   $this->employeeRepository->create($employeeRequest);
+         
+         $otp = '123456';
+         $user = new User;
+         $user->email = $employee->email;
+         $user->name = $employee->employee_name;
+         $user->password = Hash::make($otp);
+         $user->employee_id = $employee->id;
+         $user->save();
+  
+         $employee->update(['user_id' => $user->id]);
 
          return redirect('/employee/registration');
     }
@@ -190,6 +202,26 @@ class EmployeeController extends Controller
         
         $employee =   $this->employeeRepository->update($this->employeeRepository->find($id),$employeeRequest);
 
+        if(empty($employee->user_id)){
+            //find user by email
+            $user = User::where('email', $employee->email)->first();
+            
+            if(!empty($user) && empty($user->employee_id)){
+                // map user and employee
+                $employee->update(['user_id' => $user->id]);
+                $user->update(['employee_id' => $employee->id]);
+            }else{
+                // create new user.
+                $otp = '123456';
+                $user = new User;
+                $user->email = $employee->email;
+                $user->name = $employee->employee_name;
+                $user->password = Hash::make($otp);
+                $user->employee_id = $employee->id;
+                $user->save();
+                $employee->update(['user_id' => $user->id]);
+            }
+        }
         //load default options for country_code
         $countryCodeOptions = [
             "VN" => "Viet Nam",

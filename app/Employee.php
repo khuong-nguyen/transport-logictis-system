@@ -15,7 +15,7 @@ class Employee extends Model
     protected $fillable = [
         'employee_name','employee_address','employee_code', 'department_code',
         'fax','tel','tax_code','country_code','city','zip_code','email',
-        'birthday', 'sex', 'card_no', 'basic_salary',
+        'birthday', 'sex', 'card_no', 'basic_salary', 'user_id',
         'created_by',
         'updated_by',
     ];
@@ -29,6 +29,11 @@ class Employee extends Model
     
     public function scheduleTransportContainer(){
         return $this->hasMany(ScheduleTransportContainer::class, 'driver_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\User');
     }
 
 }
