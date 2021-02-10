@@ -4,10 +4,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use DB;
 use Hash;
 class UserController extends Controller
 {
+    public function __construct() {
+        $this->middleware(['auth', 'isSuperAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +20,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
-        return view('users.index',compact('data'))
+        $users = User::orderBy('id','DESC')->paginate(5);
+        return view('users.index',compact('users'))
         ->with('i', ($request->input('page', 1) - 1) * 5);
     }
     /**
@@ -26,7 +31,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::get();
         return view('users.create',compact('roles'));
     }
     /**
@@ -37,18 +42,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        //Validate name, email and password fields
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
+            'name'=>'required|max:120',
+            'email'=>'required|email|unique:users',
+            'password'=>'required|min:6|confirmed'
         ]);
+
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
+
+        $user = User::create($input); //Retrieving only the email and password data
+
+        $roles = $request['roles']; //Retrieving the roles field
+    //Checking if a role was selected
+        if (isset($roles)) {
+
+            foreach ($roles as $role) {
+                $role_r = Role::where('id', '=', $role)->firstOrFail();            
+                $user->assignRole($role_r); //Assigning role to user
+            }
+        }        
+    //Redirect to the users.index view and display message
         return redirect()->route('users.index')
-        ->with('success','User created successfully');
+            ->with('flash_message',
+             'User successfully added.');
     }
     /**
      * Display the specified resource.
@@ -70,9 +88,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
-        return view('users.edit',compact('user','roles','userRole'));
+        $roles = Role::get(); //Get all roles
+        //$userRole = $user->roles->pluck('name','name')->all();
+        //return view('users.edit',compact('user','roles','userRole'));
+        return view('users.edit',compact('user','roles'));
     }
     /**
      * Update the specified resource in storage.

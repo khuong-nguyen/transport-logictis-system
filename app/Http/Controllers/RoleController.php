@@ -17,7 +17,9 @@ class RoleController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:role-list|role-create|role-edit|role-delete', [
+        $this->middleware(['auth', 'isSuperAdmin']);//isAdmin middleware lets only users with a //specific permission permission to access these resources
+
+        /*$this->middleware('permission:role-list|role-create|role-edit|role-delete', [
             'only' => [
                 'index',
                 'store'
@@ -39,7 +41,7 @@ class RoleController extends Controller
             'only' => [
                 'destroy'
             ]
-        ]);
+        ]);*/
     }
 
     /**
@@ -60,8 +62,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permission = Permission::get();
-        return view('roles.create', compact('permission'));
+        $permissions = Permission::all();//Get all permissions
+
+        return view('roles.create', ['permissions'=>$permissions]);
     }
 
     /**
@@ -72,15 +75,31 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        //Validate name and permissions field
         $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required'
-        ]);
-        $role = Role::create([
-            'name' => $request->input('name')
-        ]);
-        $role->syncPermissions($request->input('permission'));
-        return redirect()->route('roles.index')->with('success', 'Role created successfully');
+            'name'=>'required|unique:roles|max:20',
+            'permissions' =>'required',
+            ]
+        );
+
+        $name = $request['name'];
+        $role = new Role();
+        $role->name = $name;
+
+        $permissions = $request['permissions'];
+
+        $role->save();
+    //Looping thru selected permissions
+        foreach ($permissions as $permission) {
+            $p = Permission::where('id', '=', $permission)->firstOrFail(); 
+         //Fetch the newly created role and assign permission
+            $role = Role::where('name', '=', $name)->first(); 
+            $role->givePermissionTo($p);
+        }
+
+        return redirect()->route('roles.index')
+            ->with('flash_message',
+             'Role'. $role->name.' added!'); 
     }
 
     /**

@@ -25,9 +25,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::resource('users','UserController');
+Route::resource('roles','RoleController');
+Route::resource('permissions', 'PermissionController');
+
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('roles','RoleController');
-    Route::resource('users','UserController');
     Route::group(['prefix' => 'booking','namespace' => 'Booking'],function (){
         Route::get('/registration', 'BookingRegistrationController@create');
         Route::post('/registration', 'BookingRegistrationController@store');
