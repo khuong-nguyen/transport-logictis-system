@@ -66,15 +66,17 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                         if ($data['id']) {
                             $oldContainer = $this->find($data['id']);
                             
-                            //update booking container detail
-                            if(empty($oldContainer->container_no)){
-                                $old = BookingContainerDetail::find($oldContainer->booking_container_detail_id);
-                                if(!empty($old)){
-                                    $old->update(['container_no'=> $data['container_no'] ]);
+                            if(in_array($oldContainer->schedule_status,['ASSIGNED','REFUSE'])){
+                                //update booking container detail
+                                if(empty($oldContainer->container_no)){
+                                    $old = BookingContainerDetail::find($oldContainer->booking_container_detail_id);
+                                    if(!empty($old)){
+                                        $old->update(['container_no'=> $data['container_no'] ]);
+                                    }
                                 }
+                                $data['booking_container_detail_id'] = $oldContainer->booking_container_detail_id;
+                                $this->update($oldContainer, $data);
                             }
-                            $data['booking_container_detail_id'] = $oldContainer->booking_container_detail_id;
-                            $this->update($oldContainer, $data);
                             
                             $result[] = $data;
                             
@@ -107,7 +109,9 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                             }
                             
                             if ($filter) {
-                                
+                                $current_date = new \DateTime();
+                                $assigned_date = $current_date->format('Y-m-d H:m:s');
+                                $filter['assigned_date'] = $assigned_date;
                                 $record = $this->create($filter);
                                 $data['id'] = $record->id;
                                 $data['booking_container_detail_id'] = $record->booking_container_detail_id;
@@ -213,7 +217,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
             $transportStatusToday = "Run";
         }
         
-        Return $transportStatusToday;
+        return $transportStatusToday;
         
     }
     
@@ -227,7 +231,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
         }
         
         
-        Return $transportScheduleNearly;
+        return $transportScheduleNearly;
         
     }
     
@@ -247,7 +251,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
         }
         
         
-        Return $importTransportTotal;
+        return $importTransportTotal;
         
     }
     
@@ -266,7 +270,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
             $exportTransportTotal = $schedule;
         }
 
-        Return $exportTransportTotal;
+        return $exportTransportTotal;
     }
     
     public function isFullScheduleForBookingContainer($booking_id,$container_id){
@@ -351,5 +355,67 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
             return $scheduleStatus;
             
         }
+    }
+
+    public function getTransportScheduleForDriver($driver_id, $from, $to){
+        $from = Carbon::createFromFormat('d/m/Y', $from)->format('Y-m-d');
+        $to = Carbon::createFromFormat('d/m/Y', $to)->format('Y-m-d');
+        $schedules = $this->model->query()
+            ->with('container')
+            ->with(['booking' => function($q){
+                $q->with(['shipper','consignee']);
+            }])
+            ->where('driver_id' ,$driver_id)
+            ->whereIn('schedule_status',['ASSIGNED','INPROCESS'])
+            ->whereBetween(DB::raw('DATE(pickup_plan)'), [$from, $to])
+            ->orderBy('pickup_plan', 'DESC')
+            ->get();
+            
+        return $schedules;
+    }
+    
+    public function confirmTransportScheduleFromDriver($driver_id, $schedule_id){
+        $schedule = $this->find($schedule_id);
+        if($schedule){
+            $current_date = new \DateTime();
+            $confirm_date = $current_date->format('Y-m-d H:m:s');
+            $schedule->update(
+                    [
+                        'schedule_status' => 'CONFIRM',
+                        'inprocess_date' => $confirm_date
+                    ]
+                );
+        }
+        return $schedule;
+    }
+    
+    public function refuseTransportScheduleFromDriver($driver_id, $schedule_id){
+        $schedule = $this->find($schedule_id);
+        if($schedule){
+            $current_date = new \DateTime();
+            $refuse_date = $current_date->format('Y-m-d H:m:s');
+            $schedule->update(
+                [
+                    'schedule_status' => 'REFUSE',
+                    'refuse_date' => $refuse_date
+                ]
+                );
+        }
+        return $schedule;
+    }
+    
+    public function completedTransportScheduleFromDriver($driver_id, $schedule_id){
+        $schedule = $this->find($schedule_id);
+        if($schedule){
+            $current_date = new \DateTime();
+            $completed_date = $current_date->format('Y-m-d H:m:s');
+            $schedule->update(
+                [
+                    'schedule_status' => 'COMPLETED',
+                    'completed_date' => $completed_date
+                ]
+                );
+        }
+        return $schedule;
     }
 }

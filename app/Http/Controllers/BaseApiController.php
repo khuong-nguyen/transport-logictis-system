@@ -2,8 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
 class BaseApiController extends Controller
 {
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::guard('api')->user();
+    }
+
     /**
      * @param $data
      * @return \Illuminate\Http\JsonResponse
@@ -39,5 +49,20 @@ class BaseApiController extends Controller
             'data' => $data,
             'keyword' => $keyword
         ], $responseCode);
+    }
+
+    public function authenticate()
+    {
+        if (empty($this->user))
+        {
+            header('Access-Control-Allow-Origin: *');
+            response()->json(['error'=>'Un-Authorized'], 401)->send();
+            die();
+        }
+    }
+
+    public function user()
+    {
+        return $this->user;
     }
 }

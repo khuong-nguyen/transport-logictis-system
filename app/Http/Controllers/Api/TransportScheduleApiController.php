@@ -32,6 +32,7 @@ class TransportScheduleApiController extends BaseApiController
         BookingContainerDetailRepository $bookingContainerDetailRepository
     )
     {
+        parent::__construct();
         $this->scheduleTransportContainerRepository = $scheduleTransportContainerRepository;
         $this->bookingContainerDetailRepository = $bookingContainerDetailRepository;
     }
@@ -150,7 +151,7 @@ class TransportScheduleApiController extends BaseApiController
                 $container_id = !empty($request->schedules) ? $request->schedules[0]['container_id']??'' : '';
                 $container_no = !empty($request->schedules) ? $request->schedules[0]['container_no']??'' : '';
                 $booking_container_detail_id = !empty($request->schedules) ? $request->schedules[0]['booking_container_detail_id']??'' : '';
-                //validate container_no duplidate in Bookig
+                //validate container_no duplidate in Booking
                 $isDuplicateContainerInBooking = $this->bookingContainerDetailRepository->isDuplicateContainerNoInBooking($booking_id,$container_no,$booking_container_detail_id);
                 
                 if($isDuplicateContainerInBooking){
@@ -171,6 +172,52 @@ class TransportScheduleApiController extends BaseApiController
         
     }
 
+    public function getTransportScheduleForDriver(Request $request){
+        $this->authenticate();
+        if(empty($request->has('driver_id')) || empty($request->has('from')) || empty($request->has('to'))){
+            return [];
+        }
+        $schedules = $this->scheduleTransportContainerRepository->getTransportScheduleForDriver($request->driver_id, $request->from, $request->to);
+        return $this->success($schedules);
+        
+    }
+    
+    public function confirmTransportScheduleFromDriver(Request $request){
+        $this->authenticate();
+        if(empty($request->has('driver_id')) || empty($request->has('schedule_id'))){
+            return response()->json(["statusCode" => "PARAMETER_INVALID","errorMessge" => "Paramenter is not valid"], 400);
+        }
+        
+        $schedule = $this->scheduleTransportContainerRepository->confirmTransportScheduleFromDriver($request->driver_id, $request->schedule_id);
+        
+        return response()->json(["statusCode" => "OK"], 200);
+        
+    }
+    
+    public function refuseTransportScheduleFromDriver(Request $request){
+        $this->authenticate();
+        if(empty($request->has('driver_id')) || empty($request->has('schedule_id'))){
+            return response()->json(["statusCode" => "PARAMETER_INVALID","errorMessge" => "Paramenter is not valid"], 400);
+        }
+        
+        $schedule = $this->scheduleTransportContainerRepository->refuseTransportScheduleFromDriver($request->driver_id, $request->schedule_id);
+        
+        return response()->json(["statusCode" => "OK"], 200);
+        
+    }
+    
+    public function completedTransportScheduleFromDriver(Request $request){
+        $this->authenticate();
+        if(empty($request->has('driver_id')) || empty($request->has('schedule_id'))){
+            return response()->json(["statusCode" => "PARAMETER_INVALID","errorMessge" => "Paramenter is not valid"], 400);
+        }
+        
+        $schedule = $this->scheduleTransportContainerRepository->completedTransportScheduleFromDriver($request->driver_id, $request->schedule_id);
+        
+        return response()->json(["statusCode" => "OK"], 200);
+        
+    }
+    
     /**
      * Display a listing of the resource.
      *

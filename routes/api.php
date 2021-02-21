@@ -35,4 +35,8 @@ Route::group(['namespace' => 'Api'], function($lang=null) {
     Route::post('updateSchedule', ['as'=>'updateSchedule', 'uses'=>'TransportScheduleApiController@updateSchedule']);
     Route::get('getLocationCode', ['as'=>'getLocationCode', 'uses'=>'LocationCodeApiController@getLocationCode']);
     Route::post('/login', 'AuthApi@login');
+    Route::get('/transport-schedules/driver', 'TransportScheduleApiController@getTransportScheduleForDriver');
+    Route::put('/transport-schedules/driver/confirm', 'TransportScheduleApiController@confirmTransportScheduleFromDriver');
+    Route::put('/transport-schedules/driver/refuse', 'TransportScheduleApiController@refuseTransportScheduleFromDriver');
+    Route::put('/transport-schedules/driver/completed', 'TransportScheduleApiController@completedTransportScheduleFromDriver');
 });
