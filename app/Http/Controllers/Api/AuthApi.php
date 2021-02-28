@@ -38,8 +38,8 @@ class AuthApi extends BaseApiController
         if (Auth::attempt($credentials))
         {
             $user = Auth::user();
-            if (empty($user->email_verified_at))
-                return $this->error('USER_NOT_VERIFY', 401);
+            /*if (empty($user->email_verified_at))
+                return $this->error('USER_NOT_VERIFY', 401);*/
             
             $token = $user->createToken('Laravel')->accessToken;
             
@@ -47,7 +47,8 @@ class AuthApi extends BaseApiController
                 'token' => $token,
                 'user_id' => $user->id,
                 'roles' => $user->roles->pluck('name','name')->all(),
-                'full_name' => $user->name
+                'full_name' => $user->name,
+                'employee_id' => $user->employee_id
             ]);
         }
 

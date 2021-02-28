@@ -132,12 +132,12 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
         }
     }
     
-    public function getContainerTrucksForSchedule($pickup_plan,$delivery_plan){
+    public function getContainerTrucksForSchedule($pickup_plan,$delivery_plan, $yyyy_mm_dd = false){
         $containerTrucksForSchedule = [];
-
-        $pickup_plan = Carbon::createFromFormat('d/m/Y H:m', $pickup_plan)->format('Y-m-d H:m:s');
-        $delivery_plan = Carbon::createFromFormat('d/m/Y H:m', $delivery_plan)->format('Y-m-d H:m:s');
-        
+        if($yyyy_mm_dd == false){
+            $pickup_plan = Carbon::createFromFormat('d/m/Y H:m', $pickup_plan)->format('Y-m-d H:m:s');
+            $delivery_plan = Carbon::createFromFormat('d/m/Y H:m', $delivery_plan)->format('Y-m-d H:m:s');
+        }
         // get Container Truck have no schedule base on pickup_plan and delivery_plan
         
         $noHaveScheduleContainerTruck = FixedAsset::where('fixed_asset_type','TRUCK')
@@ -381,7 +381,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
             $confirm_date = $current_date->format('Y-m-d H:m:s');
             $schedule->update(
                     [
-                        'schedule_status' => 'CONFIRM',
+                        'schedule_status' => 'INPROCESS',
                         'inprocess_date' => $confirm_date
                     ]
                 );
@@ -417,5 +417,73 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                 );
         }
         return $schedule;
+    }
+
+    public function autoScheduleForBooking($booking_id){
+        $booking = Booking::find($booking_id);
+        if($booking->booking_status <> 'ORDER'){
+            // 1.Begin autoScheduleForBooking
+            // 2.Check schedule_status for Booking
+            if($booking->schedule_status <> 'FULL'){
+                $container_bookings = ContainerBooking::with('schedules')
+                    ->where('booking_id',$booking_id)->get();
+                foreach($container_bookings as $container_booking){
+                    $scheduleCount = $container_booking->schedules ? $container_booking->schedules->count() : 0;
+                    $createCount = $container_booking->vol - $scheduleCount;
+                    if($createCount > 0){
+                        $delivery_plan = $booking->sailling_due_date;
+                        $pickup_plan = $booking->pick_up_dt;
+                        $current_date = new \DateTime();
+                        $assigned_date = $current_date->format('Y-m-d H:m:s');
+
+                        $containerTrucksForSchedule = $this->getContainerTrucksForSchedule($pickup_plan,$delivery_plan,true);
+                        
+                        if(count($containerTrucksForSchedule) > 0){
+                            for($i = 1; $i <= $createCount; $i++){
+                                if(!isset($containerTrucksForSchedule[$i - 1])){
+                                    break;
+                                }
+                                // create schedule for container booking
+                                $newSchedule = [
+                                    "booking_id" => $booking->id,
+                                    "booking_no" => !empty($booking->booking_no)
+                                                        ? $booking->booking_no : (!empty($booking->virtual_booking_no)
+                                                        ? $booking->virtual_booking_no : $booking->request_order_no),
+                                    "container_id" => $container_booking->container_id,
+                                    "container_no" => null,
+                                    "booking_container_id" => $container_booking->id,
+                                    "pickup_plan" => $pickup_plan,
+                                    "delivery_plan" => $delivery_plan,
+                                    "assigned_date" => $assigned_date,
+                                    "container_truck_id" => $containerTrucksForSchedule[$i - 1]["id"],
+                                    "container_truck_code" => $containerTrucksForSchedule[$i - 1]["fixed_asset_code"],
+                                    "driver_id" => $containerTrucksForSchedule[$i - 1]["driver_id"],
+                                    "driver_name" => $containerTrucksForSchedule[$i - 1]["driver_name"],
+                                    "pickup_address" => $booking->pickup_address,
+                                    "delivery_address" => $booking->delivery_address
+                                ];
+
+                                $booking_container_detail = [
+                                    'booking_container_id' => $newSchedule['booking_container_id'],
+                                    'booking_id' => $newSchedule['booking_id'],
+                                    'booking_no' => $newSchedule['booking_no'],
+                                    'measure' => 1,
+                                    'package' => 1,
+                                    'container_no' => $newSchedule['container_no'],
+                                    'container_id' => $newSchedule['container_id'],
+                                ];
+                                
+                                $booking_container_detail = BookingContainerDetail::create($booking_container_detail);
+                                if($booking_container_detail){
+                                    $newSchedule['booking_container_detail_id'] = $booking_container_detail->id;
+                                }
+                                $record = $this->create($newSchedule);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 }

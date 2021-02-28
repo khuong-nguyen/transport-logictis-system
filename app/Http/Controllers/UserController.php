@@ -86,12 +86,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $user = User::find($id);
+    {   
+        $user = User::findOrFail($id); //Get user with specified id
         $roles = Role::get(); //Get all roles
-        //$userRole = $user->roles->pluck('name','name')->all();
-        //return view('users.edit',compact('user','roles','userRole'));
-        return view('users.edit',compact('user','roles'));
+        
+        return view('users.edit', compact('user', 'roles')); //pass user and roles data to view
     }
     /**
      * Update the specified resource in storage.
@@ -102,24 +101,34 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = User::findOrFail($id); //Get role specified by id
+        
+        //Validate name, email and password fields
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
+            'name'=>'required|max:120',
+            'email'=>'required|email|unique:users,email,'.$id,
+            'password' => 'same:password_confirmation',
+            //'password'=>'min:6|confirmed'
         ]);
-        $input = $request->all();
-        if(!empty($input['password'])){
+        if(!empty($request['password'])){
+            $input = $request->only(['name', 'email', 'password']); //Retreive the name, email and password fields
             $input['password'] = Hash::make($input['password']);
         }else{
-            $input = array_except($input,array('password'));
+            $input = $request->only(['name', 'email']); //Retreive the name, email and password fields
         }
-        $user = User::find($id);
-        $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
-        $user->assignRole($request->input('roles'));
+       
+        $roles = $request['roles']; //Retreive all roles
+        $user->fill($input)->save();
+        
+        if (isset($roles)) {
+            $user->roles()->sync($roles);  //If one or more role is selected associate user to roles
+        }
+        else {
+            $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
+        }
         return redirect()->route('users.index')
-        ->with('success','User updated successfully');
+        ->with('flash_message',
+            'User successfully edited.');
     }
     /**
      * Remove the specified resource from storage.

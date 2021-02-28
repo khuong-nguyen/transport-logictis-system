@@ -25,6 +25,8 @@ class BookingRegistrationRequest extends FormRequest
     {
         $id = $this->route('id');
 
+        //dd($this->request->get('booking'));
+
         $validate = [
             //'booking.booking_no' => 'required|unique:booking,booking_no,'.$id.'|max:100',
             'booking.tvvd' => 'required|max:50',
@@ -33,8 +35,8 @@ class BookingRegistrationRequest extends FormRequest
             'booking.pod_1' => 'required|max:30',
             'booking.del_1' => 'required|max:30',
             'booking.unit' => 'required|max:10',
-            'booking.sailling_due_date' => 'required|date|date_format:Y-m-d',
-            'booking.pick_up_dt' => 'nullable|date|date_format:Y-m-d'
+            'booking.sailling_due_date' => 'required|date_format:d/m/Y H:i|after:booking.pick_up_dt',
+            'booking.pick_up_dt' => 'required|date_format:d/m/Y H:i'
         ];
 
         if ($this->request->get('container'))

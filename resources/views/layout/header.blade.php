@@ -38,11 +38,11 @@
         </li>
         @endguest
     </ul>
-    <div class="c-subheader px-3">
+    <!--div class="c-subheader px-3">
         <!-- Breadcrumb-->
-        <ol class="breadcrumb border-0 m-0">
-            <li class="breadcrumb-item active">Dashboard</li>
+        <!--ol class="breadcrumb border-0 m-0">
+            <!--li class="breadcrumb-item active">Dashboard</li-->
             <!-- Breadcrumb Menu-->
-        </ol>
-    </div>
+        </ol-->
+    </div-->
 </header>

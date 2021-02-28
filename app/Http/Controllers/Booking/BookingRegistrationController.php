@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\VirtualBookingRepository;
 use App\Repositories\VirtualBookingContainerRepository;
 use App\Repositories\ScheduleTransportContainerRepository;
+use Carbon\Carbon;
 
 class BookingRegistrationController extends Controller
 {
@@ -189,6 +190,9 @@ class BookingRegistrationController extends Controller
             $request = $request->all();
             $bookingRequest =  $request['booking'];
             
+            $bookingRequest['sailling_due_date'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['sailling_due_date']);    
+            $bookingRequest['pick_up_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['pick_up_dt']);
+
             $booking =   $this->bookingRepository->create($bookingRequest);
             
             //Create Request Order
@@ -286,6 +290,12 @@ class BookingRegistrationController extends Controller
         $search = !empty($booking->booking_no) ? $booking->booking_no : (!empty($booking->virtual_booking_no) ? $booking->virtual_booking_no : $booking->request_order_no );
         $bookingContainerDetails = $this->bookingRepository->search($search,'');
         $bookingContainerDetails = $bookingContainerDetails?$bookingContainerDetails->toArray():[];
+        
+        $sailling_due_date = Carbon::createFromFormat('Y-m-d H:i:s', $booking->sailling_due_date);
+        $booking->sailling_due_date = $sailling_due_date->format('d/m/Y H:i');
+        
+        $pick_up_dt = Carbon::createFromFormat('Y-m-d H:i:s', $booking->pick_up_dt);
+        $booking->pick_up_dt = $pick_up_dt->format('d/m/Y H:i');
 
         $advanceMoneyBookingDetails['booking'] = $booking;
 
@@ -316,6 +326,9 @@ class BookingRegistrationController extends Controller
             $shipperRequest =  $request['shipper'];
             $consigneeRequest =  $request['consignee'];
             $forwarderRequest =  $request['forwarder'];
+            
+            $bookingRequest['sailling_due_date'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['sailling_due_date']);    
+            $bookingRequest['pick_up_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['pick_up_dt']);
             
             if($booking->booking_status =='BOOKING' && $bookingRequest['booking_status'] == 'BOOKING'){
                 $v = \Validator::make($request, [
@@ -523,6 +536,8 @@ class BookingRegistrationController extends Controller
                     
                 }
             }
+            // create schedules for booking
+            $this->scheduleTransportContainerRepository->autoScheduleForBooking($booking->id);
             // update schedule status for booking
             $this->scheduleTransportContainerRepository->updateScheduleStatusForBooking($booking->id);
             DB::commit();

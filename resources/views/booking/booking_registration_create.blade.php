@@ -408,14 +408,17 @@
                                                         <div class="form-group row">
                                                         	<div class='input-group date'>
                                                                 <label class="col-md-5 pr-0 col-form-label required" for="sailling_due_date">Sailling Due Date</label>
-                                                                <div class="col-md-6 input-group date">
-                                                                    <input class="form-control" id="sailling_due_date" required type="text" name="booking[sailling_due_date]">
+                                                                <div class="col-md-7 input-group date">
+                                                                    <input class="form-control @if($errors->has('booking.sailling_due_date')) is-invalid @endif" id="sailling_due_date" required type="text" name="booking[sailling_due_date]" autocomplete="off" 
+                                                                    value="{{old('booking.sailling_due_date') ?? $booking->sailling_due_date ?? ''}}"
+                                                                    >
                                                                     <span class="input-group-addon">
                                                                         <span class="glyphicon glyphicon-calendar">
                                                                         </span>
                                                                     </span>
                                                                 </div>
                                                             </div>
+                                                            @error('booking.sailling_due_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 border">
@@ -432,9 +435,9 @@
                                                         </div>
                                                         <div class="form-group row">
                                                         	<div class="input-group date">
-                                                        		<label class="col-md-4 pt-0 pr-0 col-form-label @if($errors->has('booking.pick_up_dt')) is-invalid @endif" for="pick_up_dt">Container Delivery Plan</label>
+                                                        		<label class="col-md-4 pt-0 pr-0 col-form-label required @if($errors->has('booking.pick_up_dt')) is-invalid @endif" for="pick_up_dt">Container Delivery Plan</label>
                                                             	<div class="input-group date col-md-7">
-                                                                <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]">
+                                                                <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]" autocomplete="off" value="{{old('booking.pick_up_dt') ?? $booking->pick_up_dt ?? ''}}">
                                                                 <span class="input-group-addon">
                                                                     <span class="glyphicon glyphicon-calendar">
                                                                     </span>
@@ -797,7 +800,10 @@
             </div>
         </div>
     </div>
-    
+    @push('scripts')
+    <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    @endpush
     <script type="text/javascript">
 
         $('#sidebar').removeClass('c-sidebar-lg-show');
@@ -811,16 +817,39 @@
 		
         $(function () {
 
-            $('#sailling_due_date').datetimepicker({
+            /*$('#sailling_due_date').datetimepicker({
                 viewMode: 'days',
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD hh:mm',
                 date: new Date()
+            });*/
+            $(sailling_due_date).datetimepicker({
+                format: 'dd/mm/yyyy hh:mm',
+                startDate: moment().toDate(),
+                minView:1,
+                autoclose: true,
+                todayHighlight: true,
+            }).on('changeDate', function (selected) {
+                var maxDate = new Date(selected.date.valueOf());
+                $(pick_up_dt).datetimepicker('setEndDate', $(sailling_due_date).data("datetimepicker").getDate());
             });
-            $('#pick_up_dt').datetimepicker({
+            /*$('#pick_up_dt').datetimepicker({
                 viewMode: 'days',
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD hh:mm',
                 date: new Date()
+            });*/
+
+            $(pick_up_dt).datetimepicker({
+                format: 'dd/mm/yyyy hh:mm',
+                startDate: moment().toDate(),
+                minView:1,
+                autoclose: true,
+                todayHighlight: true,
+            }).on('changeDate', function (selected) {		
+                var minDate = new Date(selected.date.valueOf());
+                $(sailling_due_date).datetimepicker('setStartDate', $(pick_up_dt).data("datetimepicker").getDate());
+                $(sailling_due_date).val('');
             });
+
             $('#submit-form-save').on('click', e => {
                 e.preventDefault();
                 $('.table-container-list input').each((index,item) => {
@@ -1208,7 +1237,7 @@
         }
     });
 
-    $('.print').click(function(){
+    $('.print').click( function(){
         let booking_id = {{ isset($booking)?$booking->id : "no_bboking"}} ;
 	    window.document.location = "/print_document/booking/" + booking_id;
     });

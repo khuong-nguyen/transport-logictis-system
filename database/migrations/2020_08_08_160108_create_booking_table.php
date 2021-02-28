@@ -41,9 +41,9 @@ class CreateBookingTable extends Migration
             $table->string('unit', 10);
             $table->string('lofc_1', 30)->nullable();
             $table->string('lofc_2', 30)->nullable();
-            $table->date('sailling_due_date');
+            $table->datetime('sailling_due_date');
             $table->string('pick_up_cy', 50)->nullable();
-            $table->date('pick_up_dt')->nullable();
+            $table->datetime('pick_up_dt')->nullable();
             $table->string('full_return_cy', 50)->nullable();
             $table->string('bkg_contact_name', 100)->nullable();
             $table->string('bkg_contact_email', 100)->nullable();
