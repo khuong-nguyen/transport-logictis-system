@@ -407,7 +407,7 @@
                                                         </div>
                                                         <div class="form-group row">
                                                         	<div class='input-group date'>
-                                                                <label class="col-md-5 pr-0 col-form-label required" for="sailling_due_date">Sailling Due Date</label>
+                                                                <label class="col-md-5 pr-0 col-form-label required" for="sailling_due_date">Delivery Plan</label>
                                                                 <div class="col-md-7 input-group date">
                                                                     <input class="form-control @if($errors->has('booking.sailling_due_date')) is-invalid @endif" id="sailling_due_date" required type="text" name="booking[sailling_due_date]" autocomplete="off" 
                                                                     value="{{old('booking.sailling_due_date') ?? $booking->sailling_due_date ?? ''}}"
@@ -435,7 +435,7 @@
                                                         </div>
                                                         <div class="form-group row">
                                                         	<div class="input-group date">
-                                                        		<label class="col-md-4 pt-0 pr-0 col-form-label required @if($errors->has('booking.pick_up_dt')) is-invalid @endif" for="pick_up_dt">Container Delivery Plan</label>
+                                                        		<label class="col-md-4 pt-0 pr-0 col-form-label required @if($errors->has('booking.pick_up_dt')) is-invalid @endif" for="pick_up_dt">Pickup Plan</label>
                                                             	<div class="input-group date col-md-7">
                                                                 <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]" autocomplete="off" value="{{old('booking.pick_up_dt') ?? $booking->pick_up_dt ?? ''}}">
                                                                 <span class="input-group-addon">
