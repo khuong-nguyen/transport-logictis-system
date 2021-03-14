@@ -66,7 +66,7 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                         if ($data['id']) {
                             $oldContainer = $this->find($data['id']);
                             
-                            if(in_array($oldContainer->schedule_status,['ASSIGNED','REFUSE'])){
+                            if(in_array($oldContainer->schedule_status,['ASSIGNED','REFUSE','INPROCESS'])){
                                 //update booking container detail
                                 if(empty($oldContainer->container_no)){
                                     $old = BookingContainerDetail::find($oldContainer->booking_container_detail_id);
