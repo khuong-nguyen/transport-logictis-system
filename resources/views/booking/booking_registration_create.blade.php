@@ -652,12 +652,6 @@
 		var deletedBookingContainer = [];
 		
         $(function () {
-
-            /*$('#sailling_due_date').datetimepicker({
-                viewMode: 'days',
-                format: 'YYYY-MM-DD hh:mm',
-                date: new Date()
-            });*/
             $(sailling_due_date).datetimepicker({
                 format: 'dd/mm/yyyy hh:mm',
                 startDate: moment().toDate(),
@@ -904,8 +898,9 @@
                     if($('input[name="booking[booking_type]"]:checked').val() == 'EXPORT')
                     {
                     	$('#pickup_address').val(result.customer_store_address1);
-                    	$('#SHBR_store_address').val(result.customer_store_address1);
+                    	
                     }
+                    $('#SHBR_store_address').val(result.customer_store_address1);
                 }
             });
         })
@@ -928,8 +923,9 @@
                         if($('input[name="booking[booking_type]"]:checked').val() == 'IMPORT')
                         {
                         	$('#delivery_address').val(result.customer_store_address1);
-                        	$('#CNEE_store_address').val(result.customer_store_address1);
+                        	
                         }
+                        $('#CNEE_store_address').val(result.customer_store_address1);
                     }
                 });
             })
@@ -1025,23 +1021,27 @@
         	pol2 = pol.substr(5,2);
             $('#pol_1').val(pol1);
             $('#pol_2').val(pol2);
-         // if IMPORT, get pickup_address
-         	if($('input[name="booking[booking_type]"]:checked').val() == 'EXPORT')
-         	{
-         		var pathNodeCode = "{{ route('getLocationCode')}}";
-         		$.ajax({
-                    url: pathNodeCode,
-                    dataType: "json",
-                    method: 'get',
-                    data: {
-                        nodeCode: $('#pol_1').val() + $('#pol_2').val()
-                    },
-                    success: function (result) {
+
+            var pathNodeCode = "{{ route('getLocationCode')}}";
+            $.ajax({
+                url: pathNodeCode,
+                dataType: "json",
+                method: 'get',
+                data: {
+                    nodeCode: $('#pol_1').val() + $('#pol_2').val()
+                },
+                success: function (result) {
+                    // if IMPORT, get pickup_address
+                    if($('input[name="booking[booking_type]"]:checked').val() == 'EXPORT')
+                    {
                         $('#delivery_address').val(result.address);
-                        $('#pol_address').val(result.address);
                     }
-                });
-            }
+                    
+                    $('#pol_address').val(result.address);
+                }
+            });
+
+
         });
 
         $('.pod_booking').on('change', function() {
@@ -1060,23 +1060,25 @@
             $('#del_1').val(del1);
             $('#del_2').val(del2);
             
-         	// if IMPORT, get pickup_address
-         	if($('input[name="booking[booking_type]"]:checked').val() == 'IMPORT')
-         	{
-         		var pathNodeCode = "{{ route('getLocationCode')}}";
-         		$.ajax({
-                    url: pathNodeCode,
-                    dataType: "json",
-                    method: 'get',
-                    data: {
-                        nodeCode: $('#del_1').val() + $('#del_2').val()
-                    },
-                    success: function (result) {
+            var pathNodeCode = "{{ route('getLocationCode')}}";
+            $.ajax({
+                url: pathNodeCode,
+                dataType: "json",
+                method: 'get',
+                data: {
+                    nodeCode: $('#del_1').val() + $('#del_2').val()
+                },
+                success: function (result) {
+                    // if IMPORT, get pickup_address
+                    if($('input[name="booking[booking_type]"]:checked').val() == 'IMPORT')
+                    {
                         $('#pickup_address').val(result.address);
-                        $('#del_address').val(result.address);
                     }
-                });
-            }
+                    
+                    $('#del_address').val(result.address);
+                }
+            });
+         	
         });
 
         $('input:radio[name="booking[booking_type]"]').change(function() {
