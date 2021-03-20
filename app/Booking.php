@@ -26,7 +26,7 @@ class Booking extends Model
         'weight',
         'shipper_id','forwarder_id','consignee_id','created_by','updated_by','approved_by','virtual_booking_id',
         'sailling_due_date','pick_up_dt','request_order_no','request_order_id','virtual_booking_no',
-        'pickup_address', 'delivery_address'
+        'pickup_address', 'delivery_address','etb_dt'
         
     ];
     /**

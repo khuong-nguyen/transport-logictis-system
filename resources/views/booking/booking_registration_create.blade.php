@@ -91,6 +91,7 @@
                                                                 @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                                 @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                                 @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                            <input type = "hidden" id="pol_address" name = "pol_address" value = ""/>
                                                         </div>
 
                                                         <div class="form-group row" style="margin-bottom:0px">
@@ -102,6 +103,7 @@
                                                             <input class="form-control col-md-1" style="height: 28px; margin-left:5px" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}">
                                                             @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                             <input type = "hidden" id="del_address" name = "del_address" value = ""/>
                                                         </div>
                                                         <div class="form-group row" style="margin-bottom:10px">
                                                             <label style="margin-left: 25px; margin-right: 25px" for="text-input">Term</label>
@@ -134,6 +136,7 @@
                                                             <label class="col-md-2 col-form-label" style = "text-align: right">SHBR</label>
                                                             <input class="form-control col-md-2 shipper" style="height: 28px" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" autocomplete = "off" >
                                                             <input class="form-control col-md-7" style="height: 28px; margin-left:5px" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" >
+                                                            <input type = "hidden" id="SHBR_store_address" name = "SHBR_store_address" value = ""/>
                                                         </div>
                                                         <div class="form-group row" style="margin-bottom:0px">
                                                             <label class="col-md-2 col-form-label" style = "text-align: right">FWDR</label>
@@ -144,6 +147,7 @@
                                                             <label class="col-md-2 col-form-label" style = "text-align: right">CNEE</label>
                                                             <input class="form-control col-md-2 consignee" style="height: 28px" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" autocomplete = "off">
                                                             <input class="form-control col-md-7" style="height: 28px; margin-left:5px" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]">
+                                                             <input type = "hidden" id="CNEE_store_address" name = "CNEE_store_address" value = ""/>
                                                         </div>
                                                         
                                                     </div>
@@ -301,7 +305,8 @@
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:10px">
                                                         <label style = "margin-left: 35px; margin-right: 8px" for="recieve_return_con">Nơi nhận/trả Con rỗng </label>
-                                                        <input class="form-control" style="height: 28px; width:40%" id="pick_up_cy" type="text" name="booking[pick_up_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
+                                                        <input class="form-control receive_take_con_place" style="height: 28px; width:10%; margin-right: 5px" id="receive_take_con_place" type="text" name="booking[receive_take_con_place]" value="{{old('booking.receive_take_con_place') ?? $booking->receive_take_con_place ?? ''}}" autocomplete = "off">
+                                                        <input class="form-control" style="height: 28px; width:30%" id="pick_up_cy" type="text" name="booking[pick_up_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
                                                         <input class="form-control hide" style="height: 28px; width:40%" id="full_return_cy" type="text" name="booking[full_return_cy]" value="{{old('booking.full_return_cy') ?? $booking->full_return_cy ?? ''}}">
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:10px">
@@ -898,7 +903,8 @@
                     $('#SHBR_customer_legal_english_name').val(result.customer_legal_english_name)
                     if($('input[name="booking[booking_type]"]:checked').val() == 'EXPORT')
                     {
-                    	$('#pickup_address').val(result.customer_store_address1)
+                    	$('#pickup_address').val(result.customer_store_address1);
+                    	$('#SHBR_store_address').val(result.customer_store_address1);
                     }
                 }
             });
@@ -922,6 +928,7 @@
                         if($('input[name="booking[booking_type]"]:checked').val() == 'IMPORT')
                         {
                         	$('#delivery_address').val(result.customer_store_address1);
+                        	$('#CNEE_store_address').val(result.customer_store_address1);
                         }
                     }
                 });
@@ -940,6 +947,22 @@
                         $('#forwarder_customer_address').val(result.customer_address);
                         $('#FWDR_customer_code').val(result.customer_code)
                         $('#FWDR_customer_legal_english_name').val(result.customer_legal_english_name)
+                    }
+                });
+            })
+
+            $('#receive_take_con_place').change(function (){
+
+                var pathNodeCode = "{{ route('getLocationCode')}}";
+         		$.ajax({
+                    url: pathNodeCode,
+                    dataType: "json",
+                    method: 'get',
+                    data: {
+                        nodeCode: $('#receive_take_con_place').val()
+                    },
+                    success: function (result) {
+                        $('#pick_up_cy').val(result.address);
                     }
                 });
             })
@@ -980,6 +1003,13 @@
             }
         });
 
+        $('input.receive_take_con_place').typeahead({
+        source:  function (query, process) {
+        return $.get(driver_code_path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
 
         $('.por_booking').on('change', function() {
             por = $('#por_1').val(); 
@@ -1007,7 +1037,8 @@
                         nodeCode: $('#pol_1').val() + $('#pol_2').val()
                     },
                     success: function (result) {
-                        $('#delivery_address').val(result.address)
+                        $('#delivery_address').val(result.address);
+                        $('#pol_address').val(result.address);
                     }
                 });
             }
@@ -1041,9 +1072,20 @@
                         nodeCode: $('#del_1').val() + $('#del_2').val()
                     },
                     success: function (result) {
-                        $('#pickup_address').val(result.address)
+                        $('#pickup_address').val(result.address);
+                        $('#del_address').val(result.address);
                     }
                 });
+            }
+        });
+
+        $('input:radio[name="booking[booking_type]"]').change(function() {
+            if ($(this).val() == 'IMPORT') {
+            	$('#pickup_address').val($('#del_address').val());
+            	$('#delivery_address').val($('#CNEE_store_address').val());
+            } else {
+            	$('#pickup_address').val($('#SHBR_store_address').val());
+            	$('#delivery_address').val($('#pol_address').val());
             }
         });
 	</script>

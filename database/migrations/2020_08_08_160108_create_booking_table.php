@@ -63,6 +63,7 @@ class CreateBookingTable extends Migration
             $table->string('delivery_address', 300)->nullable();
             $table->datetime('deleted_at')->nullable();
             $table->datetime('closing_time')->nullable();
+            $table->datetime('etb_dt')->nullable();
             $table->timestamps();
         });
     }

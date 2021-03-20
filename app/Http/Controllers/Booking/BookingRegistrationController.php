@@ -192,6 +192,7 @@ class BookingRegistrationController extends Controller
             
             $bookingRequest['sailling_due_date'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['sailling_due_date']);    
             $bookingRequest['pick_up_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['pick_up_dt']);
+            $bookingRequest['etb_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['etb_dt']);
 
             $booking =   $this->bookingRepository->create($bookingRequest);
             
@@ -297,6 +298,9 @@ class BookingRegistrationController extends Controller
         $pick_up_dt = Carbon::createFromFormat('Y-m-d H:i:s', $booking->pick_up_dt);
         $booking->pick_up_dt = $pick_up_dt->format('d/m/Y H:i');
 
+        $etb_dt = Carbon::createFromFormat('Y-m-d H:i:s', $booking->etb_dt);
+        $booking->etb_dt = $etb_dt->format('d/m/Y H:i');
+
         $advanceMoneyBookingDetails['booking'] = $booking;
 
         $advanceMoneyBookingDetails['advance_money_bookings'] = $this->advanceMoneyRepository->advanceMoneyForBooking($booking->id);
@@ -329,6 +333,7 @@ class BookingRegistrationController extends Controller
             
             $bookingRequest['sailling_due_date'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['sailling_due_date']);    
             $bookingRequest['pick_up_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['pick_up_dt']);
+            $bookingRequest['etb_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['etb_dt']);
             
             if($booking->booking_status =='BOOKING' && $bookingRequest['booking_status'] == 'BOOKING'){
                 $v = \Validator::make($request, [
