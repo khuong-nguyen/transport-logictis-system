@@ -72,44 +72,44 @@
                                                 </div>
                                                 @endif
                                                 <div class="row col-md-12">
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-6">
                                                     	
                                                         <div class="panel panel-default" style="margin-bottom: 0px">
                                                             <div class="panel-heading" style="color:#d81c61">Thông tin tàu</div>
                                                         <div class="form-group row" style="margin-bottom:10px; margin-top:10px;">
                                                             <label class="required" style="margin-left: 25px; margin-right: 10px" for="tvvd" >T/VVD:</label>
-                                                            <input class="form-control col-md-8 @if($errors->has('booking.tvvd')) is-invalid @endif" style="height: 28px" id="tvvd" type="text" name="booking[tvvd]" required value="{{ old('booking.tvvd') ?? $booking->tvvd ?? '' }}">
+                                                            <input class="form-control col-md-6 @if($errors->has('booking.tvvd')) is-invalid @endif" style="height: 28px" id="tvvd" type="text" name="booking[tvvd]" required value="{{ old('booking.tvvd') ?? $booking->tvvd ?? '' }}">
                                                                 @error('booking.tvvd')<br/><div class="invalid-feedback">{{ $message }}</div>@enderror
                                                         </div>
                                                         <div class="form-group row" style="margin-bottom:10px">
                                                             <label class="required" style="margin-left: 25px; margin-right: 25px" for="por_1">POR</label>
                                                             <input class="form-control col-md-2 por_booking @if($errors->has('booking.por_1')) is-invalid @endif" style="height: 28px" id="por_1" type="text" name="booking[por_1]" value="{{ old('booking.por_1') ?? $booking->por_1 ?? '' }}" autocomplete="off">
-                                                            <input class="form-control col-md-1 @if($errors->has('booking.por_2')) is-invalid @endif" style="height: 28px; margin-left:5px" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}" autocomplete="off">
+                                                            <input class="form-control col-md-2 @if($errors->has('booking.por_2')) is-invalid @endif" style="height: 28px; margin-left:5px" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}" autocomplete="off">
                                                             <label class="required" style="margin-left: 25px; margin-right: 10px" for="pol_1">POL</label>
                                                             <input class="form-control col-md-2 pol_booking @if($errors->has('booking.pol_1')) is-invalid @endif" style="height: 28px" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}" autocomplete="off">
-                                                            <input class="form-control col-md-1" style="height: 28px; margin-left:5px;" id="pol_2" type="text" name="booking[pol_2]" value="{{ old('booking.pol_2') ?? $booking->pol_2 ?? '' }}">
+                                                            <input class="form-control col-md-2" style="height: 28px; margin-left:5px;" id="pol_2" type="text" name="booking[pol_2]" value="{{ old('booking.pol_2') ?? $booking->pol_2 ?? '' }}">
                                                                 @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                                 @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                                 @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             <input type = "hidden" id="pol_address" name = "pol_address" value = ""/>
                                                         </div>
 
-                                                        <div class="form-group row" style="margin-bottom:0px">
+                                                        <div class="form-group row" style="margin-bottom:10px">
                                                             <label class ="required" style="margin-left: 25px; margin-right: 25px" for="pod_1">POD</label>
                                                             <input class="form-control col-md-2 pod_booking @if($errors->has('booking.pod_1')) is-invalid @endif" style="height: 28px" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}" autocomplete="off">
-                                                            <input class="form-control col-md-1" style="height: 28px; margin-left:5px" id="pod_2" type="text" name="booking[pod_2]" value="{{ old('booking.pod_2') ?? $booking->pod_2 ?? '' }}">
+                                                            <input class="form-control col-md-2" style="height: 28px; margin-left:5px" id="pod_2" type="text" name="booking[pod_2]" value="{{ old('booking.pod_2') ?? $booking->pod_2 ?? '' }}">
                                                             <label class="col-form-label required" for="del_1" style="margin-left: 25px; margin-right: 10px" >DEL</label>
                                                             <input class="form-control col-md-2 del_booking @if($errors->has('booking.del_1')) is-invalid @endif" style="height: 28px" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}" autocomplete="off">   
-                                                            <input class="form-control col-md-1" style="height: 28px; margin-left:5px" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}">
+                                                            <input class="form-control col-md-2" style="height: 28px; margin-left:5px" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}">
                                                             @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                              <input type = "hidden" id="del_address" name = "del_address" value = ""/>
                                                         </div>
                                                         <div class="form-group row" style="margin-bottom:10px">
-                                                            <label style="margin-left: 25px; margin-right: 25px" for="text-input">Term</label>
+                                                            <label style="margin-left: 25px; margin-right: 28px" for="text-input">Term</label>
                                                             <input class="form-control col-md-2 @if($errors->has('booking.r_d_term_1')) is-invalid @endif" style="height: 28px" id="r_d_term_1" type="text" name="booking[r_d_term_1]" value="{{ old('booking.r_d_term_1') ?? $booking->r_d_term_1 ?? '' }}">
                                                                     @error('booking.r_d_term_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                            <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="r_d_term_2" type="text" name="booking[r_d_term_2]" value="{{ old('booking.r_d_term_2') ?? $booking->r_d_term_2 ?? '' }}">
+                                                            <input class="form-control col-md-4" style="height: 28px; margin-left:5px" id="r_d_term_2" type="text" name="booking[r_d_term_2]" value="{{ old('booking.r_d_term_2') ?? $booking->r_d_term_2 ?? '' }}">
                                                         </div>
                                                         <div class="form-group row" style="margin-bottom:10px">
                                                                 <label style="margin-left: 25px; margin-right: 10px" for="b_l_no" style = "text-align: right">B/L No</label>
@@ -128,7 +128,7 @@
                                                         </div>
                                                         
                                                     </div>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <div class="panel panel-default" style="margin-bottom: 0px">
                                                             <div class="panel-heading" style="color:#d81c61">Thông tin khách hàng</div>
                                                             
@@ -662,11 +662,6 @@
                 var maxDate = new Date(selected.date.valueOf());
                 $(pick_up_dt).datetimepicker('setEndDate', $(sailling_due_date).data("datetimepicker").getDate());
             });
-            /*$('#pick_up_dt').datetimepicker({
-                viewMode: 'days',
-                format: 'YYYY-MM-DD hh:mm',
-                date: new Date()
-            });*/
 
             $(pick_up_dt).datetimepicker({
                 format: 'dd/mm/yyyy hh:mm',
@@ -1011,16 +1006,17 @@
             por = $('#por_1').val(); 
             por1 = por.substr(0,5);
             por2 = por.substr(5,2);
-            $('#por_1').val(por1);
-            $('#por_2').val(por2);
+            
+            $('#por_1').val(por1.toUpperCase());
+            $('#por_2').val(por2).toUpperCase();
         });
 
         $('.pol_booking').on('change', function() {
         	pol = $('#pol_1').val(); 
         	pol1 = pol.substr(0,5);
         	pol2 = pol.substr(5,2);
-            $('#pol_1').val(pol1);
-            $('#pol_2').val(pol2);
+            $('#pol_1').val(pol1.toUpperCase());
+            $('#pol_2').val(pol2.toUpperCase());
 
             var pathNodeCode = "{{ route('getLocationCode')}}";
             $.ajax({
@@ -1036,8 +1032,10 @@
                     {
                         $('#delivery_address').val(result.address);
                     }
-                    
-                    $('#pol_address').val(result.address);
+                    if (typeof result.address != 'undefined'){
+                        $('#pol_address').val(result.address);
+                    }
+                   
                 }
             });
 
@@ -1074,8 +1072,9 @@
                     {
                         $('#pickup_address').val(result.address);
                     }
-                    
-                    $('#del_address').val(result.address);
+                    if (typeof result.address != 'undefined'){
+                        $('#del_address').val(result.address);
+                    } 
                 }
             });
          	
