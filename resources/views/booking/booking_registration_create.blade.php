@@ -165,7 +165,7 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <input type = "hidden" id="SHBR_store_address" name = "SHBR_store_address" value = "{{ $booking->booking_type == 'EXPORT' ? $booking->delivery_address : $booking->pickup_address}}"/>
+                                                        <input type = "hidden" id="SHBR_store_address" name = "SHBR_store_address" value = "{{$shipper->customer_store_address1??''}}"/>
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:5px">
                                                         <label class="col-md-2 col-form-label" style = "text-align: right">FWDR</label>
@@ -190,7 +190,7 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <input type = "hidden" id="CNEE_store_address" name = "CNEE_store_address" value = "{{ $booking->booking_type == 'EXPORT' ? $booking->pickup_address : $booking->delivery_address}}"/>
+                                                        <input type = "hidden" id="CNEE_store_address" name = "CNEE_store_address" value = "{{$consignee->customer_store_address1??''}}"/>
                                                     </div>
                                                 </div>
                                                 
