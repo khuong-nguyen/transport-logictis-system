@@ -102,7 +102,7 @@
                                                             @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                        <input type = "hidden" id="pol_address" name = "pol_address" value = ""/>
+                                                        <input type = "hidden" id="pol_address" name = "pol_address" value = "{{ $booking->pol_address ?? $booking->pol_address ?? '' }}"/>
                                                     </div>
 
                                                     <div class="form-group row" style="margin-bottom:5px">
@@ -128,7 +128,7 @@
                                                         </div>
                                                         @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                         @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                        <input type = "hidden" id="del_address" name = "del_address" value = ""/>
+                                                        <input type = "hidden" id="del_address" name = "del_address" value = "{{ $booking->del_address ?? $booking->del_address ?? '' }}"/>
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:5px">
                                                         <label style="margin-left: 25px; margin-right: 28px" for="text-input">Term</label>
@@ -165,7 +165,7 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <input type = "hidden" id="SHBR_store_address" name = "SHBR_store_address" value = ""/>
+                                                        <input type = "hidden" id="SHBR_store_address" name = "SHBR_store_address" value = "{{ $booking->booking_type == 'EXPORT' ? $booking->delivery_address : $booking->pickup_address}}"/>
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:5px">
                                                         <label class="col-md-2 col-form-label" style = "text-align: right">FWDR</label>
@@ -190,7 +190,7 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <input type = "hidden" id="CNEE_store_address" name = "CNEE_store_address" value = ""/>
+                                                        <input type = "hidden" id="CNEE_store_address" name = "CNEE_store_address" value = "{{ $booking->booking_type == 'EXPORT' ? $booking->pickup_address : $booking->delivery_address}}"/>
                                                     </div>
                                                 </div>
                                                 

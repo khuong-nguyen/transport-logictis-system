@@ -29,6 +29,7 @@ use App\Repositories\VirtualBookingRepository;
 use App\Repositories\VirtualBookingContainerRepository;
 use App\Repositories\ScheduleTransportContainerRepository;
 use Carbon\Carbon;
+use App\LocationCode;
 
 class BookingRegistrationController extends Controller
 {
@@ -301,6 +302,21 @@ class BookingRegistrationController extends Controller
             $etb_dt = Carbon::createFromFormat('Y-m-d H:i:s', $booking->etb_dt);
         $booking->etb_dt = $etb_dt->format('d/m/Y H:i');
         }
+
+        $locationCodeDel = LocationCode::where('node_code', $booking->del_1 . $booking->del_2)->first();
+        if($locationCodeDel){
+            $booking->del_address = $locationCodeDel->address;
+        }else{
+            $booking->del_address = "";
+        }
+
+        $locationCodePol = LocationCode::where('node_code', $booking->pol_1 . $booking->pol_2)->first();
+        if($locationCodePol){
+            $booking->pol_address = $locationCodePol->address;
+        }else{
+            $booking->del_address = "";
+        }
+
         $advanceMoneyBookingDetails['booking'] = $booking;
 
         $advanceMoneyBookingDetails['advance_money_bookings'] = $this->advanceMoneyRepository->advanceMoneyForBooking($booking->id);
