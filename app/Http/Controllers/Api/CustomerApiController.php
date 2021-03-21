@@ -46,4 +46,19 @@ class CustomerApiController extends Controller
         
         return response()->json($data);
     }
+
+    public function searchCustomerByKeyword(Request $request){
+        if(!empty($request->input('keyword'))){
+            $data = Customer::where("customer_code",'LIKE','%'.$request->input('keyword').'%')
+                            ->orWhere("customer_legal_english_name",'LIKE','%'.$request->input('keyword').'%')
+                            ->orWhere("customer_address",'LIKE','%'.$request->input('keyword').'%')
+                            ->orWhere("customer_store_address1",'LIKE','%'.$request->input('keyword').'%')
+                            ->get();
+        }else{
+            $data = Customer::all();
+        }
+        
+
+        return response()->json($data);
+    }
 }

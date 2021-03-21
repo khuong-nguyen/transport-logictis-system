@@ -41,5 +41,19 @@ class LocationCodeApiController extends BaseApiController
         
         return response()->json($data);
     }
+
+    public function searchLocationByKeyword(Request $request){
+        if(!empty($request->input('keyword'))){
+            $data = LocationCode::where("node_code",'LIKE','%'.$request->input('keyword').'%')
+                            ->orWhere("node_name",'LIKE','%'.$request->input('keyword').'%')
+                            ->orWhere("address",'LIKE','%'.$request->input('keyword').'%')
+                            ->get();
+        }else{
+            $data = LocationCode::all();
+        }
+        
+
+        return response()->json($data);
+    }
     
 }

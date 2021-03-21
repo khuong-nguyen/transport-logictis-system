@@ -82,7 +82,7 @@
                                                         <label class="required" style="margin-left: 25px; margin-right: 25px" for="por_1">POR</label>
                                                         <input class="form-control col-md-2 por_booking @if($errors->has('booking.por_1')) is-invalid @endif" style="height: 28px" id="por_1" type="text" name="booking[por_1]" value="{{ old('booking.por_1') ?? $booking->por_1 ?? '' }}" autocomplete="off">
                                                         <input class="form-control col-md-2 @if($errors->has('booking.por_2')) is-invalid @endif" style="height: 28px; margin-left:5px" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}" autocomplete="off" readonly>
-                                                        <div class="input-group-prepend">
+                                                        <div class="input-group-prepend btnSearchPOR">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
                                                                 <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>g#cui-user"></use>
@@ -92,7 +92,7 @@
                                                         <label class="required" style="margin-left: 10px; margin-right: 10px" for="pol_1">POL</label>
                                                         <input class="form-control col-md-2 pol_booking @if($errors->has('booking.pol_1')) is-invalid @endif" style="height: 28px" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}" autocomplete="off">
                                                         <input class="form-control col-md-2" style="height: 28px; margin-left:5px;" id="pol_2" type="text" name="booking[pol_2]" value="{{ old('booking.pol_2') ?? $booking->pol_2 ?? '' }}" readonly>
-                                                        <div class="input-group-prepend">
+                                                        <div class="input-group-prepend btnSearchPOL">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
                                                                 <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
@@ -109,7 +109,7 @@
                                                         <label class ="required" style="margin-left: 25px; margin-right: 25px" for="pod_1">POD</label>
                                                         <input class="form-control col-md-2 pod_booking @if($errors->has('booking.pod_1')) is-invalid @endif" style="height: 28px" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}" autocomplete="off">
                                                         <input class="form-control col-md-2" style="height: 28px; margin-left:5px" id="pod_2" type="text" name="booking[pod_2]" value="{{ old('booking.pod_2') ?? $booking->pod_2 ?? '' }}" readonly>
-                                                        <div class="input-group-prepend" style="height: 28px">
+                                                        <div class="input-group-prepend btnSearchPOD" style="height: 28px">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
                                                                 <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
@@ -119,7 +119,7 @@
                                                         <label class="col-form-label required" for="del_1" style="margin-left: 10px; margin-right: 10px" >DEL</label>
                                                         <input class="form-control col-md-2 del_booking @if($errors->has('booking.del_1')) is-invalid @endif" style="height: 28px" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}" autocomplete="off">   
                                                         <input class="form-control col-md-2" style="height: 28px; margin-left:5px" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}" readonly>
-                                                        <div class="input-group-prepend" style="height: 28px">
+                                                        <div class="input-group-prepend btnSearchDEL" style="height: 28px">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
                                                                 <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
@@ -158,7 +158,7 @@
                                                         <label class="col-md-2 col-form-label" style = "text-align: right">SHBR</label>
                                                         <input class="form-control col-md-2 shipper" style="height: 28px" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" autocomplete = "off" >
                                                         <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" >
-                                                        <div class="input-group-prepend" style="height: 28px">
+                                                        <div class="input-group-prepend btnSearchSHBR" style="height: 28px">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
                                                                 <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
@@ -171,7 +171,7 @@
                                                         <label class="col-md-2 col-form-label" style = "text-align: right">FWDR</label>
                                                         <input class="form-control col-md-2 forwarder" style="height: 28px" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" autocomplete = "off">
                                                         <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]">
-                                                        <div class="input-group-prepend" style="height: 28px">
+                                                        <div class="input-group-prepend btnSearchFWDR" style="height: 28px">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
                                                                 <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
@@ -183,7 +183,7 @@
                                                         <label class="col-md-2 col-form-label" style = "text-align: right">CNEE</label>
                                                         <input class="form-control col-md-2 consignee" style="height: 28px" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" autocomplete = "off">
                                                         <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]">
-                                                        <div class="input-group-prepend" style="height: 28px">
+                                                        <div class="input-group-prepend btnSearchCNEE" style="height: 28px">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
                                                                 <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
@@ -249,7 +249,7 @@
                                                         <label style = "margin-left: 35px; margin-right: 8px" for="recieve_return_con">Nơi nhận/trả Con rỗng </label>
                                                         <input class="form-control receive_take_con_place" style="height: 28px; width:10%; margin-right: 5px" id="receive_take_con_place" type="text" name="booking[receive_take_con_place]" value="{{old('booking.receive_take_con_place') ?? $booking->receive_take_con_place ?? ''}}" autocomplete = "off">
                                                         <input class="form-control" style="height: 28px; width:20%" id="pick_up_cy" type="text" name="booking[pick_up_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
-                                                        <div class="input-group-prepend" style="height: 28px">
+                                                        <div class="input-group-prepend btnSearchCONPLACE" style="height: 28px">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
                                                                 <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
@@ -691,6 +691,53 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="searchLocationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tìm kiếm vị trí</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <input type="search" class="form-control col-md-5" placeholder="Search" aria-label="Search"
+                            aria-describedby="search-addon" id = "location-keyword-search" name = "location-keyword-search"/>
+                        <button type="button" class="btn btn-primary btn-search-location">search</button>
+                        <input type = "hidden" id = "searchLocationFrom" name = "searchLocationFrom" value = ""/>
+                    </div>
+                    <div id="locationResults" name="locationResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="searchCustomerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tìm kiếm khách hàng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <input type="search" class="form-control col-md-5" placeholder="Search" aria-label="Search"
+                            aria-describedby="search-addon" id = "customer-keyword-search" name = "customer-keyword-search"/>
+                        <button type="button" class="btn btn-primary btn-search-customer">search</button>
+                        <input type = "hidden" id = "searchCustomerFrom" name = "searchCustomerFrom" value = ""/>
+                    </div>
+                    <div id="customerResults" name="customerResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @push('scripts')
     <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
@@ -1063,7 +1110,7 @@
             por2 = por.substr(5,2);
             
             $('#por_1').val(por1.toUpperCase());
-            $('#por_2').val(por2).toUpperCase();
+            $('#por_2').val(por2.toUpperCase());
         });
 
         $('.pol_booking').on('change', function() {
@@ -1182,7 +1229,244 @@
         let booking_id = {{ isset($booking)?$booking->id : "no_bboking"}} ;
 	    window.document.location = "/print_document/booking/" + booking_id;
     });
+
+    $('.btn-search-location').click(function(e){
+        let keyword = $('#location-keyword-search').val();
+        searchLocation(keyword);
+     })
+
+    $('.btnSearchPOR').click(function(e){
+        let keyword = $('#location-keyword-search').val();
+        $('#searchLocationFrom').val("btnSearchPOR");
+        searchLocation(keyword);
+        $("#searchLocationModal").modal('show');
+     })
+
+     $('.btnSearchPOL').click(function(e){
+        let keyword = $('#location-keyword-search').val();
+        $('#searchLocationFrom').val("btnSearchPOL");
+        searchLocation(keyword);
+        $("#searchLocationModal").modal('show');
+     })
+
+     $('.btnSearchPOD').click(function(e){
+        let keyword = $('#location-keyword-search').val();
+        $('#searchLocationFrom').val("btnSearchPOD");
+        searchLocation(keyword);
+        $("#searchLocationModal").modal('show');
+     })
+
+     $('.btnSearchDEL').click(function(e){
+        let keyword = $('#location-keyword-search').val();
+        $('#searchLocationFrom').val("btnSearchDEL");
+        searchLocation(keyword);
+        $("#searchLocationModal").modal('show');
+     })
+
+     $('.btnSearchCONPLACE').click(function(e){
+        let keyword = $('#location-keyword-search').val();
+        $('#searchLocationFrom').val("btnSearchCONPLACE");
+        searchLocation(keyword);
+        $("#searchLocationModal").modal('show');
+     })
+
+     $('.btnSearchSH').click(function(e){
+        let keyword = $('#location-keyword-search').val();
+        $('#searchLocationFrom').val("btnSearchCONPLACE");
+        searchLocation(keyword);
+        $("#searchLocationModal").modal('show');
+     })
+
+     function searchLocation(keyword){
+        var pathNodeCode = "{{ route('searchLocationByKeyword')}}";
+        var searchLocationFrom = $('#searchLocationFrom').val();
+        $.ajax({
+            url: pathNodeCode,
+            dataType: "json",
+            method: 'get',
+            data: {
+                keyword: keyword
+            },
+            success: function (results) {
+                let resultsDiv = document.getElementById("locationResults");
+                let content = '<table class="table table-container-list table-bordered table-striped table-inverse table-hover table-responsive" style="margin-top: 10px">';
+                content += '<thead>';
+                content += ' <tr style ="background-color:#020267; color:white">';
+                content += '    <th>Mã vị trí</th>';
+                content += '    <th>Vị trí</th>';
+                content += '    <th>Địa chỉ vị trí</th>';
+                content += ' </tr>';
+                content += '</thead>';
+                content += '<tbody>';
+                
+                results.forEach(function(result){
+                    content += ' <tr id=location_' + result.id;
+                    content += '" ondblclick="setLocation';
+                    content += '(\'' + result.id + '\'';
+                    content += ',' + '\'' + result.node_code + '\'';
+                    content += ',' + '\'' + result.node_name + '\'';
+                    content += ',' + '\'' + result.address + '\'';
+                    content += ');">'; 
+                    content += "<td>" + result.node_code + "</td>";
+                    content += "<td>" + result.node_name + "</td>";
+                    content += "<td>" + result.address + "</td>";
+                });
+                content += '</tbody>';
+                content += "</table>";
+                resultsDiv.innerHTML = content;
+            }
+        });
+     }
+
+     function setLocation(locationId, nodeCode, nodeName, address){
+        var searchLocationFrom = $('#searchLocationFrom').val();
+        switch(searchLocationFrom) {
+            case 'btnSearchPOR':
+                let por = nodeCode; 
+                let por1 = por.substr(0,5);
+                let por2 = por.substr(5,2);
+            
+                $('#por_1').val(por1.toUpperCase());
+                $('#por_2').val(por2.toUpperCase());
+                break;
+            case 'btnSearchPOL':
+                // code block
+                let pol = nodeCode; 
+                let pol1 = pol.substr(0,5);
+                let pol2 = pol.substr(5,2);
+                $('#pol_1').val(pol1.toUpperCase());
+                $('#pol_2').val(pol2.toUpperCase());
+                // if IMPORT, get pickup_address
+                if($('input[name="booking[booking_type]"]:checked').val() == 'EXPORT')
+                {
+                    $('#delivery_address').val(address);
+                }
+                if (typeof address != 'undefined'){
+                    $('#pol_address').val(address);
+                }
+                break;
+            case 'btnSearchPOD':
+                let pod = nodeCode; 
+                let pod1 = pod.substr(0,5);
+                let pod2 = pod.substr(5,2);
+                $('#pod_1').val(pod1);
+                $('#pod_2').val(pod2);
+                break;
+            case 'btnSearchDEL':
+                let del = nodeCode; 
+                let del1 = del.substr(0,5);
+                let del2 = del.substr(5,2);
+                $('#del_1').val(del1);
+                $('#del_2').val(del2);
+                // if IMPORT, get pickup_address
+                if($('input[name="booking[booking_type]"]:checked').val() == 'IMPORT')
+                {
+                    $('#pickup_address').val(address);
+                }
+                if (typeof address != 'undefined'){
+                    $('#del_address').val(address);
+                } 
+                break;
+            case 'btnSearchCONPLACE':
+                $('#pick_up_cy').val(address);
+                break;
+            default:
+                // code block
+        }
+        $("#searchLocationModal").modal('toggle');
+     }
     
+     $('.btn-search-customer').click(function(e){
+        let keyword = $('#customer-keyword-search').val();
+        searchCustomer(keyword);
+     })
+
+     function searchCustomer(keyword){
+        var pathNodeCode = "{{ route('searchCustomerByKeyword')}}";
+        var searchCustomerFrom = $('#searchCustomerFrom').val();
+        $.ajax({
+            url: pathNodeCode,
+            dataType: "json",
+            method: 'get',
+            data: {
+                keyword: keyword
+            },
+            success: function (results) {
+                let resultsDiv = document.getElementById("customerResults");
+                let content = '<table class="table table-container-list table-bordered table-striped table-inverse table-hover table-responsive" style="margin-top: 10px">';
+                content += '<thead>';
+                content += ' <tr style ="background-color:#020267; color:white">';
+                content += '    <th>Mã khách hàng</th>';
+                content += '    <th>Tên khách hàng</th>';
+                content += '    <th>Địa chỉ</th>';
+                content += '    <th>Địa chỉ kho</th>';
+                content += ' </tr>';
+                content += '</thead>';
+                content += '<tbody>';
+                
+                results.forEach(function(result){
+                    content += ' <tr id=customer_' + result.id;
+                    content += '" ondblclick="setCustomer';
+                    content += '(\'' + result.id + '\'';
+                    content += ',' + '\'' + result.customer_code + '\'';
+                    content += ',' + '\'' + result.customer_legal_english_name + '\'';
+                    content += ',' + '\'' + result.customer_code + '\'';
+                    content += ',' + '\'' + result.customer_store_address1 + '\'';
+                    content += ');">'; 
+                    content += "<td>" + result.customer_code + "</td>";
+                    content += "<td>" + result.customer_legal_english_name + "</td>";
+                    content += "<td>" + result.customer_address + "</td>";
+                    content += "<td>" + result.customer_store_address1 + "</td>";
+                });
+                content += '</tbody>';
+                content += "</table>";
+                resultsDiv.innerHTML = content;
+            }
+        });
+     }
+
+     $('.btnSearchSHBR').click(function(e){
+        let keyword = $('#customer-keyword-search').val();
+        $('#searchCustomerFrom').val("btnSearchSHBR");
+        searchCustomer(keyword);
+        $("#searchCustomerModal").modal('show');
+     })
+
+     $('.btnSearchFWDR').click(function(e){
+        let keyword = $('#customer-keyword-search').val();
+        $('#searchCustomerFrom').val("btnSearchFWDR");
+        searchCustomer(keyword);
+        $("#searchCustomerModal").modal('show');
+     })
+
+     $('.btnSearchCNEE').click(function(e){
+        let keyword = $('#customer-keyword-search').val();
+        $('#searchCustomerFrom').val("btnSearchCNEE");
+        searchCustomer(keyword);
+        $("#searchCustomerModal").modal('show');
+     })
+     
+     function setCustomer(customerId, customer_code, customer_legal_english_name, customer_address, customer_store_address1){
+        var searchCustomerFrom = $('#searchCustomerFrom').val();
+        switch(searchCustomerFrom) {
+            case 'btnSearchSHBR':
+                $('#SHBR_customer_code').val(customer_code);
+                $('#SHBR_customer_code').change();
+                break;
+            case 'btnSearchFWDR':
+                // code block
+                $('#FWDR_customer_code').val(customer_code);
+                $('#FWDR_customer_code').change();
+                break;
+            case 'btnSearchCNEE':
+                $('#CNEE_customer_code').val(customer_code);
+                $('#CNEE_customer_code').change();
+                break;
+            default:
+                // code block
+        }
+        $("#searchCustomerModal").modal('toggle');
+     }
     </script>
 
 
