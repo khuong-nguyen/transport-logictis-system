@@ -297,10 +297,10 @@ class BookingRegistrationController extends Controller
         
         $pick_up_dt = Carbon::createFromFormat('Y-m-d H:i:s', $booking->pick_up_dt);
         $booking->pick_up_dt = $pick_up_dt->format('d/m/Y H:i');
-
-        $etb_dt = Carbon::createFromFormat('Y-m-d H:i:s', $booking->etb_dt);
+        if($booking->etb_dt){
+            $etb_dt = Carbon::createFromFormat('Y-m-d H:i:s', $booking->etb_dt);
         $booking->etb_dt = $etb_dt->format('d/m/Y H:i');
-
+        }
         $advanceMoneyBookingDetails['booking'] = $booking;
 
         $advanceMoneyBookingDetails['advance_money_bookings'] = $this->advanceMoneyRepository->advanceMoneyForBooking($booking->id);

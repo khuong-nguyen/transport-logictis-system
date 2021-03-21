@@ -71,99 +71,230 @@
                                                     
                                                 </div>
                                                 @endif
-                                                <div class="row col-md-12">
-                                                    <div class="col-md-6">
-                                                    	
-                                                        <div class="panel panel-default" style="margin-bottom: 0px">
-                                                            <div class="panel-heading" style="color:#d81c61">Thông tin tàu</div>
-                                                        <div class="form-group row" style="margin-bottom:10px; margin-top:10px;">
-                                                            <label class="required" style="margin-left: 25px; margin-right: 10px" for="tvvd" >T/VVD:</label>
-                                                            <input class="form-control col-md-6 @if($errors->has('booking.tvvd')) is-invalid @endif" style="height: 28px" id="tvvd" type="text" name="booking[tvvd]" required value="{{ old('booking.tvvd') ?? $booking->tvvd ?? '' }}">
-                                                                @error('booking.tvvd')<br/><div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                <div class="panel panel-default col-md-7" style="margin-bottom: 0px">
+                                                    <div class="panel-heading" style="color:#d81c61">Thông tin tàu</div>
+                                                    <div class="form-group row" style="margin-bottom:5px; margin-top:5px;">
+                                                        <label class="required" style="margin-left: 25px; margin-right: 10px" for="tvvd" >T/VVD:</label>
+                                                        <input class="form-control col-md-6 @if($errors->has('booking.tvvd')) is-invalid @endif" style="height: 28px" id="tvvd" type="text" name="booking[tvvd]" required value="{{ old('booking.tvvd') ?? $booking->tvvd ?? '' }}">
+                                                            @error('booking.tvvd')<br/><div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label class="required" style="margin-left: 25px; margin-right: 25px" for="por_1">POR</label>
+                                                        <input class="form-control col-md-2 por_booking @if($errors->has('booking.por_1')) is-invalid @endif" style="height: 28px" id="por_1" type="text" name="booking[por_1]" value="{{ old('booking.por_1') ?? $booking->por_1 ?? '' }}" autocomplete="off">
+                                                        <input class="form-control col-md-2 @if($errors->has('booking.por_2')) is-invalid @endif" style="height: 28px; margin-left:5px" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}" autocomplete="off" readonly>
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>g#cui-user"></use>
+                                                                </svg>
+                                                            </span>
                                                         </div>
-                                                        <div class="form-group row" style="margin-bottom:10px">
-                                                            <label class="required" style="margin-left: 25px; margin-right: 25px" for="por_1">POR</label>
-                                                            <input class="form-control col-md-2 por_booking @if($errors->has('booking.por_1')) is-invalid @endif" style="height: 28px" id="por_1" type="text" name="booking[por_1]" value="{{ old('booking.por_1') ?? $booking->por_1 ?? '' }}" autocomplete="off">
-                                                            <input class="form-control col-md-2 @if($errors->has('booking.por_2')) is-invalid @endif" style="height: 28px; margin-left:5px" id="por_2" type="text" name="booking[por_2]" value="{{ old('booking.por_2') ?? $booking->por_2 ?? '' }}" autocomplete="off">
-                                                            <label class="required" style="margin-left: 25px; margin-right: 10px" for="pol_1">POL</label>
-                                                            <input class="form-control col-md-2 pol_booking @if($errors->has('booking.pol_1')) is-invalid @endif" style="height: 28px" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}" autocomplete="off">
-                                                            <input class="form-control col-md-2" style="height: 28px; margin-left:5px;" id="pol_2" type="text" name="booking[pol_2]" value="{{ old('booking.pol_2') ?? $booking->pol_2 ?? '' }}">
-                                                                @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                                @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                                @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                            <input type = "hidden" id="pol_address" name = "pol_address" value = ""/>
+                                                        <label class="required" style="margin-left: 10px; margin-right: 10px" for="pol_1">POL</label>
+                                                        <input class="form-control col-md-2 pol_booking @if($errors->has('booking.pol_1')) is-invalid @endif" style="height: 28px" id="pol_1" type="text" name="booking[pol_1]" value="{{ old('booking.por_1') ?? $booking->pol_1 ?? '' }}" autocomplete="off">
+                                                        <input class="form-control col-md-2" style="height: 28px; margin-left:5px;" id="pol_2" type="text" name="booking[pol_2]" value="{{ old('booking.pol_2') ?? $booking->pol_2 ?? '' }}" readonly>
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
+                                                                </svg>
+                                                            </span>
                                                         </div>
+                                                            @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                            @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                            @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                        <input type = "hidden" id="pol_address" name = "pol_address" value = ""/>
+                                                    </div>
 
-                                                        <div class="form-group row" style="margin-bottom:10px">
-                                                            <label class ="required" style="margin-left: 25px; margin-right: 25px" for="pod_1">POD</label>
-                                                            <input class="form-control col-md-2 pod_booking @if($errors->has('booking.pod_1')) is-invalid @endif" style="height: 28px" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}" autocomplete="off">
-                                                            <input class="form-control col-md-2" style="height: 28px; margin-left:5px" id="pod_2" type="text" name="booking[pod_2]" value="{{ old('booking.pod_2') ?? $booking->pod_2 ?? '' }}">
-                                                            <label class="col-form-label required" for="del_1" style="margin-left: 25px; margin-right: 10px" >DEL</label>
-                                                            <input class="form-control col-md-2 del_booking @if($errors->has('booking.del_1')) is-invalid @endif" style="height: 28px" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}" autocomplete="off">   
-                                                            <input class="form-control col-md-2" style="height: 28px; margin-left:5px" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}">
-                                                            @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                            @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                             <input type = "hidden" id="del_address" name = "del_address" value = ""/>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label class ="required" style="margin-left: 25px; margin-right: 25px" for="pod_1">POD</label>
+                                                        <input class="form-control col-md-2 pod_booking @if($errors->has('booking.pod_1')) is-invalid @endif" style="height: 28px" id="pod_1" type="text" name="booking[pod_1]" value="{{ old('booking.pod_1') ?? $booking->pod_1 ?? '' }}" autocomplete="off">
+                                                        <input class="form-control col-md-2" style="height: 28px; margin-left:5px" id="pod_2" type="text" name="booking[pod_2]" value="{{ old('booking.pod_2') ?? $booking->pod_2 ?? '' }}" readonly>
+                                                        <div class="input-group-prepend" style="height: 28px">
+                                                            <span class="input-group-text">
+                                                                <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
+                                                                </svg>
+                                                            </span>
                                                         </div>
-                                                        <div class="form-group row" style="margin-bottom:10px">
-                                                            <label style="margin-left: 25px; margin-right: 28px" for="text-input">Term</label>
-                                                            <input class="form-control col-md-2 @if($errors->has('booking.r_d_term_1')) is-invalid @endif" style="height: 28px" id="r_d_term_1" type="text" name="booking[r_d_term_1]" value="{{ old('booking.r_d_term_1') ?? $booking->r_d_term_1 ?? '' }}">
-                                                                    @error('booking.r_d_term_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                            <input class="form-control col-md-4" style="height: 28px; margin-left:5px" id="r_d_term_2" type="text" name="booking[r_d_term_2]" value="{{ old('booking.r_d_term_2') ?? $booking->r_d_term_2 ?? '' }}">
+                                                        <label class="col-form-label required" for="del_1" style="margin-left: 10px; margin-right: 10px" >DEL</label>
+                                                        <input class="form-control col-md-2 del_booking @if($errors->has('booking.del_1')) is-invalid @endif" style="height: 28px" id="del_1" type="text" name="booking[del_1]" value="{{ old('booking.del_1') ?? $booking->del_1 ?? '' }}" autocomplete="off">   
+                                                        <input class="form-control col-md-2" style="height: 28px; margin-left:5px" id="del_2" type="text" name="booking[del_2]" value="{{ old('booking.del_2') ?? $booking->del_2 ?? '' }}" readonly>
+                                                        <div class="input-group-prepend" style="height: 28px">
+                                                            <span class="input-group-text">
+                                                                <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
+                                                                </svg>
+                                                            </span>
                                                         </div>
-                                                        <div class="form-group row" style="margin-bottom:10px">
-                                                                <label style="margin-left: 25px; margin-right: 10px" for="b_l_no" style = "text-align: right">B/L No</label>
-                                                                <input class="form-control col-md-3 @if($errors->has('booking.b_l_no')) is-invalid @endif" style="height: 28px" id="b_l_no" type="text" name="booking[b_l_no]"
-                                                                       value="{{old('booking.b_l_no') ?? $booking->b_l_no ?? ''}}">
-                                                                    @error('booking.b_l_no')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                                                <div class="custom-control custom-checkbox col-md-2" style="margin-left:10px">
-                                                                    <input class="custom-control-input" id="si" @if(old('booking.si') == 1 || (isset($booking) && $booking->si ==1)) checked @endif type="checkbox" value="1" name="booking[si]" >
-                                                                    <label class="custom-control-label" for="si">SI</label>
-                                                                </div>
-                                                                <div class="custom-control custom-checkbox col-md-2">
-                                                                    <input class="custom-control-input" id="brd" @if(old('booking.brd') == 1 || (isset($booking) && $booking->brd ==1)) checked @endif type="checkbox" value="1" name="booking[brd]">
-                                                                    <label class="custom-control-label" for="brd">BRD</label>
-                                                                </div>
-                                                        </div>
-                                                        </div>
-                                                        
+                                                        @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                        @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                        <input type = "hidden" id="del_address" name = "del_address" value = ""/>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="panel panel-default" style="margin-bottom: 0px">
-                                                            <div class="panel-heading" style="color:#d81c61">Thông tin khách hàng</div>
-                                                            
-                                                        <div class="form-group row" style="margin-bottom:0px">
-                                                            <label class="col-md-2 col-form-label" style = "text-align: right">SHBR</label>
-                                                            <input class="form-control col-md-2 shipper" style="height: 28px" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" autocomplete = "off" >
-                                                            <input class="form-control col-md-7" style="height: 28px; margin-left:5px" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" >
-                                                            <input type = "hidden" id="SHBR_store_address" name = "SHBR_store_address" value = ""/>
-                                                        </div>
-                                                        <div class="form-group row" style="margin-bottom:0px">
-                                                            <label class="col-md-2 col-form-label" style = "text-align: right">FWDR</label>
-                                                            <input class="form-control col-md-2 forwarder" style="height: 28px" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" autocomplete = "off">
-                                                            <input class="form-control col-md-7" style="height: 28px; margin-left:5px" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]">
-                                                        </div>
-                                                        <div class="form-group row" style="margin-bottom:0px">
-                                                            <label class="col-md-2 col-form-label" style = "text-align: right">CNEE</label>
-                                                            <input class="form-control col-md-2 consignee" style="height: 28px" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" autocomplete = "off">
-                                                            <input class="form-control col-md-7" style="height: 28px; margin-left:5px" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]">
-                                                             <input type = "hidden" id="CNEE_store_address" name = "CNEE_store_address" value = ""/>
-                                                        </div>
-                                                        
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label style="margin-left: 25px; margin-right: 28px" for="text-input">Term</label>
+                                                        <input class="form-control col-md-2 @if($errors->has('booking.r_d_term_1')) is-invalid @endif" style="height: 28px" id="r_d_term_1" type="text" name="booking[r_d_term_1]" value="{{ old('booking.r_d_term_1') ?? $booking->r_d_term_1 ?? '' }}">
+                                                                @error('booking.r_d_term_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
+                                                        <input class="form-control col-md-4" style="height: 28px; margin-left:5px" id="r_d_term_2" type="text" name="booking[r_d_term_2]" value="{{ old('booking.r_d_term_2') ?? $booking->r_d_term_2 ?? '' }}">
                                                     </div>
-                                                        
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                            <label style="margin-left: 25px; margin-right: 14px" for="b_l_no" style = "text-align: right">B/L No</label>
+                                                            <input class="form-control col-md-3 @if($errors->has('booking.b_l_no')) is-invalid @endif" style="height: 28px" id="b_l_no" type="text" name="booking[b_l_no]"
+                                                                    value="{{old('booking.b_l_no') ?? $booking->b_l_no ?? ''}}">
+                                                                @error('booking.b_l_no')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                            <div class="custom-control custom-checkbox col-md-2" style="margin-left:10px">
+                                                                <input class="custom-control-input" id="si" @if(old('booking.si') == 1 || (isset($booking) && $booking->si ==1)) checked @endif type="checkbox" value="1" name="booking[si]" >
+                                                                <label class="custom-control-label" for="si">SI</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox col-md-2">
+                                                                <input class="custom-control-input" id="brd" @if(old('booking.brd') == 1 || (isset($booking) && $booking->brd ==1)) checked @endif type="checkbox" value="1" name="booking[brd]">
+                                                                <label class="custom-control-label" for="brd">BRD</label>
+                                                            </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <div class="panel panel-default col-md-5" style="margin-bottom: 0px">
+                                                    <div class="panel-heading" style="color:#d81c61">Thông tin khách hàng</div>
+                                                    
+                                                    <div class="form-group row" style="margin-bottom:5px; margin-top:5px">
+                                                        <label class="col-md-2 col-form-label" style = "text-align: right">SHBR</label>
+                                                        <input class="form-control col-md-2 shipper" style="height: 28px" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" autocomplete = "off" >
+                                                        <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" >
+                                                        <div class="input-group-prepend" style="height: 28px">
+                                                            <span class="input-group-text">
+                                                                <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <input type = "hidden" id="SHBR_store_address" name = "SHBR_store_address" value = ""/>
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label class="col-md-2 col-form-label" style = "text-align: right">FWDR</label>
+                                                        <input class="form-control col-md-2 forwarder" style="height: 28px" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" autocomplete = "off">
+                                                        <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]">
+                                                        <div class="input-group-prepend" style="height: 28px">
+                                                            <span class="input-group-text">
+                                                                <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label class="col-md-2 col-form-label" style = "text-align: right">CNEE</label>
+                                                        <input class="form-control col-md-2 consignee" style="height: 28px" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" autocomplete = "off">
+                                                        <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]">
+                                                        <div class="input-group-prepend" style="height: 28px">
+                                                            <span class="input-group-text">
+                                                                <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <input type = "hidden" id="CNEE_store_address" name = "CNEE_store_address" value = ""/>
+                                                    </div>
+                                                </div>
+                                                
                                         </div>
                                         <hr>
+                                        <div class="form-row">
+                                                <div class="panel panel-default col-md-12" style="margin-bottom: 0px">
+                                                    <div class="panel-heading" style="color:#d81c61">Thông tin vận chuyển hàng hoá xuất nhập</div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-2" style = "margin-left: 15px">
+                                                            {{ Form::radio('booking[booking_type]', 'IMPORT', isset($booking->booking_type) ? ($booking->booking_type == 'IMPORT' ? true:false) : true)}} Hàng nhập
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            {{ Form::radio('booking[booking_type]', 'EXPORT', isset($booking->booking_type) ? ($booking->booking_type == 'EXPORT'?true:false) : false )}} Hàng xuất
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label style = "margin-left: 35px; margin-right: 130px">ETB</label>
+                                                        <div class="input-group date" style="width: 15%">
+                                                            <input class="form-control" id="etb_dt" type="text" name="booking[etb_dt]" autocomplete="off" value="{{old('booking.etb_dt') ?? $booking->etb_dt ?? ''}}">
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar">
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label style = "margin-left: 35px; margin-right: 20px">Thời gian nhận hàng</label>
+                                                        <div class="input-group date" style="width: 15%">
+                                                            <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]" autocomplete="off" value="{{old('booking.pick_up_dt') ?? $booking->pick_up_dt ?? ''}}">
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar">
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                        <label style = "margin-left: 20px; margin-right: 15px">Nơi nhận</label>
+                                                        <input class="form-control col-md-4" style="height: 28px" id="pickup_address" type="text" value="{{ $booking->pickup_address ?? ''}}" name="booking[pickup_address]">
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label class = "required" style = "margin-left: 35px; margin-right: 20px" for="sailling_due_date">Thời gian giao hàng</label>
+                                                        <div class="input-group date" style="width: 15%">
+                                                            <input class="form-control @if($errors->has('booking.sailling_due_date')) is-invalid @endif" id="sailling_due_date" required type="text" name="booking[sailling_due_date]" autocomplete="off" 
+                                                            value="{{old('booking.sailling_due_date') ?? $booking->sailling_due_date ?? ''}}"
+                                                            >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar">
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                        
+                                                        <label style = "margin-left: 20px; margin-right: 18px" >Nơi giao</label>
+                                                        <input class="form-control col-md-4" style="height: 28px" id="delivery_address" type="text" value="{{ $booking->delivery_address ?? ''}}" name="booking[delivery_address]">
+                                                        @error('booking.sailling_due_date')<br/><label class="col-md-2" style = "color: red">{{ $message }}</label>@enderror  
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label style = "margin-left: 35px; margin-right: 8px" for="recieve_return_con">Nơi nhận/trả Con rỗng </label>
+                                                        <input class="form-control receive_take_con_place" style="height: 28px; width:10%; margin-right: 5px" id="receive_take_con_place" type="text" name="booking[receive_take_con_place]" value="{{old('booking.receive_take_con_place') ?? $booking->receive_take_con_place ?? ''}}" autocomplete = "off">
+                                                        <input class="form-control" style="height: 28px; width:20%" id="pick_up_cy" type="text" name="booking[pick_up_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
+                                                        <div class="input-group-prepend" style="height: 28px">
+                                                            <span class="input-group-text">
+                                                                <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <input class="form-control hide" style="height: 28px; width:40%" id="full_return_cy" type="text" name="booking[full_return_cy]" value="{{old('booking.full_return_cy') ?? $booking->full_return_cy ?? ''}}">
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label style = "margin-left: 35px; margin-right: 60px" for = "bkg_contact_name">Người liên lạc</label>
+                                                        <input class="form-control" style="height: 28px; width:20%" id="bkg_contact_name" type="text" name="booking[bkg_contact_name]" value="{{old('booking.bkg_contact_name') ?? $booking->bkg_contact_name ?? ''}}">
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label style = "margin-left: 35px; margin-right: 120px" for = "bkg_contact_email">Email</label>
+                                                        <input class="form-control" style="height: 28px; width:20%" id="bkg_contact_email" type="email" name="booking[bkg_contact_email]" value="{{old('booking.bkg_contact_email') ?? $booking->bkg_contact_email ?? ''}}">
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label style = "margin-left: 35px; margin-right: 90px" for = "bkg_contact_tel">Điện thoại</label>
+                                                        <input class="form-control" style="height: 28px; width:20%" id="bkg_contact_tel" type="text" name="booking[bkg_contact_tel]" value="{{old('booking.bkg_contact_tel') ?? $booking->bkg_contact_tel ?? ''}}">
+                                                    </div>
+                                                    <div class="form-group row" style="margin-bottom:5px">
+                                                        <label style = "margin-left: 35px; margin-right: 112px" for="BOFC">B.OFC</label>
+                                                        <input class="form-control" style="height: 28px; width:10%" id="BOFC" type="text" readonly name="BOFC">
+                                                        <label style = "margin-left: 20px; margin-right: 10px" for="BStaff">B.Staff</label>
+                                                        <input class="form-control" style="height: 28px; width:10%" id="BStaff" type="text" name="BStaff" readonly>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <hr>
                                             <div class="form-row">
                                                 <div class="panel panel-default col-md-12" style="margin-bottom: 0px">
                                                     <div class="panel-heading" style="color:#d81c61">Thông tin hàng hoá và loại Container</div>
-                                                    <div class="form-group row" style="margin-bottom:0px; margin-top:10px">
+                                                    <div class="form-group row" style="margin-bottom:5px; margin-top:10px">
                                                             <label style="margin-left: 25px; margin-right: 25px" for="cmdt_1">CMDT</label>
                                                             <input class="form-control col-md-1 @if($errors->has('booking.cmdt_1')) is-invalid @endif" style="height: 28px" id="cmdt_1" type="text" name="booking[cmdt_1]" value="{{old('booking.cmdt_1') ?? $booking->cmdt_1 ?? ''}} " >
                                                                     @error('booking.cmdt_1')<div class="invalid-feedback" style="position: relative; width: 200%">{{ $message }}</div>@enderror
-                                                            <input class="form-control col-md-4" style="height: 28px; margin-left:5px" id="cmdt_2" type="text" name="booking[cmdt_2]" value="{{old('booking.cmdt_2') ?? $booking->cmdt_2 ?? ''}}" >
+                                                            <input class="form-control col-md-3" style="height: 28px; margin-left:5px" id="cmdt_2" type="text" name="booking[cmdt_2]" value="{{old('booking.cmdt_2') ?? $booking->cmdt_2 ?? ''}}" >
+                                                            <div class="input-group-prepend" style="height: 28px">
+                                                                <span class="input-group-text">
+                                                                    <svg class="c-icon">
+                                                                    <use xlink:href="/assets/icons/sprites/free.svg#cil-search"></use>
+                                                                    </svg>
+                                                                </span>
+                                                            </div>
                                                             <label class="col-md-1 col-form-label" for="weight">Weight</label>
                                                             <input class="form-control col-md-1 @if($errors->has('booking.weight')) is-invalid @endif" style="height: 28px" id="weight" type="text" name="booking[weight]" value="{{old('booking.weight') ?? $booking->weight ?? ''}}">
                                                                     @error('booking.weight')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -254,83 +385,7 @@
                                                 
                                             </div>
                                             <hr>
-                                            <div class="form-row">
-                                                <div class="panel panel-default col-md-12" style="margin-bottom: 0px">
-                                                    <div class="panel-heading" style="color:#d81c61">Thông tin vận chuyển hàng hoá xuất nhập</div>
-                                                    <div class="form-group row">
-                                                        <div class="col-md-2" style = "margin-left: 15px">
-                                                            {{ Form::radio('booking[booking_type]', 'IMPORT', isset($booking->booking_type) ? ($booking->booking_type == 'IMPORT' ? true:false) : true)}} Hàng nhập
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            {{ Form::radio('booking[booking_type]', 'EXPORT', isset($booking->booking_type) ? ($booking->booking_type == 'EXPORT'?true:false) : false )}} Hàng xuất
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row" style="margin-bottom:10px">
-                                                        <label style = "margin-left: 35px; margin-right: 130px">ETB</label>
-                                                        <div class="input-group date" style="width: 15%">
-                                                            <input class="form-control" id="etb_dt" type="text" name="booking[etb_dt]" autocomplete="off" value="{{old('booking.etb_dt') ?? $booking->etb_dt ?? ''}}">
-                                                            <span class="input-group-addon">
-                                                                <span class="glyphicon glyphicon-calendar">
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row" style="margin-bottom:10px">
-                                                        <label style = "margin-left: 35px; margin-right: 20px">Thời gian nhận hàng</label>
-                                                        <div class="input-group date" style="width: 15%">
-                                                            <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]" autocomplete="off" value="{{old('booking.pick_up_dt') ?? $booking->pick_up_dt ?? ''}}">
-                                                            <span class="input-group-addon">
-                                                                <span class="glyphicon glyphicon-calendar">
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                        <label style = "margin-left: 20px; margin-right: 15px">Nơi nhận</label>
-                                                        <input class="form-control col-md-4" style="height: 28px" id="pickup_address" type="text" value="{{ $booking->pickup_address ?? ''}}" name="booking[pickup_address]">
-                                                    </div>
-                                                    <div class="form-group row" style="margin-bottom:10px">
-                                                        <label class = "required" style = "margin-left: 35px; margin-right: 23px" for="sailling_due_date">Thời gian giao hàng</label>
-                                                        <div class="input-group date" style="width: 15%">
-                                                            <input class="form-control @if($errors->has('booking.sailling_due_date')) is-invalid @endif" id="sailling_due_date" required type="text" name="booking[sailling_due_date]" autocomplete="off" 
-                                                            value="{{old('booking.sailling_due_date') ?? $booking->sailling_due_date ?? ''}}"
-                                                            >
-                                                            <span class="input-group-addon">
-                                                                <span class="glyphicon glyphicon-calendar">
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                        
-                                                        <label style = "margin-left: 20px; margin-right: 18px" >Nơi giao</label>
-                                                        <input class="form-control col-md-4" style="height: 28px" id="delivery_address" type="text" value="{{ $booking->delivery_address ?? ''}}" name="booking[delivery_address]">
-                                                        @error('booking.sailling_due_date')<br/><label class="col-md-2" style = "color: red">{{ $message }}</label>@enderror  
-                                                    </div>
-                                                    <div class="form-group row" style="margin-bottom:10px">
-                                                        <label style = "margin-left: 35px; margin-right: 8px" for="recieve_return_con">Nơi nhận/trả Con rỗng </label>
-                                                        <input class="form-control receive_take_con_place" style="height: 28px; width:10%; margin-right: 5px" id="receive_take_con_place" type="text" name="booking[receive_take_con_place]" value="{{old('booking.receive_take_con_place') ?? $booking->receive_take_con_place ?? ''}}" autocomplete = "off">
-                                                        <input class="form-control" style="height: 28px; width:30%" id="pick_up_cy" type="text" name="booking[pick_up_cy]" value="{{old('booking.pick_up_cy') ?? $booking->pick_up_cy ?? ''}}">
-                                                        <input class="form-control hide" style="height: 28px; width:40%" id="full_return_cy" type="text" name="booking[full_return_cy]" value="{{old('booking.full_return_cy') ?? $booking->full_return_cy ?? ''}}">
-                                                    </div>
-                                                    <div class="form-group row" style="margin-bottom:10px">
-                                                        <label style = "margin-left: 35px; margin-right: 60px" for = "bkg_contact_name">Người liên lạc</label>
-                                                        <input class="form-control" style="height: 28px; width:20%" id="bkg_contact_name" type="text" name="booking[bkg_contact_name]" value="{{old('booking.bkg_contact_name') ?? $booking->bkg_contact_name ?? ''}}">
-                                                    </div>
-                                                    <div class="form-group row" style="margin-bottom:10px">
-                                                        <label style = "margin-left: 35px; margin-right: 120px" for = "bkg_contact_email">Email</label>
-                                                        <input class="form-control" style="height: 28px; width:20%" id="bkg_contact_email" type="email" name="booking[bkg_contact_email]" value="{{old('booking.bkg_contact_email') ?? $booking->bkg_contact_email ?? ''}}">
-                                                    </div>
-                                                    <div class="form-group row" style="margin-bottom:10px">
-                                                        <label style = "margin-left: 35px; margin-right: 90px" for = "bkg_contact_tel">Điện thoại</label>
-                                                        <input class="form-control" style="height: 28px; width:20%" id="bkg_contact_tel" type="text" name="booking[bkg_contact_tel]" value="{{old('booking.bkg_contact_tel') ?? $booking->bkg_contact_tel ?? ''}}">
-                                                    </div>
-                                                    <div class="form-group row" style="margin-bottom:10px">
-                                                        <label style = "margin-left: 35px; margin-right: 112px" for="BOFC">B.OFC</label>
-                                                        <input class="form-control" style="height: 28px; width:10%" id="BOFC" type="text" readonly name="BOFC">
-                                                        <label style = "margin-left: 20px; margin-right: 10px" for="BStaff">B.Staff</label>
-                                                        <input class="form-control" style="height: 28px; width:10%" id="BStaff" type="text" name="BStaff" readonly>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                            <hr>
+                                            
                                             <div class="form-row">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">

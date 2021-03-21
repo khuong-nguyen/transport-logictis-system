@@ -15,6 +15,7 @@
     <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/bootstrap/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('/coreui/css/coreui.css') }}" rel="stylesheet">
+    <link href="{{ asset('/coreui/css/coreui-icons/all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
     
