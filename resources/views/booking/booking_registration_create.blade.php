@@ -1,3 +1,7 @@
+@push('scripts')
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+@endpush
 @extends('layout.app')
 @section('title', 'Booking Registration')
 @section('content')
@@ -692,7 +696,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="searchLocationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="searchLocationModal" name="searchLocationModal" tabindex="-1" role="dialog" aria-labelledby="searchLocationModal"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -715,7 +719,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="searchCustomerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="searchCustomerModal" name="searchCustomerModal" tabindex="-1" role="dialog" aria-labelledby="searchCustomerModal"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -1266,14 +1270,7 @@
      $('.btnSearchCONPLACE').click(function(e){
         let keyword = $('#location-keyword-search').val();
         $('#searchLocationFrom').val("btnSearchCONPLACE");
-        searchLocation(keyword);
-        $("#searchLocationModal").modal('show');
-     })
-
-     $('.btnSearchSH').click(function(e){
-        let keyword = $('#location-keyword-search').val();
-        $('#searchLocationFrom').val("btnSearchCONPLACE");
-        searchLocation(keyword);
+        //searchLocation(keyword);
         $("#searchLocationModal").modal('show');
      })
 
@@ -1468,6 +1465,4 @@
         $("#searchCustomerModal").modal('toggle');
      }
     </script>
-
-
 @endsection
