@@ -463,20 +463,28 @@ class EloquentScheduleTransportContainerRepository extends EloquentBaseRepositor
                                     "delivery_address" => $booking->delivery_address
                                 ];
 
-                                $booking_container_detail = [
-                                    'booking_container_id' => $newSchedule['booking_container_id'],
-                                    'booking_id' => $newSchedule['booking_id'],
-                                    'booking_no' => $newSchedule['booking_no'],
-                                    'measure' => 1,
-                                    'package' => 1,
-                                    'container_no' => $newSchedule['container_no'],
-                                    'container_id' => $newSchedule['container_id'],
-                                ];
-                                
-                                $booking_container_detail = BookingContainerDetail::create($booking_container_detail);
-                                if($booking_container_detail){
+                                $booking_container_detail = BookingContainerDetail::where('booking_container_details.booking_container_id',$container_booking->id)
+                                                                    ->doesntHave('schedules')
+                                                                    ->first();
+                                if(!$booking_container_detail){
+                                    $booking_container_detail = [
+                                        'booking_container_id' => $newSchedule['booking_container_id'],
+                                        'booking_id' => $newSchedule['booking_id'],
+                                        'booking_no' => $newSchedule['booking_no'],
+                                        'measure' => 1,
+                                        'package' => 1,
+                                        'container_no' => $newSchedule['container_no'],
+                                        'container_id' => $newSchedule['container_id'],
+                                    ];
+                                    
+                                    $booking_container_detail = BookingContainerDetail::create($booking_container_detail);
+                                    if($booking_container_detail){
+                                        $newSchedule['booking_container_detail_id'] = $booking_container_detail->id;
+                                    }
+                                }else{
                                     $newSchedule['booking_container_detail_id'] = $booking_container_detail->id;
                                 }
+                                
                                 $record = $this->create($newSchedule);
                             }
                         }

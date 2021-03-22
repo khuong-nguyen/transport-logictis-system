@@ -302,7 +302,7 @@ class BookingRegistrationController extends Controller
         $booking->pick_up_dt = $pick_up_dt->format('d/m/Y H:i');
         if($booking->etb_dt){
             $etb_dt = Carbon::createFromFormat('Y-m-d H:i:s', $booking->etb_dt);
-        $booking->etb_dt = $etb_dt->format('d/m/Y H:i');
+            $booking->etb_dt = $etb_dt->format('d/m/Y H:i');
         }
 
         $locationCodeDel = LocationCode::where('node_code', $booking->del_1 . $booking->del_2)->first();
@@ -351,7 +351,9 @@ class BookingRegistrationController extends Controller
             
             $bookingRequest['sailling_due_date'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['sailling_due_date']);    
             $bookingRequest['pick_up_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['pick_up_dt']);
-            $bookingRequest['etb_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['etb_dt']);
+            if($bookingRequest['etb_dt']){
+                $bookingRequest['etb_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['etb_dt']);
+            }
             
             if($booking->booking_status =='BOOKING' && $bookingRequest['booking_status'] == 'BOOKING'){
                 $v = \Validator::make($request, [
