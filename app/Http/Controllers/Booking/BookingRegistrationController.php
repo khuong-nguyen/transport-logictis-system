@@ -193,8 +193,10 @@ class BookingRegistrationController extends Controller
             
             $bookingRequest['sailling_due_date'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['sailling_due_date']);    
             $bookingRequest['pick_up_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['pick_up_dt']);
-            $bookingRequest['etb_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['etb_dt']);
-
+            if($bookingRequest['etb_dt']){
+                $bookingRequest['etb_dt'] = Carbon::createFromFormat('d/m/Y H:i', $bookingRequest['etb_dt']);
+            }
+            
             $booking =   $this->bookingRepository->create($bookingRequest);
             
             //Create Request Order

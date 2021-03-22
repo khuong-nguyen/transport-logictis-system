@@ -106,7 +106,7 @@
                                                             @error('booking.por_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             @error('booking.por_2')<div class="invalid-feedback " style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                             @error('booking.pol_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                        <input type = "hidden" id="pol_address" name = "pol_address" value = "{{ $booking->pol_address ?? $booking->pol_address ?? '' }}"/>
+                                                        <input type = "hidden" id="pol_address" name = "pol_address" value = "{{ old('pol_address') ?? $booking->pol_address ?? $booking->pol_address ?? '' }}"/>
                                                     </div>
 
                                                     <div class="form-group row" style="margin-bottom:5px">
@@ -132,7 +132,7 @@
                                                         </div>
                                                         @error('booking.pod_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
                                                         @error('booking.del_1')<div class="invalid-feedback" style="position: relative; width: 400%">{{ $message }}</div>@enderror
-                                                        <input type = "hidden" id="del_address" name = "del_address" value = "{{ $booking->del_address ?? $booking->del_address ?? '' }}"/>
+                                                        <input type = "hidden" id="del_address" name = "del_address" value = "{{old('del_address') ?? $booking->del_address ?? $booking->del_address ?? '' }}"/>
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:5px">
                                                         <label style="margin-left: 25px; margin-right: 28px" for="text-input">Term</label>
@@ -160,8 +160,8 @@
                                                     
                                                     <div class="form-group row" style="margin-bottom:5px; margin-top:5px">
                                                         <label class="col-md-2 col-form-label" style = "text-align: right">SHBR</label>
-                                                        <input class="form-control col-md-2 shipper" style="height: 28px" id="SHBR_customer_code" type="text" value="{{ $shipper->customer_code ?? ''}}" name="SHBR[code]" autocomplete = "off" >
-                                                        <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="SHBR_customer_legal_english_name" type="text" value="{{ $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" >
+                                                        <input class="form-control col-md-2 shipper" style="height: 28px" id="SHBR_customer_code" type="text" value="{{old('SHBR.code') ?? $shipper->customer_code ?? ''}}"  name="SHBR[code]" autocomplete = "off" >
+                                                        <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="SHBR_customer_legal_english_name" type="text" value="{{old('shipper.customer_legal_english_name') ?? $shipper->customer_legal_english_name ?? ''}}" name="SHBR[full]" >
                                                         <div class="input-group-prepend btnSearchSHBR" style="height: 28px">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
@@ -169,12 +169,12 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <input type = "hidden" id="SHBR_store_address" name = "SHBR_store_address" value = "{{$shipper->customer_store_address1??''}}"/>
+                                                        <input type = "hidden" id="SHBR_store_address" name = "SHBR_store_address" value = "{{old('SHBR_store_address') ?? $shipper->customer_store_address1??''}}"/>
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:5px">
                                                         <label class="col-md-2 col-form-label" style = "text-align: right">FWDR</label>
-                                                        <input class="form-control col-md-2 forwarder" style="height: 28px" id="FWDR_customer_code" type="text" value="{{ $forwarder->customer_code ?? ''}}" name="FWDR[code]" autocomplete = "off">
-                                                        <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="FWDR_customer_legal_english_name" type="text" value="{{ $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]">
+                                                        <input class="form-control col-md-2 forwarder" style="height: 28px" id="FWDR_customer_code" type="text" value="{{ old('FWDR.code') ?? $forwarder->customer_code ?? ''}}" name="FWDR[code]" autocomplete = "off">
+                                                        <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="FWDR_customer_legal_english_name" type="text" value="{{old('FWDR.full') ?? $forwarder->customer_legal_english_name ?? ''}}" name="FWDR[full]">
                                                         <div class="input-group-prepend btnSearchFWDR" style="height: 28px">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
@@ -185,8 +185,8 @@
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:5px">
                                                         <label class="col-md-2 col-form-label" style = "text-align: right">CNEE</label>
-                                                        <input class="form-control col-md-2 consignee" style="height: 28px" id="CNEE_customer_code" type="text" value="{{ $consignee->customer_code ?? ''}}" name="CNEE[code]" autocomplete = "off">
-                                                        <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="CNEE_customer_legal_english_name" type="text" value="{{ $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]">
+                                                        <input class="form-control col-md-2 consignee" style="height: 28px" id="CNEE_customer_code" type="text" value="{{ old('CNEE.code') ?? $consignee->customer_code ?? ''}}" name="CNEE[code]" autocomplete = "off">
+                                                        <input class="form-control col-md-6" style="height: 28px; margin-left:5px" id="CNEE_customer_legal_english_name" type="text" value="{{old('consignee.customer_legal_english_name') ?? $consignee->customer_legal_english_name ?? ''}}" name="CNEE[full]">
                                                         <div class="input-group-prepend btnSearchCNEE" style="height: 28px">
                                                             <span class="input-group-text">
                                                                 <svg class="c-icon">
@@ -194,7 +194,7 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <input type = "hidden" id="CNEE_store_address" name = "CNEE_store_address" value = "{{$consignee->customer_store_address1??''}}"/>
+                                                        <input type = "hidden" id="CNEE_store_address" name = "CNEE_store_address" value = "{{old('CNEE_store_address') ?? $consignee->customer_store_address1??''}}"/>
                                                     </div>
                                                 </div>
                                                 
@@ -222,7 +222,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:5px">
-                                                        <label style = "margin-left: 35px; margin-right: 20px">Thời gian nhận hàng</label>
+                                                        <label class = "required" style = "margin-left: 35px; margin-right: 15px">Thời gian nhận hàng</label>
                                                         <div class="input-group date" style="width: 15%">
                                                             <input class="form-control" id="pick_up_dt" type="text" name="booking[pick_up_dt]" autocomplete="off" value="{{old('booking.pick_up_dt') ?? $booking->pick_up_dt ?? ''}}">
                                                             <span class="input-group-addon">
@@ -231,7 +231,7 @@
                                                             </span>
                                                         </div>
                                                         <label style = "margin-left: 20px; margin-right: 15px">Nơi nhận</label>
-                                                        <input class="form-control col-md-4" style="height: 28px" id="pickup_address" type="text" value="{{ $booking->pickup_address ?? ''}}" name="booking[pickup_address]">
+                                                        <input class="form-control col-md-4" style="height: 28px" id="pickup_address" type="text" value="{{ old('booking.pickup_address') ?? $booking->pickup_address ?? ''}}" name="booking[pickup_address]">
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:5px">
                                                         <label class = "required" style = "margin-left: 35px; margin-right: 20px" for="sailling_due_date">Thời gian giao hàng</label>
@@ -246,7 +246,7 @@
                                                         </div>
                                                         
                                                         <label style = "margin-left: 20px; margin-right: 18px" >Nơi giao</label>
-                                                        <input class="form-control col-md-4" style="height: 28px" id="delivery_address" type="text" value="{{ $booking->delivery_address ?? ''}}" name="booking[delivery_address]">
+                                                        <input class="form-control col-md-4" style="height: 28px" id="delivery_address" type="text" value="{{ old('booking.delivery_address') ?? $booking->delivery_address ?? ''}}" name="booking[delivery_address]">
                                                         @error('booking.sailling_due_date')<br/><label class="col-md-2" style = "color: red">{{ $message }}</label>@enderror  
                                                     </div>
                                                     <div class="form-group row" style="margin-bottom:5px">
